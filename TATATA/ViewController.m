@@ -36,8 +36,6 @@
 {
    [super viewDidLoad];
     
-    trialSequence=0;
-
     int vbuttonY=137;//5s
     if(IS_IPAD)vbuttonY=237;
     else if(IS_IPHONE_6)vbuttonY=145;
@@ -63,12 +61,8 @@
     if([defaults objectForKey:@"best"] == nil) best=0;
     else best = (int)[defaults integerForKey:@"best"];
     
-    
     if([defaults objectForKey:@"showIntro"] == nil) showIntro=true;
     else showIntro = (int)[defaults integerForKey:@"showIntro"];
-    
-    if([defaults objectForKey:@"allTimeTotalTrials"] == nil) allTimeTotalTrials=0;
-    else allTimeTotalTrials = (int)[defaults integerForKey:@"allTimeTotalTrials"];
 
  #pragma mark - Ball
 
@@ -147,19 +141,31 @@
     self.view.userInteractionEnabled=YES;
     
     //currentLevel=11;
+    [self restart];
 }
 
 
 #pragma mark - restart
 
 -(void) restart{
-    [self performSelector:@selector(setupGame) withObject:self afterDelay:1.5];
+    trialSequence=-1;
+    [self performSelector:@selector(setupGame) withObject:self afterDelay:0.5];
 }
 
 -(void)setupGame{
     currentLevel=0;
-    trialSequence=0;
+
     [self clearTrialData];
+    
+    [UIView animateWithDuration:0.4
+                          delay:0.0
+                        options:UIViewAnimationOptionCurveLinear
+                     animations:^{
+                         catchZone.alpha=.15;
+                     }
+                     completion:^(BOOL finished){
+                     }];
+    
 }
 
 
@@ -174,23 +180,6 @@
 
 
 #pragma mark - Action
--(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
-{
-
-}
-
-
-
--(void) touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event {
-
-}
-
-
--(void) touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
-{
-
-}
-
 
 
 
@@ -217,13 +206,25 @@
     
     //START
     if(trialSequence==0){
-        [aTimer start];
-        trialSequence=1;
-        [self startTrialSequence];
-        [self updateTime];
+        trialSequence=-1;
+        [UIView animateWithDuration:0.4
+                              delay:0.0
+                            options:UIViewAnimationOptionCurveLinear
+                         animations:^{
+                             catchZone.alpha=1;
+                         }
+                         completion:^(BOOL finished){
+                             //if(currentLevel>0)
+                             [self startTrialSequence];
+                             //else [self startFirstTrial];
+                         }];
+        
+
     }
     //STOP
     else if(trialSequence==1){
+        trialSequence=-1;
+
         elapsed=[aTimer elapsedSeconds];
         if([self isAccurate]){
             [ball setColor:[UIColor greenColor]];
@@ -235,17 +236,15 @@
         }
         [self positionBall:NO];
         ball.alpha=1;
-        //trialSequence=2;
+        
+        
+        [self.view.layer removeAllAnimations];
+
         [self trialStopped];
 
         
     }
-//    //NEXT
-//    else if(trialSequence==2 ){//&& levelAlert.frame.origin.y<screenHeight){
-//
-//        [self animateLevelReset];
-//    }
-
+    
 }
 
 
@@ -327,7 +326,7 @@
     //Creating a file path under iOS:
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES);
     //timeValuesFile = [documentsDirectory stringByAppendingPathComponent:[NSString stringWithFormat:@"timeData%i.dat",(int)level]];
-    timeValuesFile = [[paths objectAtIndex:0] stringByAppendingPathComponent:@"trialData4.dat"];
+    timeValuesFile = [[paths objectAtIndex:0] stringByAppendingPathComponent:@"trialData.dat"];
 
     //Load the array
     self.trialData = [[NSMutableArray alloc] initWithContentsOfFile: timeValuesFile];
@@ -451,6 +450,25 @@
 }
 
 #pragma mark BALL
+
+-(void)startFirstTrial{
+    float initDelay=.5;
+    
+    [UIView animateWithDuration:0
+                          delay:initDelay
+                        options:UIViewAnimationOptionCurveLinear
+                     animations:^{
+                         ball.alpha=1;
+                     }
+                     completion:^(BOOL finished){
+                         [aTimer start];
+                         trialSequence=1;
+                         [self updateBall];
+                         
+   
+                     }];
+    
+}
 -(void)startTrialSequence{
     float initDelay=.5;
     float flashT=.5;
@@ -466,17 +484,25 @@
                      }
                      completion:^(BOOL finished){
                          [aTimer start];
-
+                         if(currentLevel==0){
+                             trialSequence=1;
+                             [self updateBall];
+                         }
+                         
+                         //first flash
                          [UIView animateWithDuration:0.0
                                                delay:flashDuration
                                              options:UIViewAnimationOptionCurveLinear
                                           animations:^{
-                                              ball.alpha=0;
+                                              if(currentLevel>0)ball.alpha=0;
+                                              else ball.alpha=.15;
                                           }
                                           completion:^(BOOL finished){
-                                              ball.center=CGPointMake(screenWidth*.5, startY+(endY-startY)*flashT);
+                                              if(currentLevel>0){ball.center=CGPointMake(screenWidth*.5, startY+(endY-startY)*flashT);
+                                              }
                                           }];
     
+                         //second flash
                          [UIView animateWithDuration:0.0
                                                delay:motionDelay
                                              options:UIViewAnimationOptionCurveLinear
@@ -488,10 +514,17 @@
                                                                     delay:flashDuration
                                                                   options:UIViewAnimationOptionCurveLinear
                                                                animations:^{
-                                                                   ball.alpha=0;
+                                                                   if(currentLevel>0)ball.alpha=0;
+                                                                   else ball.alpha=.15;
                                                                }
                                                                completion:^(BOOL finished){
                                                                    
+                                                                   if(currentLevel>0){
+                                                                       //allow STOP button
+                                                                       trialSequence=1;
+                                                                       [self updateBall];
+                                                                   }
+
                                                                }];
                                           }];
                          
@@ -574,8 +607,12 @@
 //    else l=level*1.0-TRIALSINSTAGE*3+1.0;
 //    
 //    if(l>99999.0)l=99999.0;
-    
-    l=1.0+level*0.1;
+    if (level==0)l=1.0;
+    else {
+        //l=.7+level*0.1;
+        NSInteger randomNumber = arc4random() % 100;
+        l=1.0+level*randomNumber/400.0;
+    }
     
     return l;
 }
@@ -590,10 +627,10 @@
 -(void)showGameOver{
 
      [UIView animateWithDuration:0.8
-                           delay:0.4
+                           delay:0.0
                          options:UIViewAnimationOptionCurveLinear
                       animations:^{
-                          gameOverBlur.alpha=1;
+
                       }
                       completion:^(BOOL finished){
                           [self restart];
@@ -606,14 +643,15 @@
 
 # pragma mark LABELS
 
--(void)updateTime{
+-(void)updateBall{
     
     if(trialSequence==1){
-            [self performSelector:@selector(updateTime) withObject:self afterDelay:0.1];
-        if([aTimer elapsedSeconds]-timerGoal>9.9){
-            //stop because way off
+        [self performSelector:@selector(updateBall) withObject:self afterDelay:0.01];
+        elapsed=[aTimer elapsedSeconds];
+        [self positionBall:NO];
+        
+        if(ball.center.y+ball.frame.size.height*.5>=screenHeight){
             [self buttonPressed];
-            
         }
     }
 
@@ -624,6 +662,7 @@
 # pragma mark 
 
 -(void)trialStopped{
+
     [self performSelector:@selector(checkLevelUp) withObject:self afterDelay:0.5];
 
     allTimeTotalTrials++;
@@ -638,8 +677,7 @@
     [self saveTrialData];
     
     if([self isAccurate]){
-        [ball setColor:[UIColor greenColor]];
-        [ball setNeedsDisplay];
+
         //save current level now
         currentLevel++;
         NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
@@ -649,16 +687,13 @@
         
     }
     else{
-        [ball setColor:[UIColor redColor]];
-        [ball setNeedsDisplay];
-
         currentLevel=0;
         [self showGameOver];
     }
     
 
     
-    [self setLevel:currentLevel];
+    [self saveAndSetLevel:currentLevel];
     [self loadTrialData];
     [self loadLevelProgress];
     [self animateLevelReset];
@@ -666,22 +701,17 @@
 }
 
 
--(void)setLevel:(int)level{
+-(void)saveAndSetLevel:(int)level{
     
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     [defaults setInteger:currentLevel forKey:@"currentLevel"];
-    
-    if(level>0 && practicing==false){
-        
+    if(level>0){
         float lastSuccessfulGoal=fabs([[[self.levelData objectAtIndex:level-1] objectForKey:@"goal"] floatValue]);
-        
         if(lastSuccessfulGoal>=best){
             best=lastSuccessfulGoal;
             [defaults setInteger:best forKey:@"best"];
         }
-        
         [self updateHighscore];
-        
     }
     [defaults synchronize];
     
@@ -697,7 +727,7 @@
     elapsed=0;
     [self positionBall:YES];
     
-    [UIView animateWithDuration:0.2
+    [UIView animateWithDuration:0.4
                             delay:0.0
                           options:UIViewAnimationOptionCurveLinear
                        animations:^{
@@ -718,7 +748,7 @@
                        }
                        completion:^(BOOL finished){
 
-                           [UIView animateWithDuration:0.2
+                           [UIView animateWithDuration:0.4
                                                  delay:0.2
                                                options:UIViewAnimationOptionCurveLinear
                                             animations:^{
@@ -733,11 +763,6 @@
                        }];
     
 
-}
-
-
--(void)setTrialSequence:(int)n{
-    trialSequence=n;
 }
 
 
@@ -779,7 +804,8 @@
 {
 
     if(viewLoaded==false){
-        [self setLevel:currentLevel];
+        trialSequence=-1;
+        [self saveAndSetLevel:currentLevel];
         [self animateLevelReset];
     }
     
