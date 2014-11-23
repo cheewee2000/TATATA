@@ -74,16 +74,7 @@
 
      startY=200;
      endY=screenHeight-200;
-    
-    ball=[[Dots alloc] initWithFrame:CGRectMake(0, 0, 40, 40)];
-    ball.center=CGPointMake(screenWidth*.5, -100);
-    ball.backgroundColor = [UIColor clearColor];
-    ball.alpha=1;
-    [ball setColor:[UIColor whiteColor]];
-    [ball setFill:YES];
-    [self.view addSubview:ball];
-    
-    
+
     catchZone=[[Dots alloc] initWithFrame:CGRectMake(0,0, 100, 100)];
     catchZone.center=CGPointMake(screenWidth*.5, endY);
     catchZone.backgroundColor = [UIColor clearColor];
@@ -92,13 +83,22 @@
     [catchZone setFill:NO];
     [self.view addSubview:catchZone];
     
+    ball=[[Dots alloc] initWithFrame:CGRectMake(0, 0, 40, 40)];
+    ball.center=CGPointMake(screenWidth*.5, -100);
+    ball.backgroundColor = [UIColor clearColor];
+    ball.alpha=1;
+    [ball setColor:[UIColor whiteColor]];
+    [ball setFill:YES];
+    [self.view addSubview:ball];
+    [self.view bringSubviewToFront:ball];
+    
 
     [self authenticateLocalPlayer];
     
     
 #pragma mark - intro
     intro=[[UIView alloc] initWithFrame:self.view.frame];
-    intro.backgroundColor=[self getBackgroundColor:0];
+    //intro.backgroundColor=[self getBackgroundColor:0];
     [self.view addSubview:intro];
     
     int m=15;
@@ -110,7 +110,7 @@
     introTitle.font = [UIFont fontWithName:@"DIN Condensed" size:screenWidth*.22];
     introTitle.adjustsFontSizeToFitWidth=YES;
     introTitle.text=@"THIS IS TEMPRA";
-    introTitle.textColor=[self getForegroundColor:0];
+    //introTitle.textColor=[self getForegroundColor:0];
     [intro addSubview:introTitle];
 
     
@@ -118,7 +118,7 @@
     introSubtitle.font = [UIFont fontWithName:@"DIN Condensed" size:32];
     introSubtitle.numberOfLines=3;
     introSubtitle.text=@"TEST AND INCREASE YOUR TIME PERCEPTION";
-    introSubtitle.textColor=[self getForegroundColor:0];
+    //introSubtitle.textColor=[self getForegroundColor:0];
     [intro addSubview:introSubtitle];
     
     
@@ -127,7 +127,7 @@
     introParagraph.numberOfLines=10;
     introParagraph.textAlignment=NSTextAlignmentJustified;
     introParagraph.text=@"For each trial, your goal is to get as close as possible to the displayed target time. Tap the screen or press the volume button to start the counter, then press stop when you think the right amount of time has elapsed. \n\nBreathe... relax, and focus on your internal sense of time.";
-    introParagraph.textColor=[self getForegroundColor:0];
+    //introParagraph.textColor=[self getForegroundColor:0];
     [intro addSubview:introParagraph];
     
     credits=[[UILabel alloc] initWithFrame:CGRectMake(m, screenHeight-55, w, 40)];
@@ -135,7 +135,7 @@
     credits.numberOfLines=3;
     credits.textAlignment=NSTextAlignmentCenter;
     credits.text=@"TEMPRA, 2014\nDesigned and built by Che-Wei Wang\nMIT Media Lab, Playful Systems";
-    credits.textColor=[self getForegroundColor:0];
+    //credits.textColor=[self getForegroundColor:0];
     [intro addSubview:credits];
     
     intro.alpha=0;
@@ -225,11 +225,20 @@
     //STOP
     else if(trialSequence==1){
         elapsed=[aTimer elapsedSeconds];
+        if([self isAccurate]){
+            [ball setColor:[UIColor greenColor]];
+            [ball setNeedsDisplay];
+        }else{
+            [ball setColor:[UIColor redColor]];
+            [ball setNeedsDisplay];
+            
+        }
         [self positionBall:NO];
         ball.alpha=1;
         //trialSequence=2;
         [self trialStopped];
 
+        
     }
 //    //NEXT
 //    else if(trialSequence==2 ){//&& levelAlert.frame.origin.y<screenHeight){
@@ -558,13 +567,16 @@
 
 -(float)getLevel:(int)level{
     float l;
-    if(level<TRIALSINSTAGE)l=1.0+level*0.1;
-    else if(level<TRIALSINSTAGE*2)l=2.0+level%TRIALSINSTAGE*0.1;
-    else if(level<TRIALSINSTAGE*3)l=3.5+level%TRIALSINSTAGE*0.2;
-    else if(level<TRIALSINSTAGE*4)l=4.5+level%TRIALSINSTAGE*0.5;
-    else l=level*1.0-TRIALSINSTAGE*3+1.0;
+//    if(level<TRIALSINSTAGE)l=1.0+level*0.1;
+//    else if(level<TRIALSINSTAGE*2)l=2.0+level%TRIALSINSTAGE*0.1;
+//    else if(level<TRIALSINSTAGE*3)l=3.5+level%TRIALSINSTAGE*0.2;
+//    else if(level<TRIALSINSTAGE*4)l=4.5+level%TRIALSINSTAGE*0.5;
+//    else l=level*1.0-TRIALSINSTAGE*3+1.0;
+//    
+//    if(l>99999.0)l=99999.0;
     
-    if(l>99999.0)l=99999.0;
+    l=1.0+level*0.1;
+    
     return l;
 }
 
@@ -626,6 +638,8 @@
     [self saveTrialData];
     
     if([self isAccurate]){
+        [ball setColor:[UIColor greenColor]];
+        [ball setNeedsDisplay];
         //save current level now
         currentLevel++;
         NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
@@ -635,6 +649,9 @@
         
     }
     else{
+        [ball setColor:[UIColor redColor]];
+        [ball setNeedsDisplay];
+
         currentLevel=0;
         [self showGameOver];
     }
@@ -692,7 +709,8 @@
                            
                            [ball setFill:YES];
                            ball.alpha=1;
-                           
+                           [ball setColor:[UIColor whiteColor]];
+
                            ball.frame=CGRectMake(ball.frame.origin.x, ball.frame.origin.y, catchZoneDiameter*.5, catchZoneDiameter*.5);
                            ball.center=CGPointMake(screenWidth*.5, startY);
 
@@ -726,56 +744,8 @@
 
 # pragma mark Helpers
 
--(UIColor*) getBackgroundColor:(int)level {
-
-    NSArray * backgroundColors = [[NSArray alloc] initWithObjects:
-                                  [UIColor colorWithRed:23/255.0 green:25/255.0 blue:16/255.0 alpha:1],
-
-
-                                  nil];
-  
-    
-    int currentStage=floorf(level/TRIALSINSTAGE);
-    int cl=currentStage%[backgroundColors count];
-    UIColor *c=backgroundColors[cl];
-
-//    if(currentStage>=[backgroundColors count]){
-//        double hue = (level%10+level%6/2.0)/13.0;
-//        c=[UIColor colorWithHue:hue saturation:1.0 brightness:.4 alpha:1];
-//    }
-    return c;
-}
-
--(UIColor*) getForegroundColor:(int)level {
-    
-    NSArray * foregroundColor = [[NSArray alloc] initWithObjects:
-                                 [UIColor colorWithRed:225/255.0 green:223/255.0 blue:220/255.0 alpha:1],
-
-
-                                  nil];
-    
-    int currentStage=floorf(level/TRIALSINSTAGE);
-    int cl=currentStage%[foregroundColor count];
-    UIColor *c=foregroundColor[cl];
-    
-//    if(currentStage>=[foregroundColor count]){
-//        double hue = (level%10+level%6/2.0)/13.0;
-//        c=[UIColor colorWithHue:hue saturation:.8 brightness:.7 alpha:1];
-//    }
-    return c;
-    
-}
-
-
-
-
-
-
-
 -(bool)isAccurate{
-
     float diff=fabs(timerGoal-elapsed);
-    
     if( diff<=[self getLevelAccuracy:currentLevel] ) return YES;
     else return NO;
 
@@ -784,14 +754,9 @@
 -(int)getAccuracyPercentage{
     float accuracyPercent;
     accuracyPercent=100.0-fabs(elapsed-timerGoal)/(float)timerGoal*100.0;
-
     if(accuracyPercent<0)accuracyPercent=0;
-    
     return ceilf(accuracyPercent);
 }
-
-
-
 
 
 #pragma mark - ViewController Delegate
