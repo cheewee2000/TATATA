@@ -64,12 +64,12 @@
     if([defaults objectForKey:@"showIntro"] == nil) showIntro=true;
     else showIntro = (int)[defaults integerForKey:@"showIntro"];
 
- #pragma mark - Ball
+#pragma mark - Ball
 
-     startY=200;
-     endY=screenHeight-200;
+     startY=100;
+     endY=screenHeight*.8;
 
-    catchZone=[[Dots alloc] initWithFrame:CGRectMake(0,0, 100, 100)];
+    catchZone=[[Dots alloc] initWithFrame:CGRectMake(0,0, 88, 88)];
     catchZone.center=CGPointMake(screenWidth*.5, endY);
     catchZone.backgroundColor = [UIColor clearColor];
     catchZone.alpha=1;
@@ -86,9 +86,75 @@
     [self.view addSubview:ball];
     [self.view bringSubviewToFront:ball];
     
-
     [self authenticateLocalPlayer];
     
+    arc=[[Arc alloc] init];
+    arc.frame=CGRectMake(0, 0, screenWidth, 500);
+    arc.backgroundColor=[UIColor clearColor];
+    arc.radius=ball.frame.size.width*.5+10;
+    arc.point=CGPointMake(screenWidth*.5, 100);
+    [self.view addSubview:arc];
+    arc.alpha=.15;
+    
+    
+#pragma mark - Labels
+
+    
+    
+    scoreLabel=[[UILabel alloc] initWithFrame:CGRectMake(0,0, screenWidth, 160)];
+    scoreLabel.center=CGPointMake(screenWidth/2.0, screenHeight*.25);
+    scoreLabel.text=@"0";
+    scoreLabel.textAlignment = NSTextAlignmentCenter;
+    scoreLabel.backgroundColor = [UIColor clearColor];
+    scoreLabel.font = [UIFont fontWithName:@"HelveticaNeue-Ultralight" size:78];
+    scoreLabel.textColor=[UIColor colorWithWhite:.8 alpha:1];
+    scoreLabel.alpha=0;
+    [self.view addSubview:scoreLabel];
+    
+    scoreLabelLabel=[[UILabel alloc] initWithFrame:CGRectMake(0,0, 100, 15)];
+    scoreLabelLabel.center=CGPointMake(screenWidth/2.0, scoreLabel.center.y+60);
+    scoreLabelLabel.text=@"SCORE";
+    scoreLabelLabel.textAlignment = NSTextAlignmentCenter;
+    scoreLabelLabel.backgroundColor = [UIColor clearColor];
+    scoreLabelLabel.font = [UIFont fontWithName:@"HelveticaNeue-Ultralight" size:12];
+    scoreLabelLabel.textColor=[UIColor colorWithWhite:.8 alpha:1];
+    scoreLabelLabel.alpha=0;
+    [self.view addSubview:scoreLabelLabel];
+    
+    bestLabel=[[UILabel alloc] initWithFrame:CGRectMake(0,0, screenWidth, 160)];
+    bestLabel.center=CGPointMake(screenWidth/2.0, screenHeight*.5);
+    bestLabel.text=@"0";
+    bestLabel.textAlignment = NSTextAlignmentCenter;
+    bestLabel.backgroundColor = [UIColor clearColor];
+    bestLabel.font = [UIFont fontWithName:@"HelveticaNeue-Ultralight" size:78];
+    bestLabel.textColor=[UIColor colorWithWhite:.8 alpha:1];
+    bestLabel.alpha=0;
+    [self.view addSubview:bestLabel];
+    
+    bestLabelLabel=[[UILabel alloc] initWithFrame:CGRectMake(0,0, 100, 15)];
+    bestLabelLabel.center=CGPointMake(screenWidth/2.0, bestLabel.center.y+60);
+    bestLabelLabel.text=@"BEST";
+    bestLabelLabel.textAlignment = NSTextAlignmentCenter;
+    bestLabelLabel.backgroundColor = [UIColor clearColor];
+    bestLabelLabel.font = [UIFont fontWithName:@"HelveticaNeue-Ultralight" size:12];
+    bestLabelLabel.textColor=[UIColor colorWithWhite:.8 alpha:1];
+    bestLabelLabel.alpha=0;
+    [self.view addSubview:bestLabelLabel];
+    
+    [self updateHighscore];
+    
+    
+#pragma mark - Mid Marks
+    midMarkL=[[UIView alloc] initWithFrame:CGRectMake(0, 0, 5, 15)];
+    midMarkL.backgroundColor=[UIColor whiteColor];
+    [self.view addSubview:midMarkL];
+    
+    midMarkR=[[UIView alloc] initWithFrame:CGRectMake(screenWidth-5, 0, 5, 15)];
+    midMarkR.backgroundColor=[UIColor whiteColor];
+    [self.view addSubview:midMarkR];
+    
+    midMarkL.alpha=.15;
+    midMarkR.alpha=.15;
     
 #pragma mark - intro
     intro=[[UIView alloc] initWithFrame:self.view.frame];
@@ -154,24 +220,45 @@
 
 -(void)setupGame{
     currentLevel=0;
-
     [self clearTrialData];
     
+    
     [UIView animateWithDuration:0.4
-                          delay:0.0
+                          delay:0.4
                         options:UIViewAnimationOptionCurveLinear
                      animations:^{
-                         catchZone.alpha=.15;
+                         catchZone.alpha=0;
+                         midMarkL.alpha=.15;
+                         midMarkR.alpha=.15;
+                         arc.alpha=.15;
                      }
                      completion:^(BOOL finished){
+                         [catchZone setFill:YES];
+                         [catchZone setColor:[UIColor orangeColor]];
+                         
+                         
+                         [UIView animateWithDuration:0.4
+                                               delay:0.4
+                                             options:UIViewAnimationOptionCurveLinear
+                                          animations:^{
+                                              catchZone.alpha=1;
+
+
+                                          }
+                                          completion:^(BOOL finished){
+                                              [self showLabels:YES];
+                                          }];
                      }];
+    
     
 }
 
 
 
 -(void)updateHighscore{
-    if(best>0) bestLabel.text=[NSString stringWithFormat:@"BEST %.01f",best];
+    if(best>0) bestLabel.text=[NSString stringWithFormat:@"%i",best];
+    if(currentLevel>0) scoreLabel.text=[NSString stringWithFormat:@"%i",currentLevel];
+
 }
 
 -(int)getCurrentStage{
@@ -207,18 +294,37 @@
     //START
     if(trialSequence==0){
         trialSequence=-1;
-        [UIView animateWithDuration:0.4
-                              delay:0.0
-                            options:UIViewAnimationOptionCurveLinear
-                         animations:^{
-                             catchZone.alpha=1;
-                         }
-                         completion:^(BOOL finished){
-                             //if(currentLevel>0)
-                             [self startTrialSequence];
-                             //else [self startFirstTrial];
-                         }];
-        
+        [self showLabels:NO];
+
+        if(currentLevel==0){
+            [UIView animateWithDuration:0.4
+                                  delay:0.4
+                                options:UIViewAnimationOptionCurveLinear
+                             animations:^{
+                                 catchZone.alpha=0;
+                             }
+                             completion:^(BOOL finished){
+                                 [catchZone setFill:NO];
+                                 [catchZone setColor:[UIColor whiteColor]];
+            
+                    [UIView animateWithDuration:0.4
+                                          delay:0.4
+                                        options:UIViewAnimationOptionCurveLinear
+                                     animations:^{
+                                         catchZone.alpha=1;
+                                         midMarkL.alpha=1;
+                                         midMarkR.alpha=1;
+                                         arc.alpha=1;
+
+                                     }
+                                     completion:^(BOOL finished){
+                                         [self startTrialSequence];
+                                     }];
+                             }];
+        }
+        else{
+            [self startTrialSequence];
+        }
 
     }
     //STOP
@@ -405,9 +511,8 @@
 #pragma mark - GameCenter
 -(void)reportScore{
     if(_leaderboardIdentifier){
-        //GKScore *score = [[GKScore alloc] initWithLeaderboardIdentifier:_leaderboardIdentifier];
         GKScore *score = [[GKScore alloc] initWithLeaderboardIdentifier:@"global"];
-        score.value = best*10.0;
+        score.value = best;
         
         [GKScore reportScores:@[score] withCompletionHandler:^(NSError *error) {
             if (error != nil) {
@@ -416,14 +521,7 @@
         }];
 
         
-        GKScore *sp = [[GKScore alloc] initWithLeaderboardIdentifier:@"starBank"];
-        sp.value = starBank;
-        
-        [GKScore reportScores:@[sp] withCompletionHandler:^(NSError *error) {
-            if (error != nil) {
-                NSLog(@"%@", [error localizedDescription]);
-            }
-        }];
+    
         
     }
 }
@@ -437,13 +535,7 @@
     [self presentViewController:gcViewController animated:YES completion:nil];
 }
 
--(void)showSBLeaderboard{
-    GKGameCenterViewController *gcViewController = [[GKGameCenterViewController alloc] init];
-    gcViewController.gameCenterDelegate = self;
-    gcViewController.viewState = GKGameCenterViewControllerStateLeaderboards;
-    gcViewController.leaderboardIdentifier = @"starBank";
-    [self presentViewController:gcViewController animated:YES completion:nil];
-}
+
 -(void)gameCenterViewControllerDidFinish:(GKGameCenterViewController *)gameCenterViewController
 {
     [gameCenterViewController dismissViewControllerAnimated:YES completion:nil];
@@ -470,7 +562,7 @@
     
 }
 -(void)startTrialSequence{
-    float initDelay=.5;
+    float initDelay=.8;
     float flashT=.5;
     double motionDelay=(double)timerGoal*(double)flashT;
     float flashDuration=.02;
@@ -642,6 +734,34 @@
 
 
 # pragma mark LABELS
+-(void)showLabels:(BOOL) show{
+    
+    
+    [UIView animateWithDuration:0.4
+                          delay:0.0
+                        options:UIViewAnimationOptionCurveLinear
+                     animations:^{
+                         if(show){
+                             scoreLabel.alpha=1;
+                             scoreLabelLabel.alpha=1;
+                             bestLabel.alpha=1;
+                             bestLabelLabel.alpha=1;
+                         }
+                         else{
+                             scoreLabel.alpha=0;
+                             scoreLabelLabel.alpha=0;
+                             bestLabel.alpha=0;
+                             bestLabelLabel.alpha=0;
+                         }
+                     }
+                     completion:^(BOOL finished){
+                     }];
+    
+    
+}
+
+
+# pragma mark
 
 -(void)updateBall{
     
@@ -659,7 +779,6 @@
 
 
 
-# pragma mark 
 
 -(void)trialStopped{
 
@@ -706,9 +825,9 @@
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     [defaults setInteger:currentLevel forKey:@"currentLevel"];
     if(level>0){
-        float lastSuccessfulGoal=fabs([[[self.levelData objectAtIndex:level-1] objectForKey:@"goal"] floatValue]);
-        if(lastSuccessfulGoal>=best){
-            best=lastSuccessfulGoal;
+        //float lastSuccessfulGoal=fabs([[[self.levelData objectAtIndex:level-1] objectForKey:@"goal"] floatValue]);
+            if(level>=best){
+            best=level;
             [defaults setInteger:best forKey:@"best"];
         }
         [self updateHighscore];
@@ -736,13 +855,22 @@
                            catchZone.frame=CGRectMake(0, 0, catchZoneDiameter, catchZoneDiameter);
                            catchZone.center=CGPointMake(screenWidth*.5, endY);
                            
-                           
+                           //set ball position
                            [ball setFill:YES];
                            ball.alpha=1;
                            [ball setColor:[UIColor whiteColor]];
-
                            ball.frame=CGRectMake(ball.frame.origin.x, ball.frame.origin.y, catchZoneDiameter*.5, catchZoneDiameter*.5);
                            ball.center=CGPointMake(screenWidth*.5, startY);
+
+                           
+                           arc.radius=ball.frame.size.width*.5+10;
+
+                           
+                           //set mid markers
+                           midMarkL.alpha=1;
+                           midMarkR.alpha=1;
+                           midMarkL.center=CGPointMake(midMarkL.center.x, startY+(endY-startY)*.5);
+                           midMarkR.center=CGPointMake(midMarkR.center.x, startY+(endY-startY)*.5);
 
                            
                        }

@@ -9,10 +9,9 @@
 #import <UIKit/UIKit.h>
 #import "Dots.h"
 #import <Parse/Parse.h>
-#import "LevelProgressView.h"
 #import <GameKit/GameKit.h>
 #import "MachTimer.h"
-
+#import "Arc.h"
 
 @interface ViewController : UIViewController <GKGameCenterControllerDelegate, UIAlertViewDelegate>
 
@@ -26,14 +25,19 @@
     float startY;
     float endY;
     
+    UILabel * scoreLabel;
+    UILabel * scoreLabelLabel;
+
+    UILabel * bestLabel;
+    UILabel * bestLabelLabel;
     
-    
-    
-    
+    UIView * midMarkL;
+    UIView * midMarkR;
     
     int allTimeTotalTrials;
     int lastStage;
-
+    Arc * arc;
+    
     
     
     #pragma mark - timing
@@ -47,24 +51,17 @@
 
     
     #pragma mark - points
-    float best;
-    float experiencePoints;
+    int best;
     int currentLevel;
-    int starBank;
     
-    int life;
     float start;
     CGPoint offset;
-    BOOL practicing;
-    int nHeartsReplenished;
-    int currentStreak;
     
     
     #pragma mark - progressview
     //LevelProgressView *progressView;
     UIVisualEffectView *gameOverBlur;
 
-    UILabel *bestLabel;
     UILabel *highScoreLabel;
     NSMutableArray *dots;
     Dots *bestLevelDot;

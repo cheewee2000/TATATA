@@ -15,7 +15,6 @@
 		444F09E21A1CEFB500E5E7C3 /* Dots.m in Sources */ = {isa = PBXBuildFile; fileRef = 444F09B71A1CEFB500E5E7C3 /* Dots.m */; };
 		444F09E31A1CEFB500E5E7C3 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 444F09B81A1CEFB500E5E7C3 /* InfoPlist.strings */; };
 		444F09E41A1CEFB500E5E7C3 /* MainStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 444F09BA1A1CEFB500E5E7C3 /* MainStoryboard.storyboard */; };
-		444F09E81A1CEFB500E5E7C3 /* LevelProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = 444F09C11A1CEFB500E5E7C3 /* LevelProgressView.m */; };
 		444F09E91A1CEFB500E5E7C3 /* MachTimer.m in Sources */ = {isa = PBXBuildFile; fileRef = 444F09C31A1CEFB500E5E7C3 /* MachTimer.m */; };
 		444F09EA1A1CEFB500E5E7C3 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 444F09C41A1CEFB500E5E7C3 /* main.m */; };
 		444F09EC1A1CEFB500E5E7C3 /* TATATA-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 444F09C81A1CEFB500E5E7C3 /* TATATA-Info.plist */; };
@@ -26,6 +25,7 @@
 		444F09F61A1CF1EE00E5E7C3 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 70C2EB5F1475F07400751AE8 /* AudioToolbox.framework */; };
 		4470939619EDC41E00F6D53C /* GameKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4470939519EDC41E00F6D53C /* GameKit.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		44866B4819B78B500084652A /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 44866B4719B78B500084652A /* QuartzCore.framework */; };
+		448F046D1A22C678009F215E /* Arc.m in Sources */ = {isa = PBXBuildFile; fileRef = 448F046C1A22C678009F215E /* Arc.m */; };
 		44FD6D9819C49A6D006C7099 /* Parse.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 44FD6D9719C49A6D006C7099 /* Parse.framework */; };
 		44FD6D9A19C49A86006C7099 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 44FD6D9919C49A86006C7099 /* CFNetwork.framework */; };
 		44FD6D9C19C49A8B006C7099 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 44FD6D9B19C49A8B006C7099 /* CoreLocation.framework */; };
@@ -51,8 +51,6 @@
 		444F09B71A1CEFB500E5E7C3 /* Dots.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Dots.m; sourceTree = "<group>"; };
 		444F09B91A1CEFB500E5E7C3 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		444F09BB1A1CEFB500E5E7C3 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard.storyboard; sourceTree = "<group>"; };
-		444F09C01A1CEFB500E5E7C3 /* LevelProgressView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LevelProgressView.h; sourceTree = "<group>"; };
-		444F09C11A1CEFB500E5E7C3 /* LevelProgressView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LevelProgressView.m; sourceTree = "<group>"; };
 		444F09C21A1CEFB500E5E7C3 /* MachTimer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MachTimer.h; sourceTree = "<group>"; };
 		444F09C31A1CEFB500E5E7C3 /* MachTimer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MachTimer.m; sourceTree = "<group>"; };
 		444F09C41A1CEFB500E5E7C3 /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -68,6 +66,8 @@
 		444F09D71A1CEFB500E5E7C3 /* ViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
 		4470939519EDC41E00F6D53C /* GameKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GameKit.framework; path = System/Library/Frameworks/GameKit.framework; sourceTree = SDKROOT; };
 		44866B4719B78B500084652A /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		448F046B1A22C678009F215E /* Arc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Arc.h; sourceTree = "<group>"; };
+		448F046C1A22C678009F215E /* Arc.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Arc.m; sourceTree = "<group>"; };
 		44FD6D9719C49A6D006C7099 /* Parse.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Parse.framework; sourceTree = "<group>"; };
 		44FD6D9919C49A86006C7099 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		44FD6D9B19C49A8B006C7099 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
@@ -124,6 +124,8 @@
 				444F09F41A1CF0EE00E5E7C3 /* Misc */,
 				444F09D61A1CEFB500E5E7C3 /* ViewController.h */,
 				444F09D71A1CEFB500E5E7C3 /* ViewController.m */,
+				448F046B1A22C678009F215E /* Arc.h */,
+				448F046C1A22C678009F215E /* Arc.m */,
 				444F09CA1A1CEFB500E5E7C3 /* TestFlightSDK3.0.2 */,
 			);
 			path = TATATA;
@@ -159,8 +161,6 @@
 		444F09F51A1CF11000E5E7C3 /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
-				444F09C01A1CEFB500E5E7C3 /* LevelProgressView.h */,
-				444F09C11A1CEFB500E5E7C3 /* LevelProgressView.m */,
 				444F09C21A1CEFB500E5E7C3 /* MachTimer.h */,
 				444F09C31A1CEFB500E5E7C3 /* MachTimer.m */,
 				444F09B61A1CEFB500E5E7C3 /* Dots.h */,
@@ -296,7 +296,7 @@
 				444F09EE1A1CEFB500E5E7C3 /* README.md in Sources */,
 				444F09E91A1CEFB500E5E7C3 /* MachTimer.m in Sources */,
 				444F09F21A1CEFB500E5E7C3 /* ViewController.m in Sources */,
-				444F09E81A1CEFB500E5E7C3 /* LevelProgressView.m in Sources */,
+				448F046D1A22C678009F215E /* Arc.m in Sources */,
 				444F09EF1A1CEFB500E5E7C3 /* release_notes.md in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
