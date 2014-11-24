@@ -372,8 +372,7 @@
 
         [self.view.layer removeAllAnimations];
 
-
-        
+ 
     }
     
 }
@@ -382,51 +381,33 @@
 -(void)saveTrialData{
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     
-    
     //save to disk
     NSMutableDictionary *myDictionary = [[NSMutableDictionary alloc] init];
     float diff=elapsed-timerGoal;
     [myDictionary setObject:[NSNumber numberWithFloat:diff] forKey:@"accuracy"];
     [myDictionary setObject:[NSNumber numberWithFloat:timerGoal] forKey:@"goal"];
+    [myDictionary setObject:[NSNumber numberWithFloat:flashT] forKey:@"flashT"];
     [myDictionary setObject:[NSDate date] forKey:@"date"];
-    //[self.ArrayOfValues  insertObject:myDictionary atIndex:currentLevel];
-    //dave data into continuous array
     [self.trialData addObject:myDictionary];
-    //[self.trialData removeObjectAtIndex:0];
-    
-    //save into history
-    [self.lastNTrialsData addObject:myDictionary];
-    if([self.lastNTrialsData count]>100){
-        [self.lastNTrialsData removeObjectAtIndex:0];
-    }
-    
-    [self.lastNTrialsData addObject:myDictionary];
-    
-    
-    //save data into clean array
-    //[self.levelData  insertObject:myDictionary atIndex:currentLevel];
-    //[self saveLevelProgress];
-    
+    [self saveValues];
+
     //save to parse
     PFObject *pObject = [PFObject objectWithClassName:@"results"];
     pObject[@"goal"] = [NSNumber numberWithFloat:(timerGoal)];
     pObject[@"accuracy"] = [NSNumber numberWithFloat:(elapsed-timerGoal)];
     pObject[@"date"]=[NSDate date];
-    //pObject[@"timezone"]=[NSTimeZone localTimeZone];
+    pObject[@"flashT"]=[NSNumber numberWithFloat:(flashT)];
+    pObject[@"timezone"]=[NSString stringWithFormat:@"%@",[NSTimeZone localTimeZone]];
 
     NSString*uuid;
-    //NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     if([defaults stringForKey:@"uuid"] == nil){
         uuid=CFBridgingRelease(CFUUIDCreateString(NULL, CFUUIDCreate(NULL)));
         [defaults setObject:uuid forKey:@"uuid"];
     }
     else uuid =[defaults stringForKey:@"uuid"];
+    
     pObject[@"uuid"]=uuid;
     [pObject saveEventually];
-    
-
-
-    [self saveValues];
     
     [defaults synchronize];
 }
@@ -456,7 +437,6 @@
     
     //Creating a file path under iOS:
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES);
-    //timeValuesFile = [documentsDirectory stringByAppendingPathComponent:[NSString stringWithFormat:@"timeData%i.dat",(int)level]];
     timeValuesFile = [[paths objectAtIndex:0] stringByAppendingPathComponent:@"trialData.dat"];
 
     //Load the array
@@ -476,32 +456,12 @@
             [myDictionary setObject:[NSNumber numberWithFloat:0.0] forKey:@"accuracy"];
             [myDictionary setObject:[NSNumber numberWithFloat:0.0] forKey:@"goal"];
             [myDictionary setObject:[NSDate date] forKey:@"date"];
+            [myDictionary setObject:[NSNumber numberWithFloat:0.0] forKey:@"flashT"];
+
             [self.allTrialData addObject:myDictionary];
         }
         [self saveValues];
     }
-    
-    
-    
-    self.lastNTrialsData = [[NSMutableArray alloc] init];
-    lastNTrialDataFile = [[paths objectAtIndex:0] stringByAppendingPathComponent:@"lastNTrialsData.dat"];
-    self.lastNTrialsData = [[NSMutableArray alloc] initWithContentsOfFile: lastNTrialDataFile];
-    if(self.lastNTrialsData == nil){
-        
-        self.lastNTrialsData = [[NSMutableArray alloc] init];
-        for (int i = 0; i <2 ; i++) {
-            NSMutableDictionary *myDictionary = [[NSMutableDictionary alloc] init];
-            [myDictionary setObject:[NSNumber numberWithFloat:0.0] forKey:@"accuracy"];
-            [myDictionary setObject:[NSNumber numberWithFloat:0.0] forKey:@"goal"];
-            [myDictionary setObject:[NSDate date] forKey:@"date"];
-            [self.lastNTrialsData addObject:myDictionary];
-        }
-        [self saveValues];
-    }
-    
-    
-    
-    
     
     
     if(self.trialData == nil)
@@ -518,6 +478,7 @@
         [myDictionary setObject:[NSNumber numberWithFloat:0.0] forKey:@"accuracy"];
         [myDictionary setObject:[NSNumber numberWithFloat:0.0] forKey:@"goal"];
         [myDictionary setObject:[NSDate date] forKey:@"date"];
+        [myDictionary setObject:[NSNumber numberWithFloat:0.0] forKey:@"flashT"];
         [self.trialData addObject:myDictionary];
     }
     
@@ -529,8 +490,6 @@
 -(void)saveValues{
     [self.trialData writeToFile:timeValuesFile atomically:YES];
     [self.allTrialData writeToFile:allTrialDataFile atomically:YES];
-    [self.lastNTrialsData writeToFile:lastNTrialDataFile atomically:YES];
-
 }
 
 #pragma mark - GameCenter
