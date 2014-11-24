@@ -104,7 +104,7 @@
 
 - (void)drawRect:(CGRect)rect
 {
-    CGFloat lineWidth = 1;
+    CGFloat lineWidth = 2;
     CGRect borderRect = CGRectInset(rect, lineWidth , lineWidth );
     CGContextRef context = UIGraphicsGetCurrentContext();
     

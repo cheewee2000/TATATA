@@ -45,12 +45,13 @@
 
     screenHeight=self.view.frame.size.height;
     screenWidth=self.view.frame.size.width;
-
+    bgColor=[UIColor colorWithWhite:.15 alpha:1];
+    
     
     aTimer = [MachTimer timer];
 
 
-    [self loadLevelProgress];
+    //[self loadLevelProgress];
 
    #pragma mark - Persistent Variables
 
@@ -91,15 +92,11 @@
     arc=[[Arc alloc] initWithFrame:CGRectMake(0,0, ball.frame.size.width+15,ball.frame.size.height+20)];
     arc.backgroundColor=[UIColor clearColor];
     arc.center=ball.center;
-    //arc.radius=ball.frame.size.width*.5+10;
-    //arc.point=CGPointMake(screenWidth*.5, 100);
     [self.view addSubview:arc];
     arc.alpha=.15;
     
     
 #pragma mark - Labels
-
-    
     
     scoreLabel=[[UILabel alloc] initWithFrame:CGRectMake(0,0, screenWidth, 160)];
     scoreLabel.center=CGPointMake(screenWidth/2.0, screenHeight*.25);
@@ -215,20 +212,21 @@
 
 -(void) restart{
     trialSequence=-1;
-    [self performSelector:@selector(setupGame) withObject:self afterDelay:0.5];
+    [self performSelector:@selector(showStartScreen) withObject:self afterDelay:0.5];
 }
 
--(void)setupGame{
+-(void)showStartScreen{
     currentLevel=0;
 
     [self clearTrialData];
     
-    
+
     [UIView animateWithDuration:0.4
                           delay:0.4
                         options:UIViewAnimationOptionCurveLinear
                      animations:^{
                          catchZone.alpha=0;
+                         ball.alpha=0;
                          midMarkL.alpha=.15;
                          midMarkR.alpha=.15;
                          arc.alpha=.15;
@@ -243,11 +241,13 @@
                                              options:UIViewAnimationOptionCurveLinear
                                           animations:^{
                                               catchZone.alpha=1;
-
-
                                           }
                                           completion:^(BOOL finished){
                                               [self showLabels:YES];
+                                              trialSequence=0;
+//                                              elapsed=0;
+//                                              [self positionBall:NO];
+                                              [self animateLevelReset];
                                           }];
                      }];
     
@@ -257,9 +257,8 @@
 
 
 -(void)updateHighscore{
-    if(best>0) bestLabel.text=[NSString stringWithFormat:@"%i",best];
-    if(currentLevel>0) scoreLabel.text=[NSString stringWithFormat:@"%i",currentLevel];
-
+    bestLabel.text=[NSString stringWithFormat:@"%i",best];
+    scoreLabel.text=[NSString stringWithFormat:@"%i",currentLevel];
 }
 
 -(int)getCurrentStage{
@@ -336,18 +335,39 @@
         if([self isAccurate]){
             [ball setColor:[UIColor greenColor]];
             [ball setNeedsDisplay];
+
         }else{
             [ball setColor:[UIColor redColor]];
             [ball setNeedsDisplay];
             
+            //flash background
+            [UIView animateWithDuration:0.1
+                                  delay:0.0
+                                options:UIViewAnimationOptionCurveLinear
+                             animations:^{
+                                 self.view.backgroundColor=[UIColor whiteColor];
+                             }
+                             completion:^(BOOL finished){
+                                 [UIView animateWithDuration:0.4
+                                                       delay:0.0
+                                                     options:UIViewAnimationOptionCurveLinear
+                                                  animations:^{
+                                                      self.view.backgroundColor=bgColor;
+                                                  }
+                                                  completion:^(BOOL finished){
+                             
+                                                  }];
+                             }];
+ 
         }
+
         [self positionBall:NO];
         ball.alpha=1;
         
-        
+        [self trialStopped];
+
         [self.view.layer removeAllAnimations];
 
-        [self trialStopped];
 
         
     }
@@ -380,8 +400,8 @@
     
     
     //save data into clean array
-    [self.levelData  insertObject:myDictionary atIndex:currentLevel];
-    [self saveLevelProgress];
+    //[self.levelData  insertObject:myDictionary atIndex:currentLevel];
+    //[self saveLevelProgress];
     
     //save to parse
     PFObject *pObject = [PFObject objectWithClassName:@"results"];
@@ -566,7 +586,8 @@
     float initDelay=.8;
     double motionDelay=(double)timerGoal*(double)flashT;
     float flashDuration=.02;
-
+    [ball setColor:[UIColor whiteColor]];
+    [ball setNeedsDisplay];
     
     [UIView animateWithDuration:0
                           delay:initDelay
@@ -650,55 +671,49 @@
 
 
 
-
-#pragma mark LEVELS
--(void)loadLevelProgress{
-    //load values
-    self.levelData = [[NSMutableArray alloc] init];
-    
-    //Creating a file path under iOS:
-    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES);
-    NSString *File = [[paths objectAtIndex:0] stringByAppendingPathComponent:@"levelData.dat"];
-    
-    //Load the array
-    self.levelData = [[NSMutableArray alloc] initWithContentsOfFile: File];
-    
-    if(self.levelData == nil)
-    {
-        //Array file didn't exist... create a new one
-        self.levelData = [[NSMutableArray alloc] init];
-        for (int i = 0; i < 2; i++) {
-            
-            NSMutableDictionary *myDictionary = [[NSMutableDictionary alloc] init];
-            [myDictionary  setObject:[NSNumber numberWithInt:0] forKey:@"accuracy"];
-            [myDictionary setObject:[NSNumber numberWithFloat:0.0] forKey:@"goal"];
-            [myDictionary setObject:[NSDate date] forKey:@"date"];
-            [self.levelData addObject:myDictionary];
- 
-        }
-        [self saveLevelProgress];
-    }
-    
-}
-
--(void)saveLevelProgress{
-    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES);
-    NSString *File = [[paths objectAtIndex:0] stringByAppendingPathComponent:@"levelData.dat"];
-    [self.levelData writeToFile:File atomically:YES];
-}
+//
+//#pragma mark LEVELS
+//-(void)loadLevelProgress{
+//    //load values
+//    self.levelData = [[NSMutableArray alloc] init];
+//    
+//    //Creating a file path under iOS:
+//    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES);
+//    NSString *File = [[paths objectAtIndex:0] stringByAppendingPathComponent:@"levelData.dat"];
+//    
+//    //Load the array
+//    self.levelData = [[NSMutableArray alloc] initWithContentsOfFile: File];
+//    
+//    if(self.levelData == nil)
+//    {
+//        //Array file didn't exist... create a new one
+//        self.levelData = [[NSMutableArray alloc] init];
+//        for (int i = 0; i < 2; i++) {
+//            
+//            NSMutableDictionary *myDictionary = [[NSMutableDictionary alloc] init];
+//            [myDictionary  setObject:[NSNumber numberWithInt:0] forKey:@"accuracy"];
+//            [myDictionary setObject:[NSNumber numberWithFloat:0.0] forKey:@"goal"];
+//            [myDictionary setObject:[NSDate date] forKey:@"date"];
+//            [self.levelData addObject:myDictionary];
+// 
+//        }
+//        [self saveLevelProgress];
+//    }
+//    
+//}
+//
+//-(void)saveLevelProgress{
+//    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES);
+//    NSString *File = [[paths objectAtIndex:0] stringByAppendingPathComponent:@"levelData.dat"];
+//    [self.levelData writeToFile:File atomically:YES];
+//}
 
 
 
 
 -(float)getLevel:(int)level{
     float l;
-//    if(level<TRIALSINSTAGE)l=1.0+level*0.1;
-//    else if(level<TRIALSINSTAGE*2)l=2.0+level%TRIALSINSTAGE*0.1;
-//    else if(level<TRIALSINSTAGE*3)l=3.5+level%TRIALSINSTAGE*0.2;
-//    else if(level<TRIALSINSTAGE*4)l=4.5+level%TRIALSINSTAGE*0.5;
-//    else l=level*1.0-TRIALSINSTAGE*3+1.0;
-//    
-//    if(l>99999.0)l=99999.0;
+
     if (level==0)l=1.0;
     else {
         //l=.7+level*0.1;
@@ -716,29 +731,16 @@
 
 -(float)getFlashT:(int)level{
     float f=.5;
-    
-    if (level>=2){
-        NSInteger randomNumber = arc4random() % 300;
-        f=.2+randomNumber/1000.0;
-    }
+    NSInteger randomNumber = arc4random() % 100;
+
+    if (level>=5) f=.25+randomNumber/400.0;
+    else if (level>=2) f=.4+randomNumber/1000.0;
+
 
     return f;
 }
 
--(void)showGameOver{
 
-     [UIView animateWithDuration:0.8
-                           delay:0.0
-                         options:UIViewAnimationOptionCurveLinear
-                      animations:^{
-
-                      }
-                      completion:^(BOOL finished){
-                          [self restart];
-                      }];
-
-    
-}
 
 
 
@@ -808,23 +810,20 @@
 
         //save current level now
         currentLevel++;
-        NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-        [defaults setInteger:currentLevel forKey:@"currentLevel"];
-        [defaults synchronize];
         [self reportScore];
+        [self saveAndSetLevel:currentLevel];
+        [self loadTrialData];
+        //[self loadLevelProgress];
+        [self animateLevelReset];
         
     }
     else{
-        currentLevel=0;
-        [self showGameOver];
+        [self saveAndSetLevel:currentLevel];
+        [self restart];
     }
     
 
-    
-    [self saveAndSetLevel:currentLevel];
-    [self loadTrialData];
-    [self loadLevelProgress];
-    [self animateLevelReset];
+
 
 }
 
@@ -832,15 +831,15 @@
 -(void)saveAndSetLevel:(int)level{
     
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    [defaults setInteger:currentLevel forKey:@"currentLevel"];
+    [defaults setInteger:level forKey:@"currentLevel"];
     if(level>0){
         //float lastSuccessfulGoal=fabs([[[self.levelData objectAtIndex:level-1] objectForKey:@"goal"] floatValue]);
             if(level>=best){
             best=level;
             [defaults setInteger:best forKey:@"best"];
         }
-        [self updateHighscore];
     }
+    [self updateHighscore];
     [defaults synchronize];
     
     
@@ -859,13 +858,9 @@
                           delay:0.0
                         options:UIViewAnimationOptionCurveLinear
                      animations:^{
-                         float catchZoneDiameter=[self getLevelAccuracy:currentLevel]*(startY-endY)/timerGoal*2.0;
-
                          //set ball position
                          [ball setFill:YES];
-                         ball.alpha=1;
-                         [ball setColor:[UIColor whiteColor]];
-                         ball.frame=CGRectMake(ball.frame.origin.x, ball.frame.origin.y, catchZoneDiameter*.5, catchZoneDiameter*.5);
+                         //ball.alpha=1;
                          ball.center=CGPointMake(screenWidth*.5, startY);
                      }
                      completion:^(BOOL finished){
@@ -880,12 +875,13 @@
                            catchZone.frame=CGRectMake(0, 0, catchZoneDiameter, catchZoneDiameter);
                            catchZone.center=CGPointMake(screenWidth*.5, endY);
                            
+                           ball.frame=CGRectMake(0,0, catchZoneDiameter*.5, catchZoneDiameter*.5);
+                           ball.center=CGPointMake(screenWidth*.5, startY);
+
                            arc.frame=CGRectMake(0,0, ball.frame.size.width+15,ball.frame.size.height+20);
                            arc.center=ball.center;
 
                            //set mid markers
-                           midMarkL.alpha=1;
-                           midMarkR.alpha=1;
                            midMarkL.center=CGPointMake(midMarkL.center.x, startY+(endY-startY)*flashT);
                            midMarkR.center=CGPointMake(midMarkR.center.x, startY+(endY-startY)*flashT);
 
@@ -910,7 +906,6 @@
     
 
 }
-
 
 
 # pragma mark Helpers

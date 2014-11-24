@@ -39,8 +39,11 @@
     Arc * arc;
     
     float flashT;
-    
-    #pragma mark - timing
+    UIColor *bgColor;
+ 
+
+
+#pragma mark - timing
     NSTimeInterval elapsed;
     NSTimeInterval timerGoal;
     NSString *timeValuesFile;
@@ -87,13 +90,13 @@
     
     #pragma mark - Labels
     //TextArrow* levelAlert;
-    NSMutableArray * levelArrows;
+    //NSMutableArray * levelArrows;
 
     
     #pragma mark - Buttons
 
-    UIButton *nextButton;
-    UIButton *shareButton;
+    //UIButton *nextButton;
+    //UIButton *shareButton;
     
     
     #pragma mark - Blob

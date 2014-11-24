@@ -22,11 +22,12 @@
 
  - (void)drawRect:(CGRect)rect
  {
+     float lineWidth=2.0;
  CGContextRef context = UIGraphicsGetCurrentContext();
 
- CGContextAddArc(context, point.x, point.y, self.frame.size.width*.5, M_PI, M_PI*2.0, NO);
+ CGContextAddArc(context, point.x, point.y, self.frame.size.width*.5-lineWidth, M_PI, M_PI*2.0, NO);
  CGContextSetStrokeColorWithColor(context, [[UIColor whiteColor] CGColor]);
- CGContextSetLineWidth(context, 1.0);
+ CGContextSetLineWidth(context, lineWidth);
  
  CGContextDrawPath(context, kCGPathStroke);
  }
