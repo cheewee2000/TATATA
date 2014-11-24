@@ -10,27 +10,21 @@
 
 @implementation Arc
 
+- (id)initWithFrame:(CGRect)theFrame {
+    self = [super initWithFrame:theFrame];
+    if (self) {
+        //self.frame=theFrame;
+        point=CGPointMake(self.center.x, self.center.y);
+    }
+    return self;
+}
+
 
  - (void)drawRect:(CGRect)rect
  {
  CGContextRef context = UIGraphicsGetCurrentContext();
- 
- //CGPoint point = CGPointMake(0, 100);
- 
-// CGContextMoveToPoint(context, point.x, point.y);
-// point.x += lineLength;
-// CGContextAddLineToPoint(context, point.x, point.y);
-// point.x += _radius;
- CGContextAddArc(context, _point.x, _point.y, _radius, M_PI, M_PI*2.0, NO);
-// point.x += _radius * 2.0;
-// CGContextAddArc(context, point.x, point.y, _radius, M_PI, M_PI * 2.0, NO);
-// point.x += _radius * 2.0;
-// CGContextAddArc(context, point.x, point.y, _radius, M_PI, M_PI * 2.0, NO);
-// point.x += _radius * 2.0;
-// CGContextAddArc(context, point.x, point.y, _radius, M_PI, M_PI * 2.0, NO);
-// point.x += lineLength + _radius;
-// CGContextAddLineToPoint(context, point.x, point.y);
-// 
+
+ CGContextAddArc(context, point.x, point.y, self.frame.size.width*.5, M_PI, M_PI*2.0, NO);
  CGContextSetStrokeColorWithColor(context, [[UIColor whiteColor] CGColor]);
  CGContextSetLineWidth(context, 1.0);
  

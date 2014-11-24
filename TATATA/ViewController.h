@@ -38,7 +38,7 @@
     int lastStage;
     Arc * arc;
     
-    
+    float flashT;
     
     #pragma mark - timing
     NSTimeInterval elapsed;

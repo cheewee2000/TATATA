@@ -78,9 +78,9 @@
     [self.view addSubview:catchZone];
     
     ball=[[Dots alloc] initWithFrame:CGRectMake(0, 0, 40, 40)];
-    ball.center=CGPointMake(screenWidth*.5, -100);
+    ball.center=CGPointMake(screenWidth*.5, startY);
     ball.backgroundColor = [UIColor clearColor];
-    ball.alpha=1;
+    ball.alpha=0;
     [ball setColor:[UIColor whiteColor]];
     [ball setFill:YES];
     [self.view addSubview:ball];
@@ -88,11 +88,11 @@
     
     [self authenticateLocalPlayer];
     
-    arc=[[Arc alloc] init];
-    arc.frame=CGRectMake(0, 0, screenWidth, 500);
+    arc=[[Arc alloc] initWithFrame:CGRectMake(0,0, ball.frame.size.width+15,ball.frame.size.height+20)];
     arc.backgroundColor=[UIColor clearColor];
-    arc.radius=ball.frame.size.width*.5+10;
-    arc.point=CGPointMake(screenWidth*.5, 100);
+    arc.center=ball.center;
+    //arc.radius=ball.frame.size.width*.5+10;
+    //arc.point=CGPointMake(screenWidth*.5, 100);
     [self.view addSubview:arc];
     arc.alpha=.15;
     
@@ -116,7 +116,7 @@
     scoreLabelLabel.text=@"SCORE";
     scoreLabelLabel.textAlignment = NSTextAlignmentCenter;
     scoreLabelLabel.backgroundColor = [UIColor clearColor];
-    scoreLabelLabel.font = [UIFont fontWithName:@"HelveticaNeue-Ultralight" size:12];
+    scoreLabelLabel.font = [UIFont fontWithName:@"HelveticaNeue-Ultralight" size:14];
     scoreLabelLabel.textColor=[UIColor colorWithWhite:.8 alpha:1];
     scoreLabelLabel.alpha=0;
     [self.view addSubview:scoreLabelLabel];
@@ -136,7 +136,7 @@
     bestLabelLabel.text=@"BEST";
     bestLabelLabel.textAlignment = NSTextAlignmentCenter;
     bestLabelLabel.backgroundColor = [UIColor clearColor];
-    bestLabelLabel.font = [UIFont fontWithName:@"HelveticaNeue-Ultralight" size:12];
+    bestLabelLabel.font = [UIFont fontWithName:@"HelveticaNeue-Ultralight" size:14];
     bestLabelLabel.textColor=[UIColor colorWithWhite:.8 alpha:1];
     bestLabelLabel.alpha=0;
     [self.view addSubview:bestLabelLabel];
@@ -220,6 +220,7 @@
 
 -(void)setupGame{
     currentLevel=0;
+
     [self clearTrialData];
     
     
@@ -563,7 +564,6 @@
 }
 -(void)startTrialSequence{
     float initDelay=.8;
-    float flashT=.5;
     double motionDelay=(double)timerGoal*(double)flashT;
     float flashDuration=.02;
 
@@ -703,7 +703,7 @@
     else {
         //l=.7+level*0.1;
         NSInteger randomNumber = arc4random() % 100;
-        l=1.0+level*randomNumber/400.0;
+        l=1.0+level*randomNumber/1000.0;
     }
     
     return l;
@@ -714,7 +714,16 @@
     return .1;
 }
 
+-(float)getFlashT:(int)level{
+    float f=.5;
+    
+    if (level>=2){
+        NSInteger randomNumber = arc4random() % 300;
+        f=.2+randomNumber/1000.0;
+    }
 
+    return f;
+}
 
 -(void)showGameOver{
 
@@ -836,7 +845,7 @@
     
     
     timerGoal=[self getLevel:level];
-    
+    flashT=[self getFlashT:level];
     
 }
 
@@ -847,30 +856,38 @@
     [self positionBall:YES];
     
     [UIView animateWithDuration:0.4
-                            delay:0.0
+                          delay:0.0
+                        options:UIViewAnimationOptionCurveLinear
+                     animations:^{
+                         float catchZoneDiameter=[self getLevelAccuracy:currentLevel]*(startY-endY)/timerGoal*2.0;
+
+                         //set ball position
+                         [ball setFill:YES];
+                         ball.alpha=1;
+                         [ball setColor:[UIColor whiteColor]];
+                         ball.frame=CGRectMake(ball.frame.origin.x, ball.frame.origin.y, catchZoneDiameter*.5, catchZoneDiameter*.5);
+                         ball.center=CGPointMake(screenWidth*.5, startY);
+                     }
+                     completion:^(BOOL finished){
+
+            
+    [UIView animateWithDuration:0.4
+                            delay:0.2
                           options:UIViewAnimationOptionCurveLinear
                        animations:^{
-
                            float catchZoneDiameter=[self getLevelAccuracy:currentLevel]*(startY-endY)/timerGoal*2.0;
+
                            catchZone.frame=CGRectMake(0, 0, catchZoneDiameter, catchZoneDiameter);
                            catchZone.center=CGPointMake(screenWidth*.5, endY);
                            
-                           //set ball position
-                           [ball setFill:YES];
-                           ball.alpha=1;
-                           [ball setColor:[UIColor whiteColor]];
-                           ball.frame=CGRectMake(ball.frame.origin.x, ball.frame.origin.y, catchZoneDiameter*.5, catchZoneDiameter*.5);
-                           ball.center=CGPointMake(screenWidth*.5, startY);
+                           arc.frame=CGRectMake(0,0, ball.frame.size.width+15,ball.frame.size.height+20);
+                           arc.center=ball.center;
 
-                           
-                           arc.radius=ball.frame.size.width*.5+10;
-
-                           
                            //set mid markers
                            midMarkL.alpha=1;
                            midMarkR.alpha=1;
-                           midMarkL.center=CGPointMake(midMarkL.center.x, startY+(endY-startY)*.5);
-                           midMarkR.center=CGPointMake(midMarkR.center.x, startY+(endY-startY)*.5);
+                           midMarkL.center=CGPointMake(midMarkL.center.x, startY+(endY-startY)*flashT);
+                           midMarkR.center=CGPointMake(midMarkR.center.x, startY+(endY-startY)*flashT);
 
                            
                        }
@@ -889,6 +906,7 @@
 
                                             }];
                        }];
+                     }];
     
 
 }

@@ -8,7 +8,9 @@
 
 #import <UIKit/UIKit.h>
 
-@interface Arc : UIView
-@property CGFloat radius;
-@property CGPoint point;
+@interface Arc : UIView{
+    CGPoint point;
+}
+//@property CGFloat radius;
+//@property CGPoint point;
 @end
