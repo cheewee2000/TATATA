@@ -9,12 +9,6 @@
 
 #define IS_OS_7_OR_LATER    ([[[UIDevice currentDevice] systemVersion] floatValue] >= 7.0)
 
-#define NUMLEVELARROWS 5
-
-#define TRIALSINSTAGE 5
-#define NUMHEARTS 3
-#define SHOWNEXTRASTAGES 3
-
 
 @interface ViewController () {
     
@@ -47,14 +41,12 @@
     screenWidth=self.view.frame.size.width;
     bgColor=[UIColor colorWithWhite:.15 alpha:1];
     
-    
     aTimer = [MachTimer timer];
-
-
-    //[self loadLevelProgress];
+    viewLoaded=false;
+    
+    [self authenticateLocalPlayer];
 
    #pragma mark - Persistent Variables
-
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     if([defaults objectForKey:@"currentLevel"] == nil) currentLevel=0;
     else currentLevel = (int)[defaults integerForKey:@"currentLevel"];
@@ -66,9 +58,8 @@
     else showIntro = (int)[defaults integerForKey:@"showIntro"];
 
 #pragma mark - Ball
-
-     startY=100;
-     endY=screenHeight*.8;
+    startY=100;
+    endY=screenHeight*.8;
 
     catchZone=[[Dots alloc] initWithFrame:CGRectMake(0,0, 88, 88)];
     catchZone.center=CGPointMake(screenWidth*.5, endY);
@@ -78,18 +69,29 @@
     [catchZone setFill:NO];
     [self.view addSubview:catchZone];
     
+    catchZoneCenter=[[Dots alloc] initWithFrame:CGRectMake(0,0, 8, 8)];
+    catchZoneCenter.center=catchZone.center;
+    catchZoneCenter.backgroundColor = [UIColor clearColor];
+    catchZoneCenter.alpha=1;
+    [catchZoneCenter setColor:[UIColor whiteColor]];
+    [catchZoneCenter setFill:YES];
+    [self.view addSubview:catchZoneCenter];
+    
+    
+    ballAlpha=.9;
     ball=[[Dots alloc] initWithFrame:CGRectMake(0, 0, 40, 40)];
     ball.center=CGPointMake(screenWidth*.5, startY);
     ball.backgroundColor = [UIColor clearColor];
     ball.alpha=0;
     [ball setColor:[UIColor whiteColor]];
-    [ball setFill:YES];
+    [ball setFill:NO];
+    //ball.lineWidth=ball.frame.size.width*.5-2;
+    
     [self.view addSubview:ball];
     [self.view bringSubviewToFront:ball];
     
-    [self authenticateLocalPlayer];
     
-    arc=[[Arc alloc] initWithFrame:CGRectMake(0,0, ball.frame.size.width+15,ball.frame.size.height+20)];
+    arc=[[Arc alloc] initWithFrame:CGRectMake(0,0, ball.frame.size.width+20,ball.frame.size.height+30)];
     arc.backgroundColor=[UIColor clearColor];
     arc.center=ball.center;
     [self.view addSubview:arc];
@@ -156,7 +158,7 @@
 #pragma mark - intro
     intro=[[UIView alloc] initWithFrame:self.view.frame];
     //intro.backgroundColor=[self getBackgroundColor:0];
-    [self.view addSubview:intro];
+    //[self.view addSubview:intro];
     
     int m=15;
     int w=screenWidth-m*2.0;
@@ -225,6 +227,8 @@
                         options:UIViewAnimationOptionCurveLinear
                      animations:^{
                          catchZone.alpha=0;
+                         catchZoneCenter.alpha=0;
+
                          ball.alpha=0;
                          midMarkL.alpha=.15;
                          midMarkR.alpha=.15;
@@ -240,10 +244,10 @@
                                              options:UIViewAnimationOptionCurveLinear
                                           animations:^{
                                               catchZone.alpha=1;
+
                                           }
                                           completion:^(BOOL finished){
                                               [self showLabels:YES];
-
                                               [self animateLevelReset];
                                           }];
                      }];
@@ -256,10 +260,6 @@
 -(void)updateHighscore{
     bestLabel.text=[NSString stringWithFormat:@"%i",best];
     scoreLabel.text=[NSString stringWithFormat:@"%i",currentLevel];
-}
-
--(int)getCurrentStage{
-    return floorf(currentLevel/TRIALSINSTAGE);
 }
 
 
@@ -300,6 +300,7 @@
                                 options:UIViewAnimationOptionCurveLinear
                              animations:^{
                                  catchZone.alpha=0;
+                                 catchZoneCenter.alpha=0;
                              }
                              completion:^(BOOL finished){
                                  [catchZone setFill:NO];
@@ -313,6 +314,8 @@
                                         options:UIViewAnimationOptionCurveLinear
                                      animations:^{
                                          catchZone.alpha=1;
+                                         catchZoneCenter.alpha=1;
+
                                          midMarkL.alpha=1;
                                          midMarkR.alpha=1;
                                          arc.alpha=1;
@@ -363,7 +366,7 @@
         }
 
         [self positionBall:NO];
-        ball.alpha=1;
+        ball.alpha=ballAlpha;
         
         [self trialStopped];
 
@@ -572,7 +575,7 @@
                           delay:initDelay
                         options:UIViewAnimationOptionCurveLinear
                      animations:^{
-                         ball.alpha=1;
+                         ball.alpha=ballAlpha;
                      }
                      completion:^(BOOL finished){
                          [aTimer start];
@@ -594,7 +597,7 @@
                           delay:initDelay
                         options:UIViewAnimationOptionCurveLinear
                      animations:^{
-                         ball.alpha=1;
+                         ball.alpha=ballAlpha;
                      }
                      completion:^(BOOL finished){
                          [aTimer start];
@@ -621,7 +624,7 @@
                                                delay:motionDelay
                                              options:UIViewAnimationOptionCurveLinear
                                           animations:^{
-                                              ball.alpha=1;
+                                              ball.alpha=ballAlpha;
                                           }
                                           completion:^(BOOL finished){
                                               [UIView animateWithDuration:0.0
@@ -726,7 +729,6 @@
 }
 
 -(float)getLevelAccuracy:(int)level{
-
     return .1;
 }
 
@@ -734,9 +736,8 @@
     float f=.5;
     NSInteger randomNumber = arc4random() % 1;
 
-    if (level>=5) f=.25+randomNumber*.25;
-    else if (level>=2) f=.4+randomNumber*.1;
-
+    if (level>=2) f=.25+randomNumber*.25;
+    //else if (level>=2) f=.4+randomNumber*.1;
 
     return f;
 }
@@ -861,8 +862,6 @@
                         options:UIViewAnimationOptionCurveLinear
                      animations:^{
                          //set ball position
-                         [ball setFill:YES];
-                         //ball.alpha=1;
                          ball.center=CGPointMake(screenWidth*.5, startY);
                      }
                      completion:^(BOOL finished){
@@ -877,10 +876,12 @@
                            catchZone.frame=CGRectMake(0, 0, catchZoneDiameter, catchZoneDiameter);
                            catchZone.center=CGPointMake(screenWidth*.5, endY);
                            
-                           ball.frame=CGRectMake(0,0, catchZoneDiameter*.5, catchZoneDiameter*.5);
+                           ball.frame=CGRectMake(0,0, catchZoneDiameter*.8, catchZoneDiameter*.8);
                            ball.center=CGPointMake(screenWidth*.5, startY);
+                           ball.lineWidth=ball.frame.size.width*.33-2;
 
-                           arc.frame=CGRectMake(0,0, ball.frame.size.width+15,ball.frame.size.height+20);
+                           
+                           arc.frame=CGRectMake(0,0, ball.frame.size.width+20,ball.frame.size.height+30);
                            arc.center=ball.center;
 
                            //set mid markers
@@ -952,9 +953,9 @@
         [self animateLevelReset];
     }
     
-    if(showIntro){
-        [self performSelector:@selector(showIntroView) withObject:self afterDelay:1.5];
-    }
+//    if(showIntro){
+//        [self performSelector:@selector(showIntroView) withObject:self afterDelay:1.5];
+//    }
     
    [super viewDidAppear:animated];
 }

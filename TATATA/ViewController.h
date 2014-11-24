@@ -13,7 +13,7 @@
 #import "MachTimer.h"
 #import "Arc.h"
 
-@interface ViewController : UIViewController <GKGameCenterControllerDelegate, UIAlertViewDelegate>
+@interface ViewController : UIViewController <GKGameCenterControllerDelegate>
 
 {
     int screenWidth,screenHeight;
@@ -21,6 +21,8 @@
 
     Dots *ball;
     Dots *catchZone;
+    Dots *catchZoneCenter;
+    float ballAlpha;
     
     float startY;
     float endY;
@@ -63,74 +65,74 @@
     
     #pragma mark - progressview
     //LevelProgressView *progressView;
-    UIVisualEffectView *gameOverBlur;
+//    UIVisualEffectView *gameOverBlur;
 
-    UILabel *highScoreLabel;
-    NSMutableArray *dots;
-    Dots *bestLevelDot;
+//    UILabel *highScoreLabel;
+//    NSMutableArray *dots;
+//    Dots *bestLevelDot;
     
-    float buttonYPos;
+//    float buttonYPos;
     
-    UIButton *restartButton;
-    UIButton *playButton;
-    UIButton *trophyButton;
-    UIButton *medalButton;
+//    UIButton *restartButton;
+//    UIButton *playButton;
+//    UIButton *trophyButton;
+//    UIButton *medalButton;
     
-    NSMutableArray * stageLabels;
-    int resetCountdown;
+//    NSMutableArray * stageLabels;
+//    int resetCountdown;
 
-    UIView *labelContainer;
-    UILabel *counterLabel;
-    UILabel *counterGoalLabel;
-    UILabel *goalPrecision;
-    NSMutableArray *hearts;
+//    UIView *labelContainer;
+//    UILabel *counterLabel;
+//    UILabel *counterGoalLabel;
+//    UILabel *goalPrecision;
+//    NSMutableArray *hearts;
 
-    UILabel *questionMark;
+//    UILabel *questionMark;
     
     
-    #pragma mark - Labels
+//    #pragma mark - Labels
     //TextArrow* levelAlert;
     //NSMutableArray * levelArrows;
 
     
-    #pragma mark - Buttons
+//    #pragma mark - Buttons
 
     //UIButton *nextButton;
     //UIButton *shareButton;
     
     
-    #pragma mark - Blob
-    UIImageView * xView;
-    UIImageView * oView;
-
-    NSInteger nPointsVisible;
-
-    
-    #pragma mark - stats
-    UIView *stats;
-    UILabel *averageTime;
-    UILabel *accuracy;
-    UILabel *precision;
-    UILabel* precisionUnit;
-    UILabel* averageUnit;
-    UILabel* accuracyUnit;
-    UILabel* averageLabel;
-    UILabel* accuracyLabel;
-    UILabel *precisionLabel;
-    UILabel *myGraphLabel;
+//    #pragma mark - Blob
+//    UIImageView * xView;
+//    UIImageView * oView;
+//
+//    NSInteger nPointsVisible;
 
     
-    UIView *allStats;
-    UILabel *allAverageTime;
-    UILabel *allAccuracy;
-    UILabel *allPrecision;
-    UILabel* allPrecisionUnit;
-    UILabel* allAverageUnit;
-    UILabel* allAccuracyUnit;
-    UILabel* allAverageLabel;
-    UILabel* allAccuracyLabel;
-    UILabel *allPrecisionLabel;
-    UILabel *allGraphLabel;
+//    #pragma mark - stats
+//    UIView *stats;
+//    UILabel *averageTime;
+//    UILabel *accuracy;
+//    UILabel *precision;
+//    UILabel* precisionUnit;
+//    UILabel* averageUnit;
+//    UILabel* accuracyUnit;
+//    UILabel* averageLabel;
+//    UILabel* accuracyLabel;
+//    UILabel *precisionLabel;
+//    UILabel *myGraphLabel;
+//
+//    
+//    UIView *allStats;
+//    UILabel *allAverageTime;
+//    UILabel *allAccuracy;
+//    UILabel *allPrecision;
+//    UILabel* allPrecisionUnit;
+//    UILabel* allAverageUnit;
+//    UILabel* allAccuracyUnit;
+//    UILabel* allAverageLabel;
+//    UILabel* allAccuracyLabel;
+//    UILabel *allPrecisionLabel;
+//    UILabel *allGraphLabel;
     
     #pragma mark - intro
     UIView *intro;
@@ -152,7 +154,7 @@
 @property (strong, nonatomic) NSMutableArray *trialData;
 @property (strong, nonatomic) NSMutableArray *allTrialData;
 @property (strong, nonatomic) NSMutableArray *lastNTrialsData;
-@property (strong, nonatomic) NSMutableArray *levelData;
+//@property (strong, nonatomic) NSMutableArray *levelData;
 
 
 @property BOOL gameCenterEnabled;
