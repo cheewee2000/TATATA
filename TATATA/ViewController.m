@@ -220,7 +220,6 @@
 
     [self clearTrialData];
     
-
     [UIView animateWithDuration:0.4
                           delay:0.4
                         options:UIViewAnimationOptionCurveLinear
@@ -234,7 +233,7 @@
                      completion:^(BOOL finished){
                          [catchZone setFill:YES];
                          [catchZone setColor:[UIColor orangeColor]];
-                         
+
                          
                          [UIView animateWithDuration:0.4
                                                delay:0.4
@@ -244,9 +243,7 @@
                                           }
                                           completion:^(BOOL finished){
                                               [self showLabels:YES];
-                                              trialSequence=0;
-//                                              elapsed=0;
-//                                              [self positionBall:NO];
+
                                               [self animateLevelReset];
                                           }];
                      }];
@@ -297,6 +294,7 @@
         [self showLabels:NO];
 
         if(currentLevel==0){
+
             [UIView animateWithDuration:0.4
                                   delay:0.4
                                 options:UIViewAnimationOptionCurveLinear
@@ -307,6 +305,9 @@
                                  [catchZone setFill:NO];
                                  [catchZone setColor:[UIColor whiteColor]];
             
+                                 [self saveAndSetLevel:currentLevel];
+                                 [self animateLevelReset];
+                                 
                     [UIView animateWithDuration:0.4
                                           delay:0.4
                                         options:UIViewAnimationOptionCurveLinear
@@ -731,10 +732,10 @@
 
 -(float)getFlashT:(int)level{
     float f=.5;
-    NSInteger randomNumber = arc4random() % 100;
+    NSInteger randomNumber = arc4random() % 1;
 
-    if (level>=5) f=.25+randomNumber/400.0;
-    else if (level>=2) f=.4+randomNumber/1000.0;
+    if (level>=5) f=.25+randomNumber*.25;
+    else if (level>=2) f=.4+randomNumber*.1;
 
 
     return f;
@@ -766,6 +767,7 @@
                          }
                      }
                      completion:^(BOOL finished){
+                         
                      }];
     
     
