@@ -44,8 +44,10 @@
     
     float flashT;
     UIColor *bgColor;
- 
-
+    UIColor *fgColor;
+    
+    UIButton *gameCenterButton;
+    
 
 #pragma mark - timing
     NSTimeInterval elapsed;

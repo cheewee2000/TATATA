@@ -17,7 +17,7 @@
 		444F09E41A1CEFB500E5E7C3 /* MainStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 444F09BA1A1CEFB500E5E7C3 /* MainStoryboard.storyboard */; };
 		444F09E91A1CEFB500E5E7C3 /* MachTimer.m in Sources */ = {isa = PBXBuildFile; fileRef = 444F09C31A1CEFB500E5E7C3 /* MachTimer.m */; };
 		444F09EA1A1CEFB500E5E7C3 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 444F09C41A1CEFB500E5E7C3 /* main.m */; };
-		444F09EC1A1CEFB500E5E7C3 /* TATATA-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 444F09C81A1CEFB500E5E7C3 /* TATATA-Info.plist */; };
+		444F09EC1A1CEFB500E5E7C3 /* tatata.plist in Resources */ = {isa = PBXBuildFile; fileRef = 444F09C81A1CEFB500E5E7C3 /* tatata.plist */; };
 		444F09ED1A1CEFB500E5E7C3 /* libTestFlight.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 444F09CB1A1CEFB500E5E7C3 /* libTestFlight.a */; };
 		444F09EE1A1CEFB500E5E7C3 /* README.md in Sources */ = {isa = PBXBuildFile; fileRef = 444F09CC1A1CEFB500E5E7C3 /* README.md */; };
 		444F09EF1A1CEFB500E5E7C3 /* release_notes.md in Sources */ = {isa = PBXBuildFile; fileRef = 444F09CD1A1CEFB500E5E7C3 /* release_notes.md */; };
@@ -54,8 +54,8 @@
 		444F09C21A1CEFB500E5E7C3 /* MachTimer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MachTimer.h; sourceTree = "<group>"; };
 		444F09C31A1CEFB500E5E7C3 /* MachTimer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MachTimer.m; sourceTree = "<group>"; };
 		444F09C41A1CEFB500E5E7C3 /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		444F09C81A1CEFB500E5E7C3 /* TATATA-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "TATATA-Info.plist"; sourceTree = "<group>"; };
-		444F09C91A1CEFB500E5E7C3 /* TATATA-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "TATATA-Prefix.pch"; sourceTree = "<group>"; };
+		444F09C81A1CEFB500E5E7C3 /* tatata.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = tatata.plist; sourceTree = "<group>"; };
+		444F09C91A1CEFB500E5E7C3 /* tatata.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = tatata.pch; sourceTree = "<group>"; };
 		444F09CB1A1CEFB500E5E7C3 /* libTestFlight.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libTestFlight.a; sourceTree = "<group>"; };
 		444F09CC1A1CEFB500E5E7C3 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		444F09CD1A1CEFB500E5E7C3 /* release_notes.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = release_notes.md; sourceTree = "<group>"; };
@@ -77,7 +77,7 @@
 		44FD6DA519C49AB3006C7099 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		44FD6DA719C49BB7006C7099 /* Bolts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Bolts.framework; sourceTree = "<group>"; };
 		44FD6DA919C49C3E006C7099 /* ParseFacebookUtils.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = ParseFacebookUtils.framework; sourceTree = "<group>"; };
-		70C2EB3C1475EF4F00751AE8 /* TATATA.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TATATA.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		70C2EB3C1475EF4F00751AE8 /* tatata.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = tatata.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		70C2EB401475EF4F00751AE8 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		70C2EB421475EF4F00751AE8 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		70C2EB441475EF4F00751AE8 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -147,8 +147,8 @@
 		444F09F41A1CF0EE00E5E7C3 /* Misc */ = {
 			isa = PBXGroup;
 			children = (
-				444F09C81A1CEFB500E5E7C3 /* TATATA-Info.plist */,
-				444F09C91A1CEFB500E5E7C3 /* TATATA-Prefix.pch */,
+				444F09C81A1CEFB500E5E7C3 /* tatata.plist */,
+				444F09C91A1CEFB500E5E7C3 /* tatata.pch */,
 				444F09B31A1CEFB500E5E7C3 /* Default-568h@2x.png */,
 				444F09B41A1CEFB500E5E7C3 /* Default.png */,
 				444F09B51A1CEFB500E5E7C3 /* Default@2x.png */,
@@ -181,7 +181,7 @@
 		70C2EB3D1475EF4F00751AE8 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				70C2EB3C1475EF4F00751AE8 /* TATATA.app */,
+				70C2EB3C1475EF4F00751AE8 /* tatata.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -214,9 +214,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		70C2EB3B1475EF4F00751AE8 /* TATATA */ = {
+		70C2EB3B1475EF4F00751AE8 /* tatata */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 70C2EB5A1475EF4F00751AE8 /* Build configuration list for PBXNativeTarget "TATATA" */;
+			buildConfigurationList = 70C2EB5A1475EF4F00751AE8 /* Build configuration list for PBXNativeTarget "tatata" */;
 			buildPhases = (
 				70C2EB381475EF4F00751AE8 /* Sources */,
 				70C2EB391475EF4F00751AE8 /* Frameworks */,
@@ -226,9 +226,9 @@
 			);
 			dependencies = (
 			);
-			name = TATATA;
+			name = tatata;
 			productName = VolumeSnap;
-			productReference = 70C2EB3C1475EF4F00751AE8 /* TATATA.app */;
+			productReference = 70C2EB3C1475EF4F00751AE8 /* tatata.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -252,7 +252,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 70C2EB361475EF4F00751AE8 /* Build configuration list for PBXProject "TATATA" */;
+			buildConfigurationList = 70C2EB361475EF4F00751AE8 /* Build configuration list for PBXProject "tatata" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -264,7 +264,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				70C2EB3B1475EF4F00751AE8 /* TATATA */,
+				70C2EB3B1475EF4F00751AE8 /* tatata */,
 			);
 		};
 /* End PBXProject section */
@@ -276,7 +276,7 @@
 			files = (
 				444F09E41A1CEFB500E5E7C3 /* MainStoryboard.storyboard in Resources */,
 				444F09E11A1CEFB500E5E7C3 /* Default@2x.png in Resources */,
-				444F09EC1A1CEFB500E5E7C3 /* TATATA-Info.plist in Resources */,
+				444F09EC1A1CEFB500E5E7C3 /* tatata.plist in Resources */,
 				444F09E01A1CEFB500E5E7C3 /* Default.png in Resources */,
 				444F09DF1A1CEFB500E5E7C3 /* Default-568h@2x.png in Resources */,
 				444F09E31A1CEFB500E5E7C3 /* InfoPlist.strings in Resources */,
@@ -406,14 +406,14 @@
 					"$(PROJECT_DIR)",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "TATATA/TATATA-Prefix.pch";
-				INFOPLIST_FILE = "TATATA/TATATA-Info.plist";
+				GCC_PREFIX_HEADER = TATATA/tatata.pch;
+				INFOPLIST_FILE = TATATA/tatata.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/TATATA/TestFlightSDK3.0.2",
 				);
-				PRODUCT_NAME = TATATA;
+				PRODUCT_NAME = tatata;
 				PROVISIONING_PROFILE = "";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				WRAPPER_EXTENSION = app;
@@ -433,14 +433,14 @@
 					"$(PROJECT_DIR)",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "TATATA/TATATA-Prefix.pch";
-				INFOPLIST_FILE = "TATATA/TATATA-Info.plist";
+				GCC_PREFIX_HEADER = TATATA/tatata.pch;
+				INFOPLIST_FILE = TATATA/tatata.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/TATATA/TestFlightSDK3.0.2",
 				);
-				PRODUCT_NAME = TATATA;
+				PRODUCT_NAME = tatata;
 				PROVISIONING_PROFILE = "";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				WRAPPER_EXTENSION = app;
@@ -450,7 +450,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		70C2EB361475EF4F00751AE8 /* Build configuration list for PBXProject "TATATA" */ = {
+		70C2EB361475EF4F00751AE8 /* Build configuration list for PBXProject "tatata" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				70C2EB581475EF4F00751AE8 /* Debug */,
@@ -459,7 +459,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		70C2EB5A1475EF4F00751AE8 /* Build configuration list for PBXNativeTarget "TATATA" */ = {
+		70C2EB5A1475EF4F00751AE8 /* Build configuration list for PBXNativeTarget "tatata" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				70C2EB5B1475EF4F00751AE8 /* Debug */,

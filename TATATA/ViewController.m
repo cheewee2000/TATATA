@@ -40,7 +40,7 @@
     screenHeight=self.view.frame.size.height;
     screenWidth=self.view.frame.size.width;
     bgColor=[UIColor colorWithWhite:.15 alpha:1];
-    
+    fgColor=[UIColor colorWithRed:255/255 green:163/255.0 blue:0 alpha:1];
     aTimer = [MachTimer timer];
     viewLoaded=false;
     
@@ -48,8 +48,8 @@
 
    #pragma mark - Persistent Variables
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    if([defaults objectForKey:@"currentLevel"] == nil) currentLevel=0;
-    else currentLevel = (int)[defaults integerForKey:@"currentLevel"];
+//    if([defaults objectForKey:@"currentLevel"] == nil) currentLevel=0;
+//    else currentLevel = (int)[defaults integerForKey:@"currentLevel"];
     
     if([defaults objectForKey:@"best"] == nil) best=0;
     else best = (int)[defaults integerForKey:@"best"];
@@ -143,11 +143,29 @@
     bestLabelLabel.font = [UIFont fontWithName:@"HelveticaNeue-Ultralight" size:14];
     bestLabelLabel.textColor=[UIColor colorWithWhite:.8 alpha:1];
     bestLabelLabel.alpha=0;
+    [bestLabelLabel setUserInteractionEnabled:YES];
+    
     [self.view addSubview:bestLabelLabel];
     
     bestLabelLine=[[UILabel alloc] initWithFrame:CGRectMake(0,0, bestLabelLabel.frame.size.width, 1)];
     bestLabelLine.backgroundColor = [UIColor whiteColor];
     [bestLabelLabel addSubview:bestLabelLine];
+    
+
+    gameCenterButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [gameCenterButton addTarget:self
+               action:@selector(showGlobalLeaderboard)
+     forControlEvents:UIControlEventTouchUpInside];
+    
+    gameCenterButton.titleLabel.font=[UIFont fontWithName:@"Entypo" size:14];
+    [gameCenterButton setTitle:@"▸\U0000FE0E" forState:UIControlStateNormal];
+    //gameCenterButton.backgroundColor=[UIColor redColor];
+    [gameCenterButton setTitleColor:fgColor forState:UIControlStateNormal];
+    gameCenterButton.frame = CGRectMake(bestLabelLabel.frame.size.width-58, -25, 88.0, 88.0);
+    [bestLabelLabel addSubview:gameCenterButton];
+    
+    
+    
     
     
     [self updateHighscore];
@@ -246,7 +264,7 @@
                      }
                      completion:^(BOOL finished){
                          [catchZone setFill:YES];
-                         [catchZone setColor:[UIColor orangeColor]];
+                         [catchZone setColor:fgColor];
 
                          
                          [UIView animateWithDuration:0.4
@@ -298,8 +316,11 @@
         return;
     }
     
+    if(trialSequence<0)return;
+
     //START
     if(trialSequence==0){
+        
         trialSequence=-1;
         [self showLabels:NO];
 
@@ -325,13 +346,13 @@
                                      animations:^{
                                          catchZone.alpha=1;
                                          catchZoneCenter.alpha=1;
-
                                          midMarkL.alpha=1;
                                          midMarkR.alpha=1;
                                          arc.alpha=1;
-
                                      }
                                      completion:^(BOOL finished){
+                                         trialSequence=-1;
+
                                          [self startTrialSequence];
                                      }];
                              }];
@@ -505,7 +526,7 @@
 #pragma mark - GameCenter
 -(void)reportScore{
     if(_leaderboardIdentifier){
-        GKScore *score = [[GKScore alloc] initWithLeaderboardIdentifier:@"global"];
+        GKScore *score = [[GKScore alloc] initWithLeaderboardIdentifier:@"global.tatata"];
         score.value = best;
         
         [GKScore reportScores:@[score] withCompletionHandler:^(NSError *error) {
@@ -525,7 +546,7 @@
     GKGameCenterViewController *gcViewController = [[GKGameCenterViewController alloc] init];
     gcViewController.gameCenterDelegate = self;
     gcViewController.viewState = GKGameCenterViewControllerStateLeaderboards;
-    gcViewController.leaderboardIdentifier = @"global";
+    gcViewController.leaderboardIdentifier = @"global.tatata";
     [self presentViewController:gcViewController animated:YES completion:nil];
 }
 
@@ -537,24 +558,6 @@
 
 #pragma mark BALL
 
--(void)startFirstTrial{
-    float initDelay=.5;
-    
-    [UIView animateWithDuration:0
-                          delay:initDelay
-                        options:UIViewAnimationOptionCurveLinear
-                     animations:^{
-                         ball.alpha=ballAlpha;
-                     }
-                     completion:^(BOOL finished){
-                         [aTimer start];
-                         trialSequence=1;
-                         [self updateBall];
-                         
-   
-                     }];
-    
-}
 -(void)startTrialSequence{
     float initDelay=.8;
     double motionDelay=(double)timerGoal*(double)flashT;
@@ -571,12 +574,12 @@
                      completion:^(BOOL finished){
                          [aTimer start];
                          if(currentLevel==0){
-                             trialSequence=1;
+                             trialSequence=-2;
                              [self updateBall];
                          }
                          
                          //first flash
-                         [UIView animateWithDuration:0.0
+                         [UIView animateWithDuration:0.001
                                                delay:flashDuration
                                              options:UIViewAnimationOptionCurveLinear
                                           animations:^{
@@ -589,14 +592,14 @@
                                           }];
     
                          //second flash
-                         [UIView animateWithDuration:0.0
+                         [UIView animateWithDuration:0.001
                                                delay:motionDelay
                                              options:UIViewAnimationOptionCurveLinear
                                           animations:^{
                                               ball.alpha=ballAlpha;
                                           }
                                           completion:^(BOOL finished){
-                                              [UIView animateWithDuration:0.0
+                                              [UIView animateWithDuration:0.001
                                                                     delay:flashDuration
                                                                   options:UIViewAnimationOptionCurveLinear
                                                                animations:^{
@@ -604,10 +607,10 @@
                                                                    else ball.alpha=.15;
                                                                }
                                                                completion:^(BOOL finished){
-                                                                   
+                                                                   trialSequence=1;
+
                                                                    if(currentLevel>0){
                                                                        //allow STOP button
-                                                                       trialSequence=1;
                                                                        [self updateBall];
                                                                    }
 
@@ -721,12 +724,12 @@
 
 -(void)updateBall{
     
-    if(trialSequence==1){
-        [self performSelector:@selector(updateBall) withObject:self afterDelay:0.01];
+    if(trialSequence==1 || trialSequence==-2){
+        [self performSelector:@selector(updateBall) withObject:self afterDelay:0.001];
         elapsed=[aTimer elapsedSeconds];
         [self positionBall:NO];
         
-        if(ball.center.y+ball.frame.size.height*.5>=screenHeight){
+        if(ball.center.y+ball.frame.size.height*.5>screenHeight){
             [self buttonPressed];
         }
     }
@@ -767,9 +770,9 @@
 -(void)saveAndSetLevel:(int)level{
     
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    [defaults setInteger:level forKey:@"currentLevel"];
+    //[defaults setInteger:level forKey:@"currentLevel"];
+    
     if(level>0){
-        //float lastSuccessfulGoal=fabs([[[self.levelData objectAtIndex:level-1] objectForKey:@"goal"] floatValue]);
             if(level>=best){
             best=level;
             [defaults setInteger:best forKey:@"best"];
@@ -884,7 +887,9 @@
 - (void)viewDidAppear:(BOOL)animated
 {
 
-    if(viewLoaded==false){
+    //if(viewLoaded==false)
+    {
+        currentLevel=0;
         trialSequence=-1;
         [self saveAndSetLevel:currentLevel];
         [self animateLevelReset];
