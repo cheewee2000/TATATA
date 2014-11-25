@@ -34,7 +34,7 @@
     screenWidth=self.view.frame.size.width;
     bgColor=[UIColor colorWithWhite:.15 alpha:1];
     fgColor=[UIColor colorWithRed:255/255 green:163/255.0 blue:0 alpha:1];
-    dimAlpha=.03;
+    dimAlpha=.02;
     
     aTimer = [MachTimer timer];
     viewLoaded=false;
@@ -115,7 +115,7 @@
     scoreLabelLabel.alpha=0;
     [self.view addSubview:scoreLabelLabel];
     
-    scoreLabelLine=[[UILabel alloc] initWithFrame:CGRectMake(0,0, scoreLabelLabel.frame.size.width, 1)];
+    scoreLabelLine=[[UILabel alloc] initWithFrame:CGRectMake(0,0, scoreLabelLabel.frame.size.width, .5)];
     scoreLabelLine.backgroundColor = [UIColor whiteColor];
     [scoreLabelLabel addSubview:scoreLabelLine];
     
@@ -142,7 +142,7 @@
     
     [self.view addSubview:bestLabelLabel];
     
-    bestLabelLine=[[UILabel alloc] initWithFrame:CGRectMake(0,0, bestLabelLabel.frame.size.width, 1)];
+    bestLabelLine=[[UILabel alloc] initWithFrame:CGRectMake(0,0, bestLabelLabel.frame.size.width, .5)];
     bestLabelLine.backgroundColor = [UIColor whiteColor];
     [bestLabelLabel addSubview:bestLabelLine];
     
@@ -585,7 +585,10 @@
                              trialSequence=-2;
                              [self updateBall];
                          }
+                        else [self performSelector:@selector(updateBall) withObject:self afterDelay:timerGoal];
+
                          
+
                          //first flash
                          [UIView animateWithDuration:0.001
                                                delay:flashDuration
@@ -615,13 +618,10 @@
                                                                    else ball.alpha=dimAlpha;
                                                                }
                                                                completion:^(BOOL finished){
+                                                                   //enabl stop button
                                                                    trialSequence=1;
 
-                                                                   if(currentLevel>0){
-                                                                       //allow STOP button
-                                                                       [self updateBall];
-                                                                   }
-
+                                             
                                                                }];
                                           }];
                          
