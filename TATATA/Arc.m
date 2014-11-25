@@ -13,8 +13,8 @@
 - (id)initWithFrame:(CGRect)theFrame {
     self = [super initWithFrame:theFrame];
     if (self) {
-        //self.frame=theFrame;
-        point=CGPointMake(self.center.x, self.center.y);
+        [self setClipsToBounds:NO];
+        
     }
     return self;
 }
@@ -23,13 +23,12 @@
  - (void)drawRect:(CGRect)rect
  {
      float lineWidth=2.0;
- CGContextRef context = UIGraphicsGetCurrentContext();
-
- CGContextAddArc(context, point.x, point.y, self.frame.size.width*.5-lineWidth, M_PI, M_PI*2.0, NO);
- CGContextSetStrokeColorWithColor(context, [[UIColor whiteColor] CGColor]);
- CGContextSetLineWidth(context, lineWidth);
- 
- CGContextDrawPath(context, kCGPathStroke);
+     CGContextRef context = UIGraphicsGetCurrentContext();
+     CGContextAddArc(context, self.frame.size.width*.5 , self.frame.size.height*.5, self.frame.size.width*.5-lineWidth, M_PI, M_PI*2.0, NO);
+     CGContextSetStrokeColorWithColor(context, [[UIColor whiteColor] CGColor]);
+     CGContextSetLineWidth(context, lineWidth);
+     
+     CGContextDrawPath(context, kCGPathStroke);
  }
 
 @end

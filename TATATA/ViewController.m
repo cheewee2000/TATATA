@@ -110,8 +110,8 @@
     scoreLabel.alpha=0;
     [self.view addSubview:scoreLabel];
     
-    scoreLabelLabel=[[UILabel alloc] initWithFrame:CGRectMake(0,0, 100, 15)];
-    scoreLabelLabel.center=CGPointMake(screenWidth/2.0, scoreLabel.center.y+60);
+    scoreLabelLabel=[[UILabel alloc] initWithFrame:CGRectMake(0,0, 100, 40)];
+    scoreLabelLabel.center=CGPointMake(screenWidth/2.0, scoreLabel.center.y+80);
     scoreLabelLabel.text=@"SCORE";
     scoreLabelLabel.textAlignment = NSTextAlignmentCenter;
     scoreLabelLabel.backgroundColor = [UIColor clearColor];
@@ -119,6 +119,11 @@
     scoreLabelLabel.textColor=[UIColor colorWithWhite:.8 alpha:1];
     scoreLabelLabel.alpha=0;
     [self.view addSubview:scoreLabelLabel];
+    
+    scoreLabelLine=[[UILabel alloc] initWithFrame:CGRectMake(0,0, scoreLabelLabel.frame.size.width, 1)];
+    scoreLabelLine.backgroundColor = [UIColor whiteColor];
+    [scoreLabelLabel addSubview:scoreLabelLine];
+    
     
     bestLabel=[[UILabel alloc] initWithFrame:CGRectMake(0,0, screenWidth, 160)];
     bestLabel.center=CGPointMake(screenWidth/2.0, screenHeight*.5);
@@ -130,8 +135,8 @@
     bestLabel.alpha=0;
     [self.view addSubview:bestLabel];
     
-    bestLabelLabel=[[UILabel alloc] initWithFrame:CGRectMake(0,0, 100, 15)];
-    bestLabelLabel.center=CGPointMake(screenWidth/2.0, bestLabel.center.y+60);
+    bestLabelLabel=[[UILabel alloc] initWithFrame:CGRectMake(0,0, 100, 40)];
+    bestLabelLabel.center=CGPointMake(screenWidth/2.0, bestLabel.center.y+80);
     bestLabelLabel.text=@"BEST";
     bestLabelLabel.textAlignment = NSTextAlignmentCenter;
     bestLabelLabel.backgroundColor = [UIColor clearColor];
@@ -139,6 +144,11 @@
     bestLabelLabel.textColor=[UIColor colorWithWhite:.8 alpha:1];
     bestLabelLabel.alpha=0;
     [self.view addSubview:bestLabelLabel];
+    
+    bestLabelLine=[[UILabel alloc] initWithFrame:CGRectMake(0,0, bestLabelLabel.frame.size.width, 1)];
+    bestLabelLine.backgroundColor = [UIColor whiteColor];
+    [bestLabelLabel addSubview:bestLabelLine];
+    
     
     [self updateHighscore];
     
@@ -616,7 +626,7 @@
     else p=CGPointMake(screenWidth*.5, startY+(endY-startY)*(float)elapsed/timerGoal );
     if(animate){
     
-    [UIView animateWithDuration:0.4
+    [UIView animateWithDuration:0.2
                           delay:0.0
                         options:UIViewAnimationOptionCurveLinear
                      animations:^{
@@ -634,42 +644,6 @@
 
 
 
-//
-//#pragma mark LEVELS
-//-(void)loadLevelProgress{
-//    //load values
-//    self.levelData = [[NSMutableArray alloc] init];
-//    
-//    //Creating a file path under iOS:
-//    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES);
-//    NSString *File = [[paths objectAtIndex:0] stringByAppendingPathComponent:@"levelData.dat"];
-//    
-//    //Load the array
-//    self.levelData = [[NSMutableArray alloc] initWithContentsOfFile: File];
-//    
-//    if(self.levelData == nil)
-//    {
-//        //Array file didn't exist... create a new one
-//        self.levelData = [[NSMutableArray alloc] init];
-//        for (int i = 0; i < 2; i++) {
-//            
-//            NSMutableDictionary *myDictionary = [[NSMutableDictionary alloc] init];
-//            [myDictionary  setObject:[NSNumber numberWithInt:0] forKey:@"accuracy"];
-//            [myDictionary setObject:[NSNumber numberWithFloat:0.0] forKey:@"goal"];
-//            [myDictionary setObject:[NSDate date] forKey:@"date"];
-//            [self.levelData addObject:myDictionary];
-// 
-//        }
-//        [self saveLevelProgress];
-//    }
-//    
-//}
-//
-//-(void)saveLevelProgress{
-//    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES);
-//    NSString *File = [[paths objectAtIndex:0] stringByAppendingPathComponent:@"levelData.dat"];
-//    [self.levelData writeToFile:File atomically:YES];
-//}
 
 
 
@@ -677,26 +651,35 @@
 -(float)getLevel:(int)level{
     float l;
 
-    if (level==0)l=1.0;
+    if (level==0)l=1.5;
     else {
         //l=.7+level*0.1;
-        NSInteger randomNumber = arc4random() % 100;
-        l=1.0+level*randomNumber/1000.0;
+        NSInteger randomNumber = arc4random() % 25;
+        NSInteger coinFlip = arc4random() % 1;
+        
+        if(coinFlip==0)coinFlip=1;
+        else coinFlip=-1;
+
+        l=1.5+level*randomNumber/100.0*coinFlip;
+        
+        if(l<.5)l=.5;
+        
     }
     
     return l;
 }
 
 -(float)getLevelAccuracy:(int)level{
-    return .1;
+    return .15;
 }
 
 -(float)getFlashT:(int)level{
     float f=.5;
-    NSInteger randomNumber = arc4random() % 1;
+    NSInteger random = arc4random() % 3;
 
-    if (level>=2) f=.25+randomNumber*.25;
-    //else if (level>=2) f=.4+randomNumber*.1;
+    if (level>=3) f=.5-random*.1;
+    //else
+    //if (level>=3) f=.33+coinFlip*.27;
 
     return f;
 }
@@ -755,28 +738,17 @@
 
 -(void)trialStopped{
 
-    [self performSelector:@selector(checkLevelUp) withObject:self afterDelay:0.5];
-
-    allTimeTotalTrials++;
-    [[NSUserDefaults standardUserDefaults] setInteger:allTimeTotalTrials forKey:@"allTimeTotalTrials"];
-    
-}
-
-
--(void)checkLevelUp{
-    
     //save trial data now
     [self saveTrialData];
     
     if([self isAccurate]){
-
+        
         //save current level now
         currentLevel++;
         [self reportScore];
         [self saveAndSetLevel:currentLevel];
         [self loadTrialData];
-        //[self loadLevelProgress];
-        [self animateLevelReset];
+        [self performSelector:@selector(animateLevelReset) withObject:self afterDelay:0.8];
         
     }
     else{
@@ -784,10 +756,12 @@
         [self restart];
     }
     
-
-
-
+    
+    allTimeTotalTrials++;
+    [[NSUserDefaults standardUserDefaults] setInteger:allTimeTotalTrials forKey:@"allTimeTotalTrials"];
+    
 }
+
 
 
 -(void)saveAndSetLevel:(int)level{
@@ -816,7 +790,7 @@
     elapsed=0;
     [self positionBall:YES];
     
-    [UIView animateWithDuration:0.4
+    [UIView animateWithDuration:0.2
                           delay:0.0
                         options:UIViewAnimationOptionCurveLinear
                      animations:^{
@@ -826,44 +800,46 @@
                      completion:^(BOOL finished){
 
             
-    [UIView animateWithDuration:0.4
-                            delay:0.2
-                          options:UIViewAnimationOptionCurveLinear
-                       animations:^{
-                           float catchZoneDiameter=[self getLevelAccuracy:currentLevel]*(startY-endY)/timerGoal*2.0;
+                [UIView animateWithDuration:0.4
+                                        delay:0.0
+                                      options:UIViewAnimationOptionCurveLinear
+                                   animations:^{
+                                       float catchZoneDiameter=[self getLevelAccuracy:currentLevel]*(startY-endY)/timerGoal*2.0;
 
-                           catchZone.frame=CGRectMake(0, 0, catchZoneDiameter, catchZoneDiameter);
-                           catchZone.center=CGPointMake(screenWidth*.5, endY);
-                           
-                           ball.frame=CGRectMake(0,0, catchZoneDiameter*.8, catchZoneDiameter*.8);
-                           ball.center=CGPointMake(screenWidth*.5, startY);
-                           ball.lineWidth=ball.frame.size.width*.33-2;
+                                       catchZone.frame=CGRectMake(0, 0, catchZoneDiameter, catchZoneDiameter);
+                                       catchZone.center=CGPointMake(screenWidth*.5, endY);
+                                       [catchZone setNeedsDisplay];
 
-                           
-                           arc.frame=CGRectMake(0,0, ball.frame.size.width+20,ball.frame.size.height+30);
-                           arc.center=ball.center;
+                                       ball.frame=CGRectMake(0,0, catchZoneDiameter*.8, catchZoneDiameter*.8);
+                                       ball.center=CGPointMake(screenWidth*.5, startY);
+                                       ball.lineWidth=ball.frame.size.width*.33-2;
+                                       [ball setNeedsDisplay];
+                                       
+                                       arc.frame=CGRectMake(50,50, ball.frame.size.width+20,ball.frame.size.height+30);
+                                       arc.center=ball.center;
+                                       [arc setNeedsDisplay];
 
-                           //set mid markers
-                           midMarkL.center=CGPointMake(midMarkL.center.x, startY+(endY-startY)*flashT);
-                           midMarkR.center=CGPointMake(midMarkR.center.x, startY+(endY-startY)*flashT);
+                                       //set mid markers
+                                       midMarkL.center=CGPointMake(midMarkL.center.x, startY+(endY-startY)*flashT);
+                                       midMarkR.center=CGPointMake(midMarkR.center.x, startY+(endY-startY)*flashT);
 
-                           
-                       }
-                       completion:^(BOOL finished){
+                                       
+                                   }
+                                   completion:^(BOOL finished){
 
-                           [UIView animateWithDuration:0.4
-                                                 delay:0.2
-                                               options:UIViewAnimationOptionCurveLinear
-                                            animations:^{
-                                                
-                                                ball.alpha=0;
-                                            }
-                                            completion:^(BOOL finished){
-                                                trialSequence=0;
-                                                if(currentLevel>0)[self performSelector:@selector(buttonPressed) withObject:self afterDelay:.5];
+                                       [UIView animateWithDuration:0.4
+                                                             delay:0.0
+                                                           options:UIViewAnimationOptionCurveLinear
+                                                        animations:^{
+                                                            
+                                                            ball.alpha=0;
+                                                        }
+                                                        completion:^(BOOL finished){
+                                                            trialSequence=0;
+                                                            if(currentLevel>0)[self performSelector:@selector(buttonPressed) withObject:self afterDelay:.5];
 
-                                            }];
-                       }];
+                                                        }];
+                                   }];
                      }];
     
 
@@ -892,6 +868,8 @@
 - (void)viewDidUnload
 {
     viewLoaded=false;
+ //   [arc removeFromSuperview];
+
    [super viewDidUnload];
    // Release any retained subviews of the main view.
    // e.g. self.myOutlet = nil;

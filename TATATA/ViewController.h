@@ -29,10 +29,12 @@
     
     UILabel * scoreLabel;
     UILabel * scoreLabelLabel;
+    UILabel * scoreLabelLine;
 
     UILabel * bestLabel;
     UILabel * bestLabelLabel;
-    
+    UILabel * bestLabelLine;
+
     UIView * midMarkL;
     UIView * midMarkR;
     
