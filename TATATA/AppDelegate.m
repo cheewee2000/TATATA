@@ -19,13 +19,32 @@
                   clientKey:@"ykory1V1jt9Q3gNG0tZX27nSCEsXRU92t2bkw6CP"];
     [PFAnalytics trackAppOpenedWithLaunchOptions:launchOptions];
     
+//    // Register for Push Notifications
+//    UIUserNotificationType userNotificationTypes = (UIUserNotificationTypeAlert |
+//                                                    UIUserNotificationTypeBadge |
+//                                                    UIUserNotificationTypeSound);
+//    UIUserNotificationSettings *settings = [UIUserNotificationSettings settingsForTypes:userNotificationTypes
+//                                                                             categories:nil];
+//    [application registerUserNotificationSettings:settings];
+//    [application registerForRemoteNotifications];
+//    
+    
     [TestFlight takeOff:@"4191ad30-4dcc-4447-9ca6-9bd696285036"];
 
     return YES;
 }
 
-
-
+//
+//- (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
+//    // Store the deviceToken in the current installation and save it to Parse.
+//    PFInstallation *currentInstallation = [PFInstallation currentInstallation];
+//    [currentInstallation setDeviceTokenFromData:deviceToken];
+//    currentInstallation.channels = @[ @"global" ];
+//    [currentInstallation saveInBackground];
+//}
+//- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {
+//    [PFPush handlePush:userInfo];
+//}
 
 - (void)applicationWillResignActive:(UIApplication *)application
 {

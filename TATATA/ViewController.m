@@ -30,17 +30,12 @@
 {
    [super viewDidLoad];
     
-    int vbuttonY=137;//5s
-    if(IS_IPAD)vbuttonY=237;
-    else if(IS_IPHONE_6)vbuttonY=145;
-    else if(IS_IPHONE_6_PLUS)vbuttonY=155;
-    else if(IS_IPHONE_5)vbuttonY=128;
-    else if(IS_IPHONE_4)vbuttonY=95;
-
     screenHeight=self.view.frame.size.height;
     screenWidth=self.view.frame.size.width;
     bgColor=[UIColor colorWithWhite:.15 alpha:1];
     fgColor=[UIColor colorWithRed:255/255 green:163/255.0 blue:0 alpha:1];
+    dimAlpha=.03;
+    
     aTimer = [MachTimer timer];
     viewLoaded=false;
     
@@ -58,8 +53,8 @@
     else showIntro = (int)[defaults integerForKey:@"showIntro"];
 
 #pragma mark - Ball
-    startY=100;
-    endY=screenHeight*.8;
+    startY=screenHeight*.5-200;
+    endY=screenHeight*.5+200;
 
     catchZone=[[Dots alloc] initWithFrame:CGRectMake(0,0, 88, 88)];
     catchZone.center=CGPointMake(screenWidth*.5, endY);
@@ -95,13 +90,13 @@
     arc.backgroundColor=[UIColor clearColor];
     arc.center=ball.center;
     [self.view addSubview:arc];
-    arc.alpha=.15;
+    arc.alpha=dimAlpha;
     
     
 #pragma mark - Labels
     
     scoreLabel=[[UILabel alloc] initWithFrame:CGRectMake(0,0, screenWidth, 160)];
-    scoreLabel.center=CGPointMake(screenWidth/2.0, screenHeight*.25);
+    scoreLabel.center=CGPointMake(screenWidth/2.0, startY);
     scoreLabel.text=@"0";
     scoreLabel.textAlignment = NSTextAlignmentCenter;
     scoreLabel.backgroundColor = [UIColor clearColor];
@@ -180,8 +175,8 @@
     midMarkR.backgroundColor=[UIColor whiteColor];
     [self.view addSubview:midMarkR];
     
-    midMarkL.alpha=.15;
-    midMarkR.alpha=.15;
+    midMarkL.alpha=dimAlpha;
+    midMarkR.alpha=dimAlpha;
     
 #pragma mark - intro
     intro=[[UIView alloc] initWithFrame:self.view.frame];
@@ -258,9 +253,9 @@
                          catchZoneCenter.alpha=0;
 
                          ball.alpha=0;
-                         midMarkL.alpha=.15;
-                         midMarkR.alpha=.15;
-                         arc.alpha=.15;
+                         midMarkL.alpha=dimAlpha;
+                         midMarkR.alpha=dimAlpha;
+                         arc.alpha=dimAlpha;
                      }
                      completion:^(BOOL finished){
                          [catchZone setFill:YES];
@@ -320,7 +315,7 @@
 
     //START
     if(trialSequence==0){
-        
+        touched=NO;
         trialSequence=-1;
         [self showLabels:NO];
 
@@ -364,53 +359,59 @@
     }
     //STOP
     else if(trialSequence==1){
-        trialSequence=-1;
-
-        elapsed=[aTimer elapsedSeconds];
-        if([self isAccurate]){
-            [ball setColor:[UIColor greenColor]];
-            [ball setNeedsDisplay];
-
-        }else{
-            [ball setColor:[UIColor redColor]];
-            [ball setNeedsDisplay];
-            
-            //flash background
-            [UIView animateWithDuration:0.1
-                                  delay:0.0
-                                options:UIViewAnimationOptionCurveLinear
-                             animations:^{
-                                 self.view.backgroundColor=[UIColor whiteColor];
-                             }
-                             completion:^(BOOL finished){
-                                 [UIView animateWithDuration:0.4
-                                                       delay:0.0
-                                                     options:UIViewAnimationOptionCurveLinear
-                                                  animations:^{
-                                                      self.view.backgroundColor=bgColor;
-                                                  }
-                                                  completion:^(BOOL finished){
-                             
-                                                  }];
-                             }];
- 
-        }
-
-        [self positionBall:NO];
-        ball.alpha=ballAlpha;
+        touched=YES;
+        [self stop];
         
-        [self trialStopped];
 
-        [self.view.layer removeAllAnimations];
-
- 
     }
     
 }
 
+-(void)stop{
+    trialSequence=-1;
+    
+    elapsed=[aTimer elapsedSeconds];
+    if([self isAccurate]){
+        //            if([self getAccuracyFloat]<.5) [ball setColor:[UIColor greenColor]];
+        //            else [ball setColor:[UIColor yellowColor]];
+        [ball setColor:[UIColor greenColor]];
+        [ball setNeedsDisplay];
+    }else{
+        [ball setColor:[UIColor redColor]];
+        [ball setNeedsDisplay];
+        
+        //flash background
+        [UIView animateWithDuration:0.1
+                              delay:0.0
+                            options:UIViewAnimationOptionCurveLinear
+                         animations:^{
+                             self.view.backgroundColor=[UIColor whiteColor];
+                         }
+                         completion:^(BOOL finished){
+                             [UIView animateWithDuration:0.4
+                                                   delay:0.0
+                                                 options:UIViewAnimationOptionCurveLinear
+                                              animations:^{
+                                                  self.view.backgroundColor=bgColor;
+                                              }
+                                              completion:^(BOOL finished){
+                                                  
+                                              }];
+                         }];
+        
+    }
+    
+    [self positionBall:NO];
+    ball.alpha=ballAlpha;
+    
+    [self trialStopped];
+    
+    [self.view.layer removeAllAnimations];
+    
+    
+}
 
 -(void)saveTrialData{
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     
     //save to disk
     NSMutableDictionary *myDictionary = [[NSMutableDictionary alloc] init];
@@ -429,18 +430,25 @@
     pObject[@"date"]=[NSDate date];
     pObject[@"flashT"]=[NSNumber numberWithFloat:(flashT)];
     pObject[@"timezone"]=[NSString stringWithFormat:@"%@",[NSTimeZone localTimeZone]];
+    pObject[@"didTouch"]=(touched)? @YES:@NO;
 
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     NSString*uuid;
     if([defaults stringForKey:@"uuid"] == nil){
         uuid=CFBridgingRelease(CFUUIDCreateString(NULL, CFUUIDCreate(NULL)));
         [defaults setObject:uuid forKey:@"uuid"];
+        [defaults synchronize];
     }
     else uuid =[defaults stringForKey:@"uuid"];
-    
     pObject[@"uuid"]=uuid;
-    [pObject saveEventually];
     
-    [defaults synchronize];
+    if(currentUser!=nil) pObject[@"user"]=currentUser;
+    
+    [pObject saveEventually];
+
+    currentUser[@"best"]=[NSNumber numberWithFloat:best];
+    [currentUser saveEventually];
+    
 }
 
 
@@ -584,7 +592,7 @@
                                              options:UIViewAnimationOptionCurveLinear
                                           animations:^{
                                               if(currentLevel>0)ball.alpha=0;
-                                              else ball.alpha=.15;
+                                              else ball.alpha=dimAlpha;
                                           }
                                           completion:^(BOOL finished){
                                               if(currentLevel>0){ball.center=CGPointMake(screenWidth*.5, startY+(endY-startY)*flashT);
@@ -604,7 +612,7 @@
                                                                   options:UIViewAnimationOptionCurveLinear
                                                                animations:^{
                                                                    if(currentLevel>0)ball.alpha=0;
-                                                                   else ball.alpha=.15;
+                                                                   else ball.alpha=dimAlpha;
                                                                }
                                                                completion:^(BOOL finished){
                                                                    trialSequence=1;
@@ -673,7 +681,7 @@
 }
 
 -(float)getLevelAccuracy:(int)level{
-    return .15;
+    return .2;
 }
 
 -(float)getFlashT:(int)level{
@@ -729,8 +737,8 @@
         elapsed=[aTimer elapsedSeconds];
         [self positionBall:NO];
         
-        if(ball.center.y+ball.frame.size.height*.5>screenHeight){
-            [self buttonPressed];
+        if(ball.center.y>=screenHeight){
+            [self stop];
         }
     }
 
@@ -855,7 +863,11 @@
     float diff=fabs(timerGoal-elapsed);
     if( diff<=[self getLevelAccuracy:currentLevel] ) return YES;
     else return NO;
-
+}
+-(float)getAccuracyFloat{
+    float f;
+    f=fabs(elapsed-timerGoal)/[self getLevelAccuracy:currentLevel];
+    return f;
 }
 
 -(int)getAccuracyPercentage{
@@ -898,10 +910,44 @@
 //    if(showIntro){
 //        [self performSelector:@selector(showIntroView) withObject:self afterDelay:1.5];
 //    }
+    [self logIn];
     
    [super viewDidAppear:animated];
 }
 
+-(void)logIn{
+    currentUser = [PFUser currentUser];
+    if (currentUser) {
+        // do stuff with the user
+        currentUser[@"best"]=[NSNumber numberWithFloat:best];
+        [currentUser saveEventually];
+        
+    } else {
+        // show the signup or login screen
+        [PFAnonymousUtils logInWithBlock:^(PFUser *user, NSError *error) {
+            if (error) {
+                NSLog(@"Anonymous login failed.");
+            } else {
+                NSLog(@"Anonymous user logged in.");
+                currentUser = [PFUser currentUser];
+
+                NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+                NSString*uuid;
+                if([defaults stringForKey:@"uuid"] == nil){
+                    uuid=CFBridgingRelease(CFUUIDCreateString(NULL, CFUUIDCreate(NULL)));
+                    [defaults setObject:uuid forKey:@"uuid"];
+                    [defaults synchronize];
+                }
+                else uuid =[defaults stringForKey:@"uuid"];
+                currentUser[@"uuid"]=uuid;
+                [currentUser saveEventually];
+
+            }
+        }];
+    }
+
+    
+}
 
 
 - (void)viewWillDisappear:(BOOL)animated

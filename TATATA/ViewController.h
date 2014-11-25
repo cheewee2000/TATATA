@@ -16,6 +16,8 @@
 @interface ViewController : UIViewController <GKGameCenterControllerDelegate>
 
 {
+    PFUser *currentUser;
+    
     int screenWidth,screenHeight;
     int trialSequence;
 
@@ -48,7 +50,9 @@
     
     UIButton *gameCenterButton;
     
-
+    float dimAlpha;
+    BOOL touched;
+    
 #pragma mark - timing
     NSTimeInterval elapsed;
     NSTimeInterval timerGoal;
@@ -67,77 +71,6 @@
     CGPoint offset;
     
     
-    #pragma mark - progressview
-    //LevelProgressView *progressView;
-//    UIVisualEffectView *gameOverBlur;
-
-//    UILabel *highScoreLabel;
-//    NSMutableArray *dots;
-//    Dots *bestLevelDot;
-    
-//    float buttonYPos;
-    
-//    UIButton *restartButton;
-//    UIButton *playButton;
-//    UIButton *trophyButton;
-//    UIButton *medalButton;
-    
-//    NSMutableArray * stageLabels;
-//    int resetCountdown;
-
-//    UIView *labelContainer;
-//    UILabel *counterLabel;
-//    UILabel *counterGoalLabel;
-//    UILabel *goalPrecision;
-//    NSMutableArray *hearts;
-
-//    UILabel *questionMark;
-    
-    
-//    #pragma mark - Labels
-    //TextArrow* levelAlert;
-    //NSMutableArray * levelArrows;
-
-    
-//    #pragma mark - Buttons
-
-    //UIButton *nextButton;
-    //UIButton *shareButton;
-    
-    
-//    #pragma mark - Blob
-//    UIImageView * xView;
-//    UIImageView * oView;
-//
-//    NSInteger nPointsVisible;
-
-    
-//    #pragma mark - stats
-//    UIView *stats;
-//    UILabel *averageTime;
-//    UILabel *accuracy;
-//    UILabel *precision;
-//    UILabel* precisionUnit;
-//    UILabel* averageUnit;
-//    UILabel* accuracyUnit;
-//    UILabel* averageLabel;
-//    UILabel* accuracyLabel;
-//    UILabel *precisionLabel;
-//    UILabel *myGraphLabel;
-//
-//    
-//    UIView *allStats;
-//    UILabel *allAverageTime;
-//    UILabel *allAccuracy;
-//    UILabel *allPrecision;
-//    UILabel* allPrecisionUnit;
-//    UILabel* allAverageUnit;
-//    UILabel* allAccuracyUnit;
-//    UILabel* allAverageLabel;
-//    UILabel* allAccuracyLabel;
-//    UILabel *allPrecisionLabel;
-//    UILabel *allGraphLabel;
-    
     #pragma mark - intro
     UIView *intro;
     UILabel* introTitle;
@@ -147,7 +80,6 @@
 
     UIButton* feedbackButton;
     BOOL showIntro;
-    
     
     BOOL viewLoaded;
     

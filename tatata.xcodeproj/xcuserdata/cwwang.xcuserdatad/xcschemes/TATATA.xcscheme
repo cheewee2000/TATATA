@@ -15,8 +15,8 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "70C2EB3B1475EF4F00751AE8"
-               BuildableName = "tatata.temp_caseinsensitive_rename.app"
-               BlueprintName = "tatata"
+               BuildableName = "tatata.app"
+               BlueprintName = "TATATA"
                ReferencedContainer = "container:tatata.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -33,8 +33,8 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "70C2EB3B1475EF4F00751AE8"
-            BuildableName = "tatata.temp_caseinsensitive_rename.app"
-            BlueprintName = "tatata"
+            BuildableName = "tatata.app"
+            BlueprintName = "TATATA"
             ReferencedContainer = "container:tatata.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
@@ -52,8 +52,8 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "70C2EB3B1475EF4F00751AE8"
-            BuildableName = "tatata.temp_caseinsensitive_rename.app"
-            BlueprintName = "tatata"
+            BuildableName = "tatata.app"
+            BlueprintName = "TATATA"
             ReferencedContainer = "container:tatata.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
@@ -70,8 +70,8 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "70C2EB3B1475EF4F00751AE8"
-            BuildableName = "tatata.temp_caseinsensitive_rename.app"
-            BlueprintName = "tatata"
+            BuildableName = "tatata.app"
+            BlueprintName = "TATATA"
             ReferencedContainer = "container:tatata.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>

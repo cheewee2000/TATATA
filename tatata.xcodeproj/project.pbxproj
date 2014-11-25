@@ -17,7 +17,6 @@
 		444F09E41A1CEFB500E5E7C3 /* MainStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 444F09BA1A1CEFB500E5E7C3 /* MainStoryboard.storyboard */; };
 		444F09E91A1CEFB500E5E7C3 /* MachTimer.m in Sources */ = {isa = PBXBuildFile; fileRef = 444F09C31A1CEFB500E5E7C3 /* MachTimer.m */; };
 		444F09EA1A1CEFB500E5E7C3 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 444F09C41A1CEFB500E5E7C3 /* main.m */; };
-		444F09EC1A1CEFB500E5E7C3 /* tatata.plist in Resources */ = {isa = PBXBuildFile; fileRef = 444F09C81A1CEFB500E5E7C3 /* tatata.plist */; };
 		444F09ED1A1CEFB500E5E7C3 /* libTestFlight.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 444F09CB1A1CEFB500E5E7C3 /* libTestFlight.a */; };
 		444F09EE1A1CEFB500E5E7C3 /* README.md in Sources */ = {isa = PBXBuildFile; fileRef = 444F09CC1A1CEFB500E5E7C3 /* README.md */; };
 		444F09EF1A1CEFB500E5E7C3 /* release_notes.md in Sources */ = {isa = PBXBuildFile; fileRef = 444F09CD1A1CEFB500E5E7C3 /* release_notes.md */; };
@@ -26,6 +25,7 @@
 		4470939619EDC41E00F6D53C /* GameKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4470939519EDC41E00F6D53C /* GameKit.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		44866B4819B78B500084652A /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 44866B4719B78B500084652A /* QuartzCore.framework */; };
 		448F046D1A22C678009F215E /* Arc.m in Sources */ = {isa = PBXBuildFile; fileRef = 448F046C1A22C678009F215E /* Arc.m */; };
+		44D879991A243493001021B0 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 44D879981A243493001021B0 /* Images.xcassets */; };
 		44FD6D9819C49A6D006C7099 /* Parse.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 44FD6D9719C49A6D006C7099 /* Parse.framework */; };
 		44FD6D9A19C49A86006C7099 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 44FD6D9919C49A86006C7099 /* CFNetwork.framework */; };
 		44FD6D9C19C49A8B006C7099 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 44FD6D9B19C49A8B006C7099 /* CoreLocation.framework */; };
@@ -68,6 +68,7 @@
 		44866B4719B78B500084652A /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		448F046B1A22C678009F215E /* Arc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Arc.h; sourceTree = "<group>"; };
 		448F046C1A22C678009F215E /* Arc.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Arc.m; sourceTree = "<group>"; };
+		44D879981A243493001021B0 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		44FD6D9719C49A6D006C7099 /* Parse.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Parse.framework; sourceTree = "<group>"; };
 		44FD6D9919C49A86006C7099 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		44FD6D9B19C49A8B006C7099 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
@@ -147,6 +148,7 @@
 		444F09F41A1CF0EE00E5E7C3 /* Misc */ = {
 			isa = PBXGroup;
 			children = (
+				44D879981A243493001021B0 /* Images.xcassets */,
 				444F09C81A1CEFB500E5E7C3 /* tatata.plist */,
 				444F09C91A1CEFB500E5E7C3 /* tatata.pch */,
 				444F09B31A1CEFB500E5E7C3 /* Default-568h@2x.png */,
@@ -214,9 +216,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		70C2EB3B1475EF4F00751AE8 /* tatata */ = {
+		70C2EB3B1475EF4F00751AE8 /* TATATA */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 70C2EB5A1475EF4F00751AE8 /* Build configuration list for PBXNativeTarget "tatata" */;
+			buildConfigurationList = 70C2EB5A1475EF4F00751AE8 /* Build configuration list for PBXNativeTarget "TATATA" */;
 			buildPhases = (
 				70C2EB381475EF4F00751AE8 /* Sources */,
 				70C2EB391475EF4F00751AE8 /* Frameworks */,
@@ -226,7 +228,7 @@
 			);
 			dependencies = (
 			);
-			name = tatata;
+			name = TATATA;
 			productName = VolumeSnap;
 			productReference = 70C2EB3C1475EF4F00751AE8 /* tatata.app */;
 			productType = "com.apple.product-type.application";
@@ -264,7 +266,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				70C2EB3B1475EF4F00751AE8 /* tatata */,
+				70C2EB3B1475EF4F00751AE8 /* TATATA */,
 			);
 		};
 /* End PBXProject section */
@@ -276,7 +278,7 @@
 			files = (
 				444F09E41A1CEFB500E5E7C3 /* MainStoryboard.storyboard in Resources */,
 				444F09E11A1CEFB500E5E7C3 /* Default@2x.png in Resources */,
-				444F09EC1A1CEFB500E5E7C3 /* tatata.plist in Resources */,
+				44D879991A243493001021B0 /* Images.xcassets in Resources */,
 				444F09E01A1CEFB500E5E7C3 /* Default.png in Resources */,
 				444F09DF1A1CEFB500E5E7C3 /* Default-568h@2x.png in Resources */,
 				444F09E31A1CEFB500E5E7C3 /* InfoPlist.strings in Resources */,
@@ -459,7 +461,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		70C2EB5A1475EF4F00751AE8 /* Build configuration list for PBXNativeTarget "tatata" */ = {
+		70C2EB5A1475EF4F00751AE8 /* Build configuration list for PBXNativeTarget "TATATA" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				70C2EB5B1475EF4F00751AE8 /* Debug */,
