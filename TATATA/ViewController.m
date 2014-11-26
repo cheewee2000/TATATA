@@ -242,9 +242,6 @@
 
 -(void)showStartScreen{
     currentLevel=0;
-
-  //  [self clearTrialData];
-    
     [UIView animateWithDuration:0.4
                           delay:0.4
                         options:UIViewAnimationOptionCurveLinear
@@ -411,23 +408,32 @@
 
 -(void)saveTrialData{
     
+    NSDate* localDateTime = [NSDate dateWithTimeInterval:[[NSTimeZone systemTimeZone] secondsFromGMT] sinceDate:[NSDate date]];
+
     //save to disk
     NSMutableDictionary *myDictionary = [[NSMutableDictionary alloc] init];
     float diff=elapsed-timerGoal;
     [myDictionary setObject:[NSNumber numberWithFloat:diff] forKey:@"accuracy"];
     [myDictionary setObject:[NSNumber numberWithFloat:timerGoal] forKey:@"goal"];
     [myDictionary setObject:[NSNumber numberWithFloat:flashT] forKey:@"flashT"];
-    [myDictionary setObject:[NSDate date] forKey:@"date"];
+    [myDictionary setObject:[NSNumber numberWithInteger:currentLevel] forKey:@"level"];
+    [myDictionary setObject:[NSNumber numberWithBool:([self isAccurate])? YES:NO] forKey:@"win"];
+    [myDictionary setObject:localDateTime forKey:@"date"];
+    [myDictionary setObject:[NSTimeZone localTimeZone].abbreviation forKey:@"timezone"];
+    [myDictionary setObject:[NSNumber numberWithBool: (touched)? @YES:@NO ] forKey:@"didTouch"];
+
     [self.allTrialData addObject:myDictionary];
     [self saveValues];
 
     //save to parse
     PFObject *pObject = [PFObject objectWithClassName:@"results"];
-    pObject[@"goal"] = [NSNumber numberWithFloat:(timerGoal)];
-    pObject[@"accuracy"] = [NSNumber numberWithFloat:(elapsed-timerGoal)];
-    pObject[@"date"]=[NSDate date];
-    pObject[@"flashT"]=[NSNumber numberWithFloat:(flashT)];
-    pObject[@"timezone"]=[NSString stringWithFormat:@"%@",[NSTimeZone localTimeZone]];
+    pObject[@"accuracy"] = [NSNumber numberWithFloat:diff];
+    pObject[@"goal"] = [NSNumber numberWithFloat:timerGoal];
+    pObject[@"flashT"]=[NSNumber numberWithFloat:flashT];
+    pObject[@"level"]=[NSNumber numberWithInteger:currentLevel];
+    pObject[@"win"]=([self isAccurate])? @YES:@NO;
+    pObject[@"date"]=localDateTime;
+    pObject[@"timezone"]=[NSString stringWithFormat:@"%@",[NSTimeZone localTimeZone].abbreviation];
     pObject[@"didTouch"]=(touched)? @YES:@NO;
 
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
@@ -466,19 +472,7 @@
 }
 
 #pragma mark DATA
-//-(void)loadData:(float) level{
 -(void)loadTrialData{
-    
-    //load values
-//    self.trialData = [[NSMutableArray alloc] init];
-    
-    //Creating a file path under iOS:
-//    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES);
-//    timeValuesFile = [[paths objectAtIndex:0] stringByAppendingPathComponent:@"trialData.dat"];
-//
-//    //Load the array
-//    self.trialData = [[NSMutableArray alloc] initWithContentsOfFile: timeValuesFile];
-//    
     
     NSArray *docPath = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
 
@@ -499,33 +493,11 @@
         }
         [self saveValues];
     }
-    
-    
-//    if(self.trialData == nil)
-//    {
-//        [self clearTrialData];
-//    }
+
 }
 
-//-(void)clearTrialData{
-//    //Array file didn't exist... create a new one
-//    self.trialData = [[NSMutableArray alloc] init];
-//    for (int i = 0; i <2 ; i++) {
-//        NSMutableDictionary *myDictionary = [[NSMutableDictionary alloc] init];
-//        [myDictionary setObject:[NSNumber numberWithFloat:0.0] forKey:@"accuracy"];
-//        [myDictionary setObject:[NSNumber numberWithFloat:0.0] forKey:@"goal"];
-//        [myDictionary setObject:[NSDate date] forKey:@"date"];
-//        [myDictionary setObject:[NSNumber numberWithFloat:0.0] forKey:@"flashT"];
-//        [self.trialData addObject:myDictionary];
-//    }
-//    
-//    
-//    [self saveValues];
-//    
-//}
 
 -(void)saveValues{
-   // [self.trialData writeToFile:timeValuesFile atomically:YES];
     [self.allTrialData writeToFile:allTrialDataFile atomically:YES];
 }
 
@@ -552,9 +524,7 @@
             }
         }];
 
-        
-    
-        
+  
     }
 }
 
@@ -710,11 +680,6 @@
 }
 
 
-
-
-
-
-
 -(float)getLevel:(int)level{
     float l;
 
@@ -732,7 +697,6 @@
         if(l<.5)l=.5;
         
     }
-    
     return l;
 }
 
@@ -747,7 +711,6 @@
     if (level>=3) f=.5-random*.1;
     //else
     //if (level>=3) f=.33+coinFlip*.27;
-
     return f;
 }
 
