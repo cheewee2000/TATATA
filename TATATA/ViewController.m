@@ -567,12 +567,55 @@
 #pragma mark BALL
 
 -(void)startTrialSequence{
-    float initDelay=.8;
-    double motionDelay=(double)timerGoal*(double)flashT;
-    float flashDuration=.02;
+    double initDelay=.8;
+    double flashDelay=timerGoal*(float)flashT;
+    double flashDuration=.05;
+        
     [ball setColor:[UIColor whiteColor]];
     [ball setNeedsDisplay];
     
+    CFTimeInterval currentTime = CACurrentMediaTime();
+    CFTimeInterval currentTimeInSuperLayer = [self.view.layer convertTime:currentTime fromLayer:nil];
+
+
+    [CATransaction begin];
+    CABasicAnimation *startFlash = [CABasicAnimation animationWithKeyPath:@"opacity"];
+    [startFlash setDuration:flashDuration];
+    [startFlash setFromValue:[NSNumber numberWithFloat:(currentLevel>0)?0.0f:ballAlpha]];
+    [startFlash setToValue:[NSNumber numberWithFloat:1.0f]];
+    [startFlash setBeginTime:currentTimeInSuperLayer+initDelay];
+    [CATransaction setCompletionBlock:^{
+        [aTimer start];
+        if(currentLevel==0){
+            trialSequence=-2;
+            [self updateBall];
+        }
+        float msOff=[aTimer elapsedSeconds];
+        NSLog(@"startFlash accuracy: %f sec",msOff);
+        if(currentLevel>0)ball.center=CGPointMake(screenWidth*.5, startY+(endY-startY)*flashT);
+    }];
+    [ball.layer addAnimation:startFlash forKey:@"startFlash"];
+    
+    
+    CABasicAnimation *midFlash = [CABasicAnimation animationWithKeyPath:@"opacity"];
+    [midFlash setDuration:flashDuration];
+    [midFlash setFromValue:[NSNumber numberWithFloat:(currentLevel>0)?0.0f:ballAlpha]];
+    [midFlash setToValue:[NSNumber numberWithFloat:1.0f]];
+    [midFlash setBeginTime:currentTimeInSuperLayer+initDelay+flashDelay];
+    [CATransaction setCompletionBlock:^{
+        trialSequence=1;
+        float msOff=[aTimer elapsedSeconds]-flashDelay;
+        NSLog(@"midFlash   accuracy: %f sec",msOff);
+    }];
+    [ball.layer addAnimation:midFlash forKey:@"midFlash"];
+    
+    
+    [CATransaction commit];
+    
+    
+
+    
+    /*
     [UIView animateWithDuration:0
                           delay:initDelay
                         options:UIViewAnimationOptionCurveLinear
@@ -587,10 +630,8 @@
                          }
                         else [self performSelector:@selector(updateBall) withObject:self afterDelay:timerGoal];
 
-                         
-
                          //first flash
-                         [UIView animateWithDuration:0.001
+                         [UIView animateWithDuration:0.0
                                                delay:flashDuration
                                              options:UIViewAnimationOptionCurveLinear
                                           animations:^{
@@ -598,18 +639,23 @@
                                               else ball.alpha=dimAlpha;
                                           }
                                           completion:^(BOOL finished){
-                                              if(currentLevel>0){ball.center=CGPointMake(screenWidth*.5, startY+(endY-startY)*flashT);
-                                              }
+                                              float msOff=[aTimer elapsedSeconds];
+                                              NSLog(@"startFlash accuracy: %f sec",msOff);
+                                              if(currentLevel>0)ball.center=CGPointMake(screenWidth*.5, startY+(endY-startY)*flashT);
+                                              
                                           }];
     
                          //second flash
-                         [UIView animateWithDuration:0.001
-                                               delay:motionDelay
+                         [UIView animateWithDuration:0.0
+                                               delay:flashDelay
                                              options:UIViewAnimationOptionCurveLinear
                                           animations:^{
                                               ball.alpha=ballAlpha;
                                           }
                                           completion:^(BOOL finished){
+                                              float msOff=[aTimer elapsedSeconds]-flashDelay;
+                                              NSLog(@"midFlash   accuracy: %f sec",msOff);
+                                              
                                               [UIView animateWithDuration:0.001
                                                                     delay:flashDuration
                                                                   options:UIViewAnimationOptionCurveLinear
@@ -628,7 +674,7 @@
                          
                      }];
 
-    
+    */
 }
 
 -(void)positionBall:(BOOL)animate{
