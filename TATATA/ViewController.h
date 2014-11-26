@@ -24,7 +24,7 @@
     Dots *ball;
     Dots *catchZone;
     Dots *catchZoneCenter;
-    float ballAlpha;
+    double ballAlpha;
     
     float startY;
     float endY;
@@ -40,8 +40,8 @@
     UIView * midMarkL;
     UIView * midMarkR;
     
-    int allTimeTotalTrials;
-    int lastStage;
+    //int allTimeTotalTrials;
+    //int lastStage;
     Arc * arc;
     
     float flashT;
@@ -56,9 +56,9 @@
 #pragma mark - timing
     NSTimeInterval elapsed;
     NSTimeInterval timerGoal;
-    NSString *timeValuesFile;
+    //NSString *timeValuesFile;
     NSString *allTrialDataFile;
-    NSString *lastNTrialDataFile;
+    //NSString *lastNTrialDataFile;
 
     MachTimer* aTimer;
 
@@ -87,9 +87,9 @@
 
 
 
-@property (strong, nonatomic) NSMutableArray *trialData;
+//@property (strong, nonatomic) NSMutableArray *trialData;
 @property (strong, nonatomic) NSMutableArray *allTrialData;
-@property (strong, nonatomic) NSMutableArray *lastNTrialsData;
+//@property (strong, nonatomic) NSMutableArray *lastNTrialsData;
 //@property (strong, nonatomic) NSMutableArray *levelData;
 
 

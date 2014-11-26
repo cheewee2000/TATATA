@@ -243,7 +243,7 @@
 -(void)showStartScreen{
     currentLevel=0;
 
-    [self clearTrialData];
+  //  [self clearTrialData];
     
     [UIView animateWithDuration:0.4
                           delay:0.4
@@ -272,6 +272,7 @@
                                           completion:^(BOOL finished){
                                               [self showLabels:YES];
                                               [self animateLevelReset];
+                                              trialSequence=0;
                                           }];
                      }];
     
@@ -332,9 +333,10 @@
                                  [catchZone setFill:NO];
                                  [catchZone setColor:[UIColor whiteColor]];
             
-                                 [self saveAndSetLevel:currentLevel];
+                                 [self setLevel:currentLevel];
                                  [self animateLevelReset];
-                                 
+                                 trialSequence=-1;
+
                     [UIView animateWithDuration:0.4
                                           delay:0.4
                                         options:UIViewAnimationOptionCurveLinear
@@ -361,16 +363,14 @@
     else if(trialSequence==1){
         touched=YES;
         [self stop];
-        
-
     }
     
 }
 
 -(void)stop{
+    elapsed=[aTimer elapsedSeconds];
     trialSequence=-1;
     
-    elapsed=[aTimer elapsedSeconds];
     if([self isAccurate]){
         //            if([self getAccuracyFloat]<.5) [ball setColor:[UIColor greenColor]];
         //            else [ball setColor:[UIColor yellowColor]];
@@ -403,12 +403,10 @@
     
     [self positionBall:NO];
     ball.alpha=ballAlpha;
-    
+
     [self trialStopped];
     
     [self.view.layer removeAllAnimations];
-    
-    
 }
 
 -(void)saveTrialData{
@@ -420,7 +418,7 @@
     [myDictionary setObject:[NSNumber numberWithFloat:timerGoal] forKey:@"goal"];
     [myDictionary setObject:[NSNumber numberWithFloat:flashT] forKey:@"flashT"];
     [myDictionary setObject:[NSDate date] forKey:@"date"];
-    [self.trialData addObject:myDictionary];
+    [self.allTrialData addObject:myDictionary];
     [self saveValues];
 
     //save to parse
@@ -472,15 +470,15 @@
 -(void)loadTrialData{
     
     //load values
-    self.trialData = [[NSMutableArray alloc] init];
+//    self.trialData = [[NSMutableArray alloc] init];
     
     //Creating a file path under iOS:
-    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES);
-    timeValuesFile = [[paths objectAtIndex:0] stringByAppendingPathComponent:@"trialData.dat"];
-
-    //Load the array
-    self.trialData = [[NSMutableArray alloc] initWithContentsOfFile: timeValuesFile];
-    
+//    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES);
+//    timeValuesFile = [[paths objectAtIndex:0] stringByAppendingPathComponent:@"trialData.dat"];
+//
+//    //Load the array
+//    self.trialData = [[NSMutableArray alloc] initWithContentsOfFile: timeValuesFile];
+//    
     
     NSArray *docPath = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
 
@@ -503,36 +501,47 @@
     }
     
     
-    if(self.trialData == nil)
-    {
-        [self clearTrialData];
-    }
+//    if(self.trialData == nil)
+//    {
+//        [self clearTrialData];
+//    }
 }
 
--(void)clearTrialData{
-    //Array file didn't exist... create a new one
-    self.trialData = [[NSMutableArray alloc] init];
-    for (int i = 0; i <2 ; i++) {
-        NSMutableDictionary *myDictionary = [[NSMutableDictionary alloc] init];
-        [myDictionary setObject:[NSNumber numberWithFloat:0.0] forKey:@"accuracy"];
-        [myDictionary setObject:[NSNumber numberWithFloat:0.0] forKey:@"goal"];
-        [myDictionary setObject:[NSDate date] forKey:@"date"];
-        [myDictionary setObject:[NSNumber numberWithFloat:0.0] forKey:@"flashT"];
-        [self.trialData addObject:myDictionary];
-    }
-    
-    
-    [self saveValues];
-    
-}
+//-(void)clearTrialData{
+//    //Array file didn't exist... create a new one
+//    self.trialData = [[NSMutableArray alloc] init];
+//    for (int i = 0; i <2 ; i++) {
+//        NSMutableDictionary *myDictionary = [[NSMutableDictionary alloc] init];
+//        [myDictionary setObject:[NSNumber numberWithFloat:0.0] forKey:@"accuracy"];
+//        [myDictionary setObject:[NSNumber numberWithFloat:0.0] forKey:@"goal"];
+//        [myDictionary setObject:[NSDate date] forKey:@"date"];
+//        [myDictionary setObject:[NSNumber numberWithFloat:0.0] forKey:@"flashT"];
+//        [self.trialData addObject:myDictionary];
+//    }
+//    
+//    
+//    [self saveValues];
+//    
+//}
 
 -(void)saveValues{
-    [self.trialData writeToFile:timeValuesFile atomically:YES];
+   // [self.trialData writeToFile:timeValuesFile atomically:YES];
     [self.allTrialData writeToFile:allTrialDataFile atomically:YES];
 }
 
 #pragma mark - GameCenter
 -(void)reportScore{
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    if(currentLevel>0){
+        if(currentLevel>=best){
+            best=currentLevel;
+            [defaults setInteger:best forKey:@"best"];
+        }
+    }
+    [self updateHighscore];
+    [defaults synchronize];
+    
+    
     if(_leaderboardIdentifier){
         GKScore *score = [[GKScore alloc] initWithLeaderboardIdentifier:@"global.tatata"];
         score.value = best;
@@ -570,51 +579,54 @@
     double initDelay=.8;
     double flashDelay=timerGoal*(float)flashT;
     double flashDuration=.05;
-        
+    
     [ball setColor:[UIColor whiteColor]];
     [ball setNeedsDisplay];
     
     CFTimeInterval currentTime = CACurrentMediaTime();
     CFTimeInterval currentTimeInSuperLayer = [self.view.layer convertTime:currentTime fromLayer:nil];
 
-
+    //first flash
     [CATransaction begin];
     CABasicAnimation *startFlash = [CABasicAnimation animationWithKeyPath:@"opacity"];
     [startFlash setDuration:flashDuration];
-    [startFlash setFromValue:[NSNumber numberWithFloat:(currentLevel>0)?0.0f:ballAlpha]];
+    [startFlash setFromValue:[NSNumber numberWithFloat:0.0f]];
     [startFlash setToValue:[NSNumber numberWithFloat:1.0f]];
     [startFlash setBeginTime:currentTimeInSuperLayer+initDelay];
     [CATransaction setCompletionBlock:^{
         [aTimer start];
         if(currentLevel==0){
+            ball.alpha=dimAlpha;
             trialSequence=-2;
             [self updateBall];
         }
+        else [self performSelector:@selector(updateBall) withObject:self afterDelay:timerGoal];
+
         float msOff=[aTimer elapsedSeconds];
         NSLog(@"startFlash accuracy: %f sec",msOff);
         if(currentLevel>0)ball.center=CGPointMake(screenWidth*.5, startY+(endY-startY)*flashT);
     }];
     [ball.layer addAnimation:startFlash forKey:@"startFlash"];
     
-    
+    //second flash
     CABasicAnimation *midFlash = [CABasicAnimation animationWithKeyPath:@"opacity"];
     [midFlash setDuration:flashDuration];
     [midFlash setFromValue:[NSNumber numberWithFloat:(currentLevel>0)?0.0f:ballAlpha]];
     [midFlash setToValue:[NSNumber numberWithFloat:1.0f]];
     [midFlash setBeginTime:currentTimeInSuperLayer+initDelay+flashDelay];
     [CATransaction setCompletionBlock:^{
+        if(currentLevel==0) ball.alpha=dimAlpha;
         trialSequence=1;
         float msOff=[aTimer elapsedSeconds]-flashDelay;
         NSLog(@"midFlash   accuracy: %f sec",msOff);
     }];
     [ball.layer addAnimation:midFlash forKey:@"midFlash"];
     
-    
     [CATransaction commit];
     
     
 
-    
+    //old uiview animation
     /*
     [UIView animateWithDuration:0
                           delay:initDelay
@@ -680,18 +692,16 @@
 -(void)positionBall:(BOOL)animate{
     CGPoint p;
     if(elapsed==0)p=CGPointMake(screenWidth*.5, startY);
-    else p=CGPointMake(screenWidth*.5, startY+(endY-startY)*(float)elapsed/timerGoal );
+    else p=CGPointMake(screenWidth*.5, startY+(endY-startY)*(float)elapsed/(float)timerGoal );
     if(animate){
-    
-    [UIView animateWithDuration:0.2
-                          delay:0.0
-                        options:UIViewAnimationOptionCurveLinear
-                     animations:^{
-                         ball.center=p;
-                     }
-                     completion:^(BOOL finished){
-                         
-                     }];
+        [UIView animateWithDuration:0.2
+                              delay:0.0
+                            options:UIViewAnimationOptionCurveLinear
+                         animations:^{
+                             ball.center=p;
+                         }
+                         completion:^(BOOL finished){
+                         }];
     }
     else{
         ball.center=p;
@@ -799,46 +809,27 @@
     [self saveTrialData];
     
     if([self isAccurate]){
-        
-        //save current level now
-        currentLevel++;
         [self reportScore];
-        [self saveAndSetLevel:currentLevel];
+
+        currentLevel++;
+        [self setLevel:currentLevel];
         [self loadTrialData];
         [self performSelector:@selector(animateLevelReset) withObject:self afterDelay:0.8];
         
     }
     else{
-        [self saveAndSetLevel:currentLevel];
+        [self setLevel:currentLevel];
         [self restart];
     }
     
-    
-    allTimeTotalTrials++;
-    [[NSUserDefaults standardUserDefaults] setInteger:allTimeTotalTrials forKey:@"allTimeTotalTrials"];
     
 }
 
 
 
--(void)saveAndSetLevel:(int)level{
-    
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    //[defaults setInteger:level forKey:@"currentLevel"];
-    
-    if(level>0){
-            if(level>=best){
-            best=level;
-            [defaults setInteger:best forKey:@"best"];
-        }
-    }
-    [self updateHighscore];
-    [defaults synchronize];
-    
-    
+-(void)setLevel:(int)level{
     timerGoal=[self getLevel:level];
     flashT=[self getFlashT:level];
-    
 }
 
 
@@ -892,8 +883,10 @@
                                                             ball.alpha=0;
                                                         }
                                                         completion:^(BOOL finished){
-                                                            trialSequence=0;
-                                                            if(currentLevel>0)[self performSelector:@selector(buttonPressed) withObject:self afterDelay:.5];
+                                                            //autostart next level
+                                                            if(currentLevel>0){                                                            trialSequence=0;
+                                                                [self performSelector:@selector(buttonPressed) withObject:self afterDelay:.5];
+                                                            }
 
                                                         }];
                                    }];
@@ -929,7 +922,6 @@
 - (void)viewDidUnload
 {
     viewLoaded=false;
- //   [arc removeFromSuperview];
 
    [super viewDidUnload];
    // Release any retained subviews of the main view.
@@ -949,7 +941,7 @@
     {
         currentLevel=0;
         trialSequence=-1;
-        [self saveAndSetLevel:currentLevel];
+        [self setLevel:currentLevel];
         [self animateLevelReset];
     }
     
