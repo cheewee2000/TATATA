@@ -43,9 +43,6 @@
 
    #pragma mark - Persistent Variables
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-//    if([defaults objectForKey:@"currentLevel"] == nil) currentLevel=0;
-//    else currentLevel = (int)[defaults integerForKey:@"currentLevel"];
-    
     if([defaults objectForKey:@"best"] == nil) best=0;
     else best = (int)[defaults integerForKey:@"best"];
     
@@ -159,10 +156,7 @@
     gameCenterButton.frame = CGRectMake(bestLabelLabel.frame.size.width-58, -25, 88.0, 88.0);
     [bestLabelLabel addSubview:gameCenterButton];
     
-    
-    
-    
-    
+
     [self updateHighscore];
     
     
@@ -191,7 +185,7 @@
     introTitle=[[UILabel alloc] initWithFrame:CGRectMake(m, screenWidth*.22, w, screenWidth*.20)];
     introTitle.font = [UIFont fontWithName:@"DIN Condensed" size:screenWidth*.22];
     introTitle.adjustsFontSizeToFitWidth=YES;
-    introTitle.text=@"THIS IS TEMPRA";
+    introTitle.text=@"THIS IS TATATA";
     //introTitle.textColor=[self getForegroundColor:0];
     [intro addSubview:introTitle];
 
@@ -199,7 +193,7 @@
     introSubtitle=[[UILabel alloc] initWithFrame:CGRectMake(m, 15, w, 90)];
     introSubtitle.font = [UIFont fontWithName:@"DIN Condensed" size:32];
     introSubtitle.numberOfLines=3;
-    introSubtitle.text=@"TEST AND INCREASE YOUR TIME PERCEPTION";
+    introSubtitle.text=@"TEST";
     //introSubtitle.textColor=[self getForegroundColor:0];
     [intro addSubview:introSubtitle];
     
@@ -208,7 +202,7 @@
     introParagraph.font = [UIFont fontWithName:@"DIN Condensed" size:20];
     introParagraph.numberOfLines=10;
     introParagraph.textAlignment=NSTextAlignmentJustified;
-    introParagraph.text=@"For each trial, your goal is to get as close as possible to the displayed target time. Tap the screen or press the volume button to start the counter, then press stop when you think the right amount of time has elapsed. \n\nBreathe... relax, and focus on your internal sense of time.";
+    introParagraph.text=@"For each trial..";
     //introParagraph.textColor=[self getForegroundColor:0];
     [intro addSubview:introParagraph];
     
@@ -216,7 +210,7 @@
     credits.font = [UIFont fontWithName:@"HelveticaNeue" size:9];
     credits.numberOfLines=3;
     credits.textAlignment=NSTextAlignmentCenter;
-    credits.text=@"TEMPRA, 2014\nDesigned and built by Che-Wei Wang\nMIT Media Lab, Playful Systems";
+    credits.text=@"TATATA";
     //credits.textColor=[self getForegroundColor:0];
     [intro addSubview:credits];
     
@@ -420,7 +414,7 @@
     [myDictionary setObject:[NSNumber numberWithBool:([self isAccurate])? YES:NO] forKey:@"win"];
     [myDictionary setObject:localDateTime forKey:@"date"];
     [myDictionary setObject:[NSTimeZone localTimeZone].abbreviation forKey:@"timezone"];
-    [myDictionary setObject:[NSNumber numberWithBool: (touched)? @YES:@NO ] forKey:@"didTouch"];
+    [myDictionary setObject:[NSNumber numberWithBool: (touched)? YES:NO ] forKey:@"didTouch"];
 
     [self.allTrialData addObject:myDictionary];
     [self saveValues];
@@ -595,68 +589,6 @@
     [CATransaction commit];
     
     
-
-    //old uiview animation
-    /*
-    [UIView animateWithDuration:0
-                          delay:initDelay
-                        options:UIViewAnimationOptionCurveLinear
-                     animations:^{
-                         ball.alpha=ballAlpha;
-                     }
-                     completion:^(BOOL finished){
-                         [aTimer start];
-                         if(currentLevel==0){
-                             trialSequence=-2;
-                             [self updateBall];
-                         }
-                        else [self performSelector:@selector(updateBall) withObject:self afterDelay:timerGoal];
-
-                         //first flash
-                         [UIView animateWithDuration:0.0
-                                               delay:flashDuration
-                                             options:UIViewAnimationOptionCurveLinear
-                                          animations:^{
-                                              if(currentLevel>0)ball.alpha=0;
-                                              else ball.alpha=dimAlpha;
-                                          }
-                                          completion:^(BOOL finished){
-                                              float msOff=[aTimer elapsedSeconds];
-                                              NSLog(@"startFlash accuracy: %f sec",msOff);
-                                              if(currentLevel>0)ball.center=CGPointMake(screenWidth*.5, startY+(endY-startY)*flashT);
-                                              
-                                          }];
-    
-                         //second flash
-                         [UIView animateWithDuration:0.0
-                                               delay:flashDelay
-                                             options:UIViewAnimationOptionCurveLinear
-                                          animations:^{
-                                              ball.alpha=ballAlpha;
-                                          }
-                                          completion:^(BOOL finished){
-                                              float msOff=[aTimer elapsedSeconds]-flashDelay;
-                                              NSLog(@"midFlash   accuracy: %f sec",msOff);
-                                              
-                                              [UIView animateWithDuration:0.001
-                                                                    delay:flashDuration
-                                                                  options:UIViewAnimationOptionCurveLinear
-                                                               animations:^{
-                                                                   if(currentLevel>0)ball.alpha=0;
-                                                                   else ball.alpha=dimAlpha;
-                                                               }
-                                                               completion:^(BOOL finished){
-                                                                   //enabl stop button
-                                                                   trialSequence=1;
-
-                                             
-                                                               }];
-                                          }];
-                         
-                         
-                     }];
-
-    */
 }
 
 -(void)positionBall:(BOOL)animate{

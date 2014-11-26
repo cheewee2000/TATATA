@@ -40,8 +40,6 @@
     UIView * midMarkL;
     UIView * midMarkR;
     
-    //int allTimeTotalTrials;
-    //int lastStage;
     Arc * arc;
     
     float flashT;
@@ -56,20 +54,14 @@
 #pragma mark - timing
     NSTimeInterval elapsed;
     NSTimeInterval timerGoal;
-    //NSString *timeValuesFile;
     NSString *allTrialDataFile;
-    //NSString *lastNTrialDataFile;
-
     MachTimer* aTimer;
 
     
     #pragma mark - points
     int best;
     int currentLevel;
-    
-    float start;
-    CGPoint offset;
-    
+
     
     #pragma mark - intro
     UIView *intro;
@@ -86,13 +78,7 @@
 }
 
 
-
-//@property (strong, nonatomic) NSMutableArray *trialData;
 @property (strong, nonatomic) NSMutableArray *allTrialData;
-//@property (strong, nonatomic) NSMutableArray *lastNTrialsData;
-//@property (strong, nonatomic) NSMutableArray *levelData;
-
-
 @property BOOL gameCenterEnabled;
 @property NSString *leaderboardIdentifier;
 
