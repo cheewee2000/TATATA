@@ -39,12 +39,16 @@
 
     UIView * midMarkL;
     UIView * midMarkR;
-    
+    UIView * midMarkLine;
+
     Arc * arc;
     
     float flashT;
     UIColor *bgColor;
     UIColor *fgColor;
+    UIColor *flashColor;
+    UIColor *strokeColor;
+
     
     UIButton *gameCenterButton;
     

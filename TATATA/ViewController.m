@@ -34,6 +34,9 @@
     screenWidth=self.view.frame.size.width;
     bgColor=[UIColor colorWithWhite:.15 alpha:1];
     fgColor=[UIColor colorWithRed:255/255 green:163/255.0 blue:0 alpha:1];
+    flashColor=[UIColor colorWithWhite:1 alpha:1];
+    strokeColor=[UIColor colorWithWhite:.8 alpha:1];
+
     dimAlpha=.02;
     
     aTimer = [MachTimer timer];
@@ -57,7 +60,7 @@
     catchZone.center=CGPointMake(screenWidth*.5, endY);
     catchZone.backgroundColor = [UIColor clearColor];
     catchZone.alpha=1;
-    [catchZone setColor:[UIColor whiteColor]];
+    [catchZone setColor:strokeColor];
     [catchZone setFill:NO];
     [self.view addSubview:catchZone];
     
@@ -65,7 +68,7 @@
     catchZoneCenter.center=catchZone.center;
     catchZoneCenter.backgroundColor = [UIColor clearColor];
     catchZoneCenter.alpha=1;
-    [catchZoneCenter setColor:[UIColor whiteColor]];
+    [catchZoneCenter setColor:strokeColor];
     [catchZoneCenter setFill:YES];
     [self.view addSubview:catchZoneCenter];
     
@@ -75,7 +78,7 @@
     ball.center=CGPointMake(screenWidth*.5, startY);
     ball.backgroundColor = [UIColor clearColor];
     ball.alpha=0;
-    [ball setColor:[UIColor whiteColor]];
+    [ball setColor:strokeColor];
     [ball setFill:NO];
     //ball.lineWidth=ball.frame.size.width*.5-2;
     
@@ -98,7 +101,7 @@
     scoreLabel.textAlignment = NSTextAlignmentCenter;
     scoreLabel.backgroundColor = [UIColor clearColor];
     scoreLabel.font = [UIFont fontWithName:@"HelveticaNeue-Ultralight" size:78];
-    scoreLabel.textColor=[UIColor colorWithWhite:.8 alpha:1];
+    scoreLabel.textColor=strokeColor;
     scoreLabel.alpha=0;
     [self.view addSubview:scoreLabel];
     
@@ -108,12 +111,12 @@
     scoreLabelLabel.textAlignment = NSTextAlignmentCenter;
     scoreLabelLabel.backgroundColor = [UIColor clearColor];
     scoreLabelLabel.font = [UIFont fontWithName:@"HelveticaNeue-Ultralight" size:14];
-    scoreLabelLabel.textColor=[UIColor colorWithWhite:.8 alpha:1];
+    scoreLabelLabel.textColor=strokeColor;
     scoreLabelLabel.alpha=0;
     [self.view addSubview:scoreLabelLabel];
     
     scoreLabelLine=[[UILabel alloc] initWithFrame:CGRectMake(0,0, scoreLabelLabel.frame.size.width, .5)];
-    scoreLabelLine.backgroundColor = [UIColor whiteColor];
+    scoreLabelLine.backgroundColor = strokeColor;
     [scoreLabelLabel addSubview:scoreLabelLine];
     
     
@@ -123,7 +126,7 @@
     bestLabel.textAlignment = NSTextAlignmentCenter;
     bestLabel.backgroundColor = [UIColor clearColor];
     bestLabel.font = [UIFont fontWithName:@"HelveticaNeue-Ultralight" size:78];
-    bestLabel.textColor=[UIColor colorWithWhite:.8 alpha:1];
+    bestLabel.textColor=strokeColor;
     bestLabel.alpha=0;
     [self.view addSubview:bestLabel];
     
@@ -133,14 +136,14 @@
     bestLabelLabel.textAlignment = NSTextAlignmentCenter;
     bestLabelLabel.backgroundColor = [UIColor clearColor];
     bestLabelLabel.font = [UIFont fontWithName:@"HelveticaNeue-Ultralight" size:14];
-    bestLabelLabel.textColor=[UIColor colorWithWhite:.8 alpha:1];
+    bestLabelLabel.textColor=strokeColor;
     bestLabelLabel.alpha=0;
     [bestLabelLabel setUserInteractionEnabled:YES];
     
     [self.view addSubview:bestLabelLabel];
     
     bestLabelLine=[[UILabel alloc] initWithFrame:CGRectMake(0,0, bestLabelLabel.frame.size.width, .5)];
-    bestLabelLine.backgroundColor = [UIColor whiteColor];
+    bestLabelLine.backgroundColor = strokeColor;
     [bestLabelLabel addSubview:bestLabelLine];
     
 
@@ -161,16 +164,25 @@
     
     
 #pragma mark - Mid Marks
-    midMarkL=[[UIView alloc] initWithFrame:CGRectMake(0, 0, 5, 15)];
-    midMarkL.backgroundColor=[UIColor whiteColor];
+    int markWidth=20;
+    
+    midMarkLine=[[UIView alloc] initWithFrame:CGRectMake(0, 0, screenWidth, 1)];
+    midMarkLine.backgroundColor=strokeColor;
+    midMarkLine.alpha=dimAlpha;
+    [self.view addSubview:midMarkLine];
+    
+    
+    midMarkL=[[UIView alloc] initWithFrame:CGRectMake(0, 0, markWidth, 15)];
+    midMarkL.backgroundColor=strokeColor;
     [self.view addSubview:midMarkL];
     
-    midMarkR=[[UIView alloc] initWithFrame:CGRectMake(screenWidth-5, 0, 5, 15)];
-    midMarkR.backgroundColor=[UIColor whiteColor];
+    midMarkR=[[UIView alloc] initWithFrame:CGRectMake(screenWidth-markWidth, 0, markWidth, 15)];
+    midMarkR.backgroundColor=strokeColor;
     [self.view addSubview:midMarkR];
     
     midMarkL.alpha=dimAlpha;
     midMarkR.alpha=dimAlpha;
+
     
 #pragma mark - intro
     intro=[[UIView alloc] initWithFrame:self.view.frame];
@@ -216,14 +228,18 @@
     
     intro.alpha=0;
     
-    UITapGestureRecognizer *tapGestureRecognizer3 = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(buttonPressed)];
-    tapGestureRecognizer3.numberOfTouchesRequired = 1;
-    tapGestureRecognizer3.numberOfTapsRequired = 1;
-    [self.view addGestureRecognizer:tapGestureRecognizer3];
-    self.view.userInteractionEnabled=YES;
+//    UITapGestureRecognizer *tapGestureRecognizer3 = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(buttonPressed)];
+//    tapGestureRecognizer3.numberOfTouchesRequired = 1;
+//    tapGestureRecognizer3.numberOfTapsRequired = 1;
+//    [self.view addGestureRecognizer:tapGestureRecognizer3];
+//    self.view.userInteractionEnabled=YES;
     
     //currentLevel=11;
     [self restart];
+}
+
+-(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
+    [self buttonPressed];
 }
 
 
@@ -313,6 +329,7 @@
 
         if(currentLevel==0){
 
+
             [UIView animateWithDuration:0.4
                                   delay:0.4
                                 options:UIViewAnimationOptionCurveLinear
@@ -322,7 +339,7 @@
                              }
                              completion:^(BOOL finished){
                                  [catchZone setFill:NO];
-                                 [catchZone setColor:[UIColor whiteColor]];
+                                 [catchZone setColor:strokeColor];
             
                                  [self setLevel:currentLevel];
                                  [self animateLevelReset];
@@ -341,6 +358,8 @@
                                      completion:^(BOOL finished){
                                          trialSequence=-1;
 
+                                         //rest scoreboard
+                                         [self updateHighscore];
                                          [self startTrialSequence];
                                      }];
                              }];
@@ -376,7 +395,7 @@
                               delay:0.0
                             options:UIViewAnimationOptionCurveLinear
                          animations:^{
-                             self.view.backgroundColor=[UIColor whiteColor];
+                             self.view.backgroundColor=flashColor;
                          }
                          completion:^(BOOL finished){
                              [UIView animateWithDuration:0.4
@@ -544,7 +563,7 @@
     double flashDelay=timerGoal*(float)flashT;
     double flashDuration=.05;
     
-    [ball setColor:[UIColor whiteColor]];
+    [ball setColor:strokeColor];
     [ball setNeedsDisplay];
     
     CFTimeInterval currentTime = CACurrentMediaTime();
@@ -585,6 +604,22 @@
         NSLog(@"midFlash   accuracy: %f sec",msOff);
     }];
     [ball.layer addAnimation:midFlash forKey:@"midFlash"];
+    [midMarkLine.layer addAnimation:midFlash forKey:@"midFlash"];
+
+    
+    //flash midMarks
+    CABasicAnimation *flagFlash = [CABasicAnimation animationWithKeyPath:@"backgroundColor"];
+    [flagFlash setDuration:flashDuration];
+    flagFlash.fromValue = (id)[midMarkL.layer backgroundColor];
+    flagFlash.toValue = (id)flashColor.CGColor;
+    [flagFlash setBeginTime:currentTimeInSuperLayer+initDelay+flashDelay];
+    [CATransaction setCompletionBlock:^{
+
+        
+    }];
+    [midMarkL.layer addAnimation:flagFlash forKey:@"backgroundColor"];
+    
+    
     
     [CATransaction commit];
     
@@ -765,6 +800,7 @@
                                        //set mid markers
                                        midMarkL.center=CGPointMake(midMarkL.center.x, startY+(endY-startY)*flashT);
                                        midMarkR.center=CGPointMake(midMarkR.center.x, startY+(endY-startY)*flashT);
+                                       midMarkLine.center=CGPointMake(midMarkLine.center.x, startY+(endY-startY)*flashT);
 
                                        
                                    }
