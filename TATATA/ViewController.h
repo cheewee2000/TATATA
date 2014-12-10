@@ -21,9 +21,14 @@
     int screenWidth,screenHeight;
     int trialSequence;
 
+    Arc * arc;
+    //Dots *startZoneFlash;
+    
     Dots *ball;
     Dots *catchZone;
     Dots *catchZoneCenter;
+    //Dots *catchZoneFlash;
+
     double ballAlpha;
     
     float startY;
@@ -41,8 +46,8 @@
     UIView * midMarkR;
     UIView * midMarkLine;
 
-    Arc * arc;
-    
+
+
     float flashT;
     UIColor *bgColor;
     UIColor *fgColor;
@@ -54,6 +59,8 @@
     
     float dimAlpha;
     BOOL touched;
+    
+    BOOL allowBallResize;
     
 #pragma mark - timing
     NSTimeInterval elapsed;

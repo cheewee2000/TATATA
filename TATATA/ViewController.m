@@ -37,6 +37,7 @@
     flashColor=[UIColor colorWithWhite:1 alpha:1];
     strokeColor=[UIColor colorWithWhite:.8 alpha:1];
 
+    allowBallResize=false;
     dimAlpha=.02;
     
     aTimer = [MachTimer timer];
@@ -55,7 +56,7 @@
 #pragma mark - Ball
     startY=screenHeight*.5-200;
     endY=screenHeight*.5+200;
-
+    
     catchZone=[[Dots alloc] initWithFrame:CGRectMake(0,0, 88, 88)];
     catchZone.center=CGPointMake(screenWidth*.5, endY);
     catchZone.backgroundColor = [UIColor clearColor];
@@ -72,9 +73,17 @@
     [catchZoneCenter setFill:YES];
     [self.view addSubview:catchZoneCenter];
     
+//    catchZoneFlash=[[Dots alloc] initWithFrame:CGRectMake(0,0, 88, 88)];
+//    catchZoneFlash.center=catchZone.center;
+//    catchZoneFlash.backgroundColor = [UIColor clearColor];
+//    catchZoneFlash.alpha=0;
+//    [catchZoneFlash setColor:flashColor];
+//    [catchZoneFlash setFill:YES];
+//    [self.view addSubview:catchZoneFlash];
+//    [self.view sendSubviewToBack:catchZoneFlash];
     
     ballAlpha=.9;
-    ball=[[Dots alloc] initWithFrame:CGRectMake(0, 0, 40, 40)];
+    ball=[[Dots alloc] initWithFrame:CGRectMake(0, 0, 60, 60)];
     ball.center=CGPointMake(screenWidth*.5, startY);
     ball.backgroundColor = [UIColor clearColor];
     ball.alpha=0;
@@ -92,6 +101,14 @@
     [self.view addSubview:arc];
     arc.alpha=dimAlpha;
     
+//    startZoneFlash=[[Dots alloc] initWithFrame:arc.frame];
+//    startZoneFlash.center=ball.center;
+//    startZoneFlash.backgroundColor = [UIColor clearColor];
+//    startZoneFlash.alpha=0;
+//    [startZoneFlash setColor:flashColor];
+//    [startZoneFlash setFill:YES];
+//    [self.view addSubview:startZoneFlash];
+//    [self.view sendSubviewToBack:startZoneFlash];
     
 #pragma mark - Labels
     
@@ -381,6 +398,25 @@
     elapsed=[aTimer elapsedSeconds];
     trialSequence=-1;
     
+    double flashDuration=.05;
+
+    //catchzone flash
+    //flash midMarks
+    [CATransaction begin];
+    CABasicAnimation *flagFlash = [CABasicAnimation animationWithKeyPath:@"backgroundColor"];
+    [flagFlash setDuration:flashDuration];
+    flagFlash.fromValue = (id)[midMarkL.layer backgroundColor];
+    flagFlash.toValue = (id)flashColor.CGColor;
+    [CATransaction setCompletionBlock:^{
+
+    }];
+    [midMarkL.layer addAnimation:flagFlash forKey:@"backgroundColor"];
+    
+    
+    
+    [CATransaction commit];
+    
+    
     if([self isAccurate]){
         //            if([self getAccuracyFloat]<.5) [ball setColor:[UIColor greenColor]];
         //            else [ball setColor:[UIColor yellowColor]];
@@ -590,7 +626,7 @@
         if(currentLevel>0)ball.center=CGPointMake(screenWidth*.5, startY+(endY-startY)*flashT);
     }];
     [ball.layer addAnimation:startFlash forKey:@"startFlash"];
-    
+
     //second flash
     CABasicAnimation *midFlash = [CABasicAnimation animationWithKeyPath:@"opacity"];
     [midFlash setDuration:flashDuration];
@@ -668,7 +704,11 @@
 }
 
 -(float)getLevelAccuracy:(int)level{
-    return .2;
+    
+    //return .2;
+    
+    return timerGoal*.1;
+    
 }
 
 -(float)getFlashT:(int)level{
@@ -784,11 +824,12 @@
                                    animations:^{
                                        float catchZoneDiameter=[self getLevelAccuracy:currentLevel]*(startY-endY)/timerGoal*2.0;
 
-                                       catchZone.frame=CGRectMake(0, 0, catchZoneDiameter, catchZoneDiameter);
+                                       //if(allowBallResize)
+                                        catchZone.frame=CGRectMake(0, 0, catchZoneDiameter, catchZoneDiameter);
                                        catchZone.center=CGPointMake(screenWidth*.5, endY);
                                        [catchZone setNeedsDisplay];
 
-                                       ball.frame=CGRectMake(0,0, catchZoneDiameter*.8, catchZoneDiameter*.8);
+                                       if(allowBallResize)ball.frame=CGRectMake(0,0, catchZoneDiameter*.8, catchZoneDiameter*.8);
                                        ball.center=CGPointMake(screenWidth*.5, startY);
                                        ball.lineWidth=ball.frame.size.width*.33-2;
                                        [ball setNeedsDisplay];
