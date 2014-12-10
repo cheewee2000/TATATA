@@ -38,7 +38,7 @@
     strokeColor=[UIColor colorWithWhite:.8 alpha:1];
 
     allowBallResize=false;
-    dimAlpha=.02;
+    dimAlpha=.04;
     
     aTimer = [MachTimer timer];
     viewLoaded=false;
@@ -53,6 +53,10 @@
     if([defaults objectForKey:@"showIntro"] == nil) showIntro=true;
     else showIntro = (int)[defaults integerForKey:@"showIntro"];
 
+    
+
+    
+    
 #pragma mark - Ball
     startY=screenHeight*.5-200;
     endY=screenHeight*.5+200;
@@ -251,12 +255,39 @@
 //    [self.view addGestureRecognizer:tapGestureRecognizer3];
 //    self.view.userInteractionEnabled=YES;
     
+    NSLog(@"Getting the latest config...");
+    [PFConfig getConfigInBackgroundWithBlock:^(PFConfig *config, NSError *error) {
+        if (!error) {
+            NSLog(@"Yay! Config was fetched from the server.");
+        } else {
+            NSLog(@"Failed to fetch. Using Cached Config.");
+            config = [PFConfig currentConfig];
+        }
+        
+        float catchZoneDiameter = [config[@"catchZoneDiameter"]floatValue];
+        if(catchZoneDiameter){
+            
+            catchZone.frame=CGRectMake(0, 0, catchZoneDiameter, catchZoneDiameter);
+            catchZone.center=CGPointMake(screenWidth*.5, endY);
+        }
+
+    }];
+    
+
+    
     //currentLevel=11;
     [self restart];
 }
 
 -(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
     [self buttonPressed];
+    
+    UITouch *touch = [[event allTouches] anyObject];
+    CGPoint touchPoint = [touch locationInView:self.view];
+    //NSLog(@"Touch x : %f y : %f", touchPoint.x, touchPoint.y);
+    touchX=touchPoint.x;
+    touchY=touchPoint.y;
+    
 }
 
 
@@ -348,7 +379,7 @@
 
 
             [UIView animateWithDuration:0.4
-                                  delay:0.4
+                                  delay:0.0
                                 options:UIViewAnimationOptionCurveLinear
                              animations:^{
                                  catchZone.alpha=0;
@@ -397,24 +428,6 @@
 -(void)stop{
     elapsed=[aTimer elapsedSeconds];
     trialSequence=-1;
-    
-    double flashDuration=.05;
-
-    //catchzone flash
-    //flash midMarks
-    [CATransaction begin];
-    CABasicAnimation *flagFlash = [CABasicAnimation animationWithKeyPath:@"backgroundColor"];
-    [flagFlash setDuration:flashDuration];
-    flagFlash.fromValue = (id)[midMarkL.layer backgroundColor];
-    flagFlash.toValue = (id)flashColor.CGColor;
-    [CATransaction setCompletionBlock:^{
-
-    }];
-    [midMarkL.layer addAnimation:flagFlash forKey:@"backgroundColor"];
-    
-    
-    
-    [CATransaction commit];
     
     
     if([self isAccurate]){
@@ -470,7 +483,10 @@
     [myDictionary setObject:localDateTime forKey:@"date"];
     [myDictionary setObject:[NSTimeZone localTimeZone].abbreviation forKey:@"timezone"];
     [myDictionary setObject:[NSNumber numberWithBool: (touched)? YES:NO ] forKey:@"didTouch"];
-
+    if(touched){
+        [myDictionary setObject:[NSNumber numberWithFloat: touchX ] forKey:@"touchX"];
+        [myDictionary setObject:[NSNumber numberWithFloat: touchY ] forKey:@"touchY"];
+    }
     [self.allTrialData addObject:myDictionary];
     [self saveValues];
 
@@ -484,7 +500,10 @@
     pObject[@"date"]=localDateTime;
     pObject[@"timezone"]=[NSString stringWithFormat:@"%@",[NSTimeZone localTimeZone].abbreviation];
     pObject[@"didTouch"]=(touched)? @YES:@NO;
-
+    if(touched){
+        pObject[@"touchX"]=[NSNumber numberWithFloat: touchX ];
+        pObject[@"touchY"]=[NSNumber numberWithFloat: touchY ];
+    }
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     NSString*uuid;
     if([defaults stringForKey:@"uuid"] == nil){
@@ -644,16 +663,16 @@
 
     
     //flash midMarks
-    CABasicAnimation *flagFlash = [CABasicAnimation animationWithKeyPath:@"backgroundColor"];
-    [flagFlash setDuration:flashDuration];
-    flagFlash.fromValue = (id)[midMarkL.layer backgroundColor];
-    flagFlash.toValue = (id)flashColor.CGColor;
-    [flagFlash setBeginTime:currentTimeInSuperLayer+initDelay+flashDelay];
-    [CATransaction setCompletionBlock:^{
-
-        
-    }];
-    [midMarkL.layer addAnimation:flagFlash forKey:@"backgroundColor"];
+//    CABasicAnimation *flagFlash = [CABasicAnimation animationWithKeyPath:@"backgroundColor"];
+//    [flagFlash setDuration:flashDuration];
+//    flagFlash.fromValue = (id)[midMarkL.layer backgroundColor];
+//    flagFlash.toValue = (id)flashColor.CGColor;
+//    [flagFlash setBeginTime:currentTimeInSuperLayer+initDelay+flashDelay];
+//    [CATransaction setCompletionBlock:^{
+//
+//        
+//    }];
+//    [midMarkL.layer addAnimation:flagFlash forKey:@"backgroundColor"];
     
     
     

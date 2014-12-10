@@ -46,8 +46,6 @@
     UIView * midMarkR;
     UIView * midMarkLine;
 
-
-
     float flashT;
     UIColor *bgColor;
     UIColor *fgColor;
@@ -59,6 +57,7 @@
     
     float dimAlpha;
     BOOL touched;
+    float touchX,touchY;
     
     BOOL allowBallResize;
     

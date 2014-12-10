@@ -15,6 +15,9 @@
     [[UIApplication sharedApplication] setIdleTimerDisabled:YES];
     [[UIApplication sharedApplication] setStatusBarHidden:YES];
     
+    
+    //[ParseCrashReporting enable];
+
     [Parse setApplicationId:@"bYOBEce4TlOAtXs7Y9BxrsEIVLYOqfMxsLLVjNAj"
                   clientKey:@"ykory1V1jt9Q3gNG0tZX27nSCEsXRU92t2bkw6CP"];
     [PFAnalytics trackAppOpenedWithLaunchOptions:launchOptions];
