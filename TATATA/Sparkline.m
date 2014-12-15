@@ -10,7 +10,6 @@
 
 @implementation Sparkline
 
-
 @synthesize yValues;
 
 - (id)initWithFrame:(CGRect)frame
@@ -29,9 +28,7 @@
     int kBarWidth=self.frame.size.width/40.0;
     float maxBarHeight = self.frame.size.height;
     float maxValue = [[yValues valueForKeyPath:@"@max.integerValue"] integerValue];
-    int nBars=self.frame.size.width/kBarWidth;
-    //if(nBars>yValues.count)
-    nBars=(int)yValues.count;
+    int nBars=(int)yValues.count;
     
     for (int i = nBars-1; i >=0; i--)
     {
@@ -41,7 +38,7 @@
         UIColor *c=[UIColor colorWithWhite:.8 alpha:1];
         if([yValues[i] integerValue]==maxValue)c=[UIColor colorWithRed:255/255 green:163/255.0 blue:0 alpha:1];
         [self drawBar:barRect context:ctx color:c];
-        if(barX<=2)return;
+        if(barX<=kBarWidth)return;
     }
 }
 
@@ -57,8 +54,7 @@
     CGContextFillPath(ctx);
 }
 
-// Only override drawRect: if you perform custom drawing.
-// An empty implementation adversely affects performance during animation.
+
 - (void)drawRect:(CGRect)rect
 {
     CGContextRef context = UIGraphicsGetCurrentContext();
