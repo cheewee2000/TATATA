@@ -12,6 +12,7 @@
 #import <GameKit/GameKit.h>
 #import "MachTimer.h"
 #import "Arc.h"
+#import "Sparkline.h"
 
 @interface ViewController : UIViewController <GKGameCenterControllerDelegate>
 
@@ -66,11 +67,16 @@
     NSTimeInterval timerGoal;
     NSString *allTrialDataFile;
     MachTimer* aTimer;
+    NSTimeInterval touchLength;
+    NSTimeInterval touchStartTime;
 
     
     #pragma mark - points
     int best;
     int currentLevel;
+    Sparkline *scoreGraph;
+    NSMutableArray *scoreHistory;
+    NSString *scoreHistoryDataFile;
 
     
     #pragma mark - intro

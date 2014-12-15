@@ -116,6 +116,7 @@
     
 #pragma mark - Labels
     
+    
     scoreLabel=[[UILabel alloc] initWithFrame:CGRectMake(0,0, screenWidth, 160)];
     scoreLabel.center=CGPointMake(screenWidth/2.0, startY);
     scoreLabel.text=@"0";
@@ -140,6 +141,9 @@
     scoreLabelLine.backgroundColor = strokeColor;
     [scoreLabelLabel addSubview:scoreLabelLine];
     
+    scoreGraph=[[Sparkline alloc] initWithFrame:CGRectMake(0,-20, scoreLabelLabel.frame.size.width, 20)];
+    [scoreLabelLabel addSubview:scoreGraph];
+
     
     bestLabel=[[UILabel alloc] initWithFrame:CGRectMake(0,0, screenWidth, 160)];
     bestLabel.center=CGPointMake(screenWidth/2.0, screenHeight*.5);
@@ -186,18 +190,19 @@
     
 #pragma mark - Mid Marks
     int markWidth=20;
-    
+    int markHeight=5;
+
     midMarkLine=[[UIView alloc] initWithFrame:CGRectMake(0, 0, screenWidth, 1)];
     midMarkLine.backgroundColor=strokeColor;
     midMarkLine.alpha=dimAlpha;
     [self.view addSubview:midMarkLine];
     
     
-    midMarkL=[[UIView alloc] initWithFrame:CGRectMake(0, 0, markWidth, 15)];
+    midMarkL=[[UIView alloc] initWithFrame:CGRectMake(0, 0, markWidth, markHeight)];
     midMarkL.backgroundColor=strokeColor;
     [self.view addSubview:midMarkL];
     
-    midMarkR=[[UIView alloc] initWithFrame:CGRectMake(screenWidth-markWidth, 0, markWidth, 15)];
+    midMarkR=[[UIView alloc] initWithFrame:CGRectMake(screenWidth-markWidth, 0, markWidth, markHeight)];
     midMarkR.backgroundColor=strokeColor;
     [self.view addSubview:midMarkR];
     
@@ -207,8 +212,8 @@
     
 #pragma mark - intro
     intro=[[UIView alloc] initWithFrame:self.view.frame];
-    //intro.backgroundColor=[self getBackgroundColor:0];
-    //[self.view addSubview:intro];
+    intro.backgroundColor=bgColor;
+    [self.view addSubview:intro];
     
     int m=15;
     int w=screenWidth-m*2.0;
@@ -278,6 +283,7 @@
     //currentLevel=11;
     [self restart];
 }
+#pragma mark - touch
 
 -(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
     [self buttonPressed];
@@ -288,8 +294,16 @@
     touchX=touchPoint.x;
     touchY=touchPoint.y;
     
+    touchStartTime=[aTimer elapsedSeconds];
+    
 }
+- (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
+    touchLength=[aTimer elapsedSeconds]-touchStartTime;
+    if(touched){
+        [self trialStopped];
+    }
 
+}
 
 #pragma mark - restart
 
@@ -463,12 +477,14 @@
     [self positionBall:NO];
     ball.alpha=ballAlpha;
 
-    [self trialStopped];
+//    [self trialStopped];
     
     [self.view.layer removeAllAnimations];
 }
 
 -(void)saveTrialData{
+    
+
     
     NSDate* localDateTime = [NSDate dateWithTimeInterval:[[NSTimeZone systemTimeZone] secondsFromGMT] sinceDate:[NSDate date]];
 
@@ -486,9 +502,11 @@
     if(touched){
         [myDictionary setObject:[NSNumber numberWithFloat: touchX ] forKey:@"touchX"];
         [myDictionary setObject:[NSNumber numberWithFloat: touchY ] forKey:@"touchY"];
+        [myDictionary setObject:[NSNumber numberWithFloat: touchLength ] forKey:@"touchLength"];
+
     }
     [self.allTrialData addObject:myDictionary];
-    [self saveValues];
+    [self.allTrialData writeToFile:allTrialDataFile atomically:YES];
 
     //save to parse
     PFObject *pObject = [PFObject objectWithClassName:@"results"];
@@ -503,6 +521,7 @@
     if(touched){
         pObject[@"touchX"]=[NSNumber numberWithFloat: touchX ];
         pObject[@"touchY"]=[NSNumber numberWithFloat: touchY ];
+        pObject[@"touchLength"]=[NSNumber numberWithFloat:touchLength];
     }
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     NSString*uuid;
@@ -515,6 +534,9 @@
     pObject[@"uuid"]=uuid;
     
     if(currentUser!=nil) pObject[@"user"]=currentUser;
+    
+    PFInstallation *currentInstallation = [PFInstallation currentInstallation];
+    if(currentInstallation!=nil)pObject[@"installation"]=currentInstallation;
     
     [pObject saveEventually];
 
@@ -550,24 +572,38 @@
     if(self.allTrialData == nil){
         
         self.allTrialData = [[NSMutableArray alloc] init];
-        for (int i = 0; i <2 ; i++) {
-            NSMutableDictionary *myDictionary = [[NSMutableDictionary alloc] init];
-            [myDictionary setObject:[NSNumber numberWithFloat:0.0] forKey:@"accuracy"];
-            [myDictionary setObject:[NSNumber numberWithFloat:0.0] forKey:@"goal"];
-            [myDictionary setObject:[NSDate date] forKey:@"date"];
-            [myDictionary setObject:[NSNumber numberWithFloat:0.0] forKey:@"flashT"];
+        //for (int i = 0; i <1 ; i++) {
+        NSMutableDictionary *myDictionary = [[NSMutableDictionary alloc] init];
+        [myDictionary setObject:[NSNumber numberWithFloat:0.0] forKey:@"accuracy"];
+        [myDictionary setObject:[NSNumber numberWithFloat:0.0] forKey:@"goal"];
+        [myDictionary setObject:[NSDate date] forKey:@"date"];
+        [myDictionary setObject:[NSNumber numberWithFloat:0.0] forKey:@"flashT"];
 
-            [self.allTrialData addObject:myDictionary];
-        }
-        [self saveValues];
+        [self.allTrialData addObject:myDictionary];
+    
+        [self.allTrialData writeToFile:allTrialDataFile atomically:YES];
     }
+    
+    
+    scoreHistory = [[NSMutableArray alloc] init];
+    scoreHistoryDataFile = [[docPath objectAtIndex:0] stringByAppendingPathComponent:@"scoreHistory.dat"];
+    scoreHistory = [[NSMutableArray alloc] initWithContentsOfFile: scoreHistoryDataFile];
+    if(scoreHistory == nil){
+        
+        scoreHistory = [[NSMutableArray alloc] init];
+        [scoreHistory addObject:[NSNumber numberWithInteger:0]];
+        [scoreHistory writeToFile:scoreHistoryDataFile atomically:YES];
+    }
+    
+    scoreGraph.yValues=scoreHistory;
+    [scoreGraph setNeedsDisplay];
+    
 
 }
 
 
--(void)saveValues{
-    [self.allTrialData writeToFile:allTrialDataFile atomically:YES];
-}
+
+
 
 #pragma mark - GameCenter
 -(void)reportScore{
@@ -616,7 +652,7 @@
 -(void)startTrialSequence{
     double initDelay=.8;
     double flashDelay=timerGoal*(float)flashT;
-    double flashDuration=.05;
+    double flashDuration=.07;
     
     [ball setColor:strokeColor];
     [ball setNeedsDisplay];
@@ -784,6 +820,7 @@
         
         if(ball.center.y>=screenHeight){
             [self stop];
+            [self trialStopped];
         }
     }
 
@@ -807,6 +844,13 @@
         
     }
     else{
+        [scoreHistory  addObject:[NSNumber numberWithInteger:currentLevel]];
+        [scoreHistory writeToFile:scoreHistoryDataFile atomically:YES];
+        scoreGraph.yValues=scoreHistory;
+
+        [scoreGraph setNeedsDisplay];
+
+        
         [self setLevel:currentLevel];
         [self restart];
     }
@@ -927,6 +971,7 @@
 
 - (void)viewDidAppear:(BOOL)animated
 {
+    [self loadTrialData];
 
     //if(viewLoaded==false)
     {
@@ -969,6 +1014,12 @@
                 }
                 else uuid =[defaults stringForKey:@"uuid"];
                 currentUser[@"uuid"]=uuid;
+                
+                PFInstallation *currentInstallation = [PFInstallation currentInstallation];
+                currentUser[@"installation"]=currentInstallation;
+//                currentInstallation[@"user"]=currentUser;
+//                [currentInstallation saveEventually];
+                
                 [currentUser saveEventually];
 
             }
