@@ -11,13 +11,9 @@
 	<key>fonts</key>
 	<array>
 		<string>Chalet-NewYorkNineteenSixty</string>
-		<string>AvenirNext-Bold</string>
-		<string>AvenirNext-Regular</string>
-		<string>Palatino-Italic</string>
-		<string>AvenirNext-Medium</string>
 	</array>
 	<key>length</key>
-	<integer>544885</integer>
+	<integer>337588</integer>
 	<key>version</key>
 	<integer>37</integer>
 </dict>

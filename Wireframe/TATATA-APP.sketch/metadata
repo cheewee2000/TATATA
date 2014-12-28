@@ -12,9 +12,10 @@
 	<array>
 		<string>Chalet-NewYorkNineteenSixty</string>
 		<string>HelveticaNeue-UltraLight</string>
+		<string>Chalet-LondonNineteenSixty</string>
 	</array>
 	<key>length</key>
-	<integer>571579</integer>
+	<integer>598548</integer>
 	<key>version</key>
 	<integer>37</integer>
 </dict>

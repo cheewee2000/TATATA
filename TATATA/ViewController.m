@@ -309,13 +309,13 @@
 
 -(void) restart{
     trialSequence=-1;
-    [self performSelector:@selector(showStartScreen) withObject:self afterDelay:0.5];
+    [self performSelector:@selector(showStartScreen) withObject:self afterDelay:0.4];
 }
 
 -(void)showStartScreen{
     currentLevel=0;
     [UIView animateWithDuration:0.4
-                          delay:0.4
+                          delay:0.0
                         options:UIViewAnimationOptionCurveLinear
                      animations:^{
                          catchZone.alpha=0;
@@ -332,7 +332,7 @@
 
                          
                          [UIView animateWithDuration:0.4
-                                               delay:0.4
+                                               delay:0.0
                                              options:UIViewAnimationOptionCurveLinear
                                           animations:^{
                                               catchZone.alpha=1;
@@ -367,7 +367,7 @@
         showIntro=false;
 
         [UIView animateWithDuration:0.4
-                              delay:0.6
+                              delay:0.0
                             options:UIViewAnimationOptionCurveLinear
                          animations:^{
                              intro.alpha=0;
@@ -408,7 +408,7 @@
                                  trialSequence=-1;
 
                     [UIView animateWithDuration:0.4
-                                          delay:0.4
+                                          delay:0.0
                                         options:UIViewAnimationOptionCurveLinear
                                      animations:^{
                                          catchZone.alpha=1;
@@ -503,7 +503,6 @@
         [myDictionary setObject:[NSNumber numberWithFloat: touchX ] forKey:@"touchX"];
         [myDictionary setObject:[NSNumber numberWithFloat: touchY ] forKey:@"touchY"];
         [myDictionary setObject:[NSNumber numberWithFloat: touchLength ] forKey:@"touchLength"];
-
     }
     [self.allTrialData addObject:myDictionary];
     [self.allTrialData writeToFile:allTrialDataFile atomically:YES];
