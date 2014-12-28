@@ -18,6 +18,7 @@
 
 {
     PFUser *currentUser;
+    PFObject *currentTrial;
     
     int screenWidth,screenHeight;
     int trialSequence;

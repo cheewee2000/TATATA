@@ -53,10 +53,7 @@
     if([defaults objectForKey:@"showIntro"] == nil) showIntro=true;
     else showIntro = (int)[defaults integerForKey:@"showIntro"];
 
-    
 
-    
-    
 #pragma mark - Ball
     startY=screenHeight*.5-200;
     endY=screenHeight*.5+200;
@@ -494,6 +491,8 @@
     [myDictionary setObject:[NSNumber numberWithFloat:diff] forKey:@"accuracy"];
     [myDictionary setObject:[NSNumber numberWithFloat:timerGoal] forKey:@"goal"];
     [myDictionary setObject:[NSNumber numberWithFloat:flashT] forKey:@"flashT"];
+    [myDictionary setObject:[NSNumber numberWithFloat:[currentTrial[@"d1"]floatValue]] forKey:@"d1"];
+    [myDictionary setObject:[NSNumber numberWithFloat:[currentTrial[@"d2"]floatValue]] forKey:@"d2"];
     [myDictionary setObject:[NSNumber numberWithInteger:currentLevel] forKey:@"level"];
     [myDictionary setObject:[NSNumber numberWithBool:([self isAccurate])? YES:NO] forKey:@"win"];
     [myDictionary setObject:localDateTime forKey:@"date"];
@@ -512,6 +511,7 @@
     pObject[@"accuracy"] = [NSNumber numberWithFloat:diff];
     pObject[@"goal"] = [NSNumber numberWithFloat:timerGoal];
     pObject[@"flashT"]=[NSNumber numberWithFloat:flashT];
+    pObject[@"trial"]=currentTrial;
     pObject[@"level"]=[NSNumber numberWithInteger:currentLevel];
     pObject[@"win"]=([self isAccurate])? @YES:@NO;
     pObject[@"date"]=localDateTime;
@@ -539,6 +539,7 @@
     
     [pObject saveEventually];
 
+    [currentUser incrementKey:@"trialsPlayed"];
     currentUser[@"best"]=[NSNumber numberWithFloat:best];
     [currentUser saveEventually];
     
@@ -649,6 +650,7 @@
 #pragma mark BALL
 
 -(void)startTrialSequence{
+    
     double initDelay=.8;
     double flashDelay=timerGoal*(float)flashT;
     double flashDuration=.07;
@@ -739,8 +741,7 @@
 
 -(float)getLevel:(int)level{
     //userdefault last level
-    PFObject *t=[trialArray objectAtIndex:level];
-    float l=[t[@"d1"] floatValue]+[t[@"d2"] floatValue];
+    float l=[currentTrial[@"d1"] floatValue]+[currentTrial[@"d2"] floatValue];
     return l;
     
     
@@ -763,25 +764,31 @@
 //    return l;
 }
 
+-(float)getFlashT:(int)level{
+    //    float f=.5;
+    //    NSInteger random = arc4random() % 3;
+    //
+    //    if (level>=3) f=.5-random*.1;
+    float f=[currentTrial[@"d1"] floatValue]/([currentTrial[@"d1"] floatValue]+[currentTrial[@"d2"] floatValue]);
+    
+    
+    return f;
+}
+
 -(float)getLevelAccuracy:(int)level{
     
     //return .2;
     
-    return timerGoal*.1;
+    //return timerGoal*.1;
+    
+    //int stage=(5+level)/10.0;
+    float accuracy=.125-.075*level/25.0;
+    if(level>25)accuracy=.05;
+    return timerGoal*accuracy;
+    
     
 }
 
--(float)getFlashT:(int)level{
-//    float f=.5;
-//    NSInteger random = arc4random() % 3;
-//
-//    if (level>=3) f=.5-random*.1;
-    PFObject *t=[trialArray objectAtIndex:level];
-    float f=[t[@"d1"] floatValue]/([t[@"d1"] floatValue]+[t[@"d2"] floatValue]);
-
-    
-    return f;
-}
 
 
 
@@ -868,6 +875,7 @@
 
 
 -(void)setLevel:(int)level{
+    currentTrial=[trialArray objectAtIndex: [currentUser[@"trialsPlayed"] integerValue]%[trialArray count]+level];
     timerGoal=[self getLevel:level];
     flashT=[self getFlashT:level];
 }
