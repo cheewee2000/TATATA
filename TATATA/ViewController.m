@@ -399,13 +399,9 @@
         trialSequence=-1;
         [self showLabels:NO];
 
-        if(currentLevel==0){
-            [self hideStartScreen];
-        }
-        else{
-            [self startTrialSequence];
-        }
-
+        if(currentLevel==0) [self hideStartScreen];
+        else [self startTrialSequence];
+    
     }
     //STOP
     else if(trialSequence==1){
@@ -467,24 +463,26 @@
     
     
     if([self isAccurate]){
-        //            if([self getAccuracyFloat]<.5) [ball setColor:[UIColor greenColor]];
-        //            else [ball setColor:[UIColor yellowColor]];
-        [ball setColor:[UIColor greenColor]];
+        if([self getAccuracyFloat]<.9) [ball setColor:[UIColor greenColor]];
+        else [ball setColor:[UIColor yellowColor]];
+        //[ball setColor:[UIColor greenColor]];
         [ball setNeedsDisplay];
         
         if([[NSUserDefaults standardUserDefaults] boolForKey:@"hideExample"] && currentLevel==0)currentLevel=1;
 
         currentScoreLabel.text=[NSString stringWithFormat:@"%i",currentLevel];
+        
         if(currentLevel>0){
-            [UIView animateWithDuration:0.4
+            [UIView animateWithDuration:0.2
                                   delay:0.0
                                 options:UIViewAnimationOptionCurveLinear
                              animations:^{
                                  currentScoreLabel.alpha=1;
                              }
                              completion:^(BOOL finished){
-
+                                 
                              }];
+
         }
         
     }else{
@@ -525,8 +523,6 @@
     
     [self positionBall:NO];
     ball.alpha=ballAlpha;
-
-//    [self trialStopped];
     
     [self.view.layer removeAllAnimations];
 }
@@ -826,7 +822,7 @@
     //return .2;
     
     //return timerGoal*.1;
-    if(level==0)return timerGoal*.15;
+    if(level==0 && [[NSUserDefaults standardUserDefaults] boolForKey:@"hideExample"]==NO )return timerGoal*.15;
     //int stage=(5+level)/10.0;
     float accuracy=.125-.075*level/25.0;
     if(level>25)accuracy=.05;
@@ -901,7 +897,7 @@
         currentLevel++;
         [self setLevel:currentLevel];
         [self loadTrialData];
-        [self performSelector:@selector(animateLevelReset) withObject:self afterDelay:0.8];
+        [self performSelector:@selector(animateLevelReset) withObject:self afterDelay:0.3];
         
     }
     else{
@@ -939,6 +935,7 @@
                      animations:^{
                          //set ball position
                          ball.center=CGPointMake(screenWidth*.5, startY);
+                         [ball setColor:strokeColor];
                          currentScoreLabel.alpha=0;
 
                      }
@@ -1063,52 +1060,63 @@
 
 
 -(void)getTrialSequence{
-//temporary load
-    [self loadDefaultSequence];
+    NSArray *libPath = NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES);
+    trialArrayDataFile=[[libPath objectAtIndex:0] stringByAppendingPathComponent:@"trialSequence.dat"];
 
+    //temporary load
+    [self loadLocalTrialSequence];
+
+    
     PFQuery *query = [PFQuery queryWithClassName:@"trials"];
-    //[query selectKeys:@[@"d1", @"d2"]];
     [query findObjectsInBackgroundWithBlock:^(NSArray *results, NSError *error) {
         if(!error){
             NSLog(@"updated trial sequence");
             trialArray = [NSMutableArray arrayWithArray: results];
             
             //save to disk
-            NSArray *libPath = NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES);
-            trialArrayDataFile=[[libPath objectAtIndex:0] stringByAppendingPathComponent:@"trialSequence.dat"];
+            for( int i=0; i<trialArray.count; i++){
+                PFObject *t=[trialArray objectAtIndex:i];
+
+                NSDictionary *trial=[[NSDictionary alloc] initWithObjectsAndKeys:t[@"d1"],@"d1", t[@"d2"],@"d2", nil];
+                [trialArray replaceObjectAtIndex:i withObject:trial];
+                
+            }
             [trialArray writeToFile:trialArrayDataFile atomically:YES];
         }
         else{
             NSLog(@"load trial sequence fron disk");
-            [self loadDefaultSequence];
+            [self loadLocalTrialSequence];
         }
     
     }];
     
 }
 
--(void)loadDefaultSequence{
+-(void)loadLocalTrialSequence{
     
     //load locally
-  trialArray = [[NSMutableArray alloc] initWithContentsOfFile: trialArrayDataFile];
-    
+    trialArray = [[NSMutableArray alloc] initWithContentsOfFile: trialArrayDataFile];
+
     //if local file doesn't exists, make one
     if(trialArray == nil){
-        NSLog(@"save default trial sequence to disk");
-
         trialArray = [[NSMutableArray alloc] init];
-        for (int i=0; i<24; i++){
-            PFObject *trialObject = [PFObject objectWithClassName:@"trial"];
-            trialObject[@"d1"] = [NSNumber numberWithFloat:.5];
-            trialObject[@"d2"] = [NSNumber numberWithFloat:.5];
-            [trialArray addObject:trialObject];
-        }
-        [trialArray writeToFile:scoreHistoryDataFile atomically:YES];
+        
+        [trialArray addObject:[[NSDictionary alloc] initWithObjectsAndKeys:[NSNumber numberWithFloat:.75],@"d1", [NSNumber numberWithFloat:.75],@"d2", nil]];
+        [trialArray addObject:[[NSDictionary alloc] initWithObjectsAndKeys:[NSNumber numberWithFloat:.5],@"d1", [NSNumber numberWithFloat:.5],@"d2", nil]];
+        [trialArray addObject:[[NSDictionary alloc] initWithObjectsAndKeys:[NSNumber numberWithFloat:.5],@"d1", [NSNumber numberWithFloat:1.5],@"d2", nil]];
+        [trialArray addObject:[[NSDictionary alloc] initWithObjectsAndKeys:[NSNumber numberWithFloat:1.0],@"d1", [NSNumber numberWithFloat:1.25],@"d2", nil]];
+        [trialArray addObject:[[NSDictionary alloc] initWithObjectsAndKeys:[NSNumber numberWithFloat:.75],@"d1", [NSNumber numberWithFloat:1.0],@"d2", nil]];
+        [trialArray addObject:[[NSDictionary alloc] initWithObjectsAndKeys:[NSNumber numberWithFloat:.5],@"d1", [NSNumber numberWithFloat:.75],@"d2", nil]];
+        [trialArray addObject:[[NSDictionary alloc] initWithObjectsAndKeys:[NSNumber numberWithFloat:.75],@"d1", [NSNumber numberWithFloat:1.00],@"d2", nil]];
+        [trialArray addObject:[[NSDictionary alloc] initWithObjectsAndKeys:[NSNumber numberWithFloat:1.5],@"d1", [NSNumber numberWithFloat:1.5],@"d2", nil]];
+        [trialArray addObject:[[NSDictionary alloc] initWithObjectsAndKeys:[NSNumber numberWithFloat:.5],@"d1", [NSNumber numberWithFloat:.75],@"d2", nil]];
+
+        [trialArray writeToFile:trialArrayDataFile atomically:YES];
     
     }
     
     
-    
+     
 }
 
 -(void)logIn{

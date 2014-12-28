@@ -7,12 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		44140EDA1A4FE8E400A612B8 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 44140ED81A4FE3D100A612B8 /* libsqlite3.dylib */; };
 		44140EE01A4FE96C00A612B8 /* Bolts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 44140EDB1A4FE96C00A612B8 /* Bolts.framework */; };
 		44140EE11A4FE96C00A612B8 /* Parse.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 44140EDC1A4FE96C00A612B8 /* Parse.framework */; };
 		44140EE21A4FE96C00A612B8 /* ParseCrashReporting.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 44140EDD1A4FE96C00A612B8 /* ParseCrashReporting.framework */; };
 		44140EE31A4FE96C00A612B8 /* ParseFacebookUtils.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 44140EDE1A4FE96C00A612B8 /* ParseFacebookUtils.framework */; };
 		44140EE41A4FE96C00A612B8 /* ParseUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 44140EDF1A4FE96C00A612B8 /* ParseUI.framework */; };
+		44140EE51A50361F00A612B8 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 44140ED81A4FE3D100A612B8 /* libsqlite3.dylib */; };
 		443CA72D19C0B171003BACD8 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 443CA72C19C0B171003BACD8 /* AVFoundation.framework */; };
 		444023D21A37EAB10022D80B /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 444023D11A37EAB10022D80B /* StoreKit.framework */; };
 		444023D41A37EAD30022D80B /* libstdc++.6.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 444023D31A37EAD30022D80B /* libstdc++.6.dylib */; };
@@ -96,7 +96,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				44140EDA1A4FE8E400A612B8 /* libsqlite3.dylib in Frameworks */,
+				44140EE51A50361F00A612B8 /* libsqlite3.dylib in Frameworks */,
 				444023D41A37EAD30022D80B /* libstdc++.6.dylib in Frameworks */,
 				444023D21A37EAB10022D80B /* StoreKit.framework in Frameworks */,
 				44FD6D9C19C49A8B006C7099 /* CoreLocation.framework in Frameworks */,
