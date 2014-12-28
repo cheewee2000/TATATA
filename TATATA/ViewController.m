@@ -583,9 +583,9 @@
         [self.allTrialData writeToFile:allTrialDataFile atomically:YES];
     }
     
-    
+    NSArray *libPath = NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES);
     scoreHistory = [[NSMutableArray alloc] init];
-    scoreHistoryDataFile = [[docPath objectAtIndex:0] stringByAppendingPathComponent:@"scoreHistory.dat"];
+    scoreHistoryDataFile = [[libPath objectAtIndex:0] stringByAppendingPathComponent:@"scoreHistory.dat"];
     scoreHistory = [[NSMutableArray alloc] initWithContentsOfFile: scoreHistoryDataFile];
     if(scoreHistory == nil){
         
@@ -738,23 +738,29 @@
 
 
 -(float)getLevel:(int)level{
-    float l;
-
-    if (level==0)l=1.5;
-    else {
-        //l=.7+level*0.1;
-        NSInteger randomNumber = arc4random() % 25;
-        NSInteger coinFlip = arc4random() % 1;
-        
-        if(coinFlip==0)coinFlip=1;
-        else coinFlip=-1;
-
-        l=1.5+level*randomNumber/100.0*coinFlip;
-        
-        if(l<.5)l=.5;
-        
-    }
+    //userdefault last level
+    PFObject *t=[trialArray objectAtIndex:level];
+    float l=[t[@"d1"] floatValue]+[t[@"d2"] floatValue];
     return l;
+    
+    
+//    float l;
+//
+//    if (level==0)l=1.5;
+//    else {
+//        //l=.7+level*0.1;
+//        NSInteger randomNumber = arc4random() % 25;
+//        NSInteger coinFlip = arc4random() % 1;
+//        
+//        if(coinFlip==0)coinFlip=1;
+//        else coinFlip=-1;
+//
+//        l=1.5+level*randomNumber/100.0*coinFlip;
+//        
+//        if(l<.5)l=.5;
+//        
+//    }
+//    return l;
 }
 
 -(float)getLevelAccuracy:(int)level{
@@ -766,12 +772,14 @@
 }
 
 -(float)getFlashT:(int)level{
-    float f=.5;
-    NSInteger random = arc4random() % 3;
+//    float f=.5;
+//    NSInteger random = arc4random() % 3;
+//
+//    if (level>=3) f=.5-random*.1;
+    PFObject *t=[trialArray objectAtIndex:level];
+    float f=[t[@"d1"] floatValue]/([t[@"d1"] floatValue]+[t[@"d2"] floatValue]);
 
-    if (level>=3) f=.5-random*.1;
-    //else
-    //if (level>=3) f=.33+coinFlip*.27;
+    
     return f;
 }
 
@@ -964,6 +972,11 @@
 
 - (void)viewWillAppear:(BOOL)animated
 {
+    
+    NSLog(@"view will appear");
+
+    [self logIn];
+    [self getTrialSequence];
 
     [super viewWillAppear:animated];
 }
@@ -983,9 +996,58 @@
 //    if(showIntro){
 //        [self performSelector:@selector(showIntroView) withObject:self afterDelay:1.5];
 //    }
-    [self logIn];
-    
+
    [super viewDidAppear:animated];
+}
+
+
+-(void)getTrialSequence{
+//temporary load
+    [self loadDefaultSequence];
+
+    PFQuery *query = [PFQuery queryWithClassName:@"trials"];
+    //[query selectKeys:@[@"d1", @"d2"]];
+    [query findObjectsInBackgroundWithBlock:^(NSArray *results, NSError *error) {
+        if(!error){
+            NSLog(@"updated trial sequence");
+            trialArray = [NSMutableArray arrayWithArray: results];
+            
+            //save to disk
+            NSArray *libPath = NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES);
+            trialArrayDataFile=[[libPath objectAtIndex:0] stringByAppendingPathComponent:@"trialSequence.dat"];
+            [trialArray writeToFile:trialArrayDataFile atomically:YES];
+        }
+        else{
+            NSLog(@"load trial sequence fron disk");
+            [self loadDefaultSequence];
+        }
+    
+    }];
+    
+}
+
+-(void)loadDefaultSequence{
+    
+    //load locally
+  trialArray = [[NSMutableArray alloc] initWithContentsOfFile: trialArrayDataFile];
+    
+    //if local file doesn't exists, make one
+    if(trialArray == nil){
+        NSLog(@"save default trial sequence to disk");
+
+        trialArray = [[NSMutableArray alloc] init];
+        for (int i=0; i<24; i++){
+            PFObject *trialObject = [PFObject objectWithClassName:@"trial"];
+            trialObject[@"d1"] = [NSNumber numberWithFloat:.5];
+            trialObject[@"d2"] = [NSNumber numberWithFloat:.5];
+            [trialArray addObject:trialObject];
+        }
+        [trialArray writeToFile:scoreHistoryDataFile atomically:YES];
+    
+    }
+    
+    
+    
 }
 
 -(void)logIn{

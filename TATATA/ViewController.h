@@ -21,7 +21,9 @@
     
     int screenWidth,screenHeight;
     int trialSequence;
-
+    NSMutableArray* trialArray;
+    NSString *trialArrayDataFile;
+    
     Arc * arc;
     //Dots *startZoneFlash;
     
