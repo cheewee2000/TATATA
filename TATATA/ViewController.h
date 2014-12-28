@@ -96,6 +96,8 @@
     
     BOOL viewLoaded;
     
+    int nExampleFails;
+    
 }
 
 

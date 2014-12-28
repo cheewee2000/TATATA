@@ -400,41 +400,7 @@
         [self showLabels:NO];
 
         if(currentLevel==0){
-
-
-            [UIView animateWithDuration:0.4
-                                  delay:0.0
-                                options:UIViewAnimationOptionCurveLinear
-                             animations:^{
-                                 catchZone.alpha=0;
-                                 catchZoneCenter.alpha=0;
-                             }
-                             completion:^(BOOL finished){
-                                 [catchZone setFill:NO];
-                                 [catchZone setColor:strokeColor];
-            
-                                 [self setLevel:currentLevel];
-                                 [self animateLevelReset];
-                                 trialSequence=-1;
-
-                    [UIView animateWithDuration:0.4
-                                          delay:0.0
-                                        options:UIViewAnimationOptionCurveLinear
-                                     animations:^{
-                                         catchZone.alpha=1;
-                                         catchZoneCenter.alpha=1;
-                                         midMarkL.alpha=1;
-                                         midMarkR.alpha=1;
-                                         arc.alpha=1;
-                                     }
-                                     completion:^(BOOL finished){
-                                         trialSequence=-1;
-
-                                         //rest scoreboard
-                                         [self updateHighscore];
-                                         [self startTrialSequence];
-                                     }];
-                             }];
+            [self hideStartScreen];
         }
         else{
             [self startTrialSequence];
@@ -449,6 +415,52 @@
     
 }
 
+-(void)hideStartScreen{
+    
+
+    [UIView animateWithDuration:0.4
+                          delay:0.0
+                        options:UIViewAnimationOptionCurveLinear
+                     animations:^{
+                         catchZone.alpha=0;
+                         catchZoneCenter.alpha=0;
+                     }
+                     completion:^(BOOL finished){
+                         [catchZone setFill:NO];
+                         [catchZone setColor:strokeColor];
+                         
+                         [self animateLevelReset];
+                         
+                         //if([[NSUserDefaults standardUserDefaults] boolForKey:@"hideExample"] && currentLevel==0)currentLevel=1;
+
+                         [self setLevel:currentLevel];
+
+                         trialSequence=-1;
+
+                         
+                         [UIView animateWithDuration:0.4
+                                               delay:0.0
+                                             options:UIViewAnimationOptionCurveLinear
+                                          animations:^{
+                                              catchZone.alpha=1;
+                                              catchZoneCenter.alpha=1;
+                                              midMarkL.alpha=1;
+                                              midMarkR.alpha=1;
+                                              arc.alpha=1;
+                                          }
+                                          completion:^(BOOL finished){
+                                              trialSequence=-1;
+                                              
+                                              //reset scoreboard
+                                              [self updateHighscore];
+
+                                              [self startTrialSequence];
+                                          }];
+                     }];
+    
+}
+
+
 -(void)stop{
     elapsed=[aTimer elapsedSeconds];
     trialSequence=-1;
@@ -460,6 +472,8 @@
         [ball setColor:[UIColor greenColor]];
         [ball setNeedsDisplay];
         
+        if([[NSUserDefaults standardUserDefaults] boolForKey:@"hideExample"] && currentLevel==0)currentLevel=1;
+
         currentScoreLabel.text=[NSString stringWithFormat:@"%i",currentLevel];
         if(currentLevel>0){
             [UIView animateWithDuration:0.4
@@ -495,6 +509,17 @@
                                                   
                                               }];
                          }];
+        
+        //hide example trial
+        if(currentLevel>3){
+            NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+            [defaults setBool:YES forKey:@"hideExample"];
+            [defaults synchronize];
+        }else if(currentLevel==0){
+            NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+            [defaults setBool:NO forKey:@"hideExample"];
+            [defaults synchronize];
+        }
         
     }
     
@@ -569,6 +594,10 @@
     [currentUser incrementKey:@"trialsPlayed"];
     currentUser[@"best"]=[NSNumber numberWithFloat:best];
     [currentUser saveEventually];
+    
+    
+
+    
     
 }
 
@@ -677,7 +706,8 @@
 #pragma mark BALL
 
 -(void)startTrialSequence{
-    
+
+
     double initDelay=.8;
     double flashDelay=timerGoal*(float)flashT;
     double flashDuration=.07;
@@ -697,16 +727,18 @@
     [startFlash setBeginTime:currentTimeInSuperLayer+initDelay];
     [CATransaction setCompletionBlock:^{
         [aTimer start];
-        if(currentLevel==0){
+        
+        if(currentLevel==0 && [[NSUserDefaults standardUserDefaults] boolForKey:@"hideExample"] == NO)
+        {
             ball.alpha=dimAlpha;
             trialSequence=-2;
             [self updateBall];
         }
         else [self performSelector:@selector(updateBall) withObject:self afterDelay:timerGoal];
 
-        float msOff=[aTimer elapsedSeconds];
-        NSLog(@"startFlash accuracy: %f sec",msOff);
-        if(currentLevel>0)ball.center=CGPointMake(screenWidth*.5, startY+(endY-startY)*flashT);
+        //float msOff=[aTimer elapsedSeconds];
+        //NSLog(@"startFlash accuracy: %f sec",msOff);
+        if(currentLevel>0 || [[NSUserDefaults standardUserDefaults] boolForKey:@"hideExample"] )ball.center=CGPointMake(screenWidth*.5, startY+(endY-startY)*flashT);
     }];
     [ball.layer addAnimation:startFlash forKey:@"startFlash"];
 
@@ -717,27 +749,14 @@
     [midFlash setToValue:[NSNumber numberWithFloat:1.0f]];
     [midFlash setBeginTime:currentTimeInSuperLayer+initDelay+flashDelay];
     [CATransaction setCompletionBlock:^{
-        if(currentLevel==0) ball.alpha=dimAlpha;
+        if(currentLevel==0 && [[NSUserDefaults standardUserDefaults] boolForKey:@"hideExample"] == NO) ball.alpha=dimAlpha;
         trialSequence=1;
-        float msOff=[aTimer elapsedSeconds]-flashDelay;
-        NSLog(@"midFlash   accuracy: %f sec",msOff);
+        //float msOff=[aTimer elapsedSeconds]-flashDelay;
+        //NSLog(@"midFlash   accuracy: %f sec",msOff);
     }];
     [ball.layer addAnimation:midFlash forKey:@"midFlash"];
     [midMarkLine.layer addAnimation:midFlash forKey:@"midFlash"];
 
-    
-    //flash midMarks
-//    CABasicAnimation *flagFlash = [CABasicAnimation animationWithKeyPath:@"backgroundColor"];
-//    [flagFlash setDuration:flashDuration];
-//    flagFlash.fromValue = (id)[midMarkL.layer backgroundColor];
-//    flagFlash.toValue = (id)flashColor.CGColor;
-//    [flagFlash setBeginTime:currentTimeInSuperLayer+initDelay+flashDelay];
-//    [CATransaction setCompletionBlock:^{
-//
-//        
-//    }];
-//    [midMarkL.layer addAnimation:flagFlash forKey:@"backgroundColor"];
-    
     
     
     [CATransaction commit];
@@ -876,6 +895,7 @@
     [self saveTrialData];
     
     if([self isAccurate]){
+
         [self reportScore];
 
         currentLevel++;
@@ -963,9 +983,12 @@
                                                         }
                                                         completion:^(BOOL finished){
                                                             //autostart next level
-                                                            if(currentLevel>0){                                                            trialSequence=0;
+                                                            if(currentLevel>0){
+                                                                trialSequence=0;
                                                                 [self performSelector:@selector(buttonPressed) withObject:self afterDelay:.5];
                                                             }
+                                                            
+
 
                                                         }];
                                    }];
