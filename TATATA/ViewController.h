@@ -50,6 +50,8 @@
     UIView * midMarkR;
     UIView * midMarkLine;
 
+    UILabel * currentScoreLabel;
+
     float flashT;
     UIColor *bgColor;
     UIColor *fgColor;

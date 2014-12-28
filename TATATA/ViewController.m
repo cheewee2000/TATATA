@@ -114,6 +114,17 @@
 #pragma mark - Labels
     
     
+    currentScoreLabel=[[UILabel alloc] initWithFrame:CGRectMake(0,0, screenWidth, 160)];
+    currentScoreLabel.center=CGPointMake(screenWidth/2.0, screenHeight/2.0);
+    currentScoreLabel.text=@"0";
+    currentScoreLabel.textAlignment = NSTextAlignmentCenter;
+    currentScoreLabel.backgroundColor = [UIColor clearColor];
+    currentScoreLabel.font = [UIFont fontWithName:@"HelveticaNeue-Ultralight" size:78];
+    currentScoreLabel.textColor=strokeColor;
+    currentScoreLabel.alpha=0;
+    [self.view addSubview:currentScoreLabel];
+    
+    
     scoreLabel=[[UILabel alloc] initWithFrame:CGRectMake(0,0, screenWidth, 160)];
     scoreLabel.center=CGPointMake(screenWidth/2.0, startY);
     scoreLabel.text=@"0";
@@ -280,7 +291,7 @@
 
     
     //currentLevel=11;
-    [self restart];
+    //[self restart];
 }
 #pragma mark - touch
 
@@ -448,6 +459,20 @@
         //            else [ball setColor:[UIColor yellowColor]];
         [ball setColor:[UIColor greenColor]];
         [ball setNeedsDisplay];
+        
+        currentScoreLabel.text=[NSString stringWithFormat:@"%i",currentLevel];
+        if(currentLevel>0){
+            [UIView animateWithDuration:0.4
+                                  delay:0.0
+                                options:UIViewAnimationOptionCurveLinear
+                             animations:^{
+                                 currentScoreLabel.alpha=1;
+                             }
+                             completion:^(BOOL finished){
+
+                             }];
+        }
+        
     }else{
         [ball setColor:[UIColor redColor]];
         [ball setNeedsDisplay];
@@ -782,7 +807,7 @@
     //return .2;
     
     //return timerGoal*.1;
-    
+    if(level==0)return timerGoal*.15;
     //int stage=(5+level)/10.0;
     float accuracy=.125-.075*level/25.0;
     if(level>25)accuracy=.05;
@@ -894,6 +919,8 @@
                      animations:^{
                          //set ball position
                          ball.center=CGPointMake(screenWidth*.5, startY);
+                         currentScoreLabel.alpha=0;
+
                      }
                      completion:^(BOOL finished){
 
@@ -1000,7 +1027,8 @@
         currentLevel=0;
         trialSequence=-1;
         [self setLevel:currentLevel];
-        [self animateLevelReset];
+        [self restart];
+        //[self animateLevelReset];
     }
     
 //    if(showIntro){
