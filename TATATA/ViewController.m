@@ -188,18 +188,20 @@
 #pragma mark - Mid Marks
     int markWidth=20;
     int markHeight=5;
+    int courtWidth=320;
+    
 
-    midMarkLine=[[UIView alloc] initWithFrame:CGRectMake(0, 0, screenWidth, 1)];
+    midMarkLine=[[UIView alloc] initWithFrame:CGRectMake(screenWidth*.5-courtWidth*.5, 0, courtWidth, 1)];
     midMarkLine.backgroundColor=strokeColor;
     midMarkLine.alpha=dimAlpha;
     [self.view addSubview:midMarkLine];
     
     
-    midMarkL=[[UIView alloc] initWithFrame:CGRectMake(0, 0, markWidth, markHeight)];
+    midMarkL=[[UIView alloc] initWithFrame:CGRectMake(screenWidth*.5-courtWidth*.5, 0, markWidth, markHeight)];
     midMarkL.backgroundColor=strokeColor;
     [self.view addSubview:midMarkL];
     
-    midMarkR=[[UIView alloc] initWithFrame:CGRectMake(screenWidth-markWidth, 0, markWidth, markHeight)];
+    midMarkR=[[UIView alloc] initWithFrame:CGRectMake(screenWidth*.5+courtWidth*.5-markWidth, 0, markWidth, markHeight)];
     midMarkR.backgroundColor=strokeColor;
     [self.view addSubview:midMarkR];
     
@@ -875,7 +877,7 @@
 
 
 -(void)setLevel:(int)level{
-    currentTrial=[trialArray objectAtIndex: [currentUser[@"trialsPlayed"] integerValue]%[trialArray count]+level];
+    currentTrial=[trialArray objectAtIndex: ([currentUser[@"trialsPlayed"] integerValue]+level)%[trialArray count]];
     timerGoal=[self getLevel:level];
     flashT=[self getFlashT:level];
 }

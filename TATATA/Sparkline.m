@@ -30,7 +30,7 @@
     float maxValue = [[yValues valueForKeyPath:@"@max.integerValue"] integerValue];
     int nBars=(int)yValues.count;
     
-    if(nBars>1){
+    if(nBars>2){
         for (int i = nBars-1; i >=0; i--)
         {
             float barX = self.frame.size.width-(nBars-i) * kBarWidth * 1.5+kBarWidth/2.0;
