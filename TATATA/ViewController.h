@@ -60,7 +60,8 @@
 
     
     UIButton *gameCenterButton;
-    
+    UIButton *showScoreboardButton;
+
     float dimAlpha;
     BOOL touched;
     float touchX,touchY;

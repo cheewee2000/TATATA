@@ -9,6 +9,7 @@
 
 #define IS_OS_7_OR_LATER    ([[[UIDevice currentDevice] systemVersion] floatValue] >= 7.0)
 
+#define ARC4RANDOM_MAX 0x100000000
 
 @interface ViewController () {
     
@@ -179,19 +180,32 @@
     bestLabelLine.backgroundColor = strokeColor;
     [bestLabelLabel addSubview:bestLabelLine];
     
+    showScoreboardButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [showScoreboardButton addTarget:self
+                         action:@selector(showGlobalLeaderboard)
+               forControlEvents:UIControlEventTouchUpInside];
+    
+    showScoreboardButton.titleLabel.font=[UIFont fontWithName:@"Entypo" size:16];
+    [showScoreboardButton setTitle:@"▾\U0000FE0E" forState:UIControlStateNormal];
+    [showScoreboardButton setTitleColor:fgColor forState:UIControlStateNormal];
+    showScoreboardButton.frame = CGRectMake(0,0, 88.0, 88.0);
+    showScoreboardButton.center=CGPointMake(bestLabelLabel.frame.size.width*.5, bestLabelLabel.frame.size.height+44);
+    [bestLabelLabel addSubview:showScoreboardButton];
+    
+    
+    
 
-    gameCenterButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [gameCenterButton addTarget:self
-               action:@selector(showGlobalLeaderboard)
-     forControlEvents:UIControlEventTouchUpInside];
-    
-    gameCenterButton.titleLabel.font=[UIFont fontWithName:@"Entypo" size:14];
-    [gameCenterButton setTitle:@"▸\U0000FE0E" forState:UIControlStateNormal];
-    //gameCenterButton.backgroundColor=[UIColor redColor];
-    [gameCenterButton setTitleColor:fgColor forState:UIControlStateNormal];
-    gameCenterButton.frame = CGRectMake(bestLabelLabel.frame.size.width-58, -25, 88.0, 88.0);
-    [bestLabelLabel addSubview:gameCenterButton];
-    
+//    gameCenterButton = [UIButton buttonWithType:UIButtonTypeCustom];
+//    [gameCenterButton addTarget:self
+//               action:@selector(showGlobalLeaderboard)
+//     forControlEvents:UIControlEventTouchUpInside];
+//    
+//    gameCenterButton.titleLabel.font=[UIFont fontWithName:@"Entypo" size:14];
+//    [gameCenterButton setTitle:@"▾\U0000FE0E" forState:UIControlStateNormal];
+//    [gameCenterButton setTitleColor:fgColor forState:UIControlStateNormal];
+//    gameCenterButton.frame = CGRectMake(bestLabelLabel.frame.size.width-58, -25, 88.0, 88.0);
+//    [bestLabelLabel addSubview:gameCenterButton];
+//    
 
     [self updateHighscore];
     
@@ -308,6 +322,7 @@
 #pragma mark - touch
 
 -(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
+    
     [self buttonPressed];
     
     UITouch *touch = [[event allTouches] anyObject];
@@ -322,6 +337,7 @@
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
     touchLength=[aTimer elapsedSeconds]-touchStartTime;
     if(touched){
+        touched=NO;
         [self trialStopped];
     }
 
@@ -480,7 +496,6 @@
     if([self isAccurate]){
         if([self getAccuracyFloat]<.9) [ball setColor:[UIColor greenColor]];
         else [ball setColor:[UIColor yellowColor]];
-        //[ball setColor:[UIColor greenColor]];
         [ball setNeedsDisplay];
         
         if([[NSUserDefaults standardUserDefaults] boolForKey:@"hideExample"] && currentLevel==0)currentLevel=1;
@@ -951,6 +966,8 @@
                          //set ball position
                          ball.center=CGPointMake(screenWidth*.5, startY);
                          [ball setColor:strokeColor];
+                         [ball setNeedsDisplay];
+                         
                          currentScoreLabel.alpha=0;
 
                      }
@@ -966,6 +983,7 @@
                                        //if(allowBallResize)ball.frame=CGRectMake(0,0, catchZoneDiameter*.8, catchZoneDiameter*.8);
                                        ball.center=CGPointMake(screenWidth*.5, startY);
                                        ball.lineWidth=ball.frame.size.width*.33-2;
+                                       ball.alpha=0;
                                        [ball setNeedsDisplay];
                                        
                                        arc.frame=CGRectMake(50,50, ball.frame.size.width+20,ball.frame.size.height+30);
@@ -980,24 +998,13 @@
                                        
                                    }
                                    completion:^(BOOL finished){
-
-                                       [UIView animateWithDuration:0.4
-                                                             delay:0.0
-                                                           options:UIViewAnimationOptionCurveLinear
-                                                        animations:^{
-                                                            
-                                                            ball.alpha=0;
-                                                        }
-                                                        completion:^(BOOL finished){
-                                                            //autostart next level
-                                                            if(currentLevel>0){
-                                                                trialSequence=0;
-                                                                [self performSelector:@selector(buttonPressed) withObject:self afterDelay:.4];
-                                                            }
-                                                            
-
-
-                                                        }];
+                                       //autostart next level
+                                       if(currentLevel>0){
+                                           trialSequence=0;
+                                           double val =.2+((double)arc4random() / ARC4RANDOM_MAX)*1.3;
+                                           [self performSelector:@selector(buttonPressed) withObject:self afterDelay:val];
+                                       }
+                                       
                                    }];
                      }];
     
