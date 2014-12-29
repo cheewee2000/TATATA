@@ -59,7 +59,7 @@
     endY=screenHeight*.5+200;
     
     catchZone=[[Dots alloc] initWithFrame:CGRectMake(0,0, 88, 88)];
-    catchZone.center=CGPointMake(screenWidth*.5, endY);
+    catchZone.center=CGPointMake(screenWidth*.5, screenHeight*.5);
     catchZone.backgroundColor = [UIColor clearColor];
     catchZone.alpha=1;
     [catchZone setColor:strokeColor];
@@ -140,7 +140,7 @@
     scoreLabelLabel.text=@"SCORE";
     scoreLabelLabel.textAlignment = NSTextAlignmentCenter;
     scoreLabelLabel.backgroundColor = [UIColor clearColor];
-    scoreLabelLabel.font = [UIFont fontWithName:@"HelveticaNeue-Ultralight" size:14];
+    scoreLabelLabel.font = [UIFont fontWithName:@"HelveticaNeue-Ultralight" size:15];
     scoreLabelLabel.textColor=strokeColor;
     scoreLabelLabel.alpha=0;
     [self.view addSubview:scoreLabelLabel];
@@ -154,7 +154,7 @@
 
     
     bestLabel=[[UILabel alloc] initWithFrame:CGRectMake(0,0, screenWidth, 160)];
-    bestLabel.center=CGPointMake(screenWidth/2.0, screenHeight*.5);
+    bestLabel.center=CGPointMake(screenWidth*.5, endY-60);
     bestLabel.text=@"0";
     bestLabel.textAlignment = NSTextAlignmentCenter;
     bestLabel.backgroundColor = [UIColor clearColor];
@@ -164,11 +164,11 @@
     [self.view addSubview:bestLabel];
     
     bestLabelLabel=[[UILabel alloc] initWithFrame:CGRectMake(0,0, 100, 40)];
-    bestLabelLabel.center=CGPointMake(screenWidth/2.0, bestLabel.center.y+80);
+    bestLabelLabel.center=CGPointMake(screenWidth*.5, bestLabel.center.y+80);
     bestLabelLabel.text=@"BEST";
     bestLabelLabel.textAlignment = NSTextAlignmentCenter;
     bestLabelLabel.backgroundColor = [UIColor clearColor];
-    bestLabelLabel.font = [UIFont fontWithName:@"HelveticaNeue-Ultralight" size:14];
+    bestLabelLabel.font = [UIFont fontWithName:@"HelveticaNeue-Ultralight" size:15];
     bestLabelLabel.textColor=strokeColor;
     bestLabelLabel.alpha=0;
     [bestLabelLabel setUserInteractionEnabled:YES];
@@ -282,8 +282,20 @@
         float catchZoneDiameter = [config[@"catchZoneDiameter"]floatValue];
         if(catchZoneDiameter){
             
-            catchZone.frame=CGRectMake(0, 0, catchZoneDiameter, catchZoneDiameter);
-            catchZone.center=CGPointMake(screenWidth*.5, endY);
+            
+            [UIView animateWithDuration:0.4
+                                  delay:0.0
+                                options:UIViewAnimationOptionCurveLinear
+                             animations:^{
+                                 catchZone.frame=CGRectMake(0, 0, catchZoneDiameter, catchZoneDiameter);
+                                 catchZone.center=CGPointMake(screenWidth*.5, screenHeight*.5);
+                                 catchZoneCenter.center=catchZone.center;
+                             }
+                             completion:^(BOOL finished){
+                             }];
+            
+            
+
         }
 
     }];
@@ -340,17 +352,20 @@
                          [catchZone setFill:YES];
                          [catchZone setColor:fgColor];
 
+
                          
                          [UIView animateWithDuration:0.4
                                                delay:0.0
                                              options:UIViewAnimationOptionCurveLinear
                                           animations:^{
                                               catchZone.alpha=1;
-
+                                              catchZone.center=CGPointMake(screenWidth*.5,screenHeight*.5);
+                                              catchZoneCenter.center=catchZone.center;
                                           }
                                           completion:^(BOOL finished){
                                               [self showLabels:YES];
-                                              [self animateLevelReset];
+
+                                              //[self animateLevelReset];
                                               trialSequence=0;
                                           }];
                      }];
@@ -929,7 +944,7 @@
     elapsed=0;
     [self positionBall:YES];
     
-    [UIView animateWithDuration:0.2
+    [UIView animateWithDuration:0.4
                           delay:0.0
                         options:UIViewAnimationOptionCurveLinear
                      animations:^{
@@ -946,14 +961,9 @@
                                         delay:0.0
                                       options:UIViewAnimationOptionCurveLinear
                                    animations:^{
-                                       float catchZoneDiameter=[self getLevelAccuracy:currentLevel]*(startY-endY)/timerGoal*2.0;
-
-                                       //if(allowBallResize)
-                                        catchZone.frame=CGRectMake(0, 0, catchZoneDiameter, catchZoneDiameter);
-                                       catchZone.center=CGPointMake(screenWidth*.5, endY);
-                                       [catchZone setNeedsDisplay];
-
-                                       if(allowBallResize)ball.frame=CGRectMake(0,0, catchZoneDiameter*.8, catchZoneDiameter*.8);
+                                       [self setCatchZoneDiameter];
+                                       
+                                       //if(allowBallResize)ball.frame=CGRectMake(0,0, catchZoneDiameter*.8, catchZoneDiameter*.8);
                                        ball.center=CGPointMake(screenWidth*.5, startY);
                                        ball.lineWidth=ball.frame.size.width*.33-2;
                                        [ball setNeedsDisplay];
@@ -982,7 +992,7 @@
                                                             //autostart next level
                                                             if(currentLevel>0){
                                                                 trialSequence=0;
-                                                                [self performSelector:@selector(buttonPressed) withObject:self afterDelay:.5];
+                                                                [self performSelector:@selector(buttonPressed) withObject:self afterDelay:.4];
                                                             }
                                                             
 
@@ -994,6 +1004,18 @@
 
 }
 
+-(void)setCatchZoneDiameter{
+    float catchZoneDiameter=[self getLevelAccuracy:currentLevel]*(startY-endY)/timerGoal*2.0;
+    
+
+    catchZone.frame=CGRectMake(0, 0, catchZoneDiameter, catchZoneDiameter);
+    catchZone.center=CGPointMake(screenWidth*.5, endY);
+    catchZoneCenter.center=catchZone.center;
+    
+    [catchZone setNeedsDisplay];
+
+    
+}
 
 # pragma mark Helpers
 
