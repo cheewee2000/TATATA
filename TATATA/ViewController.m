@@ -55,6 +55,7 @@
     else showIntro = (int)[defaults integerForKey:@"showIntro"];
 
 
+
 #pragma mark - Ball
     startY=screenHeight*.5-200;
     endY=screenHeight*.5+200;
@@ -62,28 +63,22 @@
     catchZone=[[Dots alloc] initWithFrame:CGRectMake(0,0, 88, 88)];
     catchZone.center=CGPointMake(screenWidth*.5, screenHeight*.5);
     catchZone.backgroundColor = [UIColor clearColor];
-    catchZone.alpha=1;
+    catchZone.alpha=0;
     [catchZone setColor:strokeColor];
     [catchZone setFill:NO];
     [self.view addSubview:catchZone];
     
+
+    
     catchZoneCenter=[[Dots alloc] initWithFrame:CGRectMake(0,0, 8, 8)];
     catchZoneCenter.center=catchZone.center;
     catchZoneCenter.backgroundColor = [UIColor clearColor];
-    catchZoneCenter.alpha=1;
+    catchZoneCenter.alpha=0;
     [catchZoneCenter setColor:strokeColor];
     [catchZoneCenter setFill:YES];
     [self.view addSubview:catchZoneCenter];
     
-//    catchZoneFlash=[[Dots alloc] initWithFrame:CGRectMake(0,0, 88, 88)];
-//    catchZoneFlash.center=catchZone.center;
-//    catchZoneFlash.backgroundColor = [UIColor clearColor];
-//    catchZoneFlash.alpha=0;
-//    [catchZoneFlash setColor:flashColor];
-//    [catchZoneFlash setFill:YES];
-//    [self.view addSubview:catchZoneFlash];
-//    [self.view sendSubviewToBack:catchZoneFlash];
-    
+
     ballAlpha=.9;
     ball=[[Dots alloc] initWithFrame:CGRectMake(0, 0, 60, 60)];
     ball.center=CGPointMake(screenWidth*.5, startY);
@@ -103,27 +98,36 @@
     [self.view addSubview:arc];
     arc.alpha=dimAlpha;
     
-//    startZoneFlash=[[Dots alloc] initWithFrame:arc.frame];
-//    startZoneFlash.center=ball.center;
-//    startZoneFlash.backgroundColor = [UIColor clearColor];
-//    startZoneFlash.alpha=0;
-//    [startZoneFlash setColor:flashColor];
-//    [startZoneFlash setFill:YES];
-//    [self.view addSubview:startZoneFlash];
-//    [self.view sendSubviewToBack:startZoneFlash];
-    
+
 #pragma mark - Labels
     
-    
+
     currentScoreLabel=[[UILabel alloc] initWithFrame:CGRectMake(0,0, screenWidth, 160)];
     currentScoreLabel.center=CGPointMake(screenWidth/2.0, screenHeight/2.0);
     currentScoreLabel.text=@"0";
     currentScoreLabel.textAlignment = NSTextAlignmentCenter;
     currentScoreLabel.backgroundColor = [UIColor clearColor];
-    currentScoreLabel.font = [UIFont fontWithName:@"HelveticaNeue-Ultralight" size:78];
+    currentScoreLabel.font = [UIFont fontWithName:@"HelveticaNeue-Ultralight" size:120];
     currentScoreLabel.textColor=strokeColor;
     currentScoreLabel.alpha=0;
     [self.view addSubview:currentScoreLabel];
+    
+    
+    scrollView = [[UIScrollView alloc] initWithFrame:self.view.bounds];
+    scrollView.delegate = self;
+    [scrollView setContentSize:CGSizeMake(scrollView.bounds.size.width, scrollView.bounds.size.height*1.5)];
+    [self.view addSubview:scrollView];
+
+    catchZoneButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [catchZoneButton addTarget:self
+                        action:@selector(buttonPressed)
+              forControlEvents:UIControlEventTouchUpInside];
+    catchZoneButton.frame=CGRectMake(0, 0, 88, 88);
+    catchZoneButton.center=CGPointMake(screenWidth*.5, screenHeight*.5);
+    catchZoneButton.backgroundColor=[UIColor clearColor];
+    
+    [scrollView addSubview:catchZoneButton];
+    
     
     
     scoreLabel=[[UILabel alloc] initWithFrame:CGRectMake(0,0, screenWidth, 160)];
@@ -134,7 +138,7 @@
     scoreLabel.font = [UIFont fontWithName:@"HelveticaNeue-Ultralight" size:78];
     scoreLabel.textColor=strokeColor;
     scoreLabel.alpha=0;
-    [self.view addSubview:scoreLabel];
+    [scrollView addSubview:scoreLabel];
     
     scoreLabelLabel=[[UILabel alloc] initWithFrame:CGRectMake(0,0, 100, 40)];
     scoreLabelLabel.center=CGPointMake(screenWidth/2.0, scoreLabel.center.y+80);
@@ -144,7 +148,7 @@
     scoreLabelLabel.font = [UIFont fontWithName:@"HelveticaNeue-Ultralight" size:15];
     scoreLabelLabel.textColor=strokeColor;
     scoreLabelLabel.alpha=0;
-    [self.view addSubview:scoreLabelLabel];
+    [scrollView addSubview:scoreLabelLabel];
     
     scoreLabelLine=[[UILabel alloc] initWithFrame:CGRectMake(0,0, scoreLabelLabel.frame.size.width, .5)];
     scoreLabelLine.backgroundColor = strokeColor;
@@ -154,7 +158,7 @@
     [scoreLabelLabel addSubview:scoreGraph];
 
     
-    bestLabel=[[UILabel alloc] initWithFrame:CGRectMake(0,0, screenWidth, 160)];
+    bestLabel=[[UILabel alloc] initWithFrame:CGRectMake(0,0, screenWidth, 150)];
     bestLabel.center=CGPointMake(screenWidth*.5, endY-60);
     bestLabel.text=@"0";
     bestLabel.textAlignment = NSTextAlignmentCenter;
@@ -162,10 +166,10 @@
     bestLabel.font = [UIFont fontWithName:@"HelveticaNeue-Ultralight" size:78];
     bestLabel.textColor=strokeColor;
     bestLabel.alpha=0;
-    [self.view addSubview:bestLabel];
+    [scrollView addSubview:bestLabel];
     
     bestLabelLabel=[[UILabel alloc] initWithFrame:CGRectMake(0,0, 100, 40)];
-    bestLabelLabel.center=CGPointMake(screenWidth*.5, bestLabel.center.y+80);
+    bestLabelLabel.center=CGPointMake(bestLabel.frame.size.width*.5, bestLabel.frame.size.height);
     bestLabelLabel.text=@"BEST";
     bestLabelLabel.textAlignment = NSTextAlignmentCenter;
     bestLabelLabel.backgroundColor = [UIColor clearColor];
@@ -173,8 +177,7 @@
     bestLabelLabel.textColor=strokeColor;
     bestLabelLabel.alpha=0;
     [bestLabelLabel setUserInteractionEnabled:YES];
-    
-    [self.view addSubview:bestLabelLabel];
+    [bestLabel addSubview:bestLabelLabel];
     
     bestLabelLine=[[UILabel alloc] initWithFrame:CGRectMake(0,0, bestLabelLabel.frame.size.width, .5)];
     bestLabelLine.backgroundColor = strokeColor;
@@ -182,15 +185,15 @@
     
     showScoreboardButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [showScoreboardButton addTarget:self
-                         action:@selector(showGlobalLeaderboard)
+                         action:@selector(showScoreboard)
                forControlEvents:UIControlEventTouchUpInside];
     
-    showScoreboardButton.titleLabel.font=[UIFont fontWithName:@"Entypo" size:16];
+    showScoreboardButton.titleLabel.font=[UIFont fontWithName:@"Helvetica" size:24];
     [showScoreboardButton setTitle:@"▾\U0000FE0E" forState:UIControlStateNormal];
     [showScoreboardButton setTitleColor:fgColor forState:UIControlStateNormal];
     showScoreboardButton.frame = CGRectMake(0,0, 88.0, 88.0);
-    showScoreboardButton.center=CGPointMake(bestLabelLabel.frame.size.width*.5, bestLabelLabel.frame.size.height+44);
-    [bestLabelLabel addSubview:showScoreboardButton];
+    showScoreboardButton.center=CGPointMake(screenWidth*.5, screenHeight+88);
+    [scrollView addSubview:showScoreboardButton];
     
     
     
@@ -204,7 +207,7 @@
 //    [gameCenterButton setTitle:@"▾\U0000FE0E" forState:UIControlStateNormal];
 //    [gameCenterButton setTitleColor:fgColor forState:UIControlStateNormal];
 //    gameCenterButton.frame = CGRectMake(bestLabelLabel.frame.size.width-58, -25, 88.0, 88.0);
-//    [bestLabelLabel addSubview:gameCenterButton];
+//    [scrollView addSubview:gameCenterButton];
 //    
 
     [self updateHighscore];
@@ -302,8 +305,12 @@
                                 options:UIViewAnimationOptionCurveLinear
                              animations:^{
                                  catchZone.frame=CGRectMake(0, 0, catchZoneDiameter, catchZoneDiameter);
+                                 catchZoneButton.frame=CGRectMake(0, 0, catchZoneDiameter, catchZoneDiameter);
+
                                  catchZone.center=CGPointMake(screenWidth*.5, screenHeight*.5);
                                  catchZoneCenter.center=catchZone.center;
+                                 catchZoneButton.center=catchZone.center;
+
                              }
                              completion:^(BOOL finished){
                              }];
@@ -319,11 +326,14 @@
     //currentLevel=11;
     //[self restart];
 }
+
+
 #pragma mark - touch
 
 -(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
     
-    [self buttonPressed];
+
+    if(trialSequence>0)[self buttonPressed];
     
     UITouch *touch = [[event allTouches] anyObject];
     CGPoint touchPoint = [touch locationInView:self.view];
@@ -343,6 +353,22 @@
 
 }
 
+- (void)scrollViewDidScroll:(UIScrollView *)_scrollView{
+ 
+    catchZone.center=CGPointMake(catchZone.center.x, -scrollView.contentOffset.y+screenHeight*.5);
+
+    //arrow
+    float d=((screenHeight*.5)-scrollView.contentOffset.y)/(float)(screenHeight*.5);
+    showScoreboardButton.alpha=d;
+    
+    bestLabel.center=CGPointMake(screenWidth*.5, endY-60+(screenHeight-endY)*(1.0-d));
+    
+    //show best
+    
+    
+}
+
+
 #pragma mark - restart
 
 -(void) restart{
@@ -352,12 +378,14 @@
 
 -(void)showStartScreen{
     currentLevel=0;
+	
     [UIView animateWithDuration:0.4
                           delay:0.0
                         options:UIViewAnimationOptionCurveLinear
                      animations:^{
                          catchZone.alpha=0;
                          catchZoneCenter.alpha=0;
+                         [scrollView setContentOffset:CGPointMake(0, 0)];
 
                          ball.alpha=0;
                          midMarkL.alpha=dimAlpha;
@@ -374,9 +402,15 @@
                                                delay:0.0
                                              options:UIViewAnimationOptionCurveLinear
                                           animations:^{
+                                              [self setCatchZoneDiameter];
+
                                               catchZone.alpha=1;
                                               catchZone.center=CGPointMake(screenWidth*.5,screenHeight*.5);
                                               catchZoneCenter.center=catchZone.center;
+                                              catchZoneButton.center=catchZone.center;
+                                              
+                                              showScoreboardButton.center=CGPointMake(screenWidth*.5, screenHeight-44);
+
                                           }
                                           completion:^(BOOL finished){
                                               [self showLabels:YES];
@@ -443,7 +477,9 @@
 }
 
 -(void)hideStartScreen{
-    
+
+    [self animateLevelReset];
+    [self setLevel:currentLevel];
 
     [UIView animateWithDuration:0.4
                           delay:0.0
@@ -451,19 +487,13 @@
                      animations:^{
                          catchZone.alpha=0;
                          catchZoneCenter.alpha=0;
+                         showScoreboardButton.center=CGPointMake(screenWidth*.5, screenHeight+88);
+
                      }
                      completion:^(BOOL finished){
                          [catchZone setFill:NO];
                          [catchZone setColor:strokeColor];
-                         
-                         [self animateLevelReset];
-                         
-                         //if([[NSUserDefaults standardUserDefaults] boolForKey:@"hideExample"] && currentLevel==0)currentLevel=1;
-
-                         [self setLevel:currentLevel];
-
                          trialSequence=-1;
-
                          
                          [UIView animateWithDuration:0.4
                                                delay:0.0
@@ -480,11 +510,9 @@
                                               
                                               //reset scoreboard
                                               [self updateHighscore];
-
                                               [self startTrialSequence];
                                           }];
                      }];
-    
 }
 
 
@@ -714,7 +742,11 @@
     }
 }
 
-
+-(void)showScoreboard{
+    
+    [scrollView setContentOffset:CGPointMake(0, screenHeight*.5) animated:YES];
+    
+}
 -(void)showGlobalLeaderboard{
     GKGameCenterViewController *gcViewController = [[GKGameCenterViewController alloc] init];
     gcViewController.gameCenterDelegate = self;
@@ -875,16 +907,20 @@
                         options:UIViewAnimationOptionCurveLinear
                      animations:^{
                          if(show){
+                             scrollView.alpha=1;
+
                              scoreLabel.alpha=1;
                              scoreLabelLabel.alpha=1;
                              bestLabel.alpha=1;
                              bestLabelLabel.alpha=1;
                          }
                          else{
-                             scoreLabel.alpha=0;
-                             scoreLabelLabel.alpha=0;
-                             bestLabel.alpha=0;
-                             bestLabelLabel.alpha=0;
+                             scrollView.alpha=0;
+
+//                             scoreLabel.alpha=0;
+//                             scoreLabelLabel.alpha=0;
+//                             bestLabel.alpha=0;
+//                             bestLabelLabel.alpha=0;
                          }
                      }
                      completion:^(BOOL finished){

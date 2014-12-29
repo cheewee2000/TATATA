@@ -14,7 +14,7 @@
 #import "Arc.h"
 #import "Sparkline.h"
 
-@interface ViewController : UIViewController <GKGameCenterControllerDelegate>
+@interface ViewController : UIViewController <GKGameCenterControllerDelegate,UIScrollViewDelegate>
 
 {
     PFUser *currentUser;
@@ -61,7 +61,8 @@
     
     UIButton *gameCenterButton;
     UIButton *showScoreboardButton;
-
+    UIButton *catchZoneButton;
+    
     float dimAlpha;
     BOOL touched;
     float touchX,touchY;
@@ -98,6 +99,8 @@
     BOOL viewLoaded;
     
     int nExampleFails;
+    
+    UIScrollView *scrollView;
     
 }
 
