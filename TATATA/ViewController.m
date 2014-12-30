@@ -87,7 +87,7 @@
 //    
 
     ballAlpha=.9;
-    ball=[[Dots alloc] initWithFrame:CGRectMake(0, 0, 60, 60)];
+    ball=[[Dots alloc] initWithFrame:CGRectMake(0, 0, 85, 85)];
     ball.center=CGPointMake(screenWidth*.5, startY);
     ball.backgroundColor = [UIColor clearColor];
     ball.alpha=0;
@@ -1047,8 +1047,7 @@
                                        [self setCatchZoneDiameter];
                                        
                                        //if(allowBallResize)ball.frame=CGRectMake(0,0, catchZoneDiameter*.8, catchZoneDiameter*.8);
-                                       ball.center=CGPointMake(screenWidth*.5, startY);
-                                       ball.lineWidth=ball.frame.size.width*.33-2;
+                                       //ball.center=CGPointMake(screenWidth*.5, startY);
                                        ball.alpha=0;
                                        [ball setNeedsDisplay];
                                        
@@ -1089,6 +1088,10 @@
     
 
     catchZone.frame=CGRectMake(0, 0, catchZoneDiameter, catchZoneDiameter);
+    ball.frame=CGRectMake(0,0, catchZoneDiameter*.9, catchZoneDiameter*.9);
+    ball.center=CGPointMake(screenWidth*.5, startY);
+    ball.lineWidth=ball.frame.size.width*.33-.75;
+    
     catchZone.center=CGPointMake(screenWidth*.5, endY);
     catchZoneCenter.center=catchZone.center;
     crosshair.frame=catchZone.frame;
