@@ -69,15 +69,22 @@
     [self.view addSubview:catchZone];
     
 
+    crosshair=[[Crosshair alloc] initWithFrame:CGRectMake(0,0, 80, 80)];
+    crosshair.center=CGPointMake(catchZone.frame.size.width*.5, catchZone.frame.size.height*.5);
+    crosshair.backgroundColor = [UIColor clearColor];
+    crosshair.alpha=1;
+    [crosshair setColor:strokeColor];
+    [catchZone addSubview:crosshair];
     
-    catchZoneCenter=[[Dots alloc] initWithFrame:CGRectMake(0,0, 8, 8)];
-    catchZoneCenter.center=catchZone.center;
-    catchZoneCenter.backgroundColor = [UIColor clearColor];
-    catchZoneCenter.alpha=0;
-    [catchZoneCenter setColor:strokeColor];
-    [catchZoneCenter setFill:YES];
-    [self.view addSubview:catchZoneCenter];
     
+//    catchZoneCenter=[[Dots alloc] initWithFrame:CGRectMake(0,0, 8, 8)];
+//    catchZoneCenter.center=catchZone.center;
+//    catchZoneCenter.backgroundColor = [UIColor clearColor];
+//    catchZoneCenter.alpha=0;
+//    [catchZoneCenter setColor:strokeColor];
+//    [catchZoneCenter setFill:YES];
+//    [self.view addSubview:catchZoneCenter];
+//    
 
     ballAlpha=.9;
     ball=[[Dots alloc] initWithFrame:CGRectMake(0, 0, 60, 60)];
@@ -92,7 +99,7 @@
     [self.view bringSubviewToFront:ball];
     
     
-    arc=[[Arc alloc] initWithFrame:CGRectMake(0,0, ball.frame.size.width+20,ball.frame.size.height+30)];
+    arc=[[Arc alloc] initWithFrame:CGRectMake(0,0, 88,88)];
     arc.backgroundColor=[UIColor clearColor];
     arc.center=ball.center;
     [self.view addSubview:arc];
@@ -121,7 +128,7 @@
     catchZoneButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [catchZoneButton addTarget:self
                         action:@selector(buttonPressed)
-              forControlEvents:UIControlEventTouchUpInside];
+              forControlEvents:UIControlEventTouchDown];
     catchZoneButton.frame=CGRectMake(0, 0, 88, 88);
     catchZoneButton.center=CGPointMake(screenWidth*.5, screenHeight*.5);
     catchZoneButton.backgroundColor=[UIColor clearColor];
@@ -304,12 +311,15 @@
                                   delay:0.0
                                 options:UIViewAnimationOptionCurveLinear
                              animations:^{
-                                 catchZone.frame=CGRectMake(0, 0, catchZoneDiameter, catchZoneDiameter);
-                                 catchZoneButton.frame=CGRectMake(0, 0, catchZoneDiameter, catchZoneDiameter);
+//                                 catchZone.frame=CGRectMake(0, 0, catchZoneDiameter, catchZoneDiameter);
+//                                 catchZoneButton.frame=CGRectMake(0, 0, catchZoneDiameter, catchZoneDiameter);
+//                                 crosshair.frame=catchZone.frame;
+//
+//                                 catchZone.center=CGPointMake(screenWidth*.5, screenHeight*.5);
+//                                 catchZoneCenter.center=catchZone.center;
+//                                 catchZoneButton.center=catchZone.center;
+//                                 crosshair.center=CGPointMake(catchZone.frame.size.width*.5, catchZone.frame.size.height*.5);
 
-                                 catchZone.center=CGPointMake(screenWidth*.5, screenHeight*.5);
-                                 catchZoneCenter.center=catchZone.center;
-                                 catchZoneButton.center=catchZone.center;
 
                              }
                              completion:^(BOOL finished){
@@ -355,7 +365,11 @@
 
 - (void)scrollViewDidScroll:(UIScrollView *)_scrollView{
  
+    
+    //ignore flicks
+    
     catchZone.center=CGPointMake(catchZone.center.x, -scrollView.contentOffset.y+screenHeight*.5);
+    crosshair.center=CGPointMake(catchZone.frame.size.width*.5, catchZone.frame.size.height*.5);
 
     //arrow
     float d=((screenHeight*.5)-scrollView.contentOffset.y)/(float)(screenHeight*.5);
@@ -367,6 +381,17 @@
     
     
 }
+
+- (void)scrollViewWillEndDragging:(UIScrollView *)_scrollView withVelocity: (CGPoint)velocity targetContentOffset:(inout CGPoint *)targetContentOffset
+{
+    if(velocity.y==0){
+        if (_scrollView.contentOffset.y>screenHeight*.25) targetContentOffset->y = screenHeight*.5;
+        else targetContentOffset->y = 0;
+    }
+    //[_aboutScroller setContentOffset:CGPointMake(0, 568) animated:YES];
+}
+
+
 
 
 #pragma mark - restart
@@ -385,6 +410,8 @@
                      animations:^{
                          catchZone.alpha=0;
                          catchZoneCenter.alpha=0;
+                         crosshair.alpha=0;
+
                          [scrollView setContentOffset:CGPointMake(0, 0)];
 
                          ball.alpha=0;
@@ -408,7 +435,9 @@
                                               catchZone.center=CGPointMake(screenWidth*.5,screenHeight*.5);
                                               catchZoneCenter.center=catchZone.center;
                                               catchZoneButton.center=catchZone.center;
-                                              
+                                              crosshair.frame=catchZone.frame;
+                                              crosshair.center=CGPointMake(catchZone.frame.size.width*.5, catchZone.frame.size.height*.5);
+
                                               showScoreboardButton.center=CGPointMake(screenWidth*.5, screenHeight-44);
 
                                           }
@@ -487,6 +516,7 @@
                      animations:^{
                          catchZone.alpha=0;
                          catchZoneCenter.alpha=0;
+                         crosshair.alpha=0;
                          showScoreboardButton.center=CGPointMake(screenWidth*.5, screenHeight+88);
 
                      }
@@ -501,6 +531,8 @@
                                           animations:^{
                                               catchZone.alpha=1;
                                               catchZoneCenter.alpha=1;
+                                              crosshair.alpha=1;
+
                                               midMarkL.alpha=1;
                                               midMarkR.alpha=1;
                                               arc.alpha=1;
@@ -970,10 +1002,8 @@
         [scoreHistory  addObject:[NSNumber numberWithInteger:currentLevel]];
         [scoreHistory writeToFile:scoreHistoryDataFile atomically:YES];
         scoreGraph.yValues=scoreHistory;
-
         [scoreGraph setNeedsDisplay];
 
-        
         [self setLevel:currentLevel];
         [self restart];
     }
@@ -997,7 +1027,7 @@
     
     [UIView animateWithDuration:0.4
                           delay:0.0
-                        options:UIViewAnimationOptionCurveLinear
+                        options:UIViewAnimationOptionCurveEaseOut
                      animations:^{
                          //set ball position
                          ball.center=CGPointMake(screenWidth*.5, startY);
@@ -1012,7 +1042,7 @@
             
                 [UIView animateWithDuration:0.4
                                         delay:0.0
-                                      options:UIViewAnimationOptionCurveLinear
+                                      options:UIViewAnimationOptionCurveEaseOut
                                    animations:^{
                                        [self setCatchZoneDiameter];
                                        
@@ -1022,25 +1052,32 @@
                                        ball.alpha=0;
                                        [ball setNeedsDisplay];
                                        
-                                       arc.frame=CGRectMake(50,50, ball.frame.size.width+20,ball.frame.size.height+30);
-                                       arc.center=ball.center;
-                                       [arc setNeedsDisplay];
-
-                                       //set mid markers
-                                       midMarkL.center=CGPointMake(midMarkL.center.x, startY+(endY-startY)*flashT);
-                                       midMarkR.center=CGPointMake(midMarkR.center.x, startY+(endY-startY)*flashT);
-                                       midMarkLine.center=CGPointMake(midMarkLine.center.x, startY+(endY-startY)*flashT);
 
                                        
                                    }
                                    completion:^(BOOL finished){
-                                       //autostart next level
-                                       if(currentLevel>0){
-                                           trialSequence=0;
-                                           double val =.2+((double)arc4random() / ARC4RANDOM_MAX)*1.3;
-                                           [self performSelector:@selector(buttonPressed) withObject:self afterDelay:val];
-                                       }
-                                       
+                                       [UIView animateWithDuration:0.4
+                                                             delay:0.0
+                                                           options:UIViewAnimationOptionCurveEaseOut
+                                                        animations:^{
+                                                            
+                                                            //set mid markers
+                                                            midMarkL.center=CGPointMake(midMarkL.center.x, startY+(endY-startY)*flashT);
+                                                            midMarkR.center=CGPointMake(midMarkR.center.x, startY+(endY-startY)*flashT);
+                                                            midMarkLine.center=CGPointMake(midMarkLine.center.x, startY+(endY-startY)*flashT);
+                                                            
+                                                            
+                                                        }
+                                                        completion:^(BOOL finished){
+
+                                                            //autostart next level
+                                                            if(currentLevel>0){
+                                                                trialSequence=0;
+                                                                double val =.2+((double)arc4random() / ARC4RANDOM_MAX)*1.3;
+                                                                [self performSelector:@selector(buttonPressed) withObject:self afterDelay:val];
+                                                            }
+                                                            
+                                                        }];
                                    }];
                      }];
     
@@ -1054,8 +1091,15 @@
     catchZone.frame=CGRectMake(0, 0, catchZoneDiameter, catchZoneDiameter);
     catchZone.center=CGPointMake(screenWidth*.5, endY);
     catchZoneCenter.center=catchZone.center;
-    
+    crosshair.frame=catchZone.frame;
+    crosshair.center=CGPointMake(catchZone.frame.size.width*.5, catchZone.frame.size.height*.5);
+
     [catchZone setNeedsDisplay];
+    
+    arc.frame=CGRectMake(0,0, catchZoneDiameter,catchZoneDiameter);
+    arc.center=ball.center;
+    [arc setNeedsDisplay];
+    
 
     
 }

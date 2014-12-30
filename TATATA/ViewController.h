@@ -13,6 +13,7 @@
 #import "MachTimer.h"
 #import "Arc.h"
 #import "Sparkline.h"
+#import "Crosshair.h"
 
 @interface ViewController : UIViewController <GKGameCenterControllerDelegate,UIScrollViewDelegate>
 
@@ -32,7 +33,8 @@
     Dots *catchZone;
     Dots *catchZoneCenter;
     //Dots *catchZoneFlash;
-
+    Crosshair *crosshair;
+    
     double ballAlpha;
     
     float startY;

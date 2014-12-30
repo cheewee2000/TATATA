@@ -13,6 +13,7 @@
 		44140EE31A4FE96C00A612B8 /* ParseFacebookUtils.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 44140EDE1A4FE96C00A612B8 /* ParseFacebookUtils.framework */; };
 		44140EE41A4FE96C00A612B8 /* ParseUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 44140EDF1A4FE96C00A612B8 /* ParseUI.framework */; };
 		44140EE51A50361F00A612B8 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 44140ED81A4FE3D100A612B8 /* libsqlite3.dylib */; };
+		44140EE81A52B38600A612B8 /* Crosshair.m in Sources */ = {isa = PBXBuildFile; fileRef = 44140EE71A52B38600A612B8 /* Crosshair.m */; };
 		443CA72D19C0B171003BACD8 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 443CA72C19C0B171003BACD8 /* AVFoundation.framework */; };
 		444023D21A37EAB10022D80B /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 444023D11A37EAB10022D80B /* StoreKit.framework */; };
 		444023D41A37EAD30022D80B /* libstdc++.6.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 444023D31A37EAD30022D80B /* libstdc++.6.dylib */; };
@@ -50,6 +51,8 @@
 		44140EDD1A4FE96C00A612B8 /* ParseCrashReporting.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = ParseCrashReporting.framework; sourceTree = "<group>"; };
 		44140EDE1A4FE96C00A612B8 /* ParseFacebookUtils.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = ParseFacebookUtils.framework; sourceTree = "<group>"; };
 		44140EDF1A4FE96C00A612B8 /* ParseUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = ParseUI.framework; sourceTree = "<group>"; };
+		44140EE61A52B38600A612B8 /* Crosshair.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Crosshair.h; sourceTree = "<group>"; };
+		44140EE71A52B38600A612B8 /* Crosshair.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Crosshair.m; sourceTree = "<group>"; };
 		443CA72C19C0B171003BACD8 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		444023D11A37EAB10022D80B /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		444023D31A37EAD30022D80B /* libstdc++.6.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libstdc++.6.dylib"; path = "usr/lib/libstdc++.6.dylib"; sourceTree = SDKROOT; };
@@ -163,6 +166,8 @@
 				444F09B71A1CEFB500E5E7C3 /* Dots.m */,
 				44E9AC7E1A3E7C21003A45A4 /* Sparkline.h */,
 				44E9AC7F1A3E7C21003A45A4 /* Sparkline.m */,
+				44140EE61A52B38600A612B8 /* Crosshair.h */,
+				44140EE71A52B38600A612B8 /* Crosshair.m */,
 			);
 			name = Helpers;
 			sourceTree = "<group>";
@@ -297,6 +302,7 @@
 				444F09EA1A1CEFB500E5E7C3 /* main.m in Sources */,
 				444F09D91A1CEFB500E5E7C3 /* AppDelegate.m in Sources */,
 				444F09E21A1CEFB500E5E7C3 /* Dots.m in Sources */,
+				44140EE81A52B38600A612B8 /* Crosshair.m in Sources */,
 				444F09E91A1CEFB500E5E7C3 /* MachTimer.m in Sources */,
 				444F09F21A1CEFB500E5E7C3 /* ViewController.m in Sources */,
 				448F046D1A22C678009F215E /* Arc.m in Sources */,
