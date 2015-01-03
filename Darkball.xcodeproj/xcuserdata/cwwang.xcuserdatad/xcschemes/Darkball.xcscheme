@@ -16,8 +16,8 @@
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "70C2EB3B1475EF4F00751AE8"
                BuildableName = "tatata.app"
-               BlueprintName = "TATATA"
-               ReferencedContainer = "container:tatata.xcodeproj">
+               BlueprintName = "Darkball"
+               ReferencedContainer = "container:Darkball.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -34,8 +34,8 @@
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "70C2EB3B1475EF4F00751AE8"
             BuildableName = "tatata.app"
-            BlueprintName = "TATATA"
-            ReferencedContainer = "container:tatata.xcodeproj">
+            BlueprintName = "Darkball"
+            ReferencedContainer = "container:Darkball.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
    </TestAction>
@@ -53,8 +53,8 @@
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "70C2EB3B1475EF4F00751AE8"
             BuildableName = "tatata.app"
-            BlueprintName = "TATATA"
-            ReferencedContainer = "container:tatata.xcodeproj">
+            BlueprintName = "Darkball"
+            ReferencedContainer = "container:Darkball.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
       <AdditionalOptions>
@@ -71,8 +71,8 @@
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "70C2EB3B1475EF4F00751AE8"
             BuildableName = "tatata.app"
-            BlueprintName = "TATATA"
-            ReferencedContainer = "container:tatata.xcodeproj">
+            BlueprintName = "Darkball"
+            ReferencedContainer = "container:Darkball.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>

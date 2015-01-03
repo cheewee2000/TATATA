@@ -85,7 +85,7 @@
 		44FD6D9F19C49A9F006C7099 /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
 		44FD6DA119C49AA7006C7099 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		44FD6DA519C49AB3006C7099 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
-		70C2EB3C1475EF4F00751AE8 /* tatata.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = tatata.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		70C2EB3C1475EF4F00751AE8 /* Darkball.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Darkball.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		70C2EB401475EF4F00751AE8 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		70C2EB421475EF4F00751AE8 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		70C2EB441475EF4F00751AE8 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -184,7 +184,7 @@
 		70C2EB3D1475EF4F00751AE8 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				70C2EB3C1475EF4F00751AE8 /* tatata.app */,
+				70C2EB3C1475EF4F00751AE8 /* Darkball.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -222,9 +222,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		70C2EB3B1475EF4F00751AE8 /* TATATA */ = {
+		70C2EB3B1475EF4F00751AE8 /* Darkball */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 70C2EB5A1475EF4F00751AE8 /* Build configuration list for PBXNativeTarget "TATATA" */;
+			buildConfigurationList = 70C2EB5A1475EF4F00751AE8 /* Build configuration list for PBXNativeTarget "Darkball" */;
 			buildPhases = (
 				70C2EB381475EF4F00751AE8 /* Sources */,
 				70C2EB391475EF4F00751AE8 /* Frameworks */,
@@ -234,9 +234,9 @@
 			);
 			dependencies = (
 			);
-			name = TATATA;
+			name = Darkball;
 			productName = VolumeSnap;
-			productReference = 70C2EB3C1475EF4F00751AE8 /* tatata.app */;
+			productReference = 70C2EB3C1475EF4F00751AE8 /* Darkball.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -260,7 +260,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 70C2EB361475EF4F00751AE8 /* Build configuration list for PBXProject "tatata" */;
+			buildConfigurationList = 70C2EB361475EF4F00751AE8 /* Build configuration list for PBXProject "Darkball" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -272,7 +272,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				70C2EB3B1475EF4F00751AE8 /* TATATA */,
+				70C2EB3B1475EF4F00751AE8 /* Darkball */,
 			);
 		};
 /* End PBXProject section */
@@ -423,7 +423,7 @@
 					"$(PROJECT_DIR)/TATATA/TestFlightSDK3.0.2",
 				);
 				ONLY_ACTIVE_ARCH = YES;
-				PRODUCT_NAME = tatata;
+				PRODUCT_NAME = Darkball;
 				PROVISIONING_PROFILE = "";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				WRAPPER_EXTENSION = app;
@@ -451,7 +451,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/TATATA/TestFlightSDK3.0.2",
 				);
-				PRODUCT_NAME = tatata;
+				PRODUCT_NAME = Darkball;
 				PROVISIONING_PROFILE = "";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				WRAPPER_EXTENSION = app;
@@ -461,7 +461,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		70C2EB361475EF4F00751AE8 /* Build configuration list for PBXProject "tatata" */ = {
+		70C2EB361475EF4F00751AE8 /* Build configuration list for PBXProject "Darkball" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				70C2EB581475EF4F00751AE8 /* Debug */,
@@ -470,7 +470,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		70C2EB5A1475EF4F00751AE8 /* Build configuration list for PBXNativeTarget "TATATA" */ = {
+		70C2EB5A1475EF4F00751AE8 /* Build configuration list for PBXNativeTarget "Darkball" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				70C2EB5B1475EF4F00751AE8 /* Debug */,

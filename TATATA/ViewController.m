@@ -202,20 +202,19 @@
     showScoreboardButton.center=CGPointMake(screenWidth*.5, screenHeight+88);
     [scrollView addSubview:showScoreboardButton];
     
-    
-    
 
-//    gameCenterButton = [UIButton buttonWithType:UIButtonTypeCustom];
-//    [gameCenterButton addTarget:self
-//               action:@selector(showGlobalLeaderboard)
-//     forControlEvents:UIControlEventTouchUpInside];
-//    
-//    gameCenterButton.titleLabel.font=[UIFont fontWithName:@"Entypo" size:14];
-//    [gameCenterButton setTitle:@"▾\U0000FE0E" forState:UIControlStateNormal];
-//    [gameCenterButton setTitleColor:fgColor forState:UIControlStateNormal];
-//    gameCenterButton.frame = CGRectMake(bestLabelLabel.frame.size.width-58, -25, 88.0, 88.0);
-//    [scrollView addSubview:gameCenterButton];
-//    
+    gameCenterButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [gameCenterButton addTarget:self
+               action:@selector(showGlobalLeaderboard)
+     forControlEvents:UIControlEventTouchUpInside];
+    
+    [gameCenterButton setImage:[UIImage imageNamed:@"leaderboard"] forState:UIControlStateNormal];
+
+    [gameCenterButton setTitleColor:fgColor forState:UIControlStateNormal];
+    gameCenterButton.frame = CGRectMake(screenWidth*.5-44, scrollView.contentSize.height-100, 88.0, 88.0);
+    float inset=33.0f;
+    [gameCenterButton setImageEdgeInsets:UIEdgeInsetsMake(inset,inset,inset,inset)];
+    [scrollView addSubview:gameCenterButton];
 
     [self updateHighscore];
     
@@ -525,6 +524,8 @@
                          [catchZone setColor:strokeColor];
                          trialSequence=-1;
                          
+                         [self setCatchZoneDiameter];
+                         
                          [UIView animateWithDuration:0.4
                                                delay:0.0
                                              options:UIViewAnimationOptionCurveLinear
@@ -798,21 +799,47 @@
 -(void)startTrialSequence{
 
 
-    double initDelay=.8;
+    //double initDelay=.4;
     double flashDelay=timerGoal*(float)flashT;
-    double flashDuration=.07;
+    double flashDuration=.08;
+    float ballDim=.7;
     
     [ball setColor:strokeColor];
     [ball setNeedsDisplay];
     
+    float initDelay =.1+((double)arc4random() / ARC4RANDOM_MAX)*1.4;
+
+    //ambient lights
+    UIColor *bg=bgColor;
+    if(currentLevel==0  && [[NSUserDefaults standardUserDefaults] boolForKey:@"hideExample"] == NO){
+        bg=[UIColor colorWithWhite:.4 alpha:1];
+        initDelay=1.2;
+    }
+     
+    [UIView animateWithDuration:0.8
+                          delay:0.0
+                        options:UIViewAnimationOptionCurveLinear
+                     animations:^{
+                         self.view.backgroundColor=bg;
+                         if(currentLevel==0  && [[NSUserDefaults standardUserDefaults] boolForKey:@"hideExample"] == NO){
+                             ball.alpha=1.0;
+                             [self setCatchZoneDiameter];//in case catchzone is in wrong place
+                         }
+                     }
+                     completion:^(BOOL finished){
+                     }];
+    
+    
+    
     CFTimeInterval currentTime = CACurrentMediaTime();
     CFTimeInterval currentTimeInSuperLayer = [self.view.layer convertTime:currentTime fromLayer:nil];
+
 
     //first flash
     [CATransaction begin];
     CABasicAnimation *startFlash = [CABasicAnimation animationWithKeyPath:@"opacity"];
     [startFlash setDuration:flashDuration];
-    [startFlash setFromValue:[NSNumber numberWithFloat:0.0f]];
+    [startFlash setFromValue:[NSNumber numberWithFloat:(currentLevel>0)?0.0f:ballDim]];
     [startFlash setToValue:[NSNumber numberWithFloat:1.0f]];
     [startFlash setBeginTime:currentTimeInSuperLayer+initDelay];
     [CATransaction setCompletionBlock:^{
@@ -820,7 +847,7 @@
         
         if(currentLevel==0 && [[NSUserDefaults standardUserDefaults] boolForKey:@"hideExample"] == NO)
         {
-            ball.alpha=dimAlpha;
+            ball.alpha=ballDim;
             trialSequence=-2;
             [self updateBall];
         }
@@ -835,11 +862,11 @@
     //second flash
     CABasicAnimation *midFlash = [CABasicAnimation animationWithKeyPath:@"opacity"];
     [midFlash setDuration:flashDuration];
-    [midFlash setFromValue:[NSNumber numberWithFloat:(currentLevel>0)?0.0f:ballAlpha]];
+    [midFlash setFromValue:[NSNumber numberWithFloat:(currentLevel>0)?0.0f:ballDim]];
     [midFlash setToValue:[NSNumber numberWithFloat:1.0f]];
     [midFlash setBeginTime:currentTimeInSuperLayer+initDelay+flashDelay];
     [CATransaction setCompletionBlock:^{
-        if(currentLevel==0 && [[NSUserDefaults standardUserDefaults] boolForKey:@"hideExample"] == NO) ball.alpha=dimAlpha;
+        if(currentLevel==0 && [[NSUserDefaults standardUserDefaults] boolForKey:@"hideExample"] == NO) ball.alpha=ballDim;
         trialSequence=1;
         //float msOff=[aTimer elapsedSeconds]-flashDelay;
         //NSLog(@"midFlash   accuracy: %f sec",msOff);
@@ -1039,20 +1066,16 @@
                      }
                      completion:^(BOOL finished){
 
+
+                         
             
                 [UIView animateWithDuration:0.4
                                         delay:0.0
                                       options:UIViewAnimationOptionCurveEaseOut
                                    animations:^{
                                        [self setCatchZoneDiameter];
-                                       
-                                       //if(allowBallResize)ball.frame=CGRectMake(0,0, catchZoneDiameter*.8, catchZoneDiameter*.8);
-                                       //ball.center=CGPointMake(screenWidth*.5, startY);
                                        ball.alpha=0;
                                        [ball setNeedsDisplay];
-                                       
-
-                                       
                                    }
                                    completion:^(BOOL finished){
                                        [UIView animateWithDuration:0.4
@@ -1064,16 +1087,17 @@
                                                             midMarkL.center=CGPointMake(midMarkL.center.x, startY+(endY-startY)*flashT);
                                                             midMarkR.center=CGPointMake(midMarkR.center.x, startY+(endY-startY)*flashT);
                                                             midMarkLine.center=CGPointMake(midMarkLine.center.x, startY+(endY-startY)*flashT);
-                                                            
-                                                            
                                                         }
                                                         completion:^(BOOL finished){
 
+
+                                                            
+                         
+                                                            
                                                             //autostart next level
                                                             if(currentLevel>0){
                                                                 trialSequence=0;
-                                                                double val =.2+((double)arc4random() / ARC4RANDOM_MAX)*1.3;
-                                                                [self performSelector:@selector(buttonPressed) withObject:self afterDelay:val];
+                                                                [self buttonPressed];
                                                             }
                                                             
                                                         }];
@@ -1086,7 +1110,6 @@
 -(void)setCatchZoneDiameter{
     float catchZoneDiameter=[self getLevelAccuracy:currentLevel]*(startY-endY)/timerGoal*2.0;
     
-
     catchZone.frame=CGRectMake(0, 0, catchZoneDiameter, catchZoneDiameter);
     ball.frame=CGRectMake(0,0, catchZoneDiameter*.9, catchZoneDiameter*.9);
     ball.center=CGPointMake(screenWidth*.5, startY);
@@ -1102,9 +1125,6 @@
     arc.frame=CGRectMake(0,0, catchZoneDiameter,catchZoneDiameter);
     arc.center=ball.center;
     [arc setNeedsDisplay];
-    
-
-    
 }
 
 # pragma mark Helpers
