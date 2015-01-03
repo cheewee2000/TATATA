@@ -366,12 +366,11 @@
 
 - (void)scrollViewDidScroll:(UIScrollView *)_scrollView{
  
-    
     //ignore flicks
-    
+    if(trialSequence==0){
     catchZone.center=CGPointMake(catchZone.center.x, -scrollView.contentOffset.y+screenHeight*.5);
     crosshair.center=CGPointMake(catchZone.frame.size.width*.5, catchZone.frame.size.height*.5);
-
+    }
     //arrow
     float d=((screenHeight*.5)-scrollView.contentOffset.y)/(float)(screenHeight*.5);
     showScoreboardButton.alpha=d;
@@ -513,14 +512,14 @@
 
     [UIView animateWithDuration:0.4
                           delay:0.0
-                        options:UIViewAnimationOptionCurveLinear
+                        options:UIViewAnimationOptionCurveEaseOut
                      animations:^{
                          [self setCatchZoneDiameter];
                      }
                      completion:^(BOOL finished){
         [UIView animateWithDuration:0.4
                               delay:0.2
-                            options:UIViewAnimationOptionCurveLinear
+                            options:UIViewAnimationOptionCurveEaseOut
                          animations:^{
                              catchZone.alpha=0;
                              catchZoneCenter.alpha=0;
@@ -536,7 +535,7 @@
                              
                              [UIView animateWithDuration:0.2
                                                    delay:0.0
-                                                 options:UIViewAnimationOptionCurveLinear
+                                                 options:UIViewAnimationOptionCurveEaseOut
                                               animations:^{
                                                   catchZone.alpha=.3;
                                                   catchZoneCenter.alpha=1;
@@ -544,7 +543,7 @@
                                               completion:^(BOOL finished){
                                                   [UIView animateWithDuration:0.2
                                                                         delay:0.0
-                                                                      options:UIViewAnimationOptionCurveLinear
+                                                                      options:UIViewAnimationOptionCurveEaseOut
                                                                    animations:^{
                                                                        crosshair.alpha=1;
                                                                        midMarkL.alpha=.3;
@@ -553,13 +552,15 @@
                                                                    completion:^(BOOL finished){
                                                                        [UIView animateWithDuration:0.2
                                                                                              delay:0.0
-                                                                                           options:UIViewAnimationOptionCurveLinear
+                                                                                           options:UIViewAnimationOptionCurveEaseOut
                                                                                         animations:^{
                                                                                             arc.alpha=.3;
+                                                                                            [self setCatchZoneDiameter];//in case catchzone is in wrong place
+
                                                                                         }
                                                                                         completion:^(BOOL finished){
                                                                                             trialSequence=-1;
-                                                                                            
+
                                                                                             //reset scoreboard
                                                                                             [self updateHighscore];
                                                                                             [self startTrialSequence];
@@ -828,7 +829,7 @@
     
     //double initDelay=.4;
     double flashDelay=timerGoal*(float)flashT;
-    double flashDuration=.1;
+    double flashDuration=.09;
     float ballDim=.8;
     
     [ball setColor:strokeColor];
@@ -855,7 +856,7 @@
 
     [UIView animateWithDuration:.8
                           delay:0.0
-                        options:UIViewAnimationOptionCurveLinear
+                        options:UIViewAnimationOptionCurveEaseOut
                      animations:^{
                          self.view.backgroundColor=bg;
                          catchZone.alpha=objAlpha;
@@ -863,9 +864,10 @@
                          midMarkR.alpha=objAlpha;
                          arc.alpha=objAlpha;
                          
+
+                         
                          if(currentLevel==0  && [[NSUserDefaults standardUserDefaults] boolForKey:@"hideExample"] == NO){
                              ball.alpha=1.0;
-                             [self setCatchZoneDiameter];//in case catchzone is in wrong place
                          }
 
                      }
@@ -929,9 +931,9 @@
     if(elapsed==0)p=CGPointMake(screenWidth*.5, startY);
     else p=CGPointMake(screenWidth*.5, startY+(endY-startY)*(float)elapsed/(float)timerGoal );
     if(animate){
-        [UIView animateWithDuration:0.2
+        [UIView animateWithDuration:0.4
                               delay:0.0
-                            options:UIViewAnimationOptionCurveLinear
+                            options:UIViewAnimationOptionCurveEaseOut
                          animations:^{
                              ball.center=p;
                          }
@@ -1115,7 +1117,7 @@
                                         delay:0.0
                                       options:UIViewAnimationOptionCurveEaseOut
                                    animations:^{
-                                       [self setCatchZoneDiameter];
+                                       //[self setCatchZoneDiameter];
                                        ball.alpha=0;
                                        [ball setNeedsDisplay];
                                    }
@@ -1131,11 +1133,6 @@
                                                             midMarkLine.center=CGPointMake(midMarkLine.center.x, startY+(endY-startY)*flashT);
                                                         }
                                                         completion:^(BOOL finished){
-
-
-                                                            
-                         
-                                                            
                                                             //autostart next level
                                                             if(currentLevel>0){
                                                                 trialSequence=0;
