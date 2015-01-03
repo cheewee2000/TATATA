@@ -11,9 +11,11 @@
 	<key>fonts</key>
 	<array>
 		<string>Chalet-NewYorkNineteenSixty</string>
+		<string>HelveticaNeue-UltraLight</string>
+		<string>Chalet-LondonNineteenSixty</string>
 	</array>
 	<key>length</key>
-	<integer>337588</integer>
+	<integer>598548</integer>
 	<key>version</key>
 	<integer>37</integer>
 </dict>
