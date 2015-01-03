@@ -513,39 +513,59 @@
                           delay:0.0
                         options:UIViewAnimationOptionCurveLinear
                      animations:^{
-                         catchZone.alpha=0;
-                         catchZoneCenter.alpha=0;
-                         crosshair.alpha=0;
-                         showScoreboardButton.center=CGPointMake(screenWidth*.5, screenHeight+88);
-
+                         [self setCatchZoneDiameter];
                      }
                      completion:^(BOOL finished){
-                         [catchZone setFill:NO];
-                         [catchZone setColor:strokeColor];
-                         trialSequence=-1;
-                         
-                         [self setCatchZoneDiameter];
-                         
-                         [UIView animateWithDuration:0.4
-                                               delay:0.0
-                                             options:UIViewAnimationOptionCurveLinear
-                                          animations:^{
-                                              catchZone.alpha=1;
-                                              catchZoneCenter.alpha=1;
-                                              crosshair.alpha=1;
+        [UIView animateWithDuration:0.4
+                              delay:0.2
+                            options:UIViewAnimationOptionCurveLinear
+                         animations:^{
+                             catchZone.alpha=0;
+                             catchZoneCenter.alpha=0;
+                             crosshair.alpha=0;
+                             showScoreboardButton.center=CGPointMake(screenWidth*.5, screenHeight+88);
 
-                                              midMarkL.alpha=1;
-                                              midMarkR.alpha=1;
-                                              arc.alpha=1;
-                                          }
-                                          completion:^(BOOL finished){
-                                              trialSequence=-1;
-                                              
-                                              //reset scoreboard
-                                              [self updateHighscore];
-                                              [self startTrialSequence];
-                                          }];
-                     }];
+                         }
+                         completion:^(BOOL finished){
+                             [catchZone setFill:NO];
+                             [catchZone setColor:strokeColor];
+                             trialSequence=-1;
+                             
+                             
+                             [UIView animateWithDuration:0.4
+                                                   delay:0.0
+                                                 options:UIViewAnimationOptionCurveLinear
+                                              animations:^{
+                                                  catchZone.alpha=1;
+                                                  catchZoneCenter.alpha=1;
+                                              }
+                                              completion:^(BOOL finished){
+                                                  [UIView animateWithDuration:0.2
+                                                                        delay:0.0
+                                                                      options:UIViewAnimationOptionCurveLinear
+                                                                   animations:^{
+                                                                       crosshair.alpha=1;
+                                                                       midMarkL.alpha=1;
+                                                                       midMarkR.alpha=1;
+                                                                   }
+                                                                   completion:^(BOOL finished){
+                                                                       [UIView animateWithDuration:0.2
+                                                                                             delay:0.0
+                                                                                           options:UIViewAnimationOptionCurveLinear
+                                                                                        animations:^{
+                                                                                            arc.alpha=1;
+                                                                                        }
+                                                                                        completion:^(BOOL finished){
+                                                                                            trialSequence=-1;
+                                                                                            
+                                                                                            //reset scoreboard
+                                                                                            [self updateHighscore];
+                                                                                            [self startTrialSequence];
+                                                                                        }];
+                                                                   }];
+                                              }];
+                         }];
+                }];
 }
 
 
@@ -811,10 +831,13 @@
 
     //ambient lights
     UIColor *bg=bgColor;
-    if(currentLevel==0  && [[NSUserDefaults standardUserDefaults] boolForKey:@"hideExample"] == NO){
-        bg=[UIColor colorWithWhite:.4 alpha:1];
-        initDelay=1.2;
+    if( currentLevel==0  && [[NSUserDefaults standardUserDefaults] boolForKey:@"hideExample"] == NO){
+        bg=[UIColor colorWithWhite:.5 alpha:1];
     }
+    
+    if(currentLevel<=1)initDelay=1.5;
+
+        
      
     [UIView animateWithDuration:0.8
                           delay:0.0
@@ -1059,10 +1082,9 @@
                          //set ball position
                          ball.center=CGPointMake(screenWidth*.5, startY);
                          [ball setColor:strokeColor];
+                         ball.alpha=dimAlpha;
                          [ball setNeedsDisplay];
-                         
                          currentScoreLabel.alpha=0;
-
                      }
                      completion:^(BOOL finished){
 
