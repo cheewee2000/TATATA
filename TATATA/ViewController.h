@@ -71,6 +71,8 @@
     
     BOOL allowBallResize;
     
+    float trialDelay;
+    
 #pragma mark - timing
     NSTimeInterval elapsed;
     NSTimeInterval timerGoal;

@@ -649,6 +649,7 @@
     float diff=elapsed-timerGoal;
     [myDictionary setObject:[NSNumber numberWithFloat:diff] forKey:@"accuracy"];
     [myDictionary setObject:[NSNumber numberWithFloat:timerGoal] forKey:@"goal"];
+    [myDictionary setObject:[NSNumber numberWithFloat:trialDelay] forKey:@"trialDelay"];
     [myDictionary setObject:[NSNumber numberWithFloat:flashT] forKey:@"flashT"];
     [myDictionary setObject:[NSNumber numberWithFloat:[currentTrial[@"d1"]floatValue]] forKey:@"d1"];
     [myDictionary setObject:[NSNumber numberWithFloat:[currentTrial[@"d2"]floatValue]] forKey:@"d2"];
@@ -657,11 +658,11 @@
     [myDictionary setObject:localDateTime forKey:@"date"];
     [myDictionary setObject:[NSTimeZone localTimeZone].abbreviation forKey:@"timezone"];
     [myDictionary setObject:[NSNumber numberWithBool: (touched)? YES:NO ] forKey:@"didTouch"];
-    if(touched){
-        [myDictionary setObject:[NSNumber numberWithFloat: touchX ] forKey:@"touchX"];
-        [myDictionary setObject:[NSNumber numberWithFloat: touchY ] forKey:@"touchY"];
-        [myDictionary setObject:[NSNumber numberWithFloat: touchLength ] forKey:@"touchLength"];
-    }
+    //if(touched){
+    [myDictionary setObject:[NSNumber numberWithFloat: touchX ] forKey:@"touchX"];
+    [myDictionary setObject:[NSNumber numberWithFloat: touchY ] forKey:@"touchY"];
+    [myDictionary setObject:[NSNumber numberWithFloat: touchLength ] forKey:@"touchLength"];
+    //}
     [self.allTrialData addObject:myDictionary];
     [self.allTrialData writeToFile:allTrialDataFile atomically:YES];
 
@@ -670,17 +671,18 @@
     pObject[@"accuracy"] = [NSNumber numberWithFloat:diff];
     pObject[@"goal"] = [NSNumber numberWithFloat:timerGoal];
     pObject[@"flashT"]=[NSNumber numberWithFloat:flashT];
-    pObject[@"trial"]=currentTrial;
+    pObject[@"trialDelay"]=[NSNumber numberWithFloat:trialDelay];
+    pObject[@"trials"]=currentTrial;
     pObject[@"level"]=[NSNumber numberWithInteger:currentLevel];
     pObject[@"win"]=([self isAccurate])? @YES:@NO;
     pObject[@"date"]=localDateTime;
     pObject[@"timezone"]=[NSString stringWithFormat:@"%@",[NSTimeZone localTimeZone].abbreviation];
     pObject[@"didTouch"]=(touched)? @YES:@NO;
-    if(touched){
-        pObject[@"touchX"]=[NSNumber numberWithFloat: touchX ];
-        pObject[@"touchY"]=[NSNumber numberWithFloat: touchY ];
-        pObject[@"touchLength"]=[NSNumber numberWithFloat:touchLength];
-    }
+    //if(touched){
+    pObject[@"touchX"]=[NSNumber numberWithFloat: touchX ];
+    pObject[@"touchY"]=[NSNumber numberWithFloat: touchY ];
+    pObject[@"touchLength"]=[NSNumber numberWithFloat:touchLength];
+    //}
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     NSString*uuid;
     if([defaults stringForKey:@"uuid"] == nil){
@@ -818,7 +820,10 @@
 
 -(void)startTrialSequence{
 
-
+    touchX=0;
+    touchY=0;
+    touchLength=0;
+    
     //double initDelay=.4;
     double flashDelay=timerGoal*(float)flashT;
     double flashDuration=.08;
@@ -827,7 +832,7 @@
     [ball setColor:strokeColor];
     [ball setNeedsDisplay];
     
-    float initDelay =.1+((double)arc4random() / ARC4RANDOM_MAX)*1.4;
+    trialDelay =.1+((double)arc4random() / ARC4RANDOM_MAX)*1.4;
 
     //ambient lights
     UIColor *bg=bgColor;
@@ -835,7 +840,7 @@
         bg=[UIColor colorWithWhite:.5 alpha:1];
     }
     
-    if(currentLevel<=1)initDelay=1.5;
+    if(currentLevel<=1)trialDelay=1.5;
 
         
      
@@ -864,7 +869,7 @@
     [startFlash setDuration:flashDuration];
     [startFlash setFromValue:[NSNumber numberWithFloat:(currentLevel>0)?0.0f:ballDim]];
     [startFlash setToValue:[NSNumber numberWithFloat:1.0f]];
-    [startFlash setBeginTime:currentTimeInSuperLayer+initDelay];
+    [startFlash setBeginTime:currentTimeInSuperLayer+trialDelay];
     [CATransaction setCompletionBlock:^{
         [aTimer start];
         
@@ -887,7 +892,7 @@
     [midFlash setDuration:flashDuration];
     [midFlash setFromValue:[NSNumber numberWithFloat:(currentLevel>0)?0.0f:ballDim]];
     [midFlash setToValue:[NSNumber numberWithFloat:1.0f]];
-    [midFlash setBeginTime:currentTimeInSuperLayer+initDelay+flashDelay];
+    [midFlash setBeginTime:currentTimeInSuperLayer+trialDelay+flashDelay];
     [CATransaction setCompletionBlock:^{
         if(currentLevel==0 && [[NSUserDefaults standardUserDefaults] boolForKey:@"hideExample"] == NO) ball.alpha=ballDim;
         trialSequence=1;
