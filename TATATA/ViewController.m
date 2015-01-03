@@ -33,7 +33,7 @@
     
     screenHeight=self.view.frame.size.height;
     screenWidth=self.view.frame.size.width;
-    bgColor=[UIColor colorWithWhite:.15 alpha:1];
+    bgColor=[UIColor colorWithRed:14/255.0 green:14/255.0 blue:15/255.0 alpha:1];
     fgColor=[UIColor colorWithRed:255/255 green:163/255.0 blue:0 alpha:1];
     flashColor=[UIColor colorWithWhite:1 alpha:1];
     strokeColor=[UIColor colorWithWhite:.8 alpha:1];
@@ -46,6 +46,8 @@
     
     [self authenticateLocalPlayer];
 
+    self.view.backgroundColor=bgColor;
+    
    #pragma mark - Persistent Variables
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     if([defaults objectForKey:@"best"] == nil) best=0;
@@ -532,11 +534,11 @@
                              trialSequence=-1;
                              
                              
-                             [UIView animateWithDuration:0.4
+                             [UIView animateWithDuration:0.2
                                                    delay:0.0
                                                  options:UIViewAnimationOptionCurveLinear
                                               animations:^{
-                                                  catchZone.alpha=1;
+                                                  catchZone.alpha=.3;
                                                   catchZoneCenter.alpha=1;
                                               }
                                               completion:^(BOOL finished){
@@ -545,15 +547,15 @@
                                                                       options:UIViewAnimationOptionCurveLinear
                                                                    animations:^{
                                                                        crosshair.alpha=1;
-                                                                       midMarkL.alpha=1;
-                                                                       midMarkR.alpha=1;
+                                                                       midMarkL.alpha=.3;
+                                                                       midMarkR.alpha=.3;
                                                                    }
                                                                    completion:^(BOOL finished){
                                                                        [UIView animateWithDuration:0.2
                                                                                              delay:0.0
                                                                                            options:UIViewAnimationOptionCurveLinear
                                                                                         animations:^{
-                                                                                            arc.alpha=1;
+                                                                                            arc.alpha=.3;
                                                                                         }
                                                                                         completion:^(BOOL finished){
                                                                                             trialSequence=-1;
@@ -826,33 +828,46 @@
     
     //double initDelay=.4;
     double flashDelay=timerGoal*(float)flashT;
-    double flashDuration=.08;
-    float ballDim=.7;
+    double flashDuration=.1;
+    float ballDim=.8;
     
     [ball setColor:strokeColor];
     [ball setNeedsDisplay];
     
     trialDelay =.1+((double)arc4random() / ARC4RANDOM_MAX)*1.4;
+    float objAlpha=.4;
 
     //ambient lights
     UIColor *bg=bgColor;
     if( currentLevel==0  && [[NSUserDefaults standardUserDefaults] boolForKey:@"hideExample"] == NO){
-        bg=[UIColor colorWithWhite:.5 alpha:1];
+        CGFloat hue, saturation, brightness, alpha ;
+        BOOL ok = [ bgColor getHue:&hue saturation:&saturation brightness:&brightness alpha:&alpha ] ;
+        if ( !ok ) {
+            // handle error
+        }
+        brightness=.4;
+        
+        bg = [ UIColor colorWithHue:hue saturation:saturation brightness:brightness alpha:alpha ] ;
+        objAlpha=1.0;
     }
     
-    if(currentLevel<=1)trialDelay=1.5;
+    if(currentLevel<=1)trialDelay=1.6;
 
-        
-     
-    [UIView animateWithDuration:0.8
+    [UIView animateWithDuration:.8
                           delay:0.0
                         options:UIViewAnimationOptionCurveLinear
                      animations:^{
                          self.view.backgroundColor=bg;
+                         catchZone.alpha=objAlpha;
+                         midMarkL.alpha=objAlpha;
+                         midMarkR.alpha=objAlpha;
+                         arc.alpha=objAlpha;
+                         
                          if(currentLevel==0  && [[NSUserDefaults standardUserDefaults] boolForKey:@"hideExample"] == NO){
                              ball.alpha=1.0;
                              [self setCatchZoneDiameter];//in case catchzone is in wrong place
                          }
+
                      }
                      completion:^(BOOL finished){
                      }];
