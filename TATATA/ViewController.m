@@ -101,6 +101,41 @@
     [self.view bringSubviewToFront:ball];
     
     
+    ballAnnotation=[[UILabel alloc] initWithFrame:CGRectMake(0,0,150,80)];
+    ballAnnotation.backgroundColor=[UIColor clearColor];
+    ballAnnotation.textAlignment=NSTextAlignmentRight;
+    ballAnnotation.font = [UIFont fontWithName:@"HelveticaNeue-Ultralight" size:18];
+    ballAnnotation.textColor=strokeColor;
+    ballAnnotation.alpha=0;
+    [self.view addSubview:ballAnnotation];
+    
+    UIBezierPath *path = [UIBezierPath bezierPath];
+    [path moveToPoint:CGPointMake(0.0, ballAnnotation.frame.size.height)];
+    [path addLineToPoint:CGPointMake(30, ballAnnotation.frame.size.height-30)];
+    [path addLineToPoint:CGPointMake(ballAnnotation.frame.size.width, ballAnnotation.frame.size.height-30)];
+
+    CAShapeLayer *shapeLayer = [CAShapeLayer layer];
+    shapeLayer.path = [path CGPath];
+    shapeLayer.strokeColor = [strokeColor CGColor];
+    shapeLayer.lineWidth = 0.5;
+    shapeLayer.fillColor = [[UIColor clearColor] CGColor];
+    
+    UIBezierPath *circle = [UIBezierPath bezierPath];
+    [circle addArcWithCenter:CGPointMake(0.0, ballAnnotation.frame.size.height)
+                    radius:2.0
+                startAngle:0.0
+                  endAngle:M_PI * 2.0
+                 clockwise:YES];
+    
+    CAShapeLayer *circleLayer = [CAShapeLayer layer];
+    circleLayer.path = [circle CGPath];
+    circleLayer.strokeColor = [[UIColor clearColor] CGColor];
+    circleLayer.fillColor = [strokeColor CGColor];
+    
+    [ballAnnotation.layer addSublayer:shapeLayer];
+    [ballAnnotation.layer addSublayer:circleLayer];
+
+    
     arc=[[Arc alloc] initWithFrame:CGRectMake(0,0, 88,88)];
     arc.backgroundColor=[UIColor clearColor];
     arc.center=ball.center;
@@ -423,6 +458,8 @@
                          [scrollView setContentOffset:CGPointMake(0, 0)];
 
                          ball.alpha=0;
+                         ballAnnotation.alpha=0;
+                         
                          midMarkL.alpha=dimAlpha;
                          midMarkR.alpha=dimAlpha;
                          arc.alpha=dimAlpha;
@@ -611,6 +648,7 @@
         [ball setColor:[UIColor redColor]];
         [ball setNeedsDisplay];
         
+        
         //flash background
         [UIView animateWithDuration:0.1
                               delay:0.0
@@ -645,6 +683,13 @@
     
     [self positionBall:NO];
     ball.alpha=ballAlpha;
+    float annotationHeight= ballAnnotation.frame.size.height;
+    float annotationWidth= ballAnnotation.frame.size.width;
+    ballAnnotation.frame=CGRectMake(ball.center.x, ball.center.y-annotationHeight, annotationWidth, annotationHeight);
+    float diff=elapsed-timerGoal;
+    if(diff<0) ballAnnotation.text=[NSString stringWithFormat:@"%6f", diff];
+    else ballAnnotation.text=[NSString stringWithFormat:@"+%6f", diff];
+    ballAnnotation.alpha=1;
     
     [self.view.layer removeAllAnimations];
 }
@@ -1153,6 +1198,8 @@
                                                              delay:0.0
                                                            options:UIViewAnimationOptionCurveEaseOut
                                                         animations:^{
+                                                            //hide annotation
+                                                            ballAnnotation.alpha=0;
                                                             
                                                             //set mid markers
                                                             midMarkL.center=CGPointMake(midMarkL.center.x, startY+(endY-startY)*flashT);
@@ -1181,6 +1228,7 @@
     ball.center=CGPointMake(screenWidth*.5, startY);
     ball.lineWidth=ball.frame.size.width*.33-.75;
     
+
     catchZone.center=CGPointMake(screenWidth*.5, endY);
     catchZoneCenter.center=catchZone.center;
     crosshair.frame=catchZone.frame;

@@ -34,6 +34,7 @@
     Dots *catchZoneCenter;
     //Dots *catchZoneFlash;
     Crosshair *crosshair;
+    UILabel * ballAnnotation;
     
     double ballAlpha;
     
