@@ -295,6 +295,24 @@
 //    [self.view addGestureRecognizer:tapGestureRecognizer3];
 //    self.view.userInteractionEnabled=YES;
     
+    
+    
+    if([defaults objectForKey:@"flashDuration"] == nil) flashDuration=0.08;
+    else flashDuration = (int)[defaults integerForKey:@"flashDuration"];
+    
+    if([defaults objectForKey:@"accuracyStart"] == nil) accuracyStart=0.2;
+    else accuracyStart = (int)[defaults integerForKey:@"accuracyStart"];
+    
+    if([defaults objectForKey:@"accuracyMax"] == nil) accuracyMax=0.05;
+    else accuracyMax = (int)[defaults integerForKey:@"accuracyMax"];
+    
+    if([defaults objectForKey:@"accuracyIncrement"] == nil) accuracyIncrement=0.075;
+    else accuracyIncrement = (int)[defaults integerForKey:@"accuracyIncrement"];
+
+//    if([defaults objectForKey:@"ballDiameter"] == nil) ballDiameter=80;
+//    else ballDiameter = (int)[defaults integerForKey:@"ballDiameter"];
+    
+    //load configs. defaults in case no internet. too slow
     NSLog(@"Getting the latest config...");
     [PFConfig getConfigInBackgroundWithBlock:^(PFConfig *config, NSError *error) {
         if (!error) {
@@ -304,32 +322,22 @@
             config = [PFConfig currentConfig];
         }
         
-        float catchZoneDiameter = [config[@"catchZoneDiameter"]floatValue];
-        if(catchZoneDiameter){
-            
-            
-            [UIView animateWithDuration:0.4
-                                  delay:0.0
-                                options:UIViewAnimationOptionCurveLinear
-                             animations:^{
-//                                 catchZone.frame=CGRectMake(0, 0, catchZoneDiameter, catchZoneDiameter);
-//                                 catchZoneButton.frame=CGRectMake(0, 0, catchZoneDiameter, catchZoneDiameter);
-//                                 crosshair.frame=catchZone.frame;
-//
-//                                 catchZone.center=CGPointMake(screenWidth*.5, screenHeight*.5);
-//                                 catchZoneCenter.center=catchZone.center;
-//                                 catchZoneButton.center=catchZone.center;
-//                                 crosshair.center=CGPointMake(catchZone.frame.size.width*.5, catchZone.frame.size.height*.5);
+        flashDuration=[config[@"flashDuration"]floatValue];
+        [defaults setObject:[NSNumber numberWithFloat:flashDuration] forKey:@"flashDuration"];
+        
+        accuracyStart=[config[@"accuracyStart"]floatValue];
+        [defaults setObject:[NSNumber numberWithFloat:accuracyStart] forKey:@"accuracyStart"];
 
+        accuracyMax=[config[@"accuracyMax"]floatValue];
+        [defaults setObject:[NSNumber numberWithFloat:accuracyMax] forKey:@"accuracyMax"];
 
-                             }
-                             completion:^(BOOL finished){
-                             }];
-            
-            
+        accuracyIncrement=[config[@"accuracyIncrement"]floatValue];
+        [defaults setObject:[NSNumber numberWithFloat:accuracyIncrement] forKey:@"accuracyIncrement"];
 
-        }
+//        ballDiameter=[config[@"ballDiameter"]floatValue];
+//        [defaults setObject:[NSNumber numberWithFloat:ballDiameter] forKey:@"ballDiameter"];
 
+        
     }];
     
 
@@ -829,7 +837,7 @@
     
     //double initDelay=.4;
     double flashDelay=timerGoal*(float)flashT;
-    double flashDuration=.09;
+    //float flashDuration=[config[@"flashDuration"]floatValue];
     float ballDim=.8;
     
     [ball setColor:strokeColor];
@@ -949,7 +957,9 @@
 
 -(float)getLevel:(int)level{
     //userdefault last level
-    float l=[currentTrial[@"d1"] floatValue]+[currentTrial[@"d2"] floatValue];
+    //float l=[currentTrial[@"d1"] floatValue]+[currentTrial[@"d2"] floatValue];
+    float l=[currentTrial[@"duration"] floatValue] * [currentTrial[@"d2"] floatValue]+[currentTrial[@"duration"] floatValue] * [currentTrial[@"d1"] floatValue];
+
     return l;
     
     
@@ -977,9 +987,9 @@
     //    NSInteger random = arc4random() % 3;
     //
     //    if (level>=3) f=.5-random*.1;
+    //float f=[currentTrial[@"d1"] floatValue]/([currentTrial[@"d1"] floatValue]+[currentTrial[@"d2"] floatValue]);
+    
     float f=[currentTrial[@"d1"] floatValue]/([currentTrial[@"d1"] floatValue]+[currentTrial[@"d2"] floatValue]);
-    
-    
     return f;
 }
 
@@ -988,11 +998,14 @@
     //return .2;
     
     //return timerGoal*.1;
-    if(level==0 && [[NSUserDefaults standardUserDefaults] boolForKey:@"hideExample"]==NO )return timerGoal*.15;
+    if(level==0 && [[NSUserDefaults standardUserDefaults] boolForKey:@"hideExample"]==NO )return timerGoal*accuracyStart;
     //int stage=(5+level)/10.0;
-    float accuracy=.125-.075*level/25.0;
-    if(level>25)accuracy=.05;
-    return timerGoal*accuracy;
+//    float accuracy=accuracyStart-accuracyIncrement*level/25.0;
+    float accuracy=accuracyStart-accuracyIncrement*level;
+
+    if(accuracy<accuracyMax)accuracy=accuracyMax;
+    float levelAccuracy=timerGoal*accuracy;
+    return levelAccuracy;
     
     
 }
@@ -1117,7 +1130,7 @@
                                         delay:0.0
                                       options:UIViewAnimationOptionCurveEaseOut
                                    animations:^{
-                                       //[self setCatchZoneDiameter];
+                                       [self setCatchZoneDiameter];
                                        ball.alpha=0;
                                        [ball setNeedsDisplay];
                                    }
@@ -1147,7 +1160,7 @@
 }
 
 -(void)setCatchZoneDiameter{
-    float catchZoneDiameter=[self getLevelAccuracy:currentLevel]*(startY-endY)/timerGoal*2.0;
+    float catchZoneDiameter=[self getLevelAccuracy:currentLevel]*(endY-startY)/timerGoal*2.0;
     
     catchZone.frame=CGRectMake(0, 0, catchZoneDiameter, catchZoneDiameter);
     ball.frame=CGRectMake(0,0, catchZoneDiameter*.9, catchZoneDiameter*.9);
@@ -1248,7 +1261,7 @@
             for( int i=0; i<trialArray.count; i++){
                 PFObject *t=[trialArray objectAtIndex:i];
 
-                NSDictionary *trial=[[NSDictionary alloc] initWithObjectsAndKeys:t[@"d1"],@"d1", t[@"d2"],@"d2", nil];
+                NSDictionary *trial=[[NSDictionary alloc] initWithObjectsAndKeys:t[@"d1"],@"d1", t[@"d2"],@"d2", t[@"duration"],@"duration",nil];
                 [trialArray replaceObjectAtIndex:i withObject:trial];
                 
             }
@@ -1272,15 +1285,9 @@
     if(trialArray == nil){
         trialArray = [[NSMutableArray alloc] init];
         
-        [trialArray addObject:[[NSDictionary alloc] initWithObjectsAndKeys:[NSNumber numberWithFloat:.75],@"d1", [NSNumber numberWithFloat:.75],@"d2", nil]];
-        [trialArray addObject:[[NSDictionary alloc] initWithObjectsAndKeys:[NSNumber numberWithFloat:.5],@"d1", [NSNumber numberWithFloat:.5],@"d2", nil]];
-        [trialArray addObject:[[NSDictionary alloc] initWithObjectsAndKeys:[NSNumber numberWithFloat:.5],@"d1", [NSNumber numberWithFloat:1.5],@"d2", nil]];
-        [trialArray addObject:[[NSDictionary alloc] initWithObjectsAndKeys:[NSNumber numberWithFloat:1.0],@"d1", [NSNumber numberWithFloat:1.25],@"d2", nil]];
-        [trialArray addObject:[[NSDictionary alloc] initWithObjectsAndKeys:[NSNumber numberWithFloat:.75],@"d1", [NSNumber numberWithFloat:1.0],@"d2", nil]];
-        [trialArray addObject:[[NSDictionary alloc] initWithObjectsAndKeys:[NSNumber numberWithFloat:.5],@"d1", [NSNumber numberWithFloat:.75],@"d2", nil]];
-        [trialArray addObject:[[NSDictionary alloc] initWithObjectsAndKeys:[NSNumber numberWithFloat:.75],@"d1", [NSNumber numberWithFloat:1.00],@"d2", nil]];
-        [trialArray addObject:[[NSDictionary alloc] initWithObjectsAndKeys:[NSNumber numberWithFloat:1.5],@"d1", [NSNumber numberWithFloat:1.5],@"d2", nil]];
-        [trialArray addObject:[[NSDictionary alloc] initWithObjectsAndKeys:[NSNumber numberWithFloat:.5],@"d1", [NSNumber numberWithFloat:.75],@"d2", nil]];
+        [trialArray addObject:[[NSDictionary alloc] initWithObjectsAndKeys:[NSNumber numberWithFloat:1],@"d1", [NSNumber numberWithFloat:1],@"d2",[NSNumber numberWithFloat:0.6],@"duration",  nil]];
+        
+        [trialArray addObject:[[NSDictionary alloc] initWithObjectsAndKeys:[NSNumber numberWithFloat:1],@"d1", [NSNumber numberWithFloat:1.5],@"d2",[NSNumber numberWithFloat:0.6],@"duration",  nil]];
 
         [trialArray writeToFile:trialArrayDataFile atomically:YES];
     

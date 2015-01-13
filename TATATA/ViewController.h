@@ -60,6 +60,14 @@
     UIColor *flashColor;
     UIColor *strokeColor;
 
+    //config file
+    float flashDuration;
+    float accuracyStart;
+    float accuracyIncrement;
+    float accuracyMax;
+    float ballDiameter;
+    //float catchZoneDiameter;
+    
     
     UIButton *gameCenterButton;
     UIButton *showScoreboardButton;
