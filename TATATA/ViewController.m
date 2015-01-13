@@ -655,6 +655,11 @@
     
     NSDate* localDateTime = [NSDate dateWithTimeInterval:[[NSTimeZone systemTimeZone] secondsFromGMT] sinceDate:[NSDate date]];
 
+    
+    PFConfig * config = [PFConfig currentConfig];
+    NSString *configVersion=config[@"configVersion"];
+    
+    
     //save to disk
     NSMutableDictionary *myDictionary = [[NSMutableDictionary alloc] init];
     float diff=elapsed-timerGoal;
@@ -664,6 +669,8 @@
     [myDictionary setObject:[NSNumber numberWithFloat:flashT] forKey:@"flashT"];
     [myDictionary setObject:[NSNumber numberWithFloat:[currentTrial[@"d1"]floatValue]] forKey:@"d1"];
     [myDictionary setObject:[NSNumber numberWithFloat:[currentTrial[@"d2"]floatValue]] forKey:@"d2"];
+    [myDictionary setObject:[NSNumber numberWithFloat:[currentTrial[@"duration"]floatValue]] forKey:@"duration"];
+
     [myDictionary setObject:[NSNumber numberWithInteger:currentLevel] forKey:@"level"];
     [myDictionary setObject:[NSNumber numberWithBool:([self isAccurate])? YES:NO] forKey:@"win"];
     [myDictionary setObject:localDateTime forKey:@"date"];
@@ -673,6 +680,8 @@
     [myDictionary setObject:[NSNumber numberWithFloat: touchX ] forKey:@"touchX"];
     [myDictionary setObject:[NSNumber numberWithFloat: touchY ] forKey:@"touchY"];
     [myDictionary setObject:[NSNumber numberWithFloat: touchLength ] forKey:@"touchLength"];
+    [myDictionary setObject:configVersion forKey:@"configVersion"];
+
     //}
     [self.allTrialData addObject:myDictionary];
     [self.allTrialData writeToFile:allTrialDataFile atomically:YES];
@@ -682,6 +691,9 @@
     pObject[@"accuracy"] = [NSNumber numberWithFloat:diff];
     pObject[@"goal"] = [NSNumber numberWithFloat:timerGoal];
     pObject[@"flashT"]=[NSNumber numberWithFloat:flashT];
+//    pObject[@"d1"]=[NSNumber numberWithFloat:[currentTrial[@"d1"]floatValue] ];
+//    pObject[@"d2"]=[NSNumber numberWithFloat:[currentTrial[@"d2"]floatValue] ];
+//    pObject[@"duration"]=[NSNumber numberWithFloat:[currentTrial[@"duration"]floatValue] ];
     pObject[@"trialDelay"]=[NSNumber numberWithFloat:trialDelay];
     pObject[@"trials"]=currentTrial;
     pObject[@"level"]=[NSNumber numberWithInteger:currentLevel];
@@ -693,6 +705,8 @@
     pObject[@"touchX"]=[NSNumber numberWithFloat: touchX ];
     pObject[@"touchY"]=[NSNumber numberWithFloat: touchY ];
     pObject[@"touchLength"]=[NSNumber numberWithFloat:touchLength];
+    pObject[@"configVersion"]=configVersion;
+
     //}
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     NSString*uuid;
