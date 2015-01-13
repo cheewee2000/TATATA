@@ -1266,6 +1266,8 @@
 
     
     PFQuery *query = [PFQuery queryWithClassName:@"trials"];
+    [query addAscendingOrder:@"index"];
+    
     [query findObjectsInBackgroundWithBlock:^(NSArray *results, NSError *error) {
         if(!error){
             NSLog(@"updated trial sequence");
