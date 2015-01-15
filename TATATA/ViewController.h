@@ -71,6 +71,8 @@
     
     
     UIButton *gameCenterButton;
+    UIButton *infoButton;
+
     UIButton *showScoreboardButton;
     UIButton *catchZoneButton;
     

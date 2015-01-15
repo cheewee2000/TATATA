@@ -159,14 +159,14 @@
     
     scrollView = [[UIScrollView alloc] initWithFrame:self.view.bounds];
     scrollView.delegate = self;
-    [scrollView setContentSize:CGSizeMake(scrollView.bounds.size.width, scrollView.bounds.size.height*1.5)];
+    [scrollView setContentSize:CGSizeMake(scrollView.bounds.size.width, scrollView.bounds.size.height*2.5)];
     [self.view addSubview:scrollView];
 
     catchZoneButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [catchZoneButton addTarget:self
                         action:@selector(buttonPressed)
-              forControlEvents:UIControlEventTouchDown];
-    catchZoneButton.frame=CGRectMake(0, 0, 88, 88);
+              forControlEvents:UIControlEventTouchUpInside];
+    catchZoneButton.frame=CGRectMake(0, 0, ball.frame.size.width, ball.frame.size.height);
     catchZoneButton.center=CGPointMake(screenWidth*.5, screenHeight*.5);
     catchZoneButton.backgroundColor=[UIColor clearColor];
     
@@ -248,12 +248,28 @@
     [gameCenterButton setImage:[UIImage imageNamed:@"leaderboard"] forState:UIControlStateNormal];
 
     [gameCenterButton setTitleColor:fgColor forState:UIControlStateNormal];
-    gameCenterButton.frame = CGRectMake(screenWidth*.5-44, scrollView.contentSize.height-100, 88.0, 88.0);
+    gameCenterButton.frame = CGRectMake(screenWidth*.5-44, screenHeight*1.5-100, 88.0, 88.0);
     float inset=33.0f;
     [gameCenterButton setImageEdgeInsets:UIEdgeInsetsMake(inset,inset,inset,inset)];
     [scrollView addSubview:gameCenterButton];
 
     [self updateHighscore];
+    
+    
+    infoButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [infoButton addTarget:self
+                         action:@selector(showIntroView)
+               forControlEvents:UIControlEventTouchUpInside];
+    
+    [infoButton setImage:[UIImage imageNamed:@"leaderboard"] forState:UIControlStateNormal];
+    
+    [infoButton setTitleColor:fgColor forState:UIControlStateNormal];
+    infoButton.frame = CGRectMake(screenWidth*.5-44+100, screenHeight*1.5-100, 88.0, 88.0);
+    [infoButton setImageEdgeInsets:UIEdgeInsetsMake(inset,inset,inset,inset)];
+    [scrollView addSubview:infoButton];
+
+    
+    
     
     
 #pragma mark - Mid Marks
@@ -281,48 +297,61 @@
 
     
 #pragma mark - intro
-    intro=[[UIView alloc] initWithFrame:self.view.frame];
-    intro.backgroundColor=bgColor;
-    [self.view addSubview:intro];
+    intro=[[UIView alloc] initWithFrame:CGRectMake(0, screenHeight*1.5, screenWidth, screenHeight)];
+    //intro.backgroundColor=bgColor;
+    intro.userInteractionEnabled=NO;
+    intro.backgroundColor=[UIColor clearColor];
+    [scrollView addSubview:intro];
     
-    int m=15;
-    int w=screenWidth-m*2.0;
+    int m=10;
+    //int w=screenWidth-m*2.0;
+    int w=300;
     //instructions
 
     
-    introTitle=[[UILabel alloc] initWithFrame:CGRectMake(m, screenWidth*.22, w, screenWidth*.20)];
-    introTitle.font = [UIFont fontWithName:@"DIN Condensed" size:screenWidth*.22];
-    introTitle.adjustsFontSizeToFitWidth=YES;
-    introTitle.text=@"THIS IS TATATA";
-    //introTitle.textColor=[self getForegroundColor:0];
+    introTitle=[[UILabel alloc] initWithFrame:CGRectMake(m, startY, w, 35)];
+    introTitle.center=CGPointMake(screenWidth*.5, introTitle.center.y);
+    introTitle.font = [UIFont fontWithName:@"DIN Condensed" size:32];
+    //introTitle.adjustsFontSizeToFitWidth=YES;
+    introTitle.text=@"BOOST YOUR BRAIN SENSORS";
+    introTitle.textColor=strokeColor;
     [intro addSubview:introTitle];
 
     
-    introSubtitle=[[UILabel alloc] initWithFrame:CGRectMake(m, 15, w, 90)];
-    introSubtitle.font = [UIFont fontWithName:@"DIN Condensed" size:32];
-    introSubtitle.numberOfLines=3;
-    introSubtitle.text=@"TEST";
-    //introSubtitle.textColor=[self getForegroundColor:0];
-    [intro addSubview:introSubtitle];
+//    introSubtitle=[[UILabel alloc] initWithFrame:CGRectMake(m, 15, w, 90)];
+//    introSubtitle.font = [UIFont fontWithName:@"DIN Condensed" size:32];
+//    introSubtitle.numberOfLines=3;
+//    introSubtitle.text=@"TEST";
+//    introSubtitle.textColor=strokeColor;
+//    [intro addSubview:introSubtitle];
     
     
-    introParagraph=[[UILabel alloc] initWithFrame:CGRectMake(m, introSubtitle.frame.origin.y+introSubtitle.frame.size.height+10, w, 180)];
-    introParagraph.font = [UIFont fontWithName:@"DIN Condensed" size:20];
-    introParagraph.numberOfLines=10;
-    introParagraph.textAlignment=NSTextAlignmentJustified;
-    introParagraph.text=@"For each trial..";
-    //introParagraph.textColor=[self getForegroundColor:0];
+    NSMutableParagraphStyle *paragraphStyles = [[NSMutableParagraphStyle alloc] init];
+    paragraphStyles.alignment                = NSTextAlignmentJustified;
+    paragraphStyles.firstLineHeadIndent      = 0.05;    // Very IMP
+    
+    introParagraph=[[UILabel alloc] initWithFrame:CGRectMake(m, introTitle.frame.origin.y+introTitle.frame.size.height+10, w, 300)];
+    introParagraph.center=CGPointMake(screenWidth*.5, introParagraph.center.y);
+    introParagraph.font = [UIFont fontWithName:@"DIN Condensed" size:19];
+    introParagraph.numberOfLines=20;
+    introParagraph.textColor=strokeColor;
+    
+    NSString *stringTojustify                = @"Darkball boils down eye-hand coordination, reaction speed and timing into the most fundamental elements. All you see is all you need.\n\nCristiano Ronaldo can famously volley a corner kick in total darkness. At the root of this superpower is sensorimotor integration of advance cues. \n\nAthletic performance combines strength, technique, skill, and mental ability. Darkball is about your boosting your mental ability. In this simple task, we isolate and focus on your ability to use advance cues and prediction to build up your eye-hand coordination.";
+    NSDictionary *attributes                 = @{NSParagraphStyleAttributeName: paragraphStyles};
+    NSAttributedString *attributedString     = [[NSAttributedString alloc] initWithString:stringTojustify attributes:attributes];
+    
+    introParagraph.attributedText             = attributedString;
     [intro addSubview:introParagraph];
     
-    credits=[[UILabel alloc] initWithFrame:CGRectMake(m, screenHeight-55, w, 40)];
-    credits.font = [UIFont fontWithName:@"HelveticaNeue" size:9];
-    credits.numberOfLines=3;
-    credits.textAlignment=NSTextAlignmentCenter;
-    credits.text=@"TATATA";
-    //credits.textColor=[self getForegroundColor:0];
-    [intro addSubview:credits];
-    
-    intro.alpha=0;
+//    credits=[[UILabel alloc] initWithFrame:CGRectMake(m, screenHeight-55, w, 40)];
+//    credits.font = [UIFont fontWithName:@"HelveticaNeue" size:9];
+//    credits.numberOfLines=3;
+//    credits.textAlignment=NSTextAlignmentCenter;
+//    credits.text=@"TATATA";
+//    //credits.textColor=[self getForegroundColor:0];
+//    [intro addSubview:credits];
+//    
+    intro.alpha=1;
     
 //    UITapGestureRecognizer *tapGestureRecognizer3 = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(buttonPressed)];
 //    tapGestureRecognizer3.numberOfTouchesRequired = 1;
@@ -375,7 +404,6 @@
         
     }];
     
-
     
     //currentLevel=11;
     //[self restart];
@@ -385,7 +413,7 @@
 #pragma mark - touch
 
 -(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
-    
+
 
     if(trialSequence>0)[self buttonPressed];
     
@@ -397,6 +425,8 @@
     
     touchStartTime=[aTimer elapsedSeconds];
     
+    
+    
 }
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
     touchLength=[aTimer elapsedSeconds]-touchStartTime;
@@ -405,14 +435,19 @@
         [self trialStopped];
     }
 
+    
+
 }
 
 - (void)scrollViewDidScroll:(UIScrollView *)_scrollView{
  
     //ignore flicks
     if(trialSequence==0){
-    catchZone.center=CGPointMake(catchZone.center.x, -scrollView.contentOffset.y+screenHeight*.5);
-    crosshair.center=CGPointMake(catchZone.frame.size.width*.5, catchZone.frame.size.height*.5);
+        catchZone.center=CGPointMake(catchZone.center.x, -scrollView.contentOffset.y+screenHeight*.5);
+        //crosshair.center=CGPointMake(catchZone.frame.size.width*.5, catchZone.frame.size.height*.5);
+        //catchZoneButton.center=CGPointMake(catchZone.center.x, -scrollView.contentOffset.y+screenHeight*.5);
+        catchZoneButton.center=CGPointMake(screenWidth*.5, screenHeight*.5);
+
     }
     //arrow
     float d=((screenHeight*.5)-scrollView.contentOffset.y)/(float)(screenHeight*.5);
@@ -420,8 +455,13 @@
     
     bestLabel.center=CGPointMake(screenWidth*.5, endY-60+(screenHeight-endY)*(1.0-d));
     
-    //show best
     
+    //show catchzone in introview
+    if(scrollView.contentOffset.y>screenHeight*.75){
+        catchZone.center=CGPointMake(catchZone.center.x, -scrollView.contentOffset.y+screenHeight*1.5+endY);
+        //crosshair.center=CGPointMake(catchZone.frame.size.width*.5, catchZone.frame.size.height*.5);
+        catchZoneButton.center=CGPointMake(screenWidth*.5, screenHeight*1.5+endY);
+    }
     
 }
 
@@ -432,6 +472,18 @@
         else targetContentOffset->y = 0;
     }
     //[_aboutScroller setContentOffset:CGPointMake(0, 568) animated:YES];
+    if (velocity.y == 0.f)
+    {
+        if(scrollView.contentOffset.y<screenHeight*.25){
+            targetContentOffset->y = 0;
+        }else if(scrollView.contentOffset.y<screenHeight*1.25){
+            targetContentOffset->y = screenHeight*.5;
+        }else{
+            targetContentOffset->y = screenHeight*1.5;
+        }
+    }
+    
+
 }
 
 
@@ -491,9 +543,11 @@
 
                                               //[self animateLevelReset];
                                               trialSequence=0;
+                                              
+
                                           }];
                      }];
-    
+
     
 }
 
@@ -511,10 +565,12 @@
 
 //volume buttons
 -(void)buttonPressed{
-    
+
+    if(trialSequence<0)return;
+
     if(showIntro){
         showIntro=false;
-
+        
         [UIView animateWithDuration:0.4
                               delay:0.0
                             options:UIViewAnimationOptionCurveLinear
@@ -525,28 +581,41 @@
                              NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
                              [defaults setInteger:showIntro forKey:@"showIntro"];
                              [defaults synchronize];
-
+                             
                          }];
         return;
     }
     
-    if(trialSequence<0)return;
-
+    //dismiss intro view
+    if(scrollView.contentOffset.y>=screenHeight*1.5){
+        [scrollView setContentOffset:CGPointMake(0, 0) animated:YES];
+        return;
+    }
+    
+    
     //START
     if(trialSequence==0){
         touched=NO;
         trialSequence=-1;
         [self showLabels:NO];
-
+        
         if(currentLevel==0) [self hideStartScreen];
         else [self startTrialSequence];
-    
+        
     }
     //STOP
     else if(trialSequence==1){
         touched=YES;
         [self stop];
     }
+    
+    
+
+
+
+
+
+    
     
 }
 
@@ -784,15 +853,16 @@
 -(void)showIntroView{
     [self.view bringSubviewToFront:intro];
     
-    [UIView animateWithDuration:0.4
-                          delay:0
-                        options:UIViewAnimationOptionCurveLinear
-                     animations:^{
-                         intro.alpha=1.0;
-                     }
-                     completion:^(BOOL finished){
 
-                     }];
+ [UIView animateWithDuration:0.4
+                       delay:0
+                     options:UIViewAnimationOptionCurveLinear
+                  animations:^{
+                      intro.alpha=1.0;
+                  }
+                  completion:^(BOOL finished){
+                      
+                  }];
     
 }
 
