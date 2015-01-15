@@ -28,6 +28,8 @@
 		444F09EA1A1CEFB500E5E7C3 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 444F09C41A1CEFB500E5E7C3 /* main.m */; };
 		444F09F21A1CEFB500E5E7C3 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 444F09D71A1CEFB500E5E7C3 /* ViewController.m */; };
 		444F09F61A1CF1EE00E5E7C3 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 70C2EB5F1475F07400751AE8 /* AudioToolbox.framework */; };
+		4461DC0F1A682439009FDEA3 /* SurveyView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4461DC0E1A682439009FDEA3 /* SurveyView.m */; };
+		4461DC161A6839E8009FDEA3 /* SurveyView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4461DC151A6839E8009FDEA3 /* SurveyView.xib */; };
 		4470939619EDC41E00F6D53C /* GameKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4470939519EDC41E00F6D53C /* GameKit.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		44866B4819B78B500084652A /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 44866B4719B78B500084652A /* QuartzCore.framework */; };
 		448F046D1A22C678009F215E /* Arc.m in Sources */ = {isa = PBXBuildFile; fileRef = 448F046C1A22C678009F215E /* Arc.m */; };
@@ -72,6 +74,9 @@
 		444F09C91A1CEFB500E5E7C3 /* tatata.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = tatata.pch; sourceTree = "<group>"; };
 		444F09D61A1CEFB500E5E7C3 /* ViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
 		444F09D71A1CEFB500E5E7C3 /* ViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
+		4461DC0D1A682439009FDEA3 /* SurveyView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SurveyView.h; sourceTree = "<group>"; };
+		4461DC0E1A682439009FDEA3 /* SurveyView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SurveyView.m; sourceTree = "<group>"; };
+		4461DC151A6839E8009FDEA3 /* SurveyView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SurveyView.xib; sourceTree = "<group>"; };
 		4470939519EDC41E00F6D53C /* GameKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GameKit.framework; path = System/Library/Frameworks/GameKit.framework; sourceTree = SDKROOT; };
 		44866B4719B78B500084652A /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		448F046B1A22C678009F215E /* Arc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Arc.h; sourceTree = "<group>"; };
@@ -136,6 +141,9 @@
 				444F09F41A1CF0EE00E5E7C3 /* Misc */,
 				444F09D61A1CEFB500E5E7C3 /* ViewController.h */,
 				444F09D71A1CEFB500E5E7C3 /* ViewController.m */,
+				4461DC0D1A682439009FDEA3 /* SurveyView.h */,
+				4461DC0E1A682439009FDEA3 /* SurveyView.m */,
+				4461DC151A6839E8009FDEA3 /* SurveyView.xib */,
 			);
 			path = TATATA;
 			sourceTree = "<group>";
@@ -287,6 +295,7 @@
 				44D879991A243493001021B0 /* Images.xcassets in Resources */,
 				444F09E01A1CEFB500E5E7C3 /* Default.png in Resources */,
 				444F09DF1A1CEFB500E5E7C3 /* Default-568h@2x.png in Resources */,
+				4461DC161A6839E8009FDEA3 /* SurveyView.xib in Resources */,
 				444F09E31A1CEFB500E5E7C3 /* InfoPlist.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -298,6 +307,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4461DC0F1A682439009FDEA3 /* SurveyView.m in Sources */,
 				44E9AC801A3E7C21003A45A4 /* Sparkline.m in Sources */,
 				444F09EA1A1CEFB500E5E7C3 /* main.m in Sources */,
 				444F09D91A1CEFB500E5E7C3 /* AppDelegate.m in Sources */,

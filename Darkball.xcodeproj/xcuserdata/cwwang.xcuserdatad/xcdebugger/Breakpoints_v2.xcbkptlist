@@ -20,11 +20,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "TATATA/ViewController.m"
-            timestampString = "443031715.922564"
+            timestampString = "443043974.423687"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1115"
-            endingLineNumber = "1115"
+            startingLineNumber = "1125"
+            endingLineNumber = "1125"
             landmarkName = "-getLevelAccuracy:"
             landmarkType = "5">
          </BreakpointContent>
@@ -36,11 +36,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "TATATA/ViewController.m"
-            timestampString = "443031715.922564"
+            timestampString = "443043974.423687"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1296"
-            endingLineNumber = "1296"
+            startingLineNumber = "1306"
+            endingLineNumber = "1306"
             landmarkName = "-isAccurate"
             landmarkType = "5">
          </BreakpointContent>

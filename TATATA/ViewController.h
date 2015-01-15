@@ -14,6 +14,7 @@
 #import "Arc.h"
 #import "Sparkline.h"
 #import "Crosshair.h"
+#import "SurveyView.h"
 
 @interface ViewController : UIViewController <GKGameCenterControllerDelegate,UIScrollViewDelegate>
 
@@ -83,6 +84,9 @@
     BOOL allowBallResize;
     
     float trialDelay;
+    
+    SurveyView *surveyView;
+    
     
 #pragma mark - timing
     NSTimeInterval elapsed;

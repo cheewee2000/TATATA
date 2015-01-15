@@ -159,7 +159,7 @@
     
     scrollView = [[UIScrollView alloc] initWithFrame:self.view.bounds];
     scrollView.delegate = self;
-    [scrollView setContentSize:CGSizeMake(scrollView.bounds.size.width, scrollView.bounds.size.height*2.5)];
+    [scrollView setContentSize:CGSizeMake(scrollView.bounds.size.width, scrollView.bounds.size.height*5.5)];
     [self.view addSubview:scrollView];
 
     catchZoneButton = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -317,6 +317,7 @@
     introTitle.center=CGPointMake(screenWidth*.5, introTitle.center.y);
     introTitle.font = [UIFont fontWithName:@"DIN Condensed" size:32];
     //introTitle.adjustsFontSizeToFitWidth=YES;
+    introTitle.textAlignment=NSTextAlignmentCenter;
     introTitle.text=@"BOOST YOUR BRAIN SENSORS";
     introTitle.textColor=strokeColor;
     [intro addSubview:introTitle];
@@ -336,16 +337,25 @@
     
     introParagraph=[[UILabel alloc] initWithFrame:CGRectMake(m, introTitle.frame.origin.y+introTitle.frame.size.height+10, w, 300)];
     introParagraph.center=CGPointMake(screenWidth*.5, introParagraph.center.y);
-    introParagraph.font = [UIFont fontWithName:@"DIN Condensed" size:19];
+    introParagraph.font = [UIFont fontWithName:@"Helvetica" size:15];
     introParagraph.numberOfLines=20;
     introParagraph.textColor=strokeColor;
     
-    NSString *stringTojustify                = @"Darkball boils down eye-hand coordination, reaction speed and timing into the most fundamental elements. All you see is all you need.\n\nCristiano Ronaldo can famously volley a corner kick in total darkness. At the root of this superpower is sensorimotor integration of advance cues. \n\nAthletic performance combines strength, technique, skill, and mental ability. Darkball is about your boosting your mental ability. In this simple task, we isolate and focus on your ability to use advance cues and prediction to build up your eye-hand coordination.";
+    NSString *stringTojustify                = @"Darkball boils down eye-hand coordination, reaction speed and timing into the most fundamental elements.\n\nCristiano Ronaldo can famously volley a corner kick in total darkness. At the root of this superpower is sensorimotor integration of advance cues. \n\nAthletic performance combines strength, technique, skill, and mental ability. Darkball is about your challenging your mental ability. In this simple task, we isolate and focus on your ability to use advance cues and prediction to build up your eye-hand coordination.";
     NSDictionary *attributes                 = @{NSParagraphStyleAttributeName: paragraphStyles};
     NSAttributedString *attributedString     = [[NSAttributedString alloc] initWithString:stringTojustify attributes:attributes];
     
     introParagraph.attributedText             = attributedString;
+    intro.alpha=1;
     [intro addSubview:introParagraph];
+    
+    
+    surveyView=[[SurveyView alloc] initWithFrame:CGRectMake(0, screenHeight*1.5, screenWidth, screenHeight*5)];
+    surveyView.backgroundColor=bgColor;
+    surveyView.alpha=1;
+    [scrollView addSubview:surveyView];
+    
+    
     
 //    credits=[[UILabel alloc] initWithFrame:CGRectMake(m, screenHeight-55, w, 40)];
 //    credits.font = [UIFont fontWithName:@"HelveticaNeue" size:9];
@@ -355,7 +365,6 @@
 //    //credits.textColor=[self getForegroundColor:0];
 //    [intro addSubview:credits];
 //    
-    intro.alpha=1;
     
 //    UITapGestureRecognizer *tapGestureRecognizer3 = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(buttonPressed)];
 //    tapGestureRecognizer3.numberOfTouchesRequired = 1;
@@ -471,10 +480,10 @@
 
 - (void)scrollViewWillEndDragging:(UIScrollView *)_scrollView withVelocity: (CGPoint)velocity targetContentOffset:(inout CGPoint *)targetContentOffset
 {
-    if(velocity.y==0){
-        if (_scrollView.contentOffset.y>screenHeight*.25) targetContentOffset->y = screenHeight*.5;
-        else targetContentOffset->y = 0;
-    }
+//    if(velocity.y==0){
+//        if (_scrollView.contentOffset.y>screenHeight*.25) targetContentOffset->y = screenHeight*.5;
+//        else targetContentOffset->y = 0;
+//    }
     //[_aboutScroller setContentOffset:CGPointMake(0, 568) animated:YES];
     if (velocity.y == 0.f)
     {
@@ -482,8 +491,9 @@
             targetContentOffset->y = 0;
         }else if(scrollView.contentOffset.y<screenHeight*1.25){
             targetContentOffset->y = screenHeight*.5;
-        }else{
-            targetContentOffset->y = screenHeight*1.5;
+        }
+        else{
+        //    targetContentOffset->y = screenHeight*1.5;
         }
     }
     
