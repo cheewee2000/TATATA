@@ -53,8 +53,8 @@
     if([defaults objectForKey:@"best"] == nil) best=0;
     else best = (int)[defaults integerForKey:@"best"];
     
-    if([defaults objectForKey:@"showIntro"] == nil) showIntro=true;
-    else showIntro = (int)[defaults integerForKey:@"showIntro"];
+    if([defaults objectForKey:@"showIntro1"] == nil) showIntro=true;
+    else showIntro = (int)[defaults integerForKey:@"showIntro1"];
 
 
 
@@ -257,15 +257,19 @@
     
     
     infoButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    
     [infoButton addTarget:self
                          action:@selector(showIntroView)
                forControlEvents:UIControlEventTouchUpInside];
     
-    [infoButton setImage:[UIImage imageNamed:@"leaderboard"] forState:UIControlStateNormal];
+    [infoButton setImage:[[UIImage imageNamed:@"infoicon"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] forState:UIControlStateNormal];
     
     [infoButton setTitleColor:fgColor forState:UIControlStateNormal];
     infoButton.frame = CGRectMake(screenWidth*.5-44+100, screenHeight*1.5-100, 88.0, 88.0);
     [infoButton setImageEdgeInsets:UIEdgeInsetsMake(inset,inset,inset,inset)];
+
+    infoButton.tintColor=fgColor;
+
     [scrollView addSubview:infoButton];
 
     
@@ -568,23 +572,6 @@
 
     if(trialSequence<0)return;
 
-    if(showIntro){
-        showIntro=false;
-        
-        [UIView animateWithDuration:0.4
-                              delay:0.0
-                            options:UIViewAnimationOptionCurveLinear
-                         animations:^{
-                             intro.alpha=0;
-                         }
-                         completion:^(BOOL finished){
-                             NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-                             [defaults setInteger:showIntro forKey:@"showIntro"];
-                             [defaults synchronize];
-                             
-                         }];
-        return;
-    }
     
     //dismiss intro view
     if(scrollView.contentOffset.y>=screenHeight*1.5){
@@ -851,18 +838,9 @@
 
 
 -(void)showIntroView{
-    [self.view bringSubviewToFront:intro];
-    
-
- [UIView animateWithDuration:0.4
-                       delay:0
-                     options:UIViewAnimationOptionCurveLinear
-                  animations:^{
-                      intro.alpha=1.0;
-                  }
-                  completion:^(BOOL finished){
-                      
-                  }];
+    [scrollView setContentOffset:CGPointMake(0, screenHeight*1.5) animated:YES];
+    [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"showIntro1"];
+    showIntro=false;
     
 }
 
@@ -1367,9 +1345,9 @@
         //[self animateLevelReset];
     }
     
-//    if(showIntro){
-//        [self performSelector:@selector(showIntroView) withObject:self afterDelay:1.5];
-//    }
+    if(showIntro){
+        [self performSelector:@selector(showIntroView) withObject:self afterDelay:1.5];
+    }
 
    [super viewDidAppear:animated];
 }
