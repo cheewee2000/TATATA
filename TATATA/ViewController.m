@@ -311,13 +311,13 @@
     
     int m=10;
     //int w=screenWidth-m*2.0;
-    int w=300;
+    int w=280;
     //instructions
 
     
     introTitle=[[UILabel alloc] initWithFrame:CGRectMake(m, startY, w, 35)];
     introTitle.center=CGPointMake(screenWidth*.5, introTitle.center.y);
-    introTitle.font = [UIFont fontWithName:@"DIN Condensed" size:32];
+    introTitle.font = [UIFont fontWithName:@"DIN Condensed" size:31];
     //introTitle.adjustsFontSizeToFitWidth=YES;
     introTitle.textAlignment=NSTextAlignmentCenter;
     introTitle.text=@"BOOST YOUR BRAIN SENSORS";
@@ -337,7 +337,7 @@
     paragraphStyles.alignment                = NSTextAlignmentJustified;
     paragraphStyles.firstLineHeadIndent      = 0.05;    // Very IMP
     
-    introParagraph=[[UILabel alloc] initWithFrame:CGRectMake(m, introTitle.frame.origin.y+introTitle.frame.size.height+10, w, 300)];
+    introParagraph=[[UILabel alloc] initWithFrame:CGRectMake(m, introTitle.frame.origin.y+introTitle.frame.size.height+10, w, 280)];
     introParagraph.center=CGPointMake(screenWidth*.5, introParagraph.center.y);
     introParagraph.font = [UIFont fontWithName:@"Helvetica" size:15];
     introParagraph.numberOfLines=20;
@@ -852,14 +852,17 @@
 
 -(void)showIntroView{
     [scrollView setContentOffset:CGPointMake(0, screenHeight*1.5) animated:YES];
+    
     if(showIntro){
         [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"showIntro1"];
         showIntro=false;
+        [[NSUserDefaults standardUserDefaults] synchronize];
     }
-    else if(showSurvey){
-        [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"showSurvey"];
-        showSurvey=false;
-    }
+//    else if(showSurvey){
+//        [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"showSurvey"];
+//        showSurvey=false;
+//        [[NSUserDefaults standardUserDefaults] synchronize];
+//    }
 }
 
 #pragma mark DATA
@@ -1366,7 +1369,7 @@
     if(showIntro || showSurvey){
         if(showIntro==false){
           surveyView.alpha=1;
-          [scrollView setContentSize:CGSizeMake(scrollView.bounds.size.width, scrollView.bounds.size.height*5)];
+          [scrollView setContentSize:CGSizeMake(scrollView.bounds.size.width, surveyView.bounds.size.height + screenHeight)];
         }
         [self performSelector:@selector(showIntroView) withObject:self afterDelay:1.5];
     }
