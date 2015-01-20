@@ -161,7 +161,7 @@
     
     scrollView = [[UIScrollView alloc] initWithFrame:self.view.bounds];
     scrollView.delegate = self;
-    [scrollView setContentSize:CGSizeMake(scrollView.bounds.size.width, scrollView.bounds.size.height*5)];
+    [scrollView setContentSize:CGSizeMake(scrollView.bounds.size.width, scrollView.bounds.size.height*2.5)];
     [self.view addSubview:scrollView];
 
     catchZoneButton = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -354,7 +354,7 @@
     
     surveyView=[[SurveyView alloc] initWithFrame:CGRectMake(0, screenHeight*1.5, screenWidth, screenHeight*5)];
     surveyView.backgroundColor=bgColor;
-    surveyView.alpha=1;
+    surveyView.alpha=0;
     [scrollView addSubview:surveyView];
     
     
@@ -1364,6 +1364,10 @@
     }
     
     if(showIntro || showSurvey){
+        if(showIntro==false){
+          surveyView.alpha=1;
+          [scrollView setContentSize:CGSizeMake(scrollView.bounds.size.width, scrollView.bounds.size.height*5)];
+        }
         [self performSelector:@selector(showIntroView) withObject:self afterDelay:1.5];
     }
 
