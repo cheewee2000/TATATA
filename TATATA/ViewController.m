@@ -56,6 +56,8 @@
     if([defaults objectForKey:@"showIntro1"] == nil) showIntro=true;
     else showIntro = (int)[defaults integerForKey:@"showIntro1"];
 
+    if([defaults objectForKey:@"showSurvey"] == nil) showSurvey=true;
+    else showSurvey = (int)[defaults integerForKey:@"showSurvey"];
 
 
 #pragma mark - Ball
@@ -798,50 +800,51 @@
     [self.allTrialData writeToFile:allTrialDataFile atomically:YES];
 
     //save to parse
-    PFObject *pObject = [PFObject objectWithClassName:@"results"];
-    pObject[@"accuracy"] = [NSNumber numberWithFloat:diff];
-    pObject[@"goal"] = [NSNumber numberWithFloat:timerGoal];
-    pObject[@"flashT"]=[NSNumber numberWithFloat:flashT];
-//    pObject[@"d1"]=[NSNumber numberWithFloat:[currentTrial[@"d1"]floatValue] ];
-//    pObject[@"d2"]=[NSNumber numberWithFloat:[currentTrial[@"d2"]floatValue] ];
-//    pObject[@"duration"]=[NSNumber numberWithFloat:[currentTrial[@"duration"]floatValue] ];
-    pObject[@"trialDelay"]=[NSNumber numberWithFloat:trialDelay];
-    pObject[@"trials"]=currentTrial;
-    pObject[@"level"]=[NSNumber numberWithInteger:currentLevel];
-    pObject[@"win"]=([self isAccurate])? @YES:@NO;
-    pObject[@"date"]=localDateTime;
-    pObject[@"timezone"]=[NSString stringWithFormat:@"%@",[NSTimeZone localTimeZone].abbreviation];
-    pObject[@"didTouch"]=(touched)? @YES:@NO;
-    //if(touched){
-    pObject[@"touchX"]=[NSNumber numberWithFloat: touchX ];
-    pObject[@"touchY"]=[NSNumber numberWithFloat: touchY ];
-    pObject[@"touchLength"]=[NSNumber numberWithFloat:touchLength];
-    pObject[@"configVersion"]=configVersion;
+    if([_currentUser[@"iAgree"] boolValue]){
+        PFObject *pObject = [PFObject objectWithClassName:@"results"];
+        pObject[@"accuracy"] = [NSNumber numberWithFloat:diff];
+        pObject[@"goal"] = [NSNumber numberWithFloat:timerGoal];
+        pObject[@"flashT"]=[NSNumber numberWithFloat:flashT];
+    //    pObject[@"d1"]=[NSNumber numberWithFloat:[currentTrial[@"d1"]floatValue] ];
+    //    pObject[@"d2"]=[NSNumber numberWithFloat:[currentTrial[@"d2"]floatValue] ];
+    //    pObject[@"duration"]=[NSNumber numberWithFloat:[currentTrial[@"duration"]floatValue] ];
+        pObject[@"trialDelay"]=[NSNumber numberWithFloat:trialDelay];
+        pObject[@"trials"]=currentTrial;
+        pObject[@"level"]=[NSNumber numberWithInteger:currentLevel];
+        pObject[@"win"]=([self isAccurate])? @YES:@NO;
+        pObject[@"date"]=localDateTime;
+        pObject[@"timezone"]=[NSString stringWithFormat:@"%@",[NSTimeZone localTimeZone].abbreviation];
+        pObject[@"didTouch"]=(touched)? @YES:@NO;
+        //if(touched){
+        pObject[@"touchX"]=[NSNumber numberWithFloat: touchX ];
+        pObject[@"touchY"]=[NSNumber numberWithFloat: touchY ];
+        pObject[@"touchLength"]=[NSNumber numberWithFloat:touchLength];
+        pObject[@"configVersion"]=configVersion;
 
-    //}
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    NSString*uuid;
-    if([defaults stringForKey:@"uuid"] == nil){
-        uuid=CFBridgingRelease(CFUUIDCreateString(NULL, CFUUIDCreate(NULL)));
-        [defaults setObject:uuid forKey:@"uuid"];
-        [defaults synchronize];
+        //}
+        NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+        NSString*uuid;
+        if([defaults stringForKey:@"uuid"] == nil){
+            uuid=CFBridgingRelease(CFUUIDCreateString(NULL, CFUUIDCreate(NULL)));
+            [defaults setObject:uuid forKey:@"uuid"];
+            [defaults synchronize];
+        }
+        else uuid =[defaults stringForKey:@"uuid"];
+        pObject[@"uuid"]=uuid;
+        
+        if(_currentUser!=nil) pObject[@"user"]=_currentUser;
+        
+        PFInstallation *currentInstallation = [PFInstallation currentInstallation];
+        if(currentInstallation!=nil)pObject[@"installation"]=currentInstallation;
+        
+        [pObject saveEventually];
     }
-    else uuid =[defaults stringForKey:@"uuid"];
-    pObject[@"uuid"]=uuid;
-    
-    if(_currentUser!=nil) pObject[@"user"]=_currentUser;
-    
-    PFInstallation *currentInstallation = [PFInstallation currentInstallation];
-    if(currentInstallation!=nil)pObject[@"installation"]=currentInstallation;
-    
-    [pObject saveEventually];
 
     [_currentUser incrementKey:@"trialsPlayed"];
     _currentUser[@"best"]=[NSNumber numberWithFloat:best];
     [_currentUser saveEventually];
     
-    
-
+ 
     
     
 }
@@ -849,9 +852,14 @@
 
 -(void)showIntroView{
     [scrollView setContentOffset:CGPointMake(0, screenHeight*1.5) animated:YES];
-    [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"showIntro1"];
-    showIntro=false;
-    
+    if(showIntro){
+        [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"showIntro1"];
+        showIntro=false;
+    }
+    else if(showSurvey){
+        [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"showSurvey"];
+        showSurvey=false;
+    }
 }
 
 #pragma mark DATA
@@ -1355,7 +1363,7 @@
         //[self animateLevelReset];
     }
     
-    if(showIntro){
+    if(showIntro || showSurvey){
         [self performSelector:@selector(showIntroView) withObject:self afterDelay:1.5];
     }
 

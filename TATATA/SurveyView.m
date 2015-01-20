@@ -243,11 +243,16 @@ numberOfRowsInComponent:(NSInteger)component
 
     else if([sender tag]==50){
         currentUser[@"iAgree"] = [NSNumber numberWithBool:YES];
+        [_iAgree setSelected:YES];
         [_iDoNotAgree setSelected:NO];
+        [(UIScrollView*)self.superview setContentOffset:CGPointMake(0, 0) animated:YES];
+
     }
     else if([sender tag]==51){
         currentUser[@"iAgree"] = [NSNumber numberWithBool:NO];
         [_iAgree setSelected:NO];
+        [_iDoNotAgree setSelected:YES];
+        [(UIScrollView*)self.superview setContentOffset:CGPointMake(0, 0) animated:YES];
 
     }
 

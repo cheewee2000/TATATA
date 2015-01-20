@@ -114,7 +114,8 @@
 
     UIButton* feedbackButton;
     BOOL showIntro;
-    
+    BOOL showSurvey;
+
     BOOL viewLoaded;
     
     int nExampleFails;
