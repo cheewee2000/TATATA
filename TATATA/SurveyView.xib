@@ -8,7 +8,27 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="SurveyView">
             <connections>
                 <outlet property="agePicker" destination="V8c-Ng-OJZ" id="FwT-C0-aBs"/>
-                <outlet property="checkbox" destination="rhd-kw-eIY" id="Xxs-C2-Ljg"/>
+                <outlet property="amateur" destination="rTX-nS-h2s" id="uk9-Cr-pVU"/>
+                <outlet property="casual" destination="qQS-fV-ct3" id="HHa-ay-CGX"/>
+                <outlet property="cocain" destination="Q4o-dQ-fPB" id="Pt5-M7-Cua"/>
+                <outlet property="collegiate" destination="Fll-Ud-hIz" id="mUF-fa-SVx"/>
+                <outlet property="dizziness" destination="3sd-Xv-W2y" id="sSZ-eZ-oXu"/>
+                <outlet property="frequentHeadaches" destination="rhd-kw-eIY" id="YLu-16-1Ls"/>
+                <outlet property="handed" destination="OV1-1p-Uie" id="ZXN-Rz-qGg"/>
+                <outlet property="iAgree" destination="rCd-B6-BlU" id="gMD-ze-mfb"/>
+                <outlet property="iDoNotAgree" destination="c2d-pg-4eo" id="NS0-KY-2f7"/>
+                <outlet property="intramural" destination="xds-ff-7HA" id="mhm-vx-X2n"/>
+                <outlet property="lossOfConsciousness" destination="5c4-Ll-5NT" id="aI1-Tk-iom"/>
+                <outlet property="lsd" destination="REQ-Zr-Hn3" id="CVC-Zk-375"/>
+                <outlet property="marijuana" destination="L2i-Dh-Zts" id="4pd-1M-G6Q"/>
+                <outlet property="mentalHealth" destination="don-A0-8O5" id="Z8A-UM-cZB"/>
+                <outlet property="narcotics" destination="St9-YJ-psn" id="KFa-nB-8GL"/>
+                <outlet property="none" destination="Wbx-AO-8ak" id="DYN-1R-vzK"/>
+                <outlet property="professional" destination="OHE-i8-okS" id="BPF-1S-S15"/>
+                <outlet property="seizures" destination="ewv-O2-a0h" id="b8t-2H-dwe"/>
+                <outlet property="sex" destination="PoI-Bp-6fP" id="v0D-3k-GmY"/>
+                <outlet property="stimulants" destination="ScD-SZ-RzI" id="TOg-wm-d0Q"/>
+                <outlet property="streetDrugs" destination="s2J-F5-05J" id="KUs-Ww-LFa"/>
             </connections>
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
@@ -16,12 +36,15 @@
             <rect key="frame" x="0.0" y="0.0" width="320" height="2528"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" reversesTitleShadowWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="c2d-pg-4eo">
+                <button opaque="NO" tag="51" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" reversesTitleShadowWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="c2d-pg-4eo">
                     <rect key="frame" x="85" y="2328" width="150" height="30"/>
                     <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                     <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="15"/>
                     <state key="normal" title="I DO NOT AGREE">
                         <color key="titleColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <state key="selected">
+                        <color key="titleColor" red="1" green="0.69603704639999997" blue="0.076234879029999994" alpha="1" colorSpace="calibratedRGB"/>
                     </state>
                     <state key="highlighted">
                         <color key="titleColor" red="1" green="0.69603704639999997" blue="0.076234879029999994" alpha="1" colorSpace="calibratedRGB"/>
@@ -41,14 +64,7 @@
                     <color key="textColor" white="0.90000000000000002" alpha="1" colorSpace="calibratedWhite"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" lineBreakMode="tailTruncation" numberOfLines="4" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dd5-CG-8yM">
-                    <rect key="frame" x="10" y="144" width="300" height="90"/>
-                    <string key="text">Please answer the questions below to contribute your game play data towards science. Your answers are anonymous. Your participation is not required to play, but science could use your help!</string>
-                    <fontDescription key="fontDescription" name="DINCondensed-Bold" family="DIN Condensed" pointSize="16"/>
-                    <color key="textColor" white="0.90000000000000002" alpha="1" colorSpace="calibratedWhite"/>
-                    <nil key="highlightedColor"/>
-                </label>
-                <segmentedControl opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="PoI-Bp-6fP">
+                <segmentedControl opaque="NO" contentMode="center" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="top" segmentControlStyle="plain" translatesAutoresizingMaskIntoConstraints="NO" id="PoI-Bp-6fP">
                     <rect key="frame" x="102" y="276" width="117" height="29"/>
                     <segments>
                         <segment title="Male"/>
@@ -56,7 +72,7 @@
                     </segments>
                     <color key="tintColor" white="0.90000000000000002" alpha="1" colorSpace="calibratedWhite"/>
                 </segmentedControl>
-                <segmentedControl opaque="NO" tag="1" contentMode="center" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="OV1-1p-Uie">
+                <segmentedControl opaque="NO" tag="1" contentMode="center" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="top" segmentControlStyle="plain" translatesAutoresizingMaskIntoConstraints="NO" id="OV1-1p-Uie">
                     <rect key="frame" x="64" y="370" width="193" height="29"/>
                     <segments>
                         <segment title="Left-handed"/>
@@ -86,7 +102,7 @@
                     <state key="selected" image="checkboxChecked"/>
                     <state key="highlighted" image="checkboxChecked"/>
                 </button>
-                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3sd-Xv-W2y">
+                <button opaque="NO" tag="1" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3sd-Xv-W2y">
                     <rect key="frame" x="10" y="813" width="22" height="22"/>
                     <fontDescription key="fontDescription" name="DINCondensed-Bold" family="DIN Condensed" pointSize="16"/>
                     <state key="normal" image="checkboxUnchecked">
@@ -96,20 +112,20 @@
                     <state key="highlighted" image="checkboxChecked"/>
                 </button>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Frequent headaches/migraines" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eBY-eQ-aG8">
-                    <rect key="frame" x="50" y="741" width="154" height="50"/>
+                    <rect key="frame" x="50" y="743" width="154" height="50"/>
                     <fontDescription key="fontDescription" name="DINCondensed-Bold" family="DIN Condensed" pointSize="16"/>
                     <color key="textColor" white="0.90000000000000002" alpha="1" colorSpace="calibratedWhite"/>
                     <nil key="highlightedColor"/>
                 </label>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="THi-MJ-Pnk">
-                    <rect key="frame" x="50" y="799" width="100" height="50"/>
+                    <rect key="frame" x="50" y="801" width="100" height="50"/>
                     <string key="text">Dizziness or fainting
 </string>
                     <fontDescription key="fontDescription" name="DINCondensed-Bold" family="DIN Condensed" pointSize="16"/>
                     <color key="textColor" white="0.90000000000000002" alpha="1" colorSpace="calibratedWhite"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5c4-Ll-5NT">
+                <button opaque="NO" tag="2" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5c4-Ll-5NT">
                     <rect key="frame" x="10" y="871" width="22" height="22"/>
                     <fontDescription key="fontDescription" name="DINCondensed-Bold" family="DIN Condensed" pointSize="16"/>
                     <state key="normal" image="checkboxUnchecked">
@@ -119,12 +135,12 @@
                     <state key="highlighted" image="checkboxChecked"/>
                 </button>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Loss of consciousness" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="n7Z-H0-2ja">
-                    <rect key="frame" x="50" y="857" width="113" height="50"/>
+                    <rect key="frame" x="50" y="859" width="113" height="50"/>
                     <fontDescription key="fontDescription" name="DINCondensed-Bold" family="DIN Condensed" pointSize="16"/>
                     <color key="textColor" white="0.90000000000000002" alpha="1" colorSpace="calibratedWhite"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ewv-O2-a0h">
+                <button opaque="NO" tag="3" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ewv-O2-a0h">
                     <rect key="frame" x="10" y="929" width="22" height="22"/>
                     <fontDescription key="fontDescription" name="DINCondensed-Bold" family="DIN Condensed" pointSize="16"/>
                     <state key="normal" image="checkboxUnchecked">
@@ -134,12 +150,12 @@
                     <state key="highlighted" image="checkboxChecked"/>
                 </button>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Seizures or epilepsy" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Hzn-OZ-sKQ">
-                    <rect key="frame" x="50" y="915" width="101" height="50"/>
+                    <rect key="frame" x="50" y="917" width="101" height="50"/>
                     <fontDescription key="fontDescription" name="DINCondensed-Bold" family="DIN Condensed" pointSize="16"/>
                     <color key="textColor" white="0.90000000000000002" alpha="1" colorSpace="calibratedWhite"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="don-A0-8O5">
+                <button opaque="NO" tag="4" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="don-A0-8O5">
                     <rect key="frame" x="10" y="987" width="22" height="22"/>
                     <fontDescription key="fontDescription" name="DINCondensed-Bold" family="DIN Condensed" pointSize="16"/>
                     <state key="normal" image="checkboxUnchecked">
@@ -149,22 +165,7 @@
                     <state key="highlighted" image="checkboxChecked"/>
                 </button>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Mental health disorder" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QDB-Rh-PKO">
-                    <rect key="frame" x="50" y="973" width="112" height="50"/>
-                    <fontDescription key="fontDescription" name="DINCondensed-Bold" family="DIN Condensed" pointSize="16"/>
-                    <color key="textColor" white="0.90000000000000002" alpha="1" colorSpace="calibratedWhite"/>
-                    <nil key="highlightedColor"/>
-                </label>
-                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tHt-1H-xGR">
-                    <rect key="frame" x="10" y="1045" width="22" height="22"/>
-                    <fontDescription key="fontDescription" name="DINCondensed-Bold" family="DIN Condensed" pointSize="16"/>
-                    <state key="normal" image="checkboxUnchecked">
-                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                    </state>
-                    <state key="selected" image="checkboxChecked"/>
-                    <state key="highlighted" image="checkboxChecked"/>
-                </button>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Mental health disorder" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iN0-sr-SeZ">
-                    <rect key="frame" x="50" y="1031" width="112" height="50"/>
+                    <rect key="frame" x="50" y="975" width="112" height="50"/>
                     <fontDescription key="fontDescription" name="DINCondensed-Bold" family="DIN Condensed" pointSize="16"/>
                     <color key="textColor" white="0.90000000000000002" alpha="1" colorSpace="calibratedWhite"/>
                     <nil key="highlightedColor"/>
@@ -175,7 +176,7 @@
                     <color key="textColor" white="0.90000000000000002" alpha="1" colorSpace="calibratedWhite"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="St9-YJ-psn">
+                <button opaque="NO" tag="5" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="St9-YJ-psn">
                     <rect key="frame" x="10" y="1212" width="22" height="22"/>
                     <fontDescription key="fontDescription" name="DINCondensed-Bold" family="DIN Condensed" pointSize="16"/>
                     <state key="normal" image="checkboxUnchecked">
@@ -184,7 +185,7 @@
                     <state key="selected" image="checkboxChecked"/>
                     <state key="highlighted" image="checkboxChecked"/>
                 </button>
-                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ScD-SZ-RzI">
+                <button opaque="NO" tag="6" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ScD-SZ-RzI">
                     <rect key="frame" x="10" y="1270" width="22" height="22"/>
                     <fontDescription key="fontDescription" name="DINCondensed-Bold" family="DIN Condensed" pointSize="16"/>
                     <state key="normal" image="checkboxUnchecked">
@@ -205,7 +206,7 @@
                     <color key="textColor" white="0.90000000000000002" alpha="1" colorSpace="calibratedWhite"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Q4o-dQ-fPB">
+                <button opaque="NO" tag="7" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Q4o-dQ-fPB">
                     <rect key="frame" x="10" y="1328" width="22" height="22"/>
                     <fontDescription key="fontDescription" name="DINCondensed-Bold" family="DIN Condensed" pointSize="16"/>
                     <state key="normal" image="checkboxUnchecked">
@@ -220,7 +221,7 @@
                     <color key="textColor" white="0.90000000000000002" alpha="1" colorSpace="calibratedWhite"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="REQ-Zr-Hn3">
+                <button opaque="NO" tag="8" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="REQ-Zr-Hn3">
                     <rect key="frame" x="10" y="1386" width="22" height="22"/>
                     <fontDescription key="fontDescription" name="DINCondensed-Bold" family="DIN Condensed" pointSize="16"/>
                     <state key="normal" image="checkboxUnchecked">
@@ -235,7 +236,7 @@
                     <color key="textColor" white="0.90000000000000002" alpha="1" colorSpace="calibratedWhite"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="L2i-Dh-Zts">
+                <button opaque="NO" tag="9" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="L2i-Dh-Zts">
                     <rect key="frame" x="10" y="1444" width="22" height="22"/>
                     <fontDescription key="fontDescription" name="DINCondensed-Bold" family="DIN Condensed" pointSize="16"/>
                     <state key="normal" image="checkboxUnchecked">
@@ -250,7 +251,7 @@
                     <color key="textColor" white="0.90000000000000002" alpha="1" colorSpace="calibratedWhite"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="s2J-F5-05J">
+                <button opaque="NO" tag="10" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="s2J-F5-05J">
                     <rect key="frame" x="10" y="1502" width="22" height="22"/>
                     <fontDescription key="fontDescription" name="DINCondensed-Bold" family="DIN Condensed" pointSize="16"/>
                     <state key="normal" image="checkboxUnchecked">
@@ -277,7 +278,7 @@
                     <color key="textColor" white="0.90000000000000002" alpha="1" colorSpace="calibratedWhite"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OHE-i8-okS">
+                <button opaque="NO" tag="11" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OHE-i8-okS">
                     <rect key="frame" x="10" y="1679" width="22" height="22"/>
                     <fontDescription key="fontDescription" name="DINCondensed-Bold" family="DIN Condensed" pointSize="16"/>
                     <state key="normal" image="checkboxUnchecked">
@@ -286,7 +287,7 @@
                     <state key="selected" image="checkboxChecked"/>
                     <state key="highlighted" image="checkboxChecked"/>
                 </button>
-                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Fll-Ud-hIz">
+                <button opaque="NO" tag="12" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Fll-Ud-hIz">
                     <rect key="frame" x="10" y="1737" width="22" height="22"/>
                     <fontDescription key="fontDescription" name="DINCondensed-Bold" family="DIN Condensed" pointSize="16"/>
                     <state key="normal" image="checkboxUnchecked">
@@ -296,18 +297,18 @@
                     <state key="highlighted" image="checkboxChecked"/>
                 </button>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Professional" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gEi-Hc-wzb">
-                    <rect key="frame" x="50" y="1665" width="154" height="50"/>
+                    <rect key="frame" x="50" y="1668" width="154" height="50"/>
                     <fontDescription key="fontDescription" name="DINCondensed-Bold" family="DIN Condensed" pointSize="16"/>
                     <color key="textColor" white="0.90000000000000002" alpha="1" colorSpace="calibratedWhite"/>
                     <nil key="highlightedColor"/>
                 </label>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Collegiate" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zFz-5G-Ruc">
-                    <rect key="frame" x="50" y="1723" width="100" height="50"/>
+                    <rect key="frame" x="50" y="1726" width="100" height="50"/>
                     <fontDescription key="fontDescription" name="DINCondensed-Bold" family="DIN Condensed" pointSize="16"/>
                     <color key="textColor" white="0.90000000000000002" alpha="1" colorSpace="calibratedWhite"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rTX-nS-h2s">
+                <button opaque="NO" tag="13" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rTX-nS-h2s">
                     <rect key="frame" x="10" y="1795" width="22" height="22"/>
                     <fontDescription key="fontDescription" name="DINCondensed-Bold" family="DIN Condensed" pointSize="16"/>
                     <state key="normal" image="checkboxUnchecked">
@@ -317,12 +318,12 @@
                     <state key="highlighted" image="checkboxChecked"/>
                 </button>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Amateur" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Agn-FX-fcP">
-                    <rect key="frame" x="50" y="1781" width="113" height="50"/>
+                    <rect key="frame" x="50" y="1784" width="113" height="50"/>
                     <fontDescription key="fontDescription" name="DINCondensed-Bold" family="DIN Condensed" pointSize="16"/>
                     <color key="textColor" white="0.90000000000000002" alpha="1" colorSpace="calibratedWhite"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xds-ff-7HA">
+                <button opaque="NO" tag="14" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xds-ff-7HA">
                     <rect key="frame" x="10" y="1853" width="22" height="22"/>
                     <fontDescription key="fontDescription" name="DINCondensed-Bold" family="DIN Condensed" pointSize="16"/>
                     <state key="normal" image="checkboxUnchecked">
@@ -332,12 +333,12 @@
                     <state key="highlighted" image="checkboxChecked"/>
                 </button>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Intramural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GpX-Zz-MLi">
-                    <rect key="frame" x="50" y="1839" width="101" height="50"/>
+                    <rect key="frame" x="50" y="1842" width="101" height="50"/>
                     <fontDescription key="fontDescription" name="DINCondensed-Bold" family="DIN Condensed" pointSize="16"/>
                     <color key="textColor" white="0.90000000000000002" alpha="1" colorSpace="calibratedWhite"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qQS-fV-ct3">
+                <button opaque="NO" tag="15" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qQS-fV-ct3">
                     <rect key="frame" x="10" y="1911" width="22" height="22"/>
                     <fontDescription key="fontDescription" name="DINCondensed-Bold" family="DIN Condensed" pointSize="16"/>
                     <state key="normal" image="checkboxUnchecked">
@@ -347,12 +348,12 @@
                     <state key="highlighted" image="checkboxChecked"/>
                 </button>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Casual" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oPV-K2-Fa7">
-                    <rect key="frame" x="50" y="1897" width="112" height="50"/>
+                    <rect key="frame" x="50" y="1900" width="112" height="50"/>
                     <fontDescription key="fontDescription" name="DINCondensed-Bold" family="DIN Condensed" pointSize="16"/>
                     <color key="textColor" white="0.90000000000000002" alpha="1" colorSpace="calibratedWhite"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Wbx-AO-8ak">
+                <button opaque="NO" tag="16" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Wbx-AO-8ak">
                     <rect key="frame" x="10" y="1969" width="22" height="22"/>
                     <fontDescription key="fontDescription" name="DINCondensed-Bold" family="DIN Condensed" pointSize="16"/>
                     <state key="normal" image="checkboxUnchecked">
@@ -362,24 +363,28 @@
                     <state key="highlighted" image="checkboxChecked"/>
                 </button>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="None" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qPC-N0-I6N">
-                    <rect key="frame" x="50" y="1955" width="112" height="50"/>
+                    <rect key="frame" x="50" y="1958" width="112" height="50"/>
                     <fontDescription key="fontDescription" name="DINCondensed-Bold" family="DIN Condensed" pointSize="16"/>
                     <color key="textColor" white="0.90000000000000002" alpha="1" colorSpace="calibratedWhite"/>
                     <nil key="highlightedColor"/>
                 </label>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" lineBreakMode="tailTruncation" numberOfLines="7" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5Cd-m4-o3c">
                     <rect key="frame" x="12" y="2096" width="300" height="94"/>
-                    <string key="text">I understand the procedures described above. My questions have been answered to my satisfaction, and I agree to participate in this study. This form can be accessed from within the app at any time.</string>
+                    <string key="text">I understand the procedures described above. My questions have been answered to my satisfaction, and I agree to participate in this study.</string>
                     <fontDescription key="fontDescription" name="DINCondensed-Bold" family="DIN Condensed" pointSize="16"/>
                     <color key="textColor" white="0.90000000000000002" alpha="1" colorSpace="calibratedWhite"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" reversesTitleShadowWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rCd-B6-BlU">
+                <button opaque="NO" tag="50" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" reversesTitleShadowWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rCd-B6-BlU">
                     <rect key="frame" x="87" y="2198" width="150" height="30"/>
                     <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                     <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="15"/>
                     <state key="normal" title="I AGREE">
                         <color key="titleColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <state key="selected">
+                        <color key="titleColor" red="1" green="0.69603704639999997" blue="0.076234879029999994" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="titleShadowColor" red="1" green="0.69603704639999997" blue="0.076234879029999994" alpha="1" colorSpace="calibratedRGB"/>
                     </state>
                     <state key="highlighted">
                         <color key="titleColor" red="1" green="0.69603704639999997" blue="0.076234879029999994" alpha="1" colorSpace="calibratedRGB"/>
@@ -401,6 +406,13 @@
                 </label>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Conesent of Research Subject" lineBreakMode="tailTruncation" numberOfLines="7" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uCx-TV-ctN">
                     <rect key="frame" x="10" y="2061" width="300" height="27"/>
+                    <fontDescription key="fontDescription" name="DINCondensed-Bold" family="DIN Condensed" pointSize="16"/>
+                    <color key="textColor" white="0.90000000000000002" alpha="1" colorSpace="calibratedWhite"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" lineBreakMode="tailTruncation" numberOfLines="6" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dd5-CG-8yM">
+                    <rect key="frame" x="10" y="124" width="300" height="113"/>
+                    <string key="text">Please answer the questions below to contribute your game play data towards science. Your answers are anonymous. Your participation is not required to play, but science could use your help!</string>
                     <fontDescription key="fontDescription" name="DINCondensed-Bold" family="DIN Condensed" pointSize="16"/>
                     <color key="textColor" white="0.90000000000000002" alpha="1" colorSpace="calibratedWhite"/>
                     <nil key="highlightedColor"/>

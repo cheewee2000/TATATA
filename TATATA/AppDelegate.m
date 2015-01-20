@@ -35,7 +35,10 @@
     [application registerForRemoteNotifications];
     
     //[TestFlight takeOff:@"4191ad30-4dcc-4447-9ca6-9bd696285036"];
-
+    [PFUser enableAutomaticUser];
+    [[PFUser currentUser] incrementKey:@"RunCount"];
+    [[PFUser currentUser] saveInBackground];
+    
     return YES;
 }
 

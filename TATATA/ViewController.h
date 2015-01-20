@@ -19,7 +19,7 @@
 @interface ViewController : UIViewController <GKGameCenterControllerDelegate,UIScrollViewDelegate>
 
 {
-    PFUser *currentUser;
+    //PFUser *currentUser;
     PFObject *currentTrial;
     
     int screenWidth,screenHeight;
@@ -123,7 +123,7 @@
     
 }
 
-
+@property PFUser *currentUser;
 @property (strong, nonatomic) NSMutableArray *allTrialData;
 @property BOOL gameCenterEnabled;
 @property NSString *leaderboardIdentifier;

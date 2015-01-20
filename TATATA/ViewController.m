@@ -159,7 +159,7 @@
     
     scrollView = [[UIScrollView alloc] initWithFrame:self.view.bounds];
     scrollView.delegate = self;
-    [scrollView setContentSize:CGSizeMake(scrollView.bounds.size.width, scrollView.bounds.size.height*5.5)];
+    [scrollView setContentSize:CGSizeMake(scrollView.bounds.size.width, scrollView.bounds.size.height*5)];
     [self.view addSubview:scrollView];
 
     catchZoneButton = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -829,16 +829,16 @@
     else uuid =[defaults stringForKey:@"uuid"];
     pObject[@"uuid"]=uuid;
     
-    if(currentUser!=nil) pObject[@"user"]=currentUser;
+    if(_currentUser!=nil) pObject[@"user"]=_currentUser;
     
     PFInstallation *currentInstallation = [PFInstallation currentInstallation];
     if(currentInstallation!=nil)pObject[@"installation"]=currentInstallation;
     
     [pObject saveEventually];
 
-    [currentUser incrementKey:@"trialsPlayed"];
-    currentUser[@"best"]=[NSNumber numberWithFloat:best];
-    [currentUser saveEventually];
+    [_currentUser incrementKey:@"trialsPlayed"];
+    _currentUser[@"best"]=[NSNumber numberWithFloat:best];
+    [_currentUser saveEventually];
     
     
 
@@ -1216,7 +1216,7 @@
 
 
 -(void)setLevel:(int)level{
-    currentTrial=[trialArray objectAtIndex: ([currentUser[@"trialsPlayed"] integerValue]+level)%[trialArray count]];
+    currentTrial=[trialArray objectAtIndex: ([_currentUser[@"trialsPlayed"] integerValue]+level)%[trialArray count]];
     timerGoal=[self getLevel:level];
     flashT=[self getFlashT:level];
 }
@@ -1420,11 +1420,13 @@
 }
 
 -(void)logIn{
-    currentUser = [PFUser currentUser];
-    if (currentUser) {
+    [PFUser enableAutomaticUser];
+    
+    _currentUser = [PFUser currentUser];
+    if (_currentUser) {
         // do stuff with the user
-        currentUser[@"best"]=[NSNumber numberWithFloat:best];
-        [currentUser saveEventually];
+        _currentUser[@"best"]=[NSNumber numberWithFloat:best];
+        [_currentUser saveEventually];
         
     } else {
         // show the signup or login screen
@@ -1433,7 +1435,7 @@
                 NSLog(@"Anonymous login failed.");
             } else {
                 NSLog(@"Anonymous user logged in.");
-                currentUser = [PFUser currentUser];
+                _currentUser = [PFUser currentUser];
 
                 NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
                 NSString*uuid;
@@ -1443,14 +1445,14 @@
                     [defaults synchronize];
                 }
                 else uuid =[defaults stringForKey:@"uuid"];
-                currentUser[@"uuid"]=uuid;
+                _currentUser[@"uuid"]=uuid;
                 
                 PFInstallation *currentInstallation = [PFInstallation currentInstallation];
-                currentUser[@"installation"]=currentInstallation;
+                _currentUser[@"installation"]=currentInstallation;
 //                currentInstallation[@"user"]=currentUser;
 //                [currentInstallation saveEventually];
                 
-                [currentUser saveEventually];
+                [_currentUser saveEventually];
 
             }
         }];

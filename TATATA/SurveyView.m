@@ -19,46 +19,18 @@
         
         self.clipsToBounds=NO;
         
-        int m=10;
-        int w=300;
+//        int m=10;
+//        int w=300;
 
 
         //ViewController *dele = (ViewController *)[[UIApplication sharedApplication] delegate];
 //        float screenHeight=[[UIScreen mainScreen] bounds].size.height;
         float screenWidth=[[UIScreen mainScreen] bounds].size.width;
 
-//        float startY=screenHeight*.5-200;
-//        //float endY=screenHeight*.5+200;
-//        
-//        UIColor * strokeColor=[UIColor colorWithWhite:.8 alpha:1];
-
         
-//        introTitle=[[UILabel alloc] initWithFrame:CGRectMake(m, startY, w, 35)];
-//        introTitle.center=CGPointMake(screenWidth*.5, introTitle.center.y);
-//        introTitle.font = [UIFont fontWithName:@"DIN Condensed" size:32];
-//        introTitle.textAlignment=NSTextAlignmentCenter;
-//        introTitle.text=@"FOR SCIENCE!";
-//        introTitle.textColor=strokeColor;
-//        [self addSubview:introTitle];
-//        
-//
-//        
-//        NSMutableParagraphStyle *paragraphStyles = [[NSMutableParagraphStyle alloc] init];
-//        paragraphStyles.alignment                = NSTextAlignmentJustified;
-//        paragraphStyles.firstLineHeadIndent      = 0.05;    // Very IMP
-//        
-//        introParagraph=[[UILabel alloc] initWithFrame:CGRectMake(m, introTitle.frame.origin.y+introTitle.frame.size.height+10, w, 200)];
-//        introParagraph.center=CGPointMake(screenWidth*.5, introParagraph.center.y);
-//        introParagraph.font = [UIFont fontWithName:@"DIN Condensed" size:15];
-//        introParagraph.numberOfLines=20;
-//        introParagraph.textColor=strokeColor;
-//        
-//        NSString *stringTojustify                = @"Please answer the questions below to contribute your game play data towards science.\n\nYour answers are anonymous.  Your participation is not required to play, but science could use your help!";
-//        NSDictionary *attributes                 = @{NSParagraphStyleAttributeName: paragraphStyles};
-//        NSAttributedString *attributedString     = [[NSAttributedString alloc] initWithString:stringTojustify attributes:attributes];
-//        
-//        introParagraph.attributedText             = attributedString;
-//        [self addSubview:introParagraph];
+        
+        currentUser=[PFUser currentUser];
+
         
         UIView *survey = [[[NSBundle mainBundle] loadNibNamed:@"SurveyView" owner:self options:nil] firstObject];
         survey.frame=CGRectMake(0, 0, survey.frame.size.width, survey.frame.size.height);
@@ -67,19 +39,97 @@
         
         [self addSubview:survey];
         
+        
+        
+        
+        
+        [self.sex addTarget:self action:@selector(segmentSelected:) forControlEvents:UIControlEventValueChanged];
+        [self.handed addTarget:self action:@selector(segmentSelected:) forControlEvents:UIControlEventValueChanged];
+
+        
+        
         NSMutableArray *numArray = [[NSMutableArray alloc] init];
-        for(int i=0; i<120; i++){
+        for(int i=0; i<=120; i++){
             [numArray addObject:[NSString stringWithFormat:@"%i",i]];
         }
-        
         _ages = numArray;
-        [_agePicker selectRow:18 inComponent:0 animated:NO];
+
+        
+        [_agePicker selectRow:0 inComponent:0 animated:NO];
         //change picker selectionline color
         ((UIView *)[_agePicker.subviews objectAtIndex:1]).backgroundColor = [UIColor grayColor];
         ((UIView *)[_agePicker.subviews objectAtIndex:2]).backgroundColor = [UIColor grayColor];
         
-        [_checkbox addTarget:self action:@selector(checkboxSelected:) forControlEvents:UIControlEventTouchUpInside];
 
+        [_frequentHeadaches addTarget:self action:@selector(checkboxSelected:) forControlEvents:UIControlEventTouchUpInside];
+        [_dizziness addTarget:self action:@selector(checkboxSelected:) forControlEvents:UIControlEventTouchUpInside];
+        [_lossOfConsciousness addTarget:self action:@selector(checkboxSelected:) forControlEvents:UIControlEventTouchUpInside];
+        [_seizures addTarget:self action:@selector(checkboxSelected:) forControlEvents:UIControlEventTouchUpInside];
+        [_mentalHealth addTarget:self action:@selector(checkboxSelected:) forControlEvents:UIControlEventTouchUpInside];
+       
+        [_narcotics addTarget:self action:@selector(checkboxSelected:) forControlEvents:UIControlEventTouchUpInside];
+        [_stimulants addTarget:self action:@selector(checkboxSelected:) forControlEvents:UIControlEventTouchUpInside];
+        [_cocain addTarget:self action:@selector(checkboxSelected:) forControlEvents:UIControlEventTouchUpInside];
+        [_lsd addTarget:self action:@selector(checkboxSelected:) forControlEvents:UIControlEventTouchUpInside];
+        [_marijuana addTarget:self action:@selector(checkboxSelected:) forControlEvents:UIControlEventTouchUpInside];
+        [_streetDrugs addTarget:self action:@selector(checkboxSelected:) forControlEvents:UIControlEventTouchUpInside];
+
+        [_professional addTarget:self action:@selector(checkboxSelected:) forControlEvents:UIControlEventTouchUpInside];
+        [_collegiate addTarget:self action:@selector(checkboxSelected:) forControlEvents:UIControlEventTouchUpInside];
+        [_amateur addTarget:self action:@selector(checkboxSelected:) forControlEvents:UIControlEventTouchUpInside];
+        [_intramural addTarget:self action:@selector(checkboxSelected:) forControlEvents:UIControlEventTouchUpInside];
+        [_casual addTarget:self action:@selector(checkboxSelected:) forControlEvents:UIControlEventTouchUpInside];
+        [_none addTarget:self action:@selector(checkboxSelected:) forControlEvents:UIControlEventTouchUpInside];
+ 
+        [_iAgree addTarget:self action:@selector(checkboxSelected:) forControlEvents:UIControlEventTouchUpInside];
+        [_iDoNotAgree addTarget:self action:@selector(checkboxSelected:) forControlEvents:UIControlEventTouchUpInside];
+
+        [[PFUser currentUser] fetchInBackgroundWithBlock:^(PFObject *object, NSError *error) {
+            if (!error){
+                [_agePicker selectRow:[currentUser[@"age"] integerValue] inComponent:0 animated:YES];
+                
+                int mfIndex;
+                if([currentUser[@"sex"] isEqual:@"Male"])mfIndex=0;
+                else if ([currentUser[@"sex"] isEqual:@"Female"]) mfIndex=1;
+                else mfIndex=-1;
+                if(mfIndex>=0) [_sex setSelectedSegmentIndex:mfIndex];
+                
+                int handedIndex;
+                if([currentUser[@"handed"] isEqual:@"Left"])handedIndex=0;
+                else if ([currentUser[@"handed"] isEqual:@"Right"]) handedIndex=1;
+                else handedIndex=-1;
+                if(handedIndex>=0) [_handed setSelectedSegmentIndex:handedIndex];
+                
+                [_frequentHeadaches setSelected:[currentUser[@"frequentHeadaches"] boolValue]];
+                [_dizziness setSelected:[currentUser[@"dizziness"] boolValue]];
+                [_lossOfConsciousness setSelected:[currentUser[@"lossOfConsciousness"] boolValue]];
+                [_seizures setSelected:[currentUser[@"seizures"] boolValue]];
+                [_mentalHealth setSelected:[currentUser[@"mentalHealth"] boolValue]];
+                
+                [_narcotics setSelected:[currentUser[@"narcotics"] boolValue]];
+                [_stimulants setSelected:[currentUser[@"stimulants"] boolValue]];
+                [_cocain setSelected:[currentUser[@"cocain"] boolValue]];
+                [_lsd setSelected:[currentUser[@"lsd"] boolValue]];
+                [_marijuana setSelected:[currentUser[@"marijuana"] boolValue]];
+                [_streetDrugs setSelected:[currentUser[@"streetDrugs"] boolValue]];
+                
+                [_professional setSelected:[currentUser[@"professional"] boolValue]];
+                [_collegiate setSelected:[currentUser[@"collegiate"] boolValue]];
+                [_amateur setSelected:[currentUser[@"amateur"] boolValue]];
+                [_intramural setSelected:[currentUser[@"intramural"] boolValue]];
+                [_casual setSelected:[currentUser[@"casual"] boolValue]];
+                [_none setSelected:[currentUser[@"none"] boolValue]];
+
+                if(currentUser[@"iAgree"]!=nil){
+                    [_iAgree setSelected:[currentUser[@"iAgree"] boolValue]];
+                    [_iDoNotAgree setSelected:![currentUser[@"iAgree"] boolValue]];
+                }
+
+                
+            }
+            
+         
+        }];
         
     }
     return self;
@@ -136,14 +186,8 @@ numberOfRowsInComponent:(NSInteger)component
 -(void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row
       inComponent:(NSInteger)component
 {
-//    float rate = [_exchangeRates[row] floatValue];
-//    float dollars = [_dollarText.text floatValue];
-//    float result = dollars * rate;
-//    
-//    NSString *resultString = [[NSString alloc] initWithFormat:
-//                              @"%.2f USD = %.2f %@", dollars, result,
-//                              _countryNames[row]];
-//    _resultLabel.text = resultString;
+    currentUser[@"age"]=[NSNumber numberWithChar:row];
+    [currentUser saveEventually];
 }
 
 -(IBAction)textFieldReturn:(id)sender
@@ -151,18 +195,64 @@ numberOfRowsInComponent:(NSInteger)component
     [sender resignFirstResponder];
 }
 
+#pragma mark - segmented
+-(void)segmentSelected:(id)sender{
+    
+    if([sender tag]==0){
+        if(_sex.selectedSegmentIndex==0) currentUser[@"sex"]= @"Male";
+        else if(_sex.selectedSegmentIndex==1) currentUser[@"sex"]= @"Female";
+        [currentUser saveEventually];
+    }
+    else if([sender tag]==1){
+        if(_handed.selectedSegmentIndex==0) currentUser[@"handed"]= @"Left";
+        else if(_handed.selectedSegmentIndex==1) currentUser[@"handed"]= @"Right";
+        [currentUser saveEventually];
+    }
+}
+
+
+
+
 #pragma mark - checkboxes
 
 -(void)checkboxSelected:(id)sender{
     
+    if([sender isSelected]==YES) [sender setSelected:NO];
+    else [sender setSelected:YES];
     
-    if([_checkbox isSelected]==YES)
-    {
-        [_checkbox setSelected:NO];
+    
+    if([sender tag]==0) currentUser[@"frequentHeadaches"] = [NSNumber numberWithBool:[sender isSelected]];
+    else if([sender tag]==1) currentUser[@"dizziness"] = [NSNumber numberWithBool:[sender isSelected]];
+    else if([sender tag]==2) currentUser[@"lossOfConsciousness"] = [NSNumber numberWithBool:[sender isSelected]];
+    else if([sender tag]==3) currentUser[@"seizures"] = [NSNumber numberWithBool:[sender isSelected]];
+    else if([sender tag]==4) currentUser[@"mentalHealth"] = [NSNumber numberWithBool:[sender isSelected]];
+    
+    else if([sender tag]==5) currentUser[@"narcotics"] = [NSNumber numberWithBool:[sender isSelected]];
+    else if([sender tag]==6) currentUser[@"stimulants"] = [NSNumber numberWithBool:[sender isSelected]];
+    else if([sender tag]==7) currentUser[@"cocain"] = [NSNumber numberWithBool:[sender isSelected]];
+    else if([sender tag]==8) currentUser[@"lsd"] = [NSNumber numberWithBool:[sender isSelected]];
+    else if([sender tag]==9) currentUser[@"marijuana"] = [NSNumber numberWithBool:[sender isSelected]];
+    else if([sender tag]==10) currentUser[@"streetDrugs"] = [NSNumber numberWithBool:[sender isSelected]];
+    
+    else if([sender tag]==11) currentUser[@"professional"] = [NSNumber numberWithBool:[sender isSelected]];
+    else if([sender tag]==12) currentUser[@"collegiate"] = [NSNumber numberWithBool:[sender isSelected]];
+    else if([sender tag]==13) currentUser[@"amateur"] = [NSNumber numberWithBool:[sender isSelected]];
+    else if([sender tag]==14) currentUser[@"intramural"] = [NSNumber numberWithBool:[sender isSelected]];
+    else if([sender tag]==15) currentUser[@"casual"] = [NSNumber numberWithBool:[sender isSelected]];
+    else if([sender tag]==16) currentUser[@"none"] = [NSNumber numberWithBool:[sender isSelected]];
+
+    else if([sender tag]==50){
+        currentUser[@"iAgree"] = [NSNumber numberWithBool:YES];
+        [_iDoNotAgree setSelected:NO];
     }
-    else{
-        [_checkbox setSelected:YES];
+    else if([sender tag]==51){
+        currentUser[@"iAgree"] = [NSNumber numberWithBool:NO];
+        [_iAgree setSelected:NO];
+
     }
+
+    [currentUser saveEventually];
+
     
 }
 
