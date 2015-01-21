@@ -20,11 +20,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "TATATA/ViewController.m"
-            timestampString = "443500914.343681"
+            timestampString = "443506756.408017"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1239"
-            endingLineNumber = "1239"
+            startingLineNumber = "1262"
+            endingLineNumber = "1262"
             landmarkName = "-getLevelAccuracy:"
             landmarkType = "5">
          </BreakpointContent>
@@ -36,28 +36,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "TATATA/ViewController.m"
-            timestampString = "443500914.343681"
+            timestampString = "443506756.408017"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1424"
-            endingLineNumber = "1424"
+            startingLineNumber = "1447"
+            endingLineNumber = "1447"
             landmarkName = "-isAccurate"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "TATATA/ViewController.m"
-            timestampString = "443497600.900222"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "935"
-            endingLineNumber = "935"
-            landmarkName = "-saveTrialData"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

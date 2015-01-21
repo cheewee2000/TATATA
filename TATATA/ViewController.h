@@ -21,6 +21,7 @@
 {
     //PFUser *currentUser;
     PFObject *currentTrial;
+    long trialCount;
     
     int screenWidth,screenHeight;
     int trialSequence;
@@ -43,21 +44,13 @@
     float endY;
     
     UILabel * scoreLabel;
-    //UILabel * scoreLabelLabel;
-    //UILabel * scoreLabelLine;
 
     UILabel * bestLabel;
-//    UILabel * bestLabelLabel;
-//    UILabel * bestLabelLine;
 
     UILabel * accuracyLabel;
-//    UILabel * accuracyLabelLabel;
-//    UILabel * accuracyLabelLine;
- 
+
     UILabel * trialCountLabel;
-//    UILabel * trialCountLabelLabel;
-//    UILabel * trialCountLabelLine;
-    
+ 
     
     UIView * midMarkL;
     UIView * midMarkR;

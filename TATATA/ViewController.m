@@ -1,4 +1,5 @@
 #import "ViewController.h"
+#import "Reachability.h"
 
 #define IS_IPAD (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
 #define IS_IPHONE (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
@@ -60,9 +61,11 @@
     else showSurvey = (int)[defaults integerForKey:@"showSurvey"];
 
 
+    
+
 #pragma mark - Ball
-    startY=screenHeight*.5-200.0;
-    endY=screenHeight*.5+200.0;
+    startY=screenHeight*.5-190.0;
+    endY=screenHeight*.5+190.0;
     
     catchZone=[[Dots alloc] initWithFrame:CGRectMake(0,0, 88, 88)];
     catchZone.center=CGPointMake(screenWidth*.5, screenHeight*.5);
@@ -293,7 +296,8 @@
     
     
     
-    
+#pragma mark - Buttons
+
     showScoreboardButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [showScoreboardButton addTarget:self
                          action:@selector(showScoreboard)
@@ -315,7 +319,7 @@
     [gameCenterButton setImage:[UIImage imageNamed:@"leaderboard"] forState:UIControlStateNormal];
 
     [gameCenterButton setTitleColor:fgColor forState:UIControlStateNormal];
-    gameCenterButton.frame = CGRectMake(screenWidth*.5-44, screenHeight*1.5-88, 88.0, 88.0);
+    gameCenterButton.frame = CGRectMake(screenWidth*.5-44-60, screenHeight*1.5-88, 88.0, 88.0);
     float inset=33.0f;
     [gameCenterButton setImageEdgeInsets:UIEdgeInsetsMake(inset,inset,inset,inset)];
     [scrollView addSubview:gameCenterButton];
@@ -332,7 +336,7 @@
     [infoButton setImage:[[UIImage imageNamed:@"infoicon"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] forState:UIControlStateNormal];
     
     [infoButton setTitleColor:fgColor forState:UIControlStateNormal];
-    infoButton.frame = CGRectMake(screenWidth*.5-44+100, screenHeight*1.5-88, 88.0, 88.0);
+    infoButton.frame = CGRectMake(screenWidth*.5-44+60, screenHeight*1.5-88, 88.0, 88.0);
     [infoButton setImageEdgeInsets:UIEdgeInsetsMake(inset,inset,inset,inset)];
 
     infoButton.tintColor=fgColor;
@@ -441,18 +445,30 @@
     
     
     
-    if([defaults objectForKey:@"flashDuration"] == nil) flashDuration=0.08;
-    else flashDuration = (int)[defaults integerForKey:@"flashDuration"];
-    
-    if([defaults objectForKey:@"accuracyStart"] == nil) accuracyStart=0.2;
-    else accuracyStart = (int)[defaults integerForKey:@"accuracyStart"];
-    
-    if([defaults objectForKey:@"accuracyMax"] == nil) accuracyMax=0.05;
-    else accuracyMax = (int)[defaults integerForKey:@"accuracyMax"];
-    
-    if([defaults objectForKey:@"accuracyIncrement"] == nil) accuracyIncrement=0.075;
-    else accuracyIncrement = (int)[defaults integerForKey:@"accuracyIncrement"];
+    if([defaults objectForKey:@"flashDuration"] == nil){
+        flashDuration=0.08;
+        [defaults setObject:[NSNumber numberWithFloat:flashDuration] forKey:@"flashDuration"];
+    }
+    else flashDuration = (float)[defaults floatForKey:@"flashDuration"];
 
+    if([defaults objectForKey:@"accuracyStart"] == nil) {
+        accuracyStart=0.125;
+        [defaults setObject:[NSNumber numberWithFloat:accuracyStart] forKey:@"accuracyStart"];
+
+    }
+    else accuracyStart = (float)[defaults floatForKey:@"accuracyStart"];
+
+    if([defaults objectForKey:@"accuracyMax"] == nil){
+        accuracyMax=0.05;
+        [defaults setObject:[NSNumber numberWithFloat:accuracyMax] forKey:@"accuracyMax"];
+    }
+    else accuracyMax = (float)[defaults floatForKey:@"accuracyMax"];
+
+    if([defaults objectForKey:@"accuracyIncrement"] == nil){
+        accuracyIncrement=0.01;
+        [defaults setObject:[NSNumber numberWithFloat:accuracyIncrement] forKey:@"accuracyIncrement"];
+    }
+    else accuracyIncrement = (float)[defaults floatForKey:@"accuracyIncrement"];
 //    if([defaults objectForKey:@"ballDiameter"] == nil) ballDiameter=80;
 //    else ballDiameter = (int)[defaults integerForKey:@"ballDiameter"];
     
@@ -466,36 +482,41 @@
             config = [PFConfig currentConfig];
         }
         
-        flashDuration=[config[@"flashDuration"]floatValue];
-        [defaults setObject:[NSNumber numberWithFloat:flashDuration] forKey:@"flashDuration"];
-        
-        accuracyStart=[config[@"accuracyStart"]floatValue];
-        [defaults setObject:[NSNumber numberWithFloat:accuracyStart] forKey:@"accuracyStart"];
+        if(config[@"flashDuration"]!=nil){
+            flashDuration=[config[@"flashDuration"]floatValue];
+            [defaults setObject:[NSNumber numberWithFloat:flashDuration] forKey:@"flashDuration"];
+            
+            accuracyStart=[config[@"accuracyStart"]floatValue];
+            [defaults setObject:[NSNumber numberWithFloat:accuracyStart] forKey:@"accuracyStart"];
 
-        accuracyMax=[config[@"accuracyMax"]floatValue];
-        [defaults setObject:[NSNumber numberWithFloat:accuracyMax] forKey:@"accuracyMax"];
+            accuracyMax=[config[@"accuracyMax"]floatValue];
+            [defaults setObject:[NSNumber numberWithFloat:accuracyMax] forKey:@"accuracyMax"];
 
-        accuracyIncrement=[config[@"accuracyIncrement"]floatValue];
-        [defaults setObject:[NSNumber numberWithFloat:accuracyIncrement] forKey:@"accuracyIncrement"];
-
+            accuracyIncrement=[config[@"accuracyIncrement"]floatValue];
+            [defaults setObject:[NSNumber numberWithFloat:accuracyIncrement] forKey:@"accuracyIncrement"];
+        }
 //        ballDiameter=[config[@"ballDiameter"]floatValue];
 //        [defaults setObject:[NSNumber numberWithFloat:ballDiameter] forKey:@"ballDiameter"];
 
         
     }];
     
+    trialCount=[defaults integerForKey:@"trialsPlayed"];
+    trialCountLabel.text=[NSString stringWithFormat:@"%li",trialCount];
+    accuracyLabel.text=[NSString stringWithFormat:@"%.3f%%",[defaults floatForKey:@"accuracyScore"]*100.0];
     
-    
-    
-    [[PFUser currentUser] fetchInBackgroundWithBlock:^(PFObject *object, NSError *error) {
-        if (!error){
-            trialCountLabel.text=[NSString stringWithFormat:@"%i",[_currentUser[@"trialsPlayed"] intValue]];
-            accuracyLabel.text=[NSString stringWithFormat:@"%.3f%%",[_currentUser[@"accuracyScore"]floatValue]*100.0];
-        }
-    }];
+//    [[PFUser currentUser] fetchInBackgroundWithBlock:^(PFObject *object, NSError *error) {
+//        if (!error){
+//            trialCountLabel.text=[NSString stringWithFormat:@"%i",[_currentUser[@"trialsPlayed"] intValue]];
+//            accuracyLabel.text=[NSString stringWithFormat:@"%.3f%%",[_currentUser[@"accuracyScore"]floatValue]*100.0];
+//        }
+//    }];
     
     //currentLevel=11;
     //[self restart];
+    
+
+    
 }
 
 
@@ -856,7 +877,7 @@
     //save to disk
     NSMutableDictionary *myDictionary = [[NSMutableDictionary alloc] init];
     float diff=elapsed-timerGoal;
-    [myDictionary setObject:[NSNumber numberWithFloat:diff] forKey:@"accuracy"];
+    [myDictionary setObject:[NSNumber numberWithFloat:diff] forKey:@"offset"];
     [myDictionary setObject:[NSNumber numberWithFloat:timerGoal] forKey:@"goal"];
     [myDictionary setObject:[NSNumber numberWithFloat:trialDelay] forKey:@"trialDelay"];
     [myDictionary setObject:[NSNumber numberWithFloat:flashT] forKey:@"flashT"];
@@ -873,21 +894,19 @@
     [myDictionary setObject:[NSNumber numberWithFloat: touchX ] forKey:@"touchX"];
     [myDictionary setObject:[NSNumber numberWithFloat: touchY ] forKey:@"touchY"];
     [myDictionary setObject:[NSNumber numberWithFloat: touchLength ] forKey:@"touchLength"];
-    [myDictionary setObject:configVersion forKey:@"configVersion"];
+    if(configVersion!=nil)[myDictionary setObject:configVersion forKey:@"configVersion"];
 
     //}
     [self.allTrialData addObject:myDictionary];
     [self.allTrialData writeToFile:allTrialDataFile atomically:YES];
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
 
     //save to parse
     if([_currentUser[@"iAgree"] boolValue]){
         PFObject *pObject = [PFObject objectWithClassName:@"results"];
-        pObject[@"accuracy"] = [NSNumber numberWithFloat:diff];
+        pObject[@"offset"] = [NSNumber numberWithFloat:diff];
         pObject[@"goal"] = [NSNumber numberWithFloat:timerGoal];
         pObject[@"flashT"]=[NSNumber numberWithFloat:flashT];
-    //    pObject[@"d1"]=[NSNumber numberWithFloat:[currentTrial[@"d1"]floatValue] ];
-    //    pObject[@"d2"]=[NSNumber numberWithFloat:[currentTrial[@"d2"]floatValue] ];
-    //    pObject[@"duration"]=[NSNumber numberWithFloat:[currentTrial[@"duration"]floatValue] ];
         pObject[@"trialDelay"]=[NSNumber numberWithFloat:trialDelay];
         pObject[@"trials"]=currentTrial;
         pObject[@"level"]=[NSNumber numberWithInteger:currentLevel];
@@ -902,7 +921,6 @@
         pObject[@"configVersion"]=configVersion;
 
         //}
-        NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
         NSString*uuid;
         if([defaults stringForKey:@"uuid"] == nil){
             uuid=CFBridgingRelease(CFUUIDCreateString(NULL, CFUUIDCreate(NULL)));
@@ -920,18 +938,23 @@
         [pObject saveEventually];
     }
 
-    [_currentUser incrementKey:@"trialsPlayed"];
-    trialCountLabel.text=[NSString stringWithFormat:@"%i",[_currentUser[@"trialsPlayed"] intValue]];
+    //[_currentUser incrementKey:@"trialsPlayed"];
+    trialCount++;
+    trialCountLabel.text=[NSString stringWithFormat:@"%li",trialCount];
+    [defaults setObject:[NSNumber numberWithLong:trialCount] forKey:@"trialsPlayed"];
+    _currentUser[@"trialsPlayed"]=[NSNumber numberWithLong:trialCount];
+
     
     _currentUser[@"best"]=[NSNumber numberWithFloat:best];
     
     float d2Duration=[currentTrial[@"duration"]floatValue]*[currentTrial[@"d2"]floatValue];
     accuracyScore=(d2Duration-fabs(diff))/(float)d2Duration;
-
     accuracyScore=([_currentUser[@"accuracyScore"] floatValue]+accuracyScore)/2.0;
     
     _currentUser[@"accuracyScore"]=[NSNumber numberWithFloat:accuracyScore];
     accuracyLabel.text=[NSString stringWithFormat:@"%.3f%%",accuracyScore*100.0];
+    [defaults setObject:[NSNumber numberWithFloat:[_currentUser[@"accuracyScore"] floatValue] ] forKey:@"accuracyScore"];
+    [defaults synchronize];
     
     [_currentUser saveEventually];
     
@@ -1169,7 +1192,7 @@
     if(elapsed==0)p=CGPointMake(screenWidth*.5, startY);
     else p=CGPointMake(screenWidth*.5, startY+(endY-startY)*(float)elapsed/(float)timerGoal );
     if(animate){
-        [UIView animateWithDuration:0.4
+        [UIView animateWithDuration:0.6
                               delay:0.0
                             options:UIViewAnimationOptionCurveEaseOut
                          animations:^{
@@ -1469,17 +1492,30 @@
     [self restart];
 
     
+    Reachability *reach = [Reachability reachabilityForInternetConnection];
+    
+    NetworkStatus netStatus = [reach currentReachabilityStatus];
+    if (netStatus == NotReachable) {
+        NSLog(@"No internet connection!");
+    } else {
+        NSLog(@"netstatus: %ld",netStatus);
+    }
+    
+    
     if(showIntro){
         [self performSelector:@selector(showIntroView) withObject:self afterDelay:1.5];
     }
-    else if(showSurvey){
-        surveyView.alpha=1;
-        [scrollView setContentSize:CGSizeMake(scrollView.bounds.size.width, 2400 +screenHeight*1.5 )];
-        [self performSelector:@selector(showIntroView) withObject:self afterDelay:1.5];
-    }else{
-        surveyView.alpha=1;
-        [scrollView setContentSize:CGSizeMake(scrollView.bounds.size.width, 2400 +screenHeight*1.5)];
-    }
+    else
+        if (netStatus != NotReachable) {//there is internet!
+            if(showSurvey){
+                surveyView.alpha=1;
+                [scrollView setContentSize:CGSizeMake(scrollView.bounds.size.width, 2400 +screenHeight*1.5 )];
+                [self performSelector:@selector(showIntroView) withObject:self afterDelay:1.5];
+            }else{
+                surveyView.alpha=1;
+                [scrollView setContentSize:CGSizeMake(scrollView.bounds.size.width, 2400 +screenHeight*1.5)];
+            }
+        }
 
    [super viewDidAppear:animated];
 }
