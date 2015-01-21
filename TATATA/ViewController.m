@@ -61,8 +61,8 @@
 
 
 #pragma mark - Ball
-    startY=screenHeight*.5-200;
-    endY=screenHeight*.5+200;
+    startY=screenHeight*.5-200.0;
+    endY=screenHeight*.5+200.0;
     
     catchZone=[[Dots alloc] initWithFrame:CGRectMake(0,0, 88, 88)];
     catchZone.center=CGPointMake(screenWidth*.5, screenHeight*.5);
@@ -146,7 +146,6 @@
     
 
 #pragma mark - Labels
-    
 
     currentScoreLabel=[[UILabel alloc] initWithFrame:CGRectMake(0,0, screenWidth, 160)];
     currentScoreLabel.center=CGPointMake(screenWidth/2.0, screenHeight/2.0);
@@ -174,10 +173,12 @@
     
     [scrollView addSubview:catchZoneButton];
     
+    int labelHeight=190;
+    int labelOffset=110;
+
     
-    
-    scoreLabel=[[UILabel alloc] initWithFrame:CGRectMake(0,0, screenWidth, 160)];
-    scoreLabel.center=CGPointMake(screenWidth/2.0, startY);
+    scoreLabel=[[UILabel alloc] initWithFrame:CGRectMake(0,0, screenWidth, labelHeight)];
+    scoreLabel.center=CGPointMake(screenWidth/2.0, screenHeight*.5-labelOffset-labelHeight*.25);
     scoreLabel.text=@"0";
     scoreLabel.textAlignment = NSTextAlignmentCenter;
     scoreLabel.backgroundColor = [UIColor clearColor];
@@ -186,17 +187,18 @@
     scoreLabel.alpha=0;
     [scrollView addSubview:scoreLabel];
     
-    scoreLabelLabel=[[UILabel alloc] initWithFrame:CGRectMake(0,0, 100, 40)];
-    scoreLabelLabel.center=CGPointMake(screenWidth/2.0, scoreLabel.center.y+80);
+    UILabel* scoreLabelLabel=[[UILabel alloc] initWithFrame:CGRectMake(0,0, 100, 40)];
+    //scoreLabelLabel.center=CGPointMake(screenWidth/2.0, scoreLabel.center.y+80);
+    scoreLabelLabel.center=CGPointMake(scoreLabel.frame.size.width/2.0, scoreLabel.frame.size.height-scoreLabelLabel.frame.size.height+20);
     scoreLabelLabel.text=@"SCORE";
     scoreLabelLabel.textAlignment = NSTextAlignmentCenter;
     scoreLabelLabel.backgroundColor = [UIColor clearColor];
     scoreLabelLabel.font = [UIFont fontWithName:@"HelveticaNeue-Ultralight" size:15];
     scoreLabelLabel.textColor=strokeColor;
-    scoreLabelLabel.alpha=0;
-    [scrollView addSubview:scoreLabelLabel];
+    scoreLabelLabel.alpha=1;
+    [scoreLabel addSubview:scoreLabelLabel];
     
-    scoreLabelLine=[[UILabel alloc] initWithFrame:CGRectMake(0,0, scoreLabelLabel.frame.size.width, .5)];
+    UILabel* scoreLabelLine=[[UILabel alloc] initWithFrame:CGRectMake(0,0, scoreLabelLabel.frame.size.width, .5)];
     scoreLabelLine.backgroundColor = strokeColor;
     [scoreLabelLabel addSubview:scoreLabelLine];
     
@@ -204,8 +206,8 @@
     [scoreLabelLabel addSubview:scoreGraph];
 
     
-    bestLabel=[[UILabel alloc] initWithFrame:CGRectMake(0,0, screenWidth, 150)];
-    bestLabel.center=CGPointMake(screenWidth*.5, endY-60);
+    bestLabel=[[UILabel alloc] initWithFrame:CGRectMake(0,0, screenWidth, labelHeight)];
+    bestLabel.center=CGPointMake(screenWidth*.5, screenHeight*.5+labelOffset);
     bestLabel.text=@"0";
     bestLabel.textAlignment = NSTextAlignmentCenter;
     bestLabel.backgroundColor = [UIColor clearColor];
@@ -214,20 +216,83 @@
     bestLabel.alpha=0;
     [scrollView addSubview:bestLabel];
     
-    bestLabelLabel=[[UILabel alloc] initWithFrame:CGRectMake(0,0, 100, 40)];
-    bestLabelLabel.center=CGPointMake(bestLabel.frame.size.width*.5, bestLabel.frame.size.height);
+    UILabel* bestLabelLabel=[[UILabel alloc] initWithFrame:CGRectMake(0,0, 100, 40)];
+    //bestLabelLabel.center=CGPointMake(bestLabel.frame.size.width*.5, bestLabel.frame.size.height);
+    bestLabelLabel.center=CGPointMake(bestLabel.frame.size.width/2.0, bestLabel.frame.size.height-bestLabelLabel.frame.size.height+20);
     bestLabelLabel.text=@"BEST";
     bestLabelLabel.textAlignment = NSTextAlignmentCenter;
     bestLabelLabel.backgroundColor = [UIColor clearColor];
     bestLabelLabel.font = [UIFont fontWithName:@"HelveticaNeue-Ultralight" size:15];
     bestLabelLabel.textColor=strokeColor;
-    bestLabelLabel.alpha=0;
-    [bestLabelLabel setUserInteractionEnabled:YES];
+    bestLabelLabel.alpha=1;
+    [bestLabelLabel setUserInteractionEnabled:NO];
     [bestLabel addSubview:bestLabelLabel];
     
-    bestLabelLine=[[UILabel alloc] initWithFrame:CGRectMake(0,0, bestLabelLabel.frame.size.width, .5)];
+    UILabel* bestLabelLine=[[UILabel alloc] initWithFrame:CGRectMake(0,0, bestLabelLabel.frame.size.width, .5)];
     bestLabelLine.backgroundColor = strokeColor;
     [bestLabelLabel addSubview:bestLabelLine];
+    
+    
+    
+    labelHeight=120;
+    
+    accuracyLabel=[[UILabel alloc] initWithFrame:CGRectMake(0,0, screenWidth, labelHeight)];
+    accuracyLabel.center=CGPointMake(screenWidth*.5, screenHeight);
+    accuracyLabel.text=@"0";
+    accuracyLabel.textAlignment = NSTextAlignmentCenter;
+    accuracyLabel.backgroundColor = [UIColor clearColor];
+    accuracyLabel.font = [UIFont fontWithName:@"HelveticaNeue-Ultralight" size:39];
+    accuracyLabel.textColor=strokeColor;
+    accuracyLabel.alpha=0;
+    [scrollView addSubview:accuracyLabel];
+    
+    UILabel* accuracyLabelLabel=[[UILabel alloc] initWithFrame:CGRectMake(0,0, 100, 40)];
+    accuracyLabelLabel.center=CGPointMake(accuracyLabel.frame.size.width/2.0, accuracyLabel.frame.size.height/2.0+labelHeight*.5);
+    accuracyLabelLabel.text=@"ACCURACY";
+    accuracyLabelLabel.textAlignment = NSTextAlignmentCenter;
+    accuracyLabelLabel.backgroundColor = [UIColor clearColor];
+    accuracyLabelLabel.font = [UIFont fontWithName:@"HelveticaNeue-Ultralight" size:15];
+    accuracyLabelLabel.textColor=strokeColor;
+    accuracyLabelLabel.alpha=1;
+    [accuracyLabelLabel setUserInteractionEnabled:NO];
+    [accuracyLabel addSubview:accuracyLabelLabel];
+    
+    UILabel* accuracyLabelLine=[[UILabel alloc] initWithFrame:CGRectMake(0,0, accuracyLabelLabel.frame.size.width, .5)];
+    accuracyLabelLine.backgroundColor = strokeColor;
+    [accuracyLabelLabel addSubview:accuracyLabelLine];
+    
+    
+    trialCountLabel=[[UILabel alloc] initWithFrame:CGRectMake(0,0, screenWidth, labelHeight)];
+    trialCountLabel.center=CGPointMake(screenWidth*.5, screenHeight+labelOffset+25);
+    trialCountLabel.text=@"0";
+    trialCountLabel.textAlignment = NSTextAlignmentCenter;
+    trialCountLabel.backgroundColor = [UIColor clearColor];
+    trialCountLabel.font = [UIFont fontWithName:@"HelveticaNeue-Ultralight" size:39];
+    trialCountLabel.textColor=strokeColor;
+    trialCountLabel.alpha=0;
+    [scrollView addSubview:trialCountLabel];
+    
+    UILabel* trialCountLabelLabel=[[UILabel alloc] initWithFrame:CGRectMake(0,0, 100, 40)];
+    trialCountLabelLabel.center=CGPointMake(trialCountLabel.frame.size.width/2.0, trialCountLabel.frame.size.height/2.0+labelHeight*.5);
+    trialCountLabelLabel.text=@"TRIALS";
+    trialCountLabelLabel.textAlignment = NSTextAlignmentCenter;
+    trialCountLabelLabel.backgroundColor = [UIColor clearColor];
+    trialCountLabelLabel.font = [UIFont fontWithName:@"HelveticaNeue-Ultralight" size:15];
+    trialCountLabelLabel.textColor=strokeColor;
+    trialCountLabelLabel.alpha=1;
+    [trialCountLabelLabel setUserInteractionEnabled:NO];
+    [trialCountLabel addSubview:trialCountLabelLabel];
+    
+    UILabel* trialCountLabelLine=[[UILabel alloc] initWithFrame:CGRectMake(0,0, trialCountLabelLabel.frame.size.width, .5)];
+    trialCountLabelLine.backgroundColor = strokeColor;
+    [trialCountLabelLabel addSubview:trialCountLabelLine];
+    
+    
+    
+    
+    
+    
+    
     
     showScoreboardButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [showScoreboardButton addTarget:self
@@ -250,7 +315,7 @@
     [gameCenterButton setImage:[UIImage imageNamed:@"leaderboard"] forState:UIControlStateNormal];
 
     [gameCenterButton setTitleColor:fgColor forState:UIControlStateNormal];
-    gameCenterButton.frame = CGRectMake(screenWidth*.5-44, screenHeight*1.5-100, 88.0, 88.0);
+    gameCenterButton.frame = CGRectMake(screenWidth*.5-44, screenHeight*1.5-88, 88.0, 88.0);
     float inset=33.0f;
     [gameCenterButton setImageEdgeInsets:UIEdgeInsetsMake(inset,inset,inset,inset)];
     [scrollView addSubview:gameCenterButton];
@@ -267,7 +332,7 @@
     [infoButton setImage:[[UIImage imageNamed:@"infoicon"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] forState:UIControlStateNormal];
     
     [infoButton setTitleColor:fgColor forState:UIControlStateNormal];
-    infoButton.frame = CGRectMake(screenWidth*.5-44+100, screenHeight*1.5-100, 88.0, 88.0);
+    infoButton.frame = CGRectMake(screenWidth*.5-44+100, screenHeight*1.5-88, 88.0, 88.0);
     [infoButton setImageEdgeInsets:UIEdgeInsetsMake(inset,inset,inset,inset)];
 
     infoButton.tintColor=fgColor;
@@ -343,7 +408,7 @@
     introParagraph.numberOfLines=20;
     introParagraph.textColor=strokeColor;
     
-    NSString *stringTojustify                = @"Darkball boils down eye-hand coordination, reaction speed and timing into the most fundamental elements.\n\nCristiano Ronaldo can famously volley a corner kick in total darkness. At the root of this superpower is sensorimotor integration of advance cues. \n\nAthletic performance combines strength, technique, skill, and mental ability. Darkball is about your challenging your mental ability. In this simple task, we isolate and focus on your ability to use advance cues and prediction to build up your eye-hand coordination.";
+    NSString *stringTojustify                = @"Darkball boils down eye-hand coordination, reaction speed and timing into the most fundamental elements.\n\nCristiano Ronaldo can famously volley a corner kick in total darkness. At the root of this superpower is sensorimotor integration of advance cues. \n\nAthletic performance combines strength, technique, skill, and mental ability. Darkball is about challenging your mental ability. In this simple task, we isolate and focus on your ability to use advance cues and prediction to build up your eye-hand coordination.";
     NSDictionary *attributes                 = @{NSParagraphStyleAttributeName: paragraphStyles};
     NSAttributedString *attributedString     = [[NSAttributedString alloc] initWithString:stringTojustify attributes:attributes];
     
@@ -420,6 +485,15 @@
     }];
     
     
+    
+    
+    [[PFUser currentUser] fetchInBackgroundWithBlock:^(PFObject *object, NSError *error) {
+        if (!error){
+            trialCountLabel.text=[NSString stringWithFormat:@"%i",[_currentUser[@"trialsPlayed"] intValue]];
+            accuracyLabel.text=[NSString stringWithFormat:@"%.3f%%",[_currentUser[@"accuracyScore"]floatValue]*100.0];
+        }
+    }];
+    
     //currentLevel=11;
     //[self restart];
 }
@@ -467,9 +541,15 @@
     //arrow
     float d=((screenHeight*.5)-scrollView.contentOffset.y)/(float)(screenHeight*.5);
     showScoreboardButton.alpha=d;
-    
-    bestLabel.center=CGPointMake(screenWidth*.5, endY-60+(screenHeight-endY)*(1.0-d));
-    
+    accuracyLabel.alpha=1.0-d;
+    trialCountLabel.alpha=1.0-d;
+
+    //bestLabel.center=CGPointMake(screenWidth*.5, screenHeight*.5+110);
+
+   float startPos=screenHeight*.5+110;
+   float endPos=screenHeight-110-47.5-startPos;
+   bestLabel.center=CGPointMake(screenWidth*.5, startPos+(endPos)*(1.0-d));
+//
     
     //show catchzone in introview
     if(scrollView.contentOffset.y>screenHeight*.75){
@@ -841,7 +921,18 @@
     }
 
     [_currentUser incrementKey:@"trialsPlayed"];
+    trialCountLabel.text=[NSString stringWithFormat:@"%i",[_currentUser[@"trialsPlayed"] intValue]];
+    
     _currentUser[@"best"]=[NSNumber numberWithFloat:best];
+    
+    float d2Duration=[currentTrial[@"duration"]floatValue]*[currentTrial[@"d2"]floatValue];
+    accuracyScore=(d2Duration-fabs(diff))/(float)d2Duration;
+
+    accuracyScore=([_currentUser[@"accuracyScore"] floatValue]+accuracyScore)/2.0;
+    
+    _currentUser[@"accuracyScore"]=[NSNumber numberWithFloat:accuracyScore];
+    accuracyLabel.text=[NSString stringWithFormat:@"%.3f%%",accuracyScore*100.0];
+    
     [_currentUser saveEventually];
     
  
@@ -856,13 +947,17 @@
     if(showIntro){
         [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"showIntro1"];
         showIntro=false;
+        
+        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"showSurvey"];
+        showSurvey=true;
+        [[NSUserDefaults standardUserDefaults] synchronize];
+        
+    }
+    else if(showSurvey){
+        [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"showSurvey"];
+        showSurvey=false;
         [[NSUserDefaults standardUserDefaults] synchronize];
     }
-//    else if(showSurvey){
-//        [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"showSurvey"];
-//        showSurvey=false;
-//        [[NSUserDefaults standardUserDefaults] synchronize];
-//    }
 }
 
 #pragma mark DATA
@@ -1155,9 +1250,9 @@
                              scrollView.alpha=1;
 
                              scoreLabel.alpha=1;
-                             scoreLabelLabel.alpha=1;
+                             //scoreLabelLabel.alpha=1;
                              bestLabel.alpha=1;
-                             bestLabelLabel.alpha=1;
+                             //bestLabelLabel.alpha=1;
                          }
                          else{
                              scrollView.alpha=0;
@@ -1227,7 +1322,12 @@
 
 
 -(void)setLevel:(int)level{
-    currentTrial=[trialArray objectAtIndex: ([_currentUser[@"trialsPlayed"] integerValue]+level)%[trialArray count]];
+    //insequence
+    //currentTrial=[trialArray objectAtIndex: ([_currentUser[@"trialsPlayed"] integerValue]+level)%[trialArray count]];
+    
+    //random
+    currentTrial=[trialArray objectAtIndex: arc4random()%[trialArray count]];
+
     timerGoal=[self getLevel:level];
     flashT=[self getFlashT:level];
 }
@@ -1357,21 +1457,22 @@
 {
     [self loadTrialData];
 
-    //if(viewLoaded==false)
-    {
-        currentLevel=0;
-        trialSequence=-1;
-        [self setLevel:currentLevel];
-        [self restart];
-        //[self animateLevelReset];
-    }
+    currentLevel=0;
+    trialSequence=-1;
+    [self setLevel:currentLevel];
+    [self restart];
+
     
-    if(showIntro || showSurvey){
-        if(showIntro==false){
-          surveyView.alpha=1;
-          [scrollView setContentSize:CGSizeMake(scrollView.bounds.size.width, surveyView.bounds.size.height + screenHeight)];
-        }
+    if(showIntro){
         [self performSelector:@selector(showIntroView) withObject:self afterDelay:1.5];
+    }
+    else if(showSurvey){
+        surveyView.alpha=1;
+        [scrollView setContentSize:CGSizeMake(scrollView.bounds.size.width, 2400 +screenHeight*1.5 )];
+        [self performSelector:@selector(showIntroView) withObject:self afterDelay:1.5];
+    }else{
+        surveyView.alpha=1;
+        [scrollView setContentSize:CGSizeMake(scrollView.bounds.size.width, 2400 +screenHeight*1.5)];
     }
 
    [super viewDidAppear:animated];

@@ -27,6 +27,8 @@
 
 }
 @property (strong, nonatomic) NSArray *ages;
+@property (strong, nonatomic) IBOutlet UILabel *surveyParagraph;
+
 @property (strong, nonatomic) IBOutlet UIPickerView *agePicker;
 @property(strong, nonatomic)  IBOutlet UISegmentedControl *sex;
 @property(strong, nonatomic)  IBOutlet UISegmentedControl *handed;

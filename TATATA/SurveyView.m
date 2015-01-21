@@ -15,23 +15,16 @@
 - (id)initWithFrame:(CGRect)theFrame {
     self = [super initWithFrame:theFrame];
     if (self) {
-        //startFrame=self.frame;
         
         self.clipsToBounds=NO;
         
-//        int m=10;
-//        int w=300;
-
 
         //ViewController *dele = (ViewController *)[[UIApplication sharedApplication] delegate];
 //        float screenHeight=[[UIScreen mainScreen] bounds].size.height;
         float screenWidth=[[UIScreen mainScreen] bounds].size.width;
 
-        
-        
         currentUser=[PFUser currentUser];
 
-        
         UIView *survey = [[[NSBundle mainBundle] loadNibNamed:@"SurveyView" owner:self options:nil] firstObject];
         survey.frame=CGRectMake(0, 0, survey.frame.size.width, survey.frame.size.height);
         survey.center=CGPointMake(screenWidth*.5, survey.center.y);
@@ -39,15 +32,10 @@
         
         [self addSubview:survey];
         
-        
-        
-        
-        
         [self.sex addTarget:self action:@selector(segmentSelected:) forControlEvents:UIControlEventValueChanged];
         [self.handed addTarget:self action:@selector(segmentSelected:) forControlEvents:UIControlEventValueChanged];
 
-        
-        
+    
         NSMutableArray *numArray = [[NSMutableArray alloc] init];
         for(int i=0; i<=120; i++){
             [numArray addObject:[NSString stringWithFormat:@"%i",i]];
@@ -61,28 +49,28 @@
         ((UIView *)[_agePicker.subviews objectAtIndex:2]).backgroundColor = [UIColor grayColor];
         
 
-        [_frequentHeadaches addTarget:self action:@selector(checkboxSelected:) forControlEvents:UIControlEventTouchUpInside];
-        [_dizziness addTarget:self action:@selector(checkboxSelected:) forControlEvents:UIControlEventTouchUpInside];
-        [_lossOfConsciousness addTarget:self action:@selector(checkboxSelected:) forControlEvents:UIControlEventTouchUpInside];
-        [_seizures addTarget:self action:@selector(checkboxSelected:) forControlEvents:UIControlEventTouchUpInside];
-        [_mentalHealth addTarget:self action:@selector(checkboxSelected:) forControlEvents:UIControlEventTouchUpInside];
+        [_frequentHeadaches addTarget:self action:@selector(checkboxSelected:) forControlEvents:UIControlEventTouchDown];
+        [_dizziness addTarget:self action:@selector(checkboxSelected:) forControlEvents:UIControlEventTouchDown];
+        [_lossOfConsciousness addTarget:self action:@selector(checkboxSelected:) forControlEvents:UIControlEventTouchDown];
+        [_seizures addTarget:self action:@selector(checkboxSelected:) forControlEvents:UIControlEventTouchDown];
+        [_mentalHealth addTarget:self action:@selector(checkboxSelected:) forControlEvents:UIControlEventTouchDown];
        
-        [_narcotics addTarget:self action:@selector(checkboxSelected:) forControlEvents:UIControlEventTouchUpInside];
-        [_stimulants addTarget:self action:@selector(checkboxSelected:) forControlEvents:UIControlEventTouchUpInside];
-        [_cocain addTarget:self action:@selector(checkboxSelected:) forControlEvents:UIControlEventTouchUpInside];
-        [_lsd addTarget:self action:@selector(checkboxSelected:) forControlEvents:UIControlEventTouchUpInside];
-        [_marijuana addTarget:self action:@selector(checkboxSelected:) forControlEvents:UIControlEventTouchUpInside];
-        [_streetDrugs addTarget:self action:@selector(checkboxSelected:) forControlEvents:UIControlEventTouchUpInside];
+        [_narcotics addTarget:self action:@selector(checkboxSelected:) forControlEvents:UIControlEventTouchDown];
+        [_stimulants addTarget:self action:@selector(checkboxSelected:) forControlEvents:UIControlEventTouchDown];
+        [_cocain addTarget:self action:@selector(checkboxSelected:) forControlEvents:UIControlEventTouchDown];
+        [_lsd addTarget:self action:@selector(checkboxSelected:) forControlEvents:UIControlEventTouchDown];
+        [_marijuana addTarget:self action:@selector(checkboxSelected:) forControlEvents:UIControlEventTouchDown];
+        [_streetDrugs addTarget:self action:@selector(checkboxSelected:) forControlEvents:UIControlEventTouchDown];
 
-        [_professional addTarget:self action:@selector(checkboxSelected:) forControlEvents:UIControlEventTouchUpInside];
-        [_collegiate addTarget:self action:@selector(checkboxSelected:) forControlEvents:UIControlEventTouchUpInside];
-        [_amateur addTarget:self action:@selector(checkboxSelected:) forControlEvents:UIControlEventTouchUpInside];
-        [_intramural addTarget:self action:@selector(checkboxSelected:) forControlEvents:UIControlEventTouchUpInside];
-        [_casual addTarget:self action:@selector(checkboxSelected:) forControlEvents:UIControlEventTouchUpInside];
-        [_none addTarget:self action:@selector(checkboxSelected:) forControlEvents:UIControlEventTouchUpInside];
+        [_professional addTarget:self action:@selector(checkboxSelected:) forControlEvents:UIControlEventTouchDown];
+        [_collegiate addTarget:self action:@selector(checkboxSelected:) forControlEvents:UIControlEventTouchDown];
+        [_amateur addTarget:self action:@selector(checkboxSelected:) forControlEvents:UIControlEventTouchDown];
+        [_intramural addTarget:self action:@selector(checkboxSelected:) forControlEvents:UIControlEventTouchDown];
+        [_casual addTarget:self action:@selector(checkboxSelected:) forControlEvents:UIControlEventTouchDown];
+        [_none addTarget:self action:@selector(checkboxSelected:) forControlEvents:UIControlEventTouchDown];
  
-        [_iAgree addTarget:self action:@selector(checkboxSelected:) forControlEvents:UIControlEventTouchUpInside];
-        [_iDoNotAgree addTarget:self action:@selector(checkboxSelected:) forControlEvents:UIControlEventTouchUpInside];
+        [_iAgree addTarget:self action:@selector(checkboxSelected:) forControlEvents:UIControlEventTouchDown];
+        [_iDoNotAgree addTarget:self action:@selector(checkboxSelected:) forControlEvents:UIControlEventTouchDown];
 
         [[PFUser currentUser] fetchInBackgroundWithBlock:^(PFObject *object, NSError *error) {
             if (!error){
@@ -123,6 +111,7 @@
                 if(currentUser[@"iAgree"]!=nil){
                     [_iAgree setSelected:[currentUser[@"iAgree"] boolValue]];
                     [_iDoNotAgree setSelected:![currentUser[@"iAgree"] boolValue]];
+                    _surveyParagraph.text=@"Thank you for submitting your answers. You may update your answers below at any time.";
                 }
 
                 
