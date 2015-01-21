@@ -1066,7 +1066,7 @@
     [ball setColor:strokeColor];
     [ball setNeedsDisplay];
     
-    trialDelay =.1+((double)arc4random() / ARC4RANDOM_MAX)*1.4;
+    trialDelay =.8+((double)arc4random() / ARC4RANDOM_MAX)*1.4;
     float objAlpha=.4;
 
     //ambient lights
@@ -1089,14 +1089,21 @@
                           delay:0.0
                         options:UIViewAnimationOptionCurveEaseOut
                      animations:^{
+                         
+                         //dim background
                          self.view.backgroundColor=bg;
                          catchZone.alpha=objAlpha;
                          midMarkL.alpha=objAlpha;
                          midMarkR.alpha=objAlpha;
                          arc.alpha=objAlpha;
                          
-
+                         //dim ball after example level
+                         ball.alpha=0;
+                         [ball setNeedsDisplay];
                          
+                         //hide annotation
+                         ballAnnotation.alpha=0;
+
                          if(currentLevel==0  && [[NSUserDefaults standardUserDefaults] boolForKey:@"hideExample"] == NO){
                              ball.alpha=1.0;
                          }
@@ -1336,7 +1343,7 @@
 
 -(void)animateLevelReset{
     elapsed=0;
-    [self positionBall:YES];
+    //[self positionBall:YES];
     
     [UIView animateWithDuration:0.4
                           delay:0.0
@@ -1345,7 +1352,8 @@
                          //set ball position
                          ball.center=CGPointMake(screenWidth*.5, startY);
                          [ball setColor:strokeColor];
-                         ball.alpha=dimAlpha;
+                         
+                         if(currentLevel>1)ball.alpha=dimAlpha;
                          [ball setNeedsDisplay];
                          currentScoreLabel.alpha=0;
                      }
@@ -1359,17 +1367,15 @@
                                       options:UIViewAnimationOptionCurveEaseOut
                                    animations:^{
                                        [self setCatchZoneDiameter];
-                                       ball.alpha=0;
-                                       [ball setNeedsDisplay];
+                                       //ball.alpha=0;
+                                       //[ball setNeedsDisplay];
                                    }
                                    completion:^(BOOL finished){
                                        [UIView animateWithDuration:0.4
                                                              delay:0.0
                                                            options:UIViewAnimationOptionCurveEaseOut
                                                         animations:^{
-                                                            //hide annotation
-                                                            ballAnnotation.alpha=0;
-                                                            
+
                                                             //set mid markers
                                                             midMarkL.center=CGPointMake(midMarkL.center.x, startY+(endY-startY)*flashT);
                                                             midMarkR.center=CGPointMake(midMarkR.center.x, startY+(endY-startY)*flashT);
