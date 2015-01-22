@@ -109,7 +109,7 @@
     ballAnnotation=[[UILabel alloc] initWithFrame:CGRectMake(0,0,150,80)];
     ballAnnotation.backgroundColor=[UIColor clearColor];
     ballAnnotation.textAlignment=NSTextAlignmentRight;
-    ballAnnotation.font = [UIFont fontWithName:@"HelveticaNeue-Ultralight" size:18];
+    ballAnnotation.font = [UIFont fontWithName:@"HelveticaNeue-Thin" size:15];
     ballAnnotation.textColor=strokeColor;
     ballAnnotation.alpha=0;
     [self.view addSubview:ballAnnotation];
@@ -633,7 +633,7 @@
                           delay:0.0
                         options:UIViewAnimationOptionCurveLinear
                      animations:^{
-                         catchZone.alpha=0;
+                         //catchZone.alpha=0;
                          catchZoneCenter.alpha=0;
                          crosshair.alpha=0;
 
@@ -743,7 +743,7 @@
                               delay:0.2
                             options:UIViewAnimationOptionCurveEaseOut
                          animations:^{
-                             catchZone.alpha=0;
+                             //catchZone.alpha=0;
                              catchZoneCenter.alpha=0;
                              crosshair.alpha=0;
                              showScoreboardButton.center=CGPointMake(screenWidth*.5, screenHeight+88);
@@ -759,7 +759,7 @@
                                                    delay:0.0
                                                  options:UIViewAnimationOptionCurveEaseOut
                                               animations:^{
-                                                  catchZone.alpha=.5;
+                                                  //catchZone.alpha=.5;
                                                   catchZoneCenter.alpha=1;
                                               }
                                               completion:^(BOOL finished){
@@ -801,7 +801,7 @@
     
     
     if([self isAccurate]){
-        if([self getAccuracyFloat]<.9) [ball setColor:[UIColor greenColor]];
+        if([self getAccuracyFloat]<.9) [ball setColor:[UIColor colorWithRed:0 green:.78 blue:0 alpha:1]];//green
         else [ball setColor:[UIColor yellowColor]];
         [ball setNeedsDisplay];
         
@@ -865,7 +865,7 @@
     
     
     dimension.ballPosition=ball.center;
-    dimension.dimLineOffsetX=80;
+    dimension.dimLineOffsetX=catchZone.frame.size.width*.5+8;
     dimension.alpha=1;
     [dimension setNeedsDisplay];
     
@@ -873,11 +873,11 @@
     float annotationWidth= ballAnnotation.frame.size.width;
     float midpointToTargetY=endY+(ball.center.y-endY)/2.0;
     
-    ballAnnotation.frame=CGRectMake(ball.center.x-annotationWidth-dimension.dimLineOffsetX-10, midpointToTargetY-annotationHeight*.5, annotationWidth, annotationHeight);
+    ballAnnotation.frame=CGRectMake(ball.center.x-annotationWidth-dimension.dimLineOffsetX-15, midpointToTargetY-annotationHeight*.5, annotationWidth, annotationHeight);
     
     float diff=elapsed-timerGoal;
-    if(diff<0) ballAnnotation.text=[NSString stringWithFormat:@"%5f S", diff];
-    else ballAnnotation.text=[NSString stringWithFormat:@"+%5f S", diff];
+    if(diff<0) ballAnnotation.text=[NSString stringWithFormat:@"%5fs", diff];
+    else ballAnnotation.text=[NSString stringWithFormat:@"+%5fs", diff];
    
     ballAnnotation.alpha=1;
     
