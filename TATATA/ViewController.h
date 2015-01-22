@@ -16,6 +16,7 @@
 #import "Crosshair.h"
 #import "SurveyView.h"
 
+#import "Dimension.h"
 @interface ViewController : UIViewController <GKGameCenterControllerDelegate,UIScrollViewDelegate>
 
 {
@@ -37,6 +38,7 @@
     //Dots *catchZoneFlash;
     Crosshair *crosshair;
     UILabel * ballAnnotation;
+    Dimension *dimension;
     
     double ballAlpha;
     
@@ -51,6 +53,7 @@
 
     UILabel * trialCountLabel;
  
+    UIButton *playButton;
     
     UIView * midMarkL;
     UIView * midMarkR;

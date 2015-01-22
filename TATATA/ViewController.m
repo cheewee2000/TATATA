@@ -80,7 +80,7 @@
     crosshair.center=CGPointMake(catchZone.frame.size.width*.5, catchZone.frame.size.height*.5);
     crosshair.backgroundColor = [UIColor clearColor];
     crosshair.alpha=1;
-    [crosshair setColor:strokeColor];
+    [crosshair setColor:fgColor];
     [catchZone addSubview:crosshair];
     
     
@@ -114,32 +114,41 @@
     ballAnnotation.alpha=0;
     [self.view addSubview:ballAnnotation];
     
-    UIBezierPath *path = [UIBezierPath bezierPath];
-    [path moveToPoint:CGPointMake(0.0, ballAnnotation.frame.size.height)];
-    [path addLineToPoint:CGPointMake(30, ballAnnotation.frame.size.height-30)];
-    [path addLineToPoint:CGPointMake(ballAnnotation.frame.size.width, ballAnnotation.frame.size.height-30)];
+//    UIBezierPath *path = [UIBezierPath bezierPath];
+//    [path moveToPoint:CGPointMake(0.0, ballAnnotation.frame.size.height)];
+//    [path addLineToPoint:CGPointMake(30, ballAnnotation.frame.size.height-30)];
+//    [path addLineToPoint:CGPointMake(ballAnnotation.frame.size.width, ballAnnotation.frame.size.height-30)];
+//
+//    CAShapeLayer *shapeLayer = [CAShapeLayer layer];
+//    shapeLayer.path = [path CGPath];
+//    shapeLayer.strokeColor = [strokeColor CGColor];
+//    shapeLayer.lineWidth = 0.5;
+//    shapeLayer.fillColor = [[UIColor clearColor] CGColor];
+//    
+//    UIBezierPath *circle = [UIBezierPath bezierPath];
+//    [circle addArcWithCenter:CGPointMake(0.0, ballAnnotation.frame.size.height)
+//                    radius:2.0
+//                startAngle:0.0
+//                  endAngle:M_PI * 2.0
+//                 clockwise:YES];
+//    
+//    CAShapeLayer *circleLayer = [CAShapeLayer layer];
+//    circleLayer.path = [circle CGPath];
+//    circleLayer.strokeColor = [[UIColor clearColor] CGColor];
+//    circleLayer.fillColor = [strokeColor CGColor];
+//    
+//    [ballAnnotation.layer addSublayer:shapeLayer];
+//    [ballAnnotation.layer addSublayer:circleLayer];
 
-    CAShapeLayer *shapeLayer = [CAShapeLayer layer];
-    shapeLayer.path = [path CGPath];
-    shapeLayer.strokeColor = [strokeColor CGColor];
-    shapeLayer.lineWidth = 0.5;
-    shapeLayer.fillColor = [[UIColor clearColor] CGColor];
     
-    UIBezierPath *circle = [UIBezierPath bezierPath];
-    [circle addArcWithCenter:CGPointMake(0.0, ballAnnotation.frame.size.height)
-                    radius:2.0
-                startAngle:0.0
-                  endAngle:M_PI * 2.0
-                 clockwise:YES];
+    dimension=[[Dimension alloc] initWithFrame:self.view.frame];
+    dimension.backgroundColor=[UIColor clearColor];
+    dimension.targetPosition=CGPointMake(screenWidth*.5, endY);
+    dimension.lineWidth=1;
+    [dimension setColor:strokeColor];
+    dimension.alpha=0;
+    [self.view addSubview:dimension];
     
-    CAShapeLayer *circleLayer = [CAShapeLayer layer];
-    circleLayer.path = [circle CGPath];
-    circleLayer.strokeColor = [[UIColor clearColor] CGColor];
-    circleLayer.fillColor = [strokeColor CGColor];
-    
-    [ballAnnotation.layer addSublayer:shapeLayer];
-    [ballAnnotation.layer addSublayer:circleLayer];
-
     
     arc=[[Arc alloc] initWithFrame:CGRectMake(0,0, 88,88)];
     arc.backgroundColor=[UIColor clearColor];
@@ -150,12 +159,17 @@
 
 #pragma mark - Labels
 
-    currentScoreLabel=[[UILabel alloc] initWithFrame:CGRectMake(0,0, screenWidth, 160)];
-    currentScoreLabel.center=CGPointMake(screenWidth/2.0, screenHeight/2.0);
+    int labelHeight=190;
+    int labelOffset=110;
+    
+    currentScoreLabel=[[UILabel alloc] initWithFrame:CGRectMake(0,0, screenWidth, labelHeight)];
+    //currentScoreLabel.center=CGPointMake(screenWidth/2.0, screenHeight/2.0);
+    currentScoreLabel.center=CGPointMake(screenWidth/2.0, screenHeight*.5-labelOffset-labelHeight*.25);
+
     currentScoreLabel.text=@"0";
     currentScoreLabel.textAlignment = NSTextAlignmentCenter;
     currentScoreLabel.backgroundColor = [UIColor clearColor];
-    currentScoreLabel.font = [UIFont fontWithName:@"HelveticaNeue-Ultralight" size:120];
+    currentScoreLabel.font = [UIFont fontWithName:@"HelveticaNeue-Ultralight" size:78];
     currentScoreLabel.textColor=strokeColor;
     currentScoreLabel.alpha=0;
     [self.view addSubview:currentScoreLabel];
@@ -176,8 +190,7 @@
     
     [scrollView addSubview:catchZoneButton];
     
-    int labelHeight=190;
-    int labelOffset=110;
+
 
     
     scoreLabel=[[UILabel alloc] initWithFrame:CGRectMake(0,0, screenWidth, labelHeight)];
@@ -196,7 +209,7 @@
     scoreLabelLabel.text=@"SCORE";
     scoreLabelLabel.textAlignment = NSTextAlignmentCenter;
     scoreLabelLabel.backgroundColor = [UIColor clearColor];
-    scoreLabelLabel.font = [UIFont fontWithName:@"HelveticaNeue-Ultralight" size:15];
+    scoreLabelLabel.font = [UIFont fontWithName:@"HelveticaNeue-Thin" size:15];
     scoreLabelLabel.textColor=strokeColor;
     scoreLabelLabel.alpha=1;
     [scoreLabel addSubview:scoreLabelLabel];
@@ -214,7 +227,7 @@
     bestLabel.text=@"0";
     bestLabel.textAlignment = NSTextAlignmentCenter;
     bestLabel.backgroundColor = [UIColor clearColor];
-    bestLabel.font = [UIFont fontWithName:@"HelveticaNeue-Ultralight" size:78];
+    bestLabel.font = [UIFont fontWithName:@"HelveticaNeue-Thin" size:78];
     bestLabel.textColor=strokeColor;
     bestLabel.alpha=0;
     [scrollView addSubview:bestLabel];
@@ -225,7 +238,7 @@
     bestLabelLabel.text=@"BEST";
     bestLabelLabel.textAlignment = NSTextAlignmentCenter;
     bestLabelLabel.backgroundColor = [UIColor clearColor];
-    bestLabelLabel.font = [UIFont fontWithName:@"HelveticaNeue-Ultralight" size:15];
+    bestLabelLabel.font = [UIFont fontWithName:@"HelveticaNeue-Thin" size:15];
     bestLabelLabel.textColor=strokeColor;
     bestLabelLabel.alpha=1;
     [bestLabelLabel setUserInteractionEnabled:NO];
@@ -254,7 +267,7 @@
     accuracyLabelLabel.text=@"ACCURACY";
     accuracyLabelLabel.textAlignment = NSTextAlignmentCenter;
     accuracyLabelLabel.backgroundColor = [UIColor clearColor];
-    accuracyLabelLabel.font = [UIFont fontWithName:@"HelveticaNeue-Ultralight" size:15];
+    accuracyLabelLabel.font = [UIFont fontWithName:@"HelveticaNeue-Thin" size:15];
     accuracyLabelLabel.textColor=strokeColor;
     accuracyLabelLabel.alpha=1;
     [accuracyLabelLabel setUserInteractionEnabled:NO];
@@ -280,7 +293,7 @@
     trialCountLabelLabel.text=@"TRIALS";
     trialCountLabelLabel.textAlignment = NSTextAlignmentCenter;
     trialCountLabelLabel.backgroundColor = [UIColor clearColor];
-    trialCountLabelLabel.font = [UIFont fontWithName:@"HelveticaNeue-Ultralight" size:15];
+    trialCountLabelLabel.font = [UIFont fontWithName:@"HelveticaNeue-Thin" size:15];
     trialCountLabelLabel.textColor=strokeColor;
     trialCountLabelLabel.alpha=1;
     [trialCountLabelLabel setUserInteractionEnabled:NO];
@@ -403,7 +416,7 @@
     
     
     NSMutableParagraphStyle *paragraphStyles = [[NSMutableParagraphStyle alloc] init];
-    paragraphStyles.alignment                = NSTextAlignmentJustified;
+    paragraphStyles.alignment                = NSTextAlignmentLeft;
     paragraphStyles.firstLineHeadIndent      = 0.05;    // Very IMP
     
     introParagraph=[[UILabel alloc] initWithFrame:CGRectMake(m, introTitle.frame.origin.y+introTitle.frame.size.height+10, w, 280)];
@@ -610,7 +623,7 @@
 
 -(void) restart{
     trialSequence=-1;
-    [self performSelector:@selector(showStartScreen) withObject:self afterDelay:0.4];
+    [self performSelector:@selector(showStartScreen) withObject:self afterDelay:0.8];
 }
 
 -(void)showStartScreen{
@@ -628,6 +641,7 @@
 
                          ball.alpha=0;
                          ballAnnotation.alpha=0;
+                         dimension.alpha=0;
                          
                          midMarkL.alpha=dimAlpha;
                          midMarkR.alpha=dimAlpha;
@@ -709,13 +723,7 @@
         [self stop];
     }
     
-    
 
-
-
-
-
-    
     
 }
 
@@ -742,8 +750,8 @@
 
                          }
                          completion:^(BOOL finished){
-                             [catchZone setFill:NO];
-                             [catchZone setColor:strokeColor];
+                             //[catchZone setFill:NO];
+                             //[catchZone setColor:strokeColor];
                              trialSequence=-1;
                              
                              
@@ -751,7 +759,7 @@
                                                    delay:0.0
                                                  options:UIViewAnimationOptionCurveEaseOut
                                               animations:^{
-                                                  catchZone.alpha=.3;
+                                                  catchZone.alpha=.5;
                                                   catchZoneCenter.alpha=1;
                                               }
                                               completion:^(BOOL finished){
@@ -759,6 +767,7 @@
                                                                         delay:0.0
                                                                       options:UIViewAnimationOptionCurveEaseOut
                                                                    animations:^{
+                                                                       [catchZone bringSubviewToFront:crosshair];
                                                                        crosshair.alpha=1;
                                                                        midMarkL.alpha=.3;
                                                                        midMarkR.alpha=.3;
@@ -852,13 +861,29 @@
     
     [self positionBall:NO];
     ball.alpha=ballAlpha;
+    
+    
+    
+    dimension.ballPosition=ball.center;
+    dimension.dimLineOffsetX=80;
+    dimension.alpha=1;
+    [dimension setNeedsDisplay];
+    
     float annotationHeight= ballAnnotation.frame.size.height;
     float annotationWidth= ballAnnotation.frame.size.width;
-    ballAnnotation.frame=CGRectMake(ball.center.x, ball.center.y-annotationHeight, annotationWidth, annotationHeight);
+    float midpointToTargetY=endY+(ball.center.y-endY)/2.0;
+    
+    ballAnnotation.frame=CGRectMake(ball.center.x-annotationWidth-dimension.dimLineOffsetX-10, midpointToTargetY-annotationHeight*.5, annotationWidth, annotationHeight);
+    
     float diff=elapsed-timerGoal;
-    if(diff<0) ballAnnotation.text=[NSString stringWithFormat:@"%6f", diff];
-    else ballAnnotation.text=[NSString stringWithFormat:@"+%6f", diff];
+    if(diff<0) ballAnnotation.text=[NSString stringWithFormat:@"%5f S", diff];
+    else ballAnnotation.text=[NSString stringWithFormat:@"+%5f S", diff];
+   
     ballAnnotation.alpha=1;
+    
+
+    
+    
     
     [self.view.layer removeAllAnimations];
 }
@@ -1126,7 +1151,8 @@
                          
                          //hide annotation
                          ballAnnotation.alpha=0;
-
+                         dimension.alpha=0;
+                         
                          if(currentLevel==0  && [[NSUserDefaults standardUserDefaults] boolForKey:@"hideExample"] == NO){
                              ball.alpha=1.0;
                          }
@@ -1280,17 +1306,15 @@
                              scrollView.alpha=1;
 
                              scoreLabel.alpha=1;
-                             //scoreLabelLabel.alpha=1;
-                             bestLabel.alpha=1;
-                             //bestLabelLabel.alpha=1;
+
+                             if(![bestLabel.text isEqualToString:@"0"]) bestLabel.alpha=1;
+                             else{
+                                 scoreLabel.alpha=0;
+                                 bestLabel.alpha=0;
+                             }
                          }
                          else{
                              scrollView.alpha=0;
-
-//                             scoreLabel.alpha=0;
-//                             scoreLabelLabel.alpha=0;
-//                             bestLabel.alpha=0;
-//                             bestLabelLabel.alpha=0;
                          }
                      }
                      completion:^(BOOL finished){
