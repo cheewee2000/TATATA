@@ -223,12 +223,12 @@ numberOfRowsInComponent:(NSInteger)component
     else if([sender tag]==9) currentUser[@"marijuana"] = [NSNumber numberWithBool:[sender isSelected]];
     else if([sender tag]==10) currentUser[@"streetDrugs"] = [NSNumber numberWithBool:[sender isSelected]];
     
-    else if([sender tag]==11) currentUser[@"professional"] = [NSNumber numberWithBool:[sender isSelected]];
-    else if([sender tag]==12) currentUser[@"collegiate"] = [NSNumber numberWithBool:[sender isSelected]];
-    else if([sender tag]==13) currentUser[@"amateur"] = [NSNumber numberWithBool:[sender isSelected]];
-    else if([sender tag]==14) currentUser[@"intramural"] = [NSNumber numberWithBool:[sender isSelected]];
-    else if([sender tag]==15) currentUser[@"casual"] = [NSNumber numberWithBool:[sender isSelected]];
-    else if([sender tag]==16) currentUser[@"none"] = [NSNumber numberWithBool:[sender isSelected]];
+//    else if([sender tag]==11) currentUser[@"professional"] = [NSNumber numberWithBool:[sender isSelected]];
+//    else if([sender tag]==12) currentUser[@"collegiate"] = [NSNumber numberWithBool:[sender isSelected]];
+//    else if([sender tag]==13) currentUser[@"amateur"] = [NSNumber numberWithBool:[sender isSelected]];
+//    else if([sender tag]==14) currentUser[@"intramural"] = [NSNumber numberWithBool:[sender isSelected]];
+//    else if([sender tag]==15) currentUser[@"casual"] = [NSNumber numberWithBool:[sender isSelected]];
+//    else if([sender tag]==16) currentUser[@"none"] = [NSNumber numberWithBool:[sender isSelected]];
 
     else if([sender tag]==50){
         currentUser[@"iAgree"] = [NSNumber numberWithBool:YES];
@@ -245,6 +245,36 @@ numberOfRowsInComponent:(NSInteger)component
 
     }
 
+    if([sender tag]>=11 && [sender tag]<=16){
+        
+        //deselect everthing
+        [_professional setSelected:NO];
+        [_collegiate setSelected:NO];
+        [_amateur setSelected:NO];
+        [_intramural setSelected:NO];
+        [_casual setSelected:NO];
+        [_none setSelected:NO];
+        currentUser[@"professional"]=[NSNumber numberWithBool:NO];
+        currentUser[@"collegiate"]=[NSNumber numberWithBool:NO];
+        currentUser[@"amateur"]=[NSNumber numberWithBool:NO];
+        currentUser[@"intramural"]=[NSNumber numberWithBool:NO];
+        currentUser[@"casual"]=[NSNumber numberWithBool:NO];
+        currentUser[@"none"]=[NSNumber numberWithBool:NO];
+
+        //record hit
+        if([sender tag]==11) currentUser[@"professional"] = [NSNumber numberWithBool:[sender isSelected]];
+        else if([sender tag]==12) currentUser[@"collegiate"] = [NSNumber numberWithBool:[sender isSelected]];
+        else if([sender tag]==13) currentUser[@"amateur"] = [NSNumber numberWithBool:[sender isSelected]];
+        else if([sender tag]==14) currentUser[@"intramural"] = [NSNumber numberWithBool:[sender isSelected]];
+        else if([sender tag]==15) currentUser[@"casual"] = [NSNumber numberWithBool:[sender isSelected]];
+        else if([sender tag]==16) currentUser[@"none"] = [NSNumber numberWithBool:[sender isSelected]];
+        
+        //turn on selection
+        [sender setSelected:YES];
+    }
+    
+    
+    
     [currentUser saveEventually];
 
     

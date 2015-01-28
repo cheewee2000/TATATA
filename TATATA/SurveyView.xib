@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6254" systemVersion="14B25" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6254" systemVersion="14C109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
@@ -149,7 +149,7 @@
                     <state key="selected" image="checkboxChecked"/>
                     <state key="highlighted" image="checkboxChecked"/>
                 </button>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Cocain" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zK5-1l-JMJ">
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Cocaine" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zK5-1l-JMJ">
                     <rect key="frame" x="62" y="1267" width="113" height="50"/>
                     <fontDescription key="fontDescription" name="DINCondensed-Bold" family="DIN Condensed" pointSize="16"/>
                     <color key="textColor" white="0.90000000000000002" alpha="1" colorSpace="calibratedWhite"/>
@@ -219,21 +219,21 @@
                     <rect key="frame" x="22" y="1575" width="44" height="44"/>
                     <fontDescription key="fontDescription" name="DINCondensed-Bold" family="DIN Condensed" pointSize="16"/>
                     <inset key="contentEdgeInsets" minX="12" minY="12" maxX="12" maxY="12"/>
-                    <state key="normal" image="checkboxUnchecked">
+                    <state key="normal" image="radioOff">
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
-                    <state key="selected" image="checkboxChecked"/>
-                    <state key="highlighted" image="checkboxChecked"/>
+                    <state key="selected" image="radioOn"/>
+                    <state key="highlighted" image="radioOn"/>
                 </button>
                 <button opaque="NO" tag="12" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Fll-Ud-hIz">
                     <rect key="frame" x="22" y="1633" width="44" height="44"/>
                     <fontDescription key="fontDescription" name="DINCondensed-Bold" family="DIN Condensed" pointSize="16"/>
                     <inset key="contentEdgeInsets" minX="12" minY="12" maxX="12" maxY="12"/>
-                    <state key="normal" image="checkboxUnchecked">
+                    <state key="normal" image="radioOff">
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
-                    <state key="selected" image="checkboxChecked"/>
-                    <state key="highlighted" image="checkboxChecked"/>
+                    <state key="selected" image="radioOn"/>
+                    <state key="highlighted" image="radioOn"/>
                 </button>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Professional" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gEi-Hc-wzb">
                     <rect key="frame" x="62" y="1573" width="154" height="50"/>
@@ -251,11 +251,11 @@
                     <rect key="frame" x="22" y="1691" width="44" height="44"/>
                     <fontDescription key="fontDescription" name="DINCondensed-Bold" family="DIN Condensed" pointSize="16"/>
                     <inset key="contentEdgeInsets" minX="12" minY="12" maxX="12" maxY="12"/>
-                    <state key="normal" image="checkboxUnchecked">
+                    <state key="normal" image="radioOff">
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
-                    <state key="selected" image="checkboxChecked"/>
-                    <state key="highlighted" image="checkboxChecked"/>
+                    <state key="selected" image="radioOn"/>
+                    <state key="highlighted" image="radioOn"/>
                 </button>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Amateur" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Agn-FX-fcP">
                     <rect key="frame" x="62" y="1689" width="113" height="50"/>
@@ -267,11 +267,11 @@
                     <rect key="frame" x="22" y="1749" width="44" height="44"/>
                     <fontDescription key="fontDescription" name="DINCondensed-Bold" family="DIN Condensed" pointSize="16"/>
                     <inset key="contentEdgeInsets" minX="12" minY="12" maxX="12" maxY="12"/>
-                    <state key="normal" image="checkboxUnchecked">
+                    <state key="normal" image="radioOff">
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
-                    <state key="selected" image="checkboxChecked"/>
-                    <state key="highlighted" image="checkboxChecked"/>
+                    <state key="selected" image="radioOn"/>
+                    <state key="highlighted" image="radioOn"/>
                 </button>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Intramural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GpX-Zz-MLi">
                     <rect key="frame" x="62" y="1747" width="101" height="50"/>
@@ -283,11 +283,11 @@
                     <rect key="frame" x="22" y="1807" width="44" height="44"/>
                     <fontDescription key="fontDescription" name="DINCondensed-Bold" family="DIN Condensed" pointSize="16"/>
                     <inset key="contentEdgeInsets" minX="12" minY="12" maxX="12" maxY="12"/>
-                    <state key="normal" image="checkboxUnchecked">
+                    <state key="normal" image="radioOff">
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
-                    <state key="selected" image="checkboxChecked"/>
-                    <state key="highlighted" image="checkboxChecked"/>
+                    <state key="selected" image="radioOn"/>
+                    <state key="highlighted" image="radioOn"/>
                 </button>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Casual" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oPV-K2-Fa7">
                     <rect key="frame" x="62" y="1805" width="112" height="50"/>
@@ -299,11 +299,11 @@
                     <rect key="frame" x="22" y="1865" width="44" height="44"/>
                     <fontDescription key="fontDescription" name="DINCondensed-Bold" family="DIN Condensed" pointSize="16"/>
                     <inset key="contentEdgeInsets" minX="12" minY="12" maxX="12" maxY="12"/>
-                    <state key="normal" image="checkboxUnchecked">
+                    <state key="normal" image="radioOff">
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
-                    <state key="selected" image="checkboxChecked"/>
-                    <state key="highlighted" image="checkboxChecked"/>
+                    <state key="selected" image="radioOn"/>
+                    <state key="highlighted" image="radioOn"/>
                 </button>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="None" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qPC-N0-I6N">
                     <rect key="frame" x="62" y="1863" width="112" height="50"/>
@@ -444,5 +444,7 @@
     <resources>
         <image name="checkboxChecked" width="88" height="88"/>
         <image name="checkboxUnchecked" width="88" height="88"/>
+        <image name="radioOff" width="88" height="88"/>
+        <image name="radioOn" width="88" height="88"/>
     </resources>
 </document>
