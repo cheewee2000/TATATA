@@ -503,7 +503,7 @@
     else accuracyIncrement = (float)[defaults floatForKey:@"accuracyIncrement"];
     
     if([defaults objectForKey:@"nTrialsInStage"] == nil){
-        nTrialsInStage=10.0;
+        nTrialsInStage=5.0;
         [defaults setObject:[NSNumber numberWithFloat:nTrialsInStage] forKey:@"nTrialsInStage"];
     }
     else nTrialsInStage = (float)[defaults floatForKey:@"nTrialsInStage"];
@@ -1161,7 +1161,7 @@
     }
     
     if(currentLevel<=1)trialDelay=1.6;
-    if(currentLevel%(int)nTrialsInStage==0 && currentLevel!=0)trialDelay+=1.6;
+    if(currentLevel%(int)(nTrialsInStage)==0 && currentLevel!=0)trialDelay+=1.6;
     
     [UIView animateWithDuration:.8
                           delay:0.0
@@ -1195,7 +1195,7 @@
                                                delay:0.0
                                              options:UIViewAnimationOptionCurveEaseOut
                                           animations:^{
-                                              if(currentLevel%(int)nTrialsInStage==0 && currentLevel!=0){
+                                              if(currentLevel%(int)(nTrialsInStage)==0 && currentLevel!=0){
                                                   catchZoneLabel.alpha=1;
                                                   catchZone.alpha=1;
                                               }
@@ -1204,8 +1204,11 @@
                                               
 
                                               float catchZoneDuration=0;
-                                              if(currentLevel%(int)nTrialsInStage==0 && currentLevel!=0){
-                                                [catchZoneLabel countFrom:[self getLevelAccuracy:currentLevel-1]/timerGoal*200.0  to:[self getLevelAccuracy:currentLevel]/timerGoal*200.0 withDuration:.2f];
+                                              
+                                              //set for level 0 even though it's not visible
+                                              if(currentLevel%(int)(nTrialsInStage)==0){
+                                                [catchZoneLabel countFrom:[self getLevelAccuracy:currentLevel-nTrialsInStage]/timerGoal*200.0  to:[self getLevelAccuracy:currentLevel]/timerGoal*200.0 withDuration:.2f];
+
                                                 catchZoneDuration=.4;
                                               }
                                               
@@ -1352,7 +1355,8 @@
     //return .2;
     
     //return timerGoal*.1;
-    if(level<=0 && [[NSUserDefaults standardUserDefaults] boolForKey:@"hideExample"]==NO )return timerGoal*accuracyStart;
+    if(level==0 && [[NSUserDefaults standardUserDefaults] boolForKey:@"hideExample"]==NO)return timerGoal*accuracyStart;
+    
     //int stage=(5+level)/10.0;
     //float accuracy=accuracyStart-accuracyIncrement*level/25.0;
     float accuracy=accuracyStart-accuracyIncrement*floor(level/nTrialsInStage)*nTrialsInStage;
