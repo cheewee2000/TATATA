@@ -17,6 +17,8 @@
 #import "SurveyView.h"
 
 #import "Dimension.h"
+#import "UICountingLabel.h"
+
 @interface ViewController : UIViewController <GKGameCenterControllerDelegate,UIScrollViewDelegate>
 
 {
@@ -40,6 +42,8 @@
     UILabel * ballAnnotation;
     Dimension *dimension;
     
+    //UIView *catchZoneAnnotation;
+    UICountingLabel *catchZoneLabel;
     double ballAlpha;
     
     float startY;
@@ -73,6 +77,8 @@
     float accuracyIncrement;
     float accuracyMax;
     float ballDiameter;
+    float nTrialsInStage;
+    
     //float catchZoneDiameter;
     
     

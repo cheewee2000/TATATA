@@ -36,6 +36,7 @@
 		44D879991A243493001021B0 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 44D879981A243493001021B0 /* Images.xcassets */; };
 		44DCD24F1A6F5F9B006518C5 /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 44DCD24E1A6F5F9B006518C5 /* Reachability.m */; };
 		44DCD2521A70A81F006518C5 /* Dimension.m in Sources */ = {isa = PBXBuildFile; fileRef = 44DCD2511A70A81F006518C5 /* Dimension.m */; };
+		44E5E53D1A79BBD400CC18B0 /* UICountingLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 44E5E53C1A79BBD400CC18B0 /* UICountingLabel.m */; };
 		44E9AC801A3E7C21003A45A4 /* Sparkline.m in Sources */ = {isa = PBXBuildFile; fileRef = 44E9AC7F1A3E7C21003A45A4 /* Sparkline.m */; };
 		44FD6D9A19C49A86006C7099 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 44FD6D9919C49A86006C7099 /* CFNetwork.framework */; };
 		44FD6D9C19C49A8B006C7099 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 44FD6D9B19C49A8B006C7099 /* CoreLocation.framework */; };
@@ -88,6 +89,8 @@
 		44DCD24E1A6F5F9B006518C5 /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reachability.m; sourceTree = "<group>"; };
 		44DCD2501A70A81F006518C5 /* Dimension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Dimension.h; sourceTree = "<group>"; };
 		44DCD2511A70A81F006518C5 /* Dimension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Dimension.m; sourceTree = "<group>"; };
+		44E5E53B1A79BBD400CC18B0 /* UICountingLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UICountingLabel.h; sourceTree = "<group>"; };
+		44E5E53C1A79BBD400CC18B0 /* UICountingLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UICountingLabel.m; sourceTree = "<group>"; };
 		44E9AC7E1A3E7C21003A45A4 /* Sparkline.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Sparkline.h; sourceTree = "<group>"; };
 		44E9AC7F1A3E7C21003A45A4 /* Sparkline.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Sparkline.m; sourceTree = "<group>"; };
 		44FD6D9919C49A86006C7099 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
@@ -172,6 +175,8 @@
 		444F09F51A1CF11000E5E7C3 /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
+				44E5E53B1A79BBD400CC18B0 /* UICountingLabel.h */,
+				44E5E53C1A79BBD400CC18B0 /* UICountingLabel.m */,
 				44DCD24D1A6F5F9B006518C5 /* Reachability.h */,
 				44DCD24E1A6F5F9B006518C5 /* Reachability.m */,
 				448F046B1A22C678009F215E /* Arc.h */,
@@ -322,6 +327,7 @@
 				444F09EA1A1CEFB500E5E7C3 /* main.m in Sources */,
 				444F09D91A1CEFB500E5E7C3 /* AppDelegate.m in Sources */,
 				44DCD24F1A6F5F9B006518C5 /* Reachability.m in Sources */,
+				44E5E53D1A79BBD400CC18B0 /* UICountingLabel.m in Sources */,
 				444F09E21A1CEFB500E5E7C3 /* Dots.m in Sources */,
 				44DCD2521A70A81F006518C5 /* Dimension.m in Sources */,
 				44140EE81A52B38600A612B8 /* Crosshair.m in Sources */,

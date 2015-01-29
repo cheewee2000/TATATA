@@ -113,34 +113,6 @@
     ballAnnotation.textColor=strokeColor;
     ballAnnotation.alpha=0;
     [self.view addSubview:ballAnnotation];
-    
-//    UIBezierPath *path = [UIBezierPath bezierPath];
-//    [path moveToPoint:CGPointMake(0.0, ballAnnotation.frame.size.height)];
-//    [path addLineToPoint:CGPointMake(30, ballAnnotation.frame.size.height-30)];
-//    [path addLineToPoint:CGPointMake(ballAnnotation.frame.size.width, ballAnnotation.frame.size.height-30)];
-//
-//    CAShapeLayer *shapeLayer = [CAShapeLayer layer];
-//    shapeLayer.path = [path CGPath];
-//    shapeLayer.strokeColor = [strokeColor CGColor];
-//    shapeLayer.lineWidth = 0.5;
-//    shapeLayer.fillColor = [[UIColor clearColor] CGColor];
-//    
-//    UIBezierPath *circle = [UIBezierPath bezierPath];
-//    [circle addArcWithCenter:CGPointMake(0.0, ballAnnotation.frame.size.height)
-//                    radius:2.0
-//                startAngle:0.0
-//                  endAngle:M_PI * 2.0
-//                 clockwise:YES];
-//    
-//    CAShapeLayer *circleLayer = [CAShapeLayer layer];
-//    circleLayer.path = [circle CGPath];
-//    circleLayer.strokeColor = [[UIColor clearColor] CGColor];
-//    circleLayer.fillColor = [strokeColor CGColor];
-//    
-//    [ballAnnotation.layer addSublayer:shapeLayer];
-//    [ballAnnotation.layer addSublayer:circleLayer];
-
-    
     dimension=[[Dimension alloc] initWithFrame:self.view.frame];
     dimension.backgroundColor=[UIColor clearColor];
     dimension.targetPosition=CGPointMake(screenWidth*.5, endY);
@@ -148,6 +120,53 @@
     [dimension setColor:strokeColor];
     dimension.alpha=0;
     [self.view addSubview:dimension];
+    
+    
+    //catchzone diameter label
+    catchZoneLabel=[[UICountingLabel alloc] initWithFrame:CGRectMake(screenWidth*.5,endY-115, 120, 115)];
+    catchZoneLabel.backgroundColor=[UIColor clearColor];
+    catchZoneLabel.textAlignment=NSTextAlignmentRight;
+    catchZoneLabel.font = [UIFont fontWithName:@"HelveticaNeue-Thin" size:15];
+    catchZoneLabel.textColor=strokeColor;
+    //catchZoneLabel.text=@"±0.000s";
+    catchZoneLabel.format = @"%.1f%%";
+    catchZoneLabel.method = UILabelCountingMethodLinear;
+
+    catchZoneLabel.alpha=0;
+    
+    int dh=50;
+    UIBezierPath *path = [UIBezierPath bezierPath];
+    [path moveToPoint:CGPointMake(0.0, catchZoneLabel.frame.size.height)];
+    [path addLineToPoint:CGPointMake(dh, catchZoneLabel.frame.size.height-dh)];
+    [path addLineToPoint:CGPointMake(catchZoneLabel.frame.size.width, catchZoneLabel.frame.size.height-dh)];
+
+    CAShapeLayer *shapeLayer = [CAShapeLayer layer];
+    shapeLayer.path = [path CGPath];
+    shapeLayer.strokeColor = [strokeColor CGColor];
+    shapeLayer.lineWidth = 0.5;
+    shapeLayer.fillColor = [[UIColor clearColor] CGColor];
+    [catchZoneLabel.layer addSublayer:shapeLayer];
+    
+    [self.view addSubview:catchZoneLabel];
+    [self.view sendSubviewToBack:catchZoneLabel];
+
+
+//    UIBezierPath *circle = [UIBezierPath bezierPath];
+//    [circle addArcWithCenter:CGPointMake(0.0, catchZone.frame.size.height)
+//                    radius:2.0
+//                startAngle:0.0
+//                  endAngle:M_PI * 2.0
+//                 clockwise:YES];
+//
+//    CAShapeLayer *circleLayer = [CAShapeLayer layer];
+//    circleLayer.path = [circle CGPath];
+//    circleLayer.strokeColor = [[UIColor clearColor] CGColor];
+//    circleLayer.fillColor = [strokeColor CGColor];
+//    [catchZone.layer addSublayer:circleLayer];
+
+    
+    
+    
     
     
     arc=[[Arc alloc] initWithFrame:CGRectMake(0,0, 88,88)];
@@ -482,6 +501,13 @@
         [defaults setObject:[NSNumber numberWithFloat:accuracyIncrement] forKey:@"accuracyIncrement"];
     }
     else accuracyIncrement = (float)[defaults floatForKey:@"accuracyIncrement"];
+    
+    if([defaults objectForKey:@"nTrialsInStage"] == nil){
+        nTrialsInStage=10.0;
+        [defaults setObject:[NSNumber numberWithFloat:nTrialsInStage] forKey:@"nTrialsInStage"];
+    }
+    else nTrialsInStage = (float)[defaults floatForKey:@"nTrialsInStage"];
+    
 //    if([defaults objectForKey:@"ballDiameter"] == nil) ballDiameter=80;
 //    else ballDiameter = (int)[defaults integerForKey:@"ballDiameter"];
     
@@ -507,6 +533,9 @@
 
             accuracyIncrement=[config[@"accuracyIncrement"]floatValue];
             [defaults setObject:[NSNumber numberWithFloat:accuracyIncrement] forKey:@"accuracyIncrement"];
+            
+            nTrialsInStage=[config[@"nTrialsInStage"]floatValue];
+            [defaults setObject:[NSNumber numberWithFloat:nTrialsInStage] forKey:@"nTrialsInStage"];
         }
 //        ballDiameter=[config[@"ballDiameter"]floatValue];
 //        [defaults setObject:[NSNumber numberWithFloat:ballDiameter] forKey:@"ballDiameter"];
@@ -1132,7 +1161,8 @@
     }
     
     if(currentLevel<=1)trialDelay=1.6;
-
+    if(currentLevel%(int)nTrialsInStage==0 && currentLevel!=0)trialDelay+=1.6;
+    
     [UIView animateWithDuration:.8
                           delay:0.0
                         options:UIViewAnimationOptionCurveEaseOut
@@ -1140,7 +1170,7 @@
                          
                          //dim background
                          self.view.backgroundColor=bg;
-                         catchZone.alpha=objAlpha;
+                         catchZone.alpha=.5;
                          midMarkL.alpha=objAlpha;
                          midMarkR.alpha=objAlpha;
                          arc.alpha=objAlpha;
@@ -1159,6 +1189,51 @@
 
                      }
                      completion:^(BOOL finished){
+                         
+                         //set catchzone and show dims
+                         [UIView animateWithDuration:0.4
+                                               delay:0.0
+                                             options:UIViewAnimationOptionCurveEaseOut
+                                          animations:^{
+                                              if(currentLevel%(int)nTrialsInStage==0 && currentLevel!=0){
+                                                  catchZoneLabel.alpha=1;
+                                                  catchZone.alpha=1;
+                                              }
+                                          }
+                                          completion:^(BOOL finished){
+                                              
+
+                                              float catchZoneDuration=0;
+                                              if(currentLevel%(int)nTrialsInStage==0 && currentLevel!=0){
+                                                [catchZoneLabel countFrom:[self getLevelAccuracy:currentLevel-1]/timerGoal*200.0  to:[self getLevelAccuracy:currentLevel]/timerGoal*200.0 withDuration:.2f];
+                                                catchZoneDuration=.4;
+                                              }
+                                              
+                                              
+                                              [UIView animateWithDuration:catchZoneDuration
+                                                                    delay:0.0
+                                                                  options:UIViewAnimationOptionCurveEaseOut
+                                                               animations:^{
+                                                                   [self setCatchZoneDiameter];
+                                                               }
+                                                               completion:^(BOOL finished){
+                                                                   [UIView animateWithDuration:0.4
+                                                                                         delay:0.4
+                                                                                       options:UIViewAnimationOptionCurveEaseOut
+                                                                                    animations:^{
+                                                                                        catchZoneLabel.alpha=0;
+                                                                                        catchZone.alpha=.5;
+                                                                                    }
+                                                                                    completion:^(BOOL finished){
+                                                     
+                                                                                    }];
+                                                               }];
+                                          }];
+
+                         
+                         
+                         
+                         
                      }];
     
     
@@ -1277,10 +1352,10 @@
     //return .2;
     
     //return timerGoal*.1;
-    if(level==0 && [[NSUserDefaults standardUserDefaults] boolForKey:@"hideExample"]==NO )return timerGoal*accuracyStart;
+    if(level<=0 && [[NSUserDefaults standardUserDefaults] boolForKey:@"hideExample"]==NO )return timerGoal*accuracyStart;
     //int stage=(5+level)/10.0;
-//    float accuracy=accuracyStart-accuracyIncrement*level/25.0;
-    float accuracy=accuracyStart-accuracyIncrement*level;
+    //float accuracy=accuracyStart-accuracyIncrement*level/25.0;
+    float accuracy=accuracyStart-accuracyIncrement*floor(level/nTrialsInStage)*nTrialsInStage;
 
     if(accuracy<accuracyMax)accuracy=accuracyMax;
     float levelAccuracy=timerGoal*accuracy;
@@ -1391,7 +1466,7 @@
 -(void)animateLevelReset{
     elapsed=0;
     //[self positionBall:YES];
-    
+
     [UIView animateWithDuration:0.4
                           delay:0.0
                         options:UIViewAnimationOptionCurveEaseOut
@@ -1403,26 +1478,33 @@
                          if(currentLevel>1)ball.alpha=dimAlpha;
                          [ball setNeedsDisplay];
                          currentScoreLabel.alpha=0;
+                         
+//                         if(currentLevel%(int)nTrialsInStage==0 && currentLevel!=0){
+//                             catchZoneLabel.alpha=1;
+//                             catchZone.alpha=1;
+//                         }
                      }
                      completion:^(BOOL finished){
 
-
-                         
-            
-                [UIView animateWithDuration:0.4
-                                        delay:0.0
-                                      options:UIViewAnimationOptionCurveEaseOut
-                                   animations:^{
-                                       [self setCatchZoneDiameter];
-                                       //ball.alpha=0;
-                                       //[ball setNeedsDisplay];
-                                   }
-                                   completion:^(BOOL finished){
+//                         float catchZoneDuration=0;
+//                         if(currentLevel%(int)nTrialsInStage==0 && currentLevel!=0)catchZoneDuration=.8;
+//                         
+//            
+//                         [UIView animateWithDuration:catchZoneDuration
+//                                        delay:0.0
+//                                      options:UIViewAnimationOptionCurveEaseOut
+//                                   animations:^{
+//                                       [self setCatchZoneDiameter];
+//                                       //ball.alpha=0;
+//                                       //[ball setNeedsDisplay];
+//                                   }
+//                                   completion:^(BOOL finished){
                                        [UIView animateWithDuration:0.4
                                                              delay:0.0
                                                            options:UIViewAnimationOptionCurveEaseOut
                                                         animations:^{
-
+                                                            catchZoneLabel.alpha=0;
+                                                            catchZone.alpha=.5;
                                                             //set mid markers
                                                             midMarkL.center=CGPointMake(midMarkL.center.x, startY+(endY-startY)*flashT);
                                                             midMarkR.center=CGPointMake(midMarkR.center.x, startY+(endY-startY)*flashT);
@@ -1437,8 +1519,8 @@
                                                             
                                                         }];
                                    }];
-                     }];
-    
+                     //}];
+
 
 }
 
@@ -1446,6 +1528,7 @@
     float catchZoneDiameter=[self getLevelAccuracy:currentLevel]*(endY-startY)/timerGoal*2.0;
     
     catchZone.frame=CGRectMake(0, 0, catchZoneDiameter, catchZoneDiameter);
+    //catchZoneLabel.frame=CGRectMake(catchZone.frame.size.width*.5, catchZone.frame.size.height*.5-catchZoneLabel.frame.size.height,catchZoneLabel.frame.size.width,catchZoneLabel.frame.size.height);
     ball.frame=CGRectMake(0,0, catchZoneDiameter*.9, catchZoneDiameter*.9);
     ball.center=CGPointMake(screenWidth*.5, startY);
     ball.lineWidth=ball.frame.size.width*.33-.75;
