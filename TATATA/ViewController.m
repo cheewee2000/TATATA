@@ -54,11 +54,11 @@
     if([defaults objectForKey:@"best"] == nil) best=0;
     else best = (int)[defaults integerForKey:@"best"];
     
-    if([defaults objectForKey:@"showIntro1"] == nil) showIntro=true;
-    else showIntro = (int)[defaults integerForKey:@"showIntro1"];
-
-    if([defaults objectForKey:@"showSurvey"] == nil) showSurvey=true;
-    else showSurvey = (int)[defaults integerForKey:@"showSurvey"];
+    if([defaults objectForKey:@"showIntro1"] == nil) [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"showIntro1"];
+//    else showIntro = (int)[defaults integerForKey:@"showIntro1"];
+//
+//    if([defaults objectForKey:@"showSurvey"] == nil) showSurvey=false;
+//    else showSurvey = (int)[defaults integerForKey:@"showSurvey"];
 
 
     
@@ -196,7 +196,7 @@
     
     scrollView = [[UIScrollView alloc] initWithFrame:self.view.bounds];
     scrollView.delegate = self;
-    [scrollView setContentSize:CGSizeMake(scrollView.bounds.size.width, scrollView.bounds.size.height*2.5)];
+    [scrollView setContentSize:CGSizeMake(scrollView.bounds.size.width, screenHeight*1.5)];
     [self.view addSubview:scrollView];
 
     catchZoneButton = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -453,8 +453,8 @@
     [intro addSubview:introParagraph];
     
     
-    surveyView=[[SurveyView alloc] initWithFrame:CGRectMake(0, screenHeight*1.5, screenWidth, screenHeight*5)];
-    surveyView.backgroundColor=bgColor;
+    surveyView=[[SurveyView alloc] initWithFrame:CGRectMake(0, screenHeight*1.5, screenWidth, 2400)];
+    surveyView.backgroundColor=[UIColor clearColor];
     surveyView.alpha=0;
     [scrollView addSubview:surveyView];
     
@@ -614,11 +614,41 @@
    bestLabel.center=CGPointMake(screenWidth*.5, startPos+(endPos)*(1.0-d));
 //
     
+    
+    if(scrollView.contentOffset.y<screenHeight*.5){
+        Reachability *reach = [Reachability reachabilityForInternetConnection];
+        
+        NetworkStatus netStatus = [reach currentReachabilityStatus];
+        if (netStatus == NotReachable) {
+            NSLog(@"No internet connection!");
+        } else {
+            //NSLog(@"netstatus: %ld",netStatus);
+        }
+ 
+        if (netStatus != NotReachable && ![[NSUserDefaults standardUserDefaults] boolForKey:@"showIntro1"]) {//there is internet!
+            surveyView.alpha=1;
+            [scrollView setContentSize:CGSizeMake(scrollView.bounds.size.width, 2400 +screenHeight*2.5)];
+            intro.frame=CGRectMake(0, 2400+screenHeight*1.5, screenWidth, screenHeight);
+        }
+        else{
+            surveyView.alpha=0;
+            [scrollView setContentSize:CGSizeMake(scrollView.bounds.size.width, screenHeight*2.5)];
+            intro.frame=CGRectMake(0, screenHeight*1.5, screenWidth, screenHeight);
+
+        }
+    }
+    
+    
     //show catchzone in introview
     if(scrollView.contentOffset.y>screenHeight*.75){
-        catchZone.center=CGPointMake(catchZone.center.x, -scrollView.contentOffset.y+screenHeight*1.5+endY);
-        //crosshair.center=CGPointMake(catchZone.frame.size.width*.5, catchZone.frame.size.height*.5);
-        catchZoneButton.center=CGPointMake(screenWidth*.5, screenHeight*1.5+endY);
+        if(scrollView.contentSize.height>2400){
+            catchZone.center=CGPointMake(catchZone.center.x, scrollView.contentSize.height-scrollView.contentOffset.y-screenHeight+endY);
+            catchZoneButton.center=CGPointMake(screenWidth*.5, scrollView.contentSize.height-screenHeight+endY);
+        }
+        else{
+            catchZone.center=CGPointMake(catchZone.center.x, -scrollView.contentOffset.y+screenHeight*1.5+endY);
+            catchZoneButton.center=CGPointMake(screenWidth*.5, screenHeight*1.5+endY);
+        }
     }
     
 }
@@ -730,8 +760,18 @@
 
     
     //dismiss intro view
-    if(scrollView.contentOffset.y>=screenHeight*1.5){
+    if(scrollView.contentOffset.y>=screenHeight*.5){
         [scrollView setContentOffset:CGPointMake(0, 0) animated:YES];
+        if([[NSUserDefaults standardUserDefaults] boolForKey:@"showIntro1"]){
+            [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"showIntro1"];
+            [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"showSurvey"];
+            [[NSUserDefaults standardUserDefaults] synchronize];
+            
+        }
+        else if([[NSUserDefaults standardUserDefaults] boolForKey:@"showSurvey"]){
+            [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"showSurvey"];
+            [[NSUserDefaults standardUserDefaults] synchronize];
+        }
         return;
     }
     
@@ -1020,21 +1060,21 @@
 
 -(void)showIntroView{
     [scrollView setContentOffset:CGPointMake(0, screenHeight*1.5) animated:YES];
-    
-    if(showIntro){
-        [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"showIntro1"];
-        showIntro=false;
-        
-        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"showSurvey"];
-        showSurvey=true;
-        [[NSUserDefaults standardUserDefaults] synchronize];
-        
-    }
-    else if(showSurvey){
-        [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"showSurvey"];
-        showSurvey=false;
-        [[NSUserDefaults standardUserDefaults] synchronize];
-    }
+//    
+//    if(showIntro){
+//        [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"showIntro1"];
+//        showIntro=false;
+//        
+//        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"showSurvey"];
+//        showSurvey=true;
+//        [[NSUserDefaults standardUserDefaults] synchronize];
+//        
+//    }
+//    else if(showSurvey){
+//        [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"showSurvey"];
+//        showSurvey=false;
+//        [[NSUserDefaults standardUserDefaults] synchronize];
+//    }
 }
 
 #pragma mark DATA
@@ -1384,9 +1424,11 @@
                          if(show){
                              scrollView.alpha=1;
 
-                             scoreLabel.alpha=1;
 
-                             if(![bestLabel.text isEqualToString:@"0"]) bestLabel.alpha=1;
+                             if(![bestLabel.text isEqualToString:@"0"]) {
+                                 scoreLabel.alpha=1;
+                                bestLabel.alpha=1;
+                             }
                              else{
                                  scoreLabel.alpha=0;
                                  bestLabel.alpha=0;
@@ -1609,26 +1651,15 @@
     if (netStatus == NotReachable) {
         NSLog(@"No internet connection!");
     } else {
-        NSLog(@"netstatus: %ld",netStatus);
+        //NSLog(@"netstatus: %ld",netStatus);
     }
     
     
-    if(showIntro){
+    if([[NSUserDefaults standardUserDefaults] boolForKey:@"showIntro1"] || (netStatus != NotReachable && [[NSUserDefaults standardUserDefaults] boolForKey:@"showSurvey"])){
         [self performSelector:@selector(showIntroView) withObject:self afterDelay:1.5];
     }
-    else
-        if (netStatus != NotReachable) {//there is internet!
-            if(showSurvey){
-                surveyView.alpha=1;
-                [scrollView setContentSize:CGSizeMake(scrollView.bounds.size.width, 2400 +screenHeight*1.5 )];
-                [self performSelector:@selector(showIntroView) withObject:self afterDelay:1.5];
-            }else{
-                surveyView.alpha=1;
-                [scrollView setContentSize:CGSizeMake(scrollView.bounds.size.width, 2400 +screenHeight*1.5)];
-            }
-        }
-
-   [super viewDidAppear:animated];
+   
+    [super viewDidAppear:animated];
 }
 
 

@@ -59,6 +59,7 @@
 
 
 -(void)checkboxSelected:(id)sender;
+-(void)loadSurveyResults;
 
 
 

@@ -10,7 +10,7 @@
 
 @interface Dimension : UIView
 -(void) setColor:(UIColor *)color;
-@property UIColor* color;
+@property UIColor* lineColor;
 @property CGFloat lineWidth;
 @property CGFloat dimLineOffsetX;
 

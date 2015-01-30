@@ -18,7 +18,7 @@
     CGContextRef context = UIGraphicsGetCurrentContext();
     
     CGFloat r,g,b,a;
-    [_color getRed:&r green:&g blue:&b alpha:&a];
+    [_lineColor getRed:&r green:&g blue:&b alpha:&a];
     
     CGContextSetRGBStrokeColor(context, r, g, b, a);
     CGContextSetRGBFillColor(context, r, g, b, a);
@@ -74,9 +74,9 @@
 
 }
 
--(void) setColor:(UIColor *)color
+-(void) setColor:(UIColor *)c
 {
-    _color=color;
+    _lineColor=c;
 }
 
 

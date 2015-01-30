@@ -125,8 +125,8 @@
     UILabel* credits;
 
     UIButton* feedbackButton;
-    BOOL showIntro;
-    BOOL showSurvey;
+//    BOOL showIntro;
+//    BOOL showSurvey;
 
     BOOL viewLoaded;
     

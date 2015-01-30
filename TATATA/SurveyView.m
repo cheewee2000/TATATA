@@ -72,56 +72,64 @@
         [_iAgree addTarget:self action:@selector(checkboxSelected:) forControlEvents:UIControlEventTouchDown];
         [_iDoNotAgree addTarget:self action:@selector(checkboxSelected:) forControlEvents:UIControlEventTouchDown];
 
-        [[PFUser currentUser] fetchInBackgroundWithBlock:^(PFObject *object, NSError *error) {
-            if (!error){
-                [_agePicker selectRow:[currentUser[@"age"] integerValue] inComponent:0 animated:YES];
-                
-                int mfIndex;
-                if([currentUser[@"sex"] isEqual:@"Male"])mfIndex=0;
-                else if ([currentUser[@"sex"] isEqual:@"Female"]) mfIndex=1;
-                else mfIndex=-1;
-                if(mfIndex>=0) [_sex setSelectedSegmentIndex:mfIndex];
-                
-                int handedIndex;
-                if([currentUser[@"handed"] isEqual:@"Left"])handedIndex=0;
-                else if ([currentUser[@"handed"] isEqual:@"Right"]) handedIndex=1;
-                else handedIndex=-1;
-                if(handedIndex>=0) [_handed setSelectedSegmentIndex:handedIndex];
-                
-                [_frequentHeadaches setSelected:[currentUser[@"frequentHeadaches"] boolValue]];
-                [_dizziness setSelected:[currentUser[@"dizziness"] boolValue]];
-                [_lossOfConsciousness setSelected:[currentUser[@"lossOfConsciousness"] boolValue]];
-                [_seizures setSelected:[currentUser[@"seizures"] boolValue]];
-                [_mentalHealth setSelected:[currentUser[@"mentalHealth"] boolValue]];
-                
-                [_narcotics setSelected:[currentUser[@"narcotics"] boolValue]];
-                [_stimulants setSelected:[currentUser[@"stimulants"] boolValue]];
-                [_cocain setSelected:[currentUser[@"cocain"] boolValue]];
-                [_lsd setSelected:[currentUser[@"lsd"] boolValue]];
-                [_marijuana setSelected:[currentUser[@"marijuana"] boolValue]];
-                [_streetDrugs setSelected:[currentUser[@"streetDrugs"] boolValue]];
-                
-                [_professional setSelected:[currentUser[@"professional"] boolValue]];
-                [_collegiate setSelected:[currentUser[@"collegiate"] boolValue]];
-                [_amateur setSelected:[currentUser[@"amateur"] boolValue]];
-                [_intramural setSelected:[currentUser[@"intramural"] boolValue]];
-                [_casual setSelected:[currentUser[@"casual"] boolValue]];
-                [_none setSelected:[currentUser[@"none"] boolValue]];
-
-                if(currentUser[@"iAgree"]!=nil){
-                    [_iAgree setSelected:[currentUser[@"iAgree"] boolValue]];
-                    [_iDoNotAgree setSelected:![currentUser[@"iAgree"] boolValue]];
-                    _surveyParagraph.text=@"Thank you for submitting your answers. You may update your answers below at any time.";
-                }
-
-                
-            }
-            
-         
-        }];
+        [self loadSurveyResults];
+        
         
     }
     return self;
+}
+
+
+-(void)loadSurveyResults{
+    
+    [[PFUser currentUser] fetchInBackgroundWithBlock:^(PFObject *object, NSError *error) {
+        if (!error){
+            [_agePicker selectRow:[currentUser[@"age"] integerValue] inComponent:0 animated:YES];
+            
+            int mfIndex;
+            if([currentUser[@"sex"] isEqual:@"Male"])mfIndex=0;
+            else if ([currentUser[@"sex"] isEqual:@"Female"]) mfIndex=1;
+            else mfIndex=-1;
+            if(mfIndex>=0) [_sex setSelectedSegmentIndex:mfIndex];
+            
+            int handedIndex;
+            if([currentUser[@"handed"] isEqual:@"Left"])handedIndex=0;
+            else if ([currentUser[@"handed"] isEqual:@"Right"]) handedIndex=1;
+            else handedIndex=-1;
+            if(handedIndex>=0) [_handed setSelectedSegmentIndex:handedIndex];
+            
+            [_frequentHeadaches setSelected:[currentUser[@"frequentHeadaches"] boolValue]];
+            [_dizziness setSelected:[currentUser[@"dizziness"] boolValue]];
+            [_lossOfConsciousness setSelected:[currentUser[@"lossOfConsciousness"] boolValue]];
+            [_seizures setSelected:[currentUser[@"seizures"] boolValue]];
+            [_mentalHealth setSelected:[currentUser[@"mentalHealth"] boolValue]];
+            
+            [_narcotics setSelected:[currentUser[@"narcotics"] boolValue]];
+            [_stimulants setSelected:[currentUser[@"stimulants"] boolValue]];
+            [_cocain setSelected:[currentUser[@"cocain"] boolValue]];
+            [_lsd setSelected:[currentUser[@"lsd"] boolValue]];
+            [_marijuana setSelected:[currentUser[@"marijuana"] boolValue]];
+            [_streetDrugs setSelected:[currentUser[@"streetDrugs"] boolValue]];
+            
+            [_professional setSelected:[currentUser[@"professional"] boolValue]];
+            [_collegiate setSelected:[currentUser[@"collegiate"] boolValue]];
+            [_amateur setSelected:[currentUser[@"amateur"] boolValue]];
+            [_intramural setSelected:[currentUser[@"intramural"] boolValue]];
+            [_casual setSelected:[currentUser[@"casual"] boolValue]];
+            [_none setSelected:[currentUser[@"none"] boolValue]];
+            
+            if(currentUser[@"iAgree"]!=nil){
+                [_iAgree setSelected:[currentUser[@"iAgree"] boolValue]];
+                [_iDoNotAgree setSelected:![currentUser[@"iAgree"] boolValue]];
+                _surveyParagraph.text=@"Thank you for submitting your answers. You may update your answers below at any time.";
+            }
+            
+            
+        }
+        
+        
+    }];
+    
 }
 
 #pragma mark - picker
@@ -235,6 +243,8 @@ numberOfRowsInComponent:(NSInteger)component
         [_iAgree setSelected:YES];
         [_iDoNotAgree setSelected:NO];
         [(UIScrollView*)self.superview setContentOffset:CGPointMake(0, 0) animated:YES];
+        [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"showSurvey"];
+        [[NSUserDefaults standardUserDefaults] synchronize];
 
     }
     else if([sender tag]==51){
@@ -242,7 +252,8 @@ numberOfRowsInComponent:(NSInteger)component
         [_iAgree setSelected:NO];
         [_iDoNotAgree setSelected:YES];
         [(UIScrollView*)self.superview setContentOffset:CGPointMake(0, 0) animated:YES];
-
+        [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"showSurvey"];
+        [[NSUserDefaults standardUserDefaults] synchronize];
     }
 
     if([sender tag]>=11 && [sender tag]<=16){
@@ -254,6 +265,7 @@ numberOfRowsInComponent:(NSInteger)component
         [_intramural setSelected:NO];
         [_casual setSelected:NO];
         [_none setSelected:NO];
+        
         currentUser[@"professional"]=[NSNumber numberWithBool:NO];
         currentUser[@"collegiate"]=[NSNumber numberWithBool:NO];
         currentUser[@"amateur"]=[NSNumber numberWithBool:NO];
@@ -261,6 +273,10 @@ numberOfRowsInComponent:(NSInteger)component
         currentUser[@"casual"]=[NSNumber numberWithBool:NO];
         currentUser[@"none"]=[NSNumber numberWithBool:NO];
 
+
+        //turn on selection
+        [sender setSelected:YES];
+        
         //record hit
         if([sender tag]==11) currentUser[@"professional"] = [NSNumber numberWithBool:[sender isSelected]];
         else if([sender tag]==12) currentUser[@"collegiate"] = [NSNumber numberWithBool:[sender isSelected]];
@@ -269,8 +285,6 @@ numberOfRowsInComponent:(NSInteger)component
         else if([sender tag]==15) currentUser[@"casual"] = [NSNumber numberWithBool:[sender isSelected]];
         else if([sender tag]==16) currentUser[@"none"] = [NSNumber numberWithBool:[sender isSelected]];
         
-        //turn on selection
-        [sender setSelected:YES];
     }
     
     
