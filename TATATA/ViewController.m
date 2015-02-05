@@ -453,7 +453,7 @@
     [intro addSubview:introParagraph];
     
     
-    surveyView=[[SurveyView alloc] initWithFrame:CGRectMake(0, screenHeight*1.5, screenWidth, 2400)];
+    surveyView=[[SurveyView alloc] initWithFrame:CGRectMake(0, screenHeight*1.5, screenWidth, 4400)];
     surveyView.backgroundColor=[UIColor clearColor];
     surveyView.alpha=0;
     [scrollView addSubview:surveyView];
@@ -627,8 +627,8 @@
  
         if (netStatus != NotReachable && ![[NSUserDefaults standardUserDefaults] boolForKey:@"showIntro1"]) {//there is internet!
             surveyView.alpha=1;
-            [scrollView setContentSize:CGSizeMake(scrollView.bounds.size.width, 2400 +screenHeight*2.5)];
-            intro.frame=CGRectMake(0, 2400+screenHeight*1.5, screenWidth, screenHeight);
+            [scrollView setContentSize:CGSizeMake(scrollView.bounds.size.width, 4400 +screenHeight*2.5)];
+            intro.frame=CGRectMake(0, 4400+screenHeight*1.5, screenWidth, screenHeight);
         }
         else{
             surveyView.alpha=0;
@@ -641,7 +641,7 @@
     
     //show catchzone in introview
     if(scrollView.contentOffset.y>screenHeight*.75){
-        if(scrollView.contentSize.height>2400){
+        if(scrollView.contentSize.height>4400){
             catchZone.center=CGPointMake(catchZone.center.x, scrollView.contentSize.height-scrollView.contentOffset.y-screenHeight+endY);
             catchZoneButton.center=CGPointMake(screenWidth*.5, scrollView.contentSize.height-screenHeight+endY);
         }
@@ -683,6 +683,12 @@
 -(void) restart{
     trialSequence=-1;
     [self performSelector:@selector(showStartScreen) withObject:self afterDelay:0.8];
+    
+    Reachability *reach = [Reachability reachabilityForInternetConnection];
+    NetworkStatus netStatus = [reach currentReachabilityStatus];
+    if((netStatus != NotReachable && [[NSUserDefaults standardUserDefaults] boolForKey:@"showSurvey"]) ){
+        [self performSelector:@selector(showIntroView) withObject:self afterDelay:3.5];
+    }
 }
 
 -(void)showStartScreen{
@@ -768,10 +774,11 @@
             [[NSUserDefaults standardUserDefaults] synchronize];
             
         }
-        else if([[NSUserDefaults standardUserDefaults] boolForKey:@"showSurvey"]){
-            [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"showSurvey"];
-            [[NSUserDefaults standardUserDefaults] synchronize];
-        }
+//        else if([[NSUserDefaults standardUserDefaults] boolForKey:@"showSurvey"]){
+//            [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"showSurvey"]; //do this on i agree button press
+//            [[NSUserDefaults standardUserDefaults] synchronize];
+            
+//        }
         return;
     }
     
@@ -1060,21 +1067,7 @@
 
 -(void)showIntroView{
     [scrollView setContentOffset:CGPointMake(0, screenHeight*1.5) animated:YES];
-//    
-//    if(showIntro){
-//        [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"showIntro1"];
-//        showIntro=false;
-//        
-//        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"showSurvey"];
-//        showSurvey=true;
-//        [[NSUserDefaults standardUserDefaults] synchronize];
-//        
-//    }
-//    else if(showSurvey){
-//        [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"showSurvey"];
-//        showSurvey=false;
-//        [[NSUserDefaults standardUserDefaults] synchronize];
-//    }
+
 }
 
 #pragma mark DATA
@@ -1656,7 +1649,7 @@
     
     
     if([[NSUserDefaults standardUserDefaults] boolForKey:@"showIntro1"] || (netStatus != NotReachable && [[NSUserDefaults standardUserDefaults] boolForKey:@"showSurvey"])){
-        [self performSelector:@selector(showIntroView) withObject:self afterDelay:1.5];
+        [self performSelector:@selector(showIntroView) withObject:self afterDelay:2.5];
     }
    
     [super viewDidAppear:animated];

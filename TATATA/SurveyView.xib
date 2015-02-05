@@ -34,11 +34,11 @@
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <view autoresizesSubviews="NO" contentMode="scaleToFill" id="iN0-l3-epB">
-            <rect key="frame" x="0.0" y="0.0" width="320" height="2380"/>
+            <rect key="frame" x="0.0" y="0.0" width="320" height="4324"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <button opaque="NO" tag="51" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" reversesTitleShadowWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="c2d-pg-4eo">
-                    <rect key="frame" x="85" y="2233" width="150" height="30"/>
+                    <rect key="frame" x="84" y="4207" width="150" height="30"/>
                     <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                     <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="15"/>
                     <state key="normal" title="I DO NOT AGREE">
@@ -59,21 +59,21 @@
                         </userDefinedRuntimeAttribute>
                     </userDefinedRuntimeAttributes>
                 </button>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="FOR SCIENCE!" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2JK-I4-1qZ">
-                    <rect key="frame" x="60" y="102" width="200" height="34"/>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="FOR SCIENCE!" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="280" translatesAutoresizingMaskIntoConstraints="NO" id="2JK-I4-1qZ">
+                    <rect key="frame" x="59" y="23" width="200" height="34"/>
                     <fontDescription key="fontDescription" name="DINCondensed-Bold" family="DIN Condensed" pointSize="25"/>
                     <color key="textColor" white="0.90000000000000002" alpha="1" colorSpace="calibratedWhite"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" lineBreakMode="tailTruncation" numberOfLines="6" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dd5-CG-8yM">
-                    <rect key="frame" x="20" y="126" width="280" height="113"/>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" lineBreakMode="tailTruncation" numberOfLines="6" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="280" translatesAutoresizingMaskIntoConstraints="NO" id="dd5-CG-8yM">
+                    <rect key="frame" x="19" y="47" width="280" height="113"/>
                     <string key="text">Please answer the questions below to contribute your game play data towards science. Your answers are anonymous. Your participation is not required to play, but science could use your help!</string>
                     <fontDescription key="fontDescription" name="DINCondensed-Bold" family="DIN Condensed" pointSize="16"/>
                     <color key="textColor" white="0.90000000000000002" alpha="1" colorSpace="calibratedWhite"/>
                     <nil key="highlightedColor"/>
                 </label>
                 <segmentedControl opaque="NO" contentMode="center" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="top" segmentControlStyle="plain" translatesAutoresizingMaskIntoConstraints="NO" id="PoI-Bp-6fP">
-                    <rect key="frame" x="102" y="276" width="117" height="29"/>
+                    <rect key="frame" x="101" y="2280" width="117" height="29"/>
                     <segments>
                         <segment title="Male"/>
                         <segment title="Female"/>
@@ -81,7 +81,7 @@
                     <color key="tintColor" white="0.90000000000000002" alpha="1" colorSpace="calibratedWhite"/>
                 </segmentedControl>
                 <segmentedControl opaque="NO" tag="1" contentMode="center" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="top" segmentControlStyle="plain" translatesAutoresizingMaskIntoConstraints="NO" id="OV1-1p-Uie">
-                    <rect key="frame" x="64" y="370" width="193" height="29"/>
+                    <rect key="frame" x="63" y="2364" width="193" height="29"/>
                     <segments>
                         <segment title="Left-handed"/>
                         <segment title="Right-handed"/>
@@ -89,26 +89,26 @@
                     <color key="tintColor" white="0.90000000000000002" alpha="1" colorSpace="calibratedWhite"/>
                 </segmentedControl>
                 <pickerView contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="V8c-Ng-OJZ">
-                    <rect key="frame" x="61" y="477" width="198" height="162"/>
+                    <rect key="frame" x="60" y="2451" width="198" height="162"/>
                     <connections>
                         <outlet property="dataSource" destination="-1" id="cRN-bl-Dcv"/>
                         <outlet property="delegate" destination="-1" id="lds-vU-8iA"/>
                     </connections>
                 </pickerView>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Have you ever had any of the following? Check all that apply." lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="S5I-Xx-x5A">
-                    <rect key="frame" x="22" y="701" width="280" height="32"/>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Have you ever had any of the following? Check all that apply." lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="280" translatesAutoresizingMaskIntoConstraints="NO" id="S5I-Xx-x5A">
+                    <rect key="frame" x="21" y="2675" width="280" height="32"/>
                     <fontDescription key="fontDescription" name="DINCondensed-Bold" family="DIN Condensed" pointSize="16"/>
                     <color key="textColor" white="0.90000000000000002" alpha="1" colorSpace="calibratedWhite"/>
                     <nil key="highlightedColor"/>
                 </label>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Will you be using any of the following substances within one week of your participation in this study? Check all that apply." lineBreakMode="tailTruncation" numberOfLines="5" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cta-yI-62G">
-                    <rect key="frame" x="22" y="1087" width="280" height="56"/>
+                    <rect key="frame" x="21" y="3061" width="280" height="56"/>
                     <fontDescription key="fontDescription" name="DINCondensed-Bold" family="DIN Condensed" pointSize="16"/>
                     <color key="textColor" white="0.90000000000000002" alpha="1" colorSpace="calibratedWhite"/>
                     <nil key="highlightedColor"/>
                 </label>
                 <button opaque="NO" tag="5" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="St9-YJ-psn">
-                    <rect key="frame" x="22" y="1152" width="44" height="44"/>
+                    <rect key="frame" x="11" y="3126" width="44" height="44"/>
                     <fontDescription key="fontDescription" name="DINCondensed-Bold" family="DIN Condensed" pointSize="16"/>
                     <inset key="contentEdgeInsets" minX="12" minY="12" maxX="12" maxY="12"/>
                     <state key="normal" image="checkboxUnchecked">
@@ -118,7 +118,7 @@
                     <state key="highlighted" image="checkboxChecked"/>
                 </button>
                 <button opaque="NO" tag="6" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ScD-SZ-RzI">
-                    <rect key="frame" x="22" y="1210" width="44" height="44"/>
+                    <rect key="frame" x="11" y="3184" width="44" height="44"/>
                     <fontDescription key="fontDescription" name="DINCondensed-Bold" family="DIN Condensed" pointSize="16"/>
                     <inset key="contentEdgeInsets" minX="12" minY="12" maxX="12" maxY="12"/>
                     <state key="normal" image="checkboxUnchecked">
@@ -128,19 +128,19 @@
                     <state key="highlighted" image="checkboxChecked"/>
                 </button>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Narcotics" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Wsp-6B-XdG">
-                    <rect key="frame" x="62" y="1151" width="154" height="50"/>
+                    <rect key="frame" x="61" y="3125" width="154" height="50"/>
                     <fontDescription key="fontDescription" name="DINCondensed-Bold" family="DIN Condensed" pointSize="16"/>
                     <color key="textColor" white="0.90000000000000002" alpha="1" colorSpace="calibratedWhite"/>
                     <nil key="highlightedColor"/>
                 </label>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Stimulants" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hIs-QV-dMF">
-                    <rect key="frame" x="62" y="1209" width="100" height="50"/>
+                    <rect key="frame" x="61" y="3183" width="100" height="50"/>
                     <fontDescription key="fontDescription" name="DINCondensed-Bold" family="DIN Condensed" pointSize="16"/>
                     <color key="textColor" white="0.90000000000000002" alpha="1" colorSpace="calibratedWhite"/>
                     <nil key="highlightedColor"/>
                 </label>
                 <button opaque="NO" tag="7" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Q4o-dQ-fPB">
-                    <rect key="frame" x="22" y="1268" width="44" height="44"/>
+                    <rect key="frame" x="11" y="3242" width="44" height="44"/>
                     <fontDescription key="fontDescription" name="DINCondensed-Bold" family="DIN Condensed" pointSize="16"/>
                     <inset key="contentEdgeInsets" minX="12" minY="12" maxX="12" maxY="12"/>
                     <state key="normal" image="checkboxUnchecked">
@@ -150,13 +150,13 @@
                     <state key="highlighted" image="checkboxChecked"/>
                 </button>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Cocaine" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zK5-1l-JMJ">
-                    <rect key="frame" x="62" y="1267" width="113" height="50"/>
+                    <rect key="frame" x="61" y="3241" width="113" height="50"/>
                     <fontDescription key="fontDescription" name="DINCondensed-Bold" family="DIN Condensed" pointSize="16"/>
                     <color key="textColor" white="0.90000000000000002" alpha="1" colorSpace="calibratedWhite"/>
                     <nil key="highlightedColor"/>
                 </label>
                 <button opaque="NO" tag="8" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="REQ-Zr-Hn3">
-                    <rect key="frame" x="22" y="1326" width="44" height="44"/>
+                    <rect key="frame" x="11" y="3300" width="44" height="44"/>
                     <fontDescription key="fontDescription" name="DINCondensed-Bold" family="DIN Condensed" pointSize="16"/>
                     <inset key="contentEdgeInsets" minX="12" minY="12" maxX="12" maxY="12"/>
                     <state key="normal" image="checkboxUnchecked">
@@ -166,13 +166,13 @@
                     <state key="highlighted" image="checkboxChecked"/>
                 </button>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="LSD" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wzW-kO-e6T">
-                    <rect key="frame" x="62" y="1325" width="101" height="50"/>
+                    <rect key="frame" x="61" y="3299" width="101" height="50"/>
                     <fontDescription key="fontDescription" name="DINCondensed-Bold" family="DIN Condensed" pointSize="16"/>
                     <color key="textColor" white="0.90000000000000002" alpha="1" colorSpace="calibratedWhite"/>
                     <nil key="highlightedColor"/>
                 </label>
                 <button opaque="NO" tag="9" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="L2i-Dh-Zts">
-                    <rect key="frame" x="22" y="1384" width="44" height="44"/>
+                    <rect key="frame" x="11" y="3358" width="44" height="44"/>
                     <fontDescription key="fontDescription" name="DINCondensed-Bold" family="DIN Condensed" pointSize="16"/>
                     <inset key="contentEdgeInsets" minX="12" minY="12" maxX="12" maxY="12"/>
                     <state key="normal" image="checkboxUnchecked">
@@ -182,13 +182,13 @@
                     <state key="highlighted" image="checkboxChecked"/>
                 </button>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Marijuana" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bRi-J6-6pc">
-                    <rect key="frame" x="62" y="1383" width="112" height="50"/>
+                    <rect key="frame" x="61" y="3357" width="112" height="50"/>
                     <fontDescription key="fontDescription" name="DINCondensed-Bold" family="DIN Condensed" pointSize="16"/>
                     <color key="textColor" white="0.90000000000000002" alpha="1" colorSpace="calibratedWhite"/>
                     <nil key="highlightedColor"/>
                 </label>
                 <button opaque="NO" tag="10" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="s2J-F5-05J">
-                    <rect key="frame" x="22" y="1442" width="44" height="44"/>
+                    <rect key="frame" x="11" y="3416" width="44" height="44"/>
                     <fontDescription key="fontDescription" name="DINCondensed-Bold" family="DIN Condensed" pointSize="16"/>
                     <inset key="contentEdgeInsets" minX="12" minY="12" maxX="12" maxY="12"/>
                     <state key="normal" image="checkboxUnchecked">
@@ -198,25 +198,25 @@
                     <state key="highlighted" image="checkboxChecked"/>
                 </button>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Other street drugs" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xKa-FK-lQM">
-                    <rect key="frame" x="62" y="1441" width="112" height="50"/>
+                    <rect key="frame" x="61" y="3415" width="112" height="50"/>
                     <fontDescription key="fontDescription" name="DINCondensed-Bold" family="DIN Condensed" pointSize="16"/>
                     <color key="textColor" white="0.90000000000000002" alpha="1" colorSpace="calibratedWhite"/>
                     <nil key="highlightedColor"/>
                 </label>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="What’s your current athletic status?" lineBreakMode="tailTruncation" numberOfLines="5" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Iu8-Hr-aUU">
-                    <rect key="frame" x="22" y="1522" width="280" height="56"/>
+                    <rect key="frame" x="21" y="3496" width="280" height="56"/>
                     <fontDescription key="fontDescription" name="DINCondensed-Bold" family="DIN Condensed" pointSize="16"/>
                     <color key="textColor" white="0.90000000000000002" alpha="1" colorSpace="calibratedWhite"/>
                     <nil key="highlightedColor"/>
                 </label>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="I do not agree to participate in the study, or I am not eligible to participate, but still wish to use the app." lineBreakMode="tailTruncation" numberOfLines="5" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LJq-3q-ftz">
-                    <rect key="frame" x="22" y="2169" width="280" height="56"/>
+                    <rect key="frame" x="21" y="4143" width="280" height="56"/>
                     <fontDescription key="fontDescription" name="DINCondensed-Bold" family="DIN Condensed" pointSize="16"/>
                     <color key="textColor" white="0.90000000000000002" alpha="1" colorSpace="calibratedWhite"/>
                     <nil key="highlightedColor"/>
                 </label>
                 <button opaque="NO" tag="11" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OHE-i8-okS">
-                    <rect key="frame" x="22" y="1575" width="44" height="44"/>
+                    <rect key="frame" x="11" y="3549" width="44" height="44"/>
                     <fontDescription key="fontDescription" name="DINCondensed-Bold" family="DIN Condensed" pointSize="16"/>
                     <inset key="contentEdgeInsets" minX="12" minY="12" maxX="12" maxY="12"/>
                     <state key="normal" image="radioOff">
@@ -226,7 +226,7 @@
                     <state key="highlighted" image="radioOn"/>
                 </button>
                 <button opaque="NO" tag="12" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Fll-Ud-hIz">
-                    <rect key="frame" x="22" y="1633" width="44" height="44"/>
+                    <rect key="frame" x="11" y="3607" width="44" height="44"/>
                     <fontDescription key="fontDescription" name="DINCondensed-Bold" family="DIN Condensed" pointSize="16"/>
                     <inset key="contentEdgeInsets" minX="12" minY="12" maxX="12" maxY="12"/>
                     <state key="normal" image="radioOff">
@@ -236,19 +236,19 @@
                     <state key="highlighted" image="radioOn"/>
                 </button>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Professional" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gEi-Hc-wzb">
-                    <rect key="frame" x="62" y="1573" width="154" height="50"/>
+                    <rect key="frame" x="61" y="3547" width="154" height="50"/>
                     <fontDescription key="fontDescription" name="DINCondensed-Bold" family="DIN Condensed" pointSize="16"/>
                     <color key="textColor" white="0.90000000000000002" alpha="1" colorSpace="calibratedWhite"/>
                     <nil key="highlightedColor"/>
                 </label>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Collegiate" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zFz-5G-Ruc">
-                    <rect key="frame" x="62" y="1631" width="100" height="50"/>
+                    <rect key="frame" x="61" y="3605" width="100" height="50"/>
                     <fontDescription key="fontDescription" name="DINCondensed-Bold" family="DIN Condensed" pointSize="16"/>
                     <color key="textColor" white="0.90000000000000002" alpha="1" colorSpace="calibratedWhite"/>
                     <nil key="highlightedColor"/>
                 </label>
                 <button opaque="NO" tag="13" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rTX-nS-h2s">
-                    <rect key="frame" x="22" y="1691" width="44" height="44"/>
+                    <rect key="frame" x="11" y="3665" width="44" height="44"/>
                     <fontDescription key="fontDescription" name="DINCondensed-Bold" family="DIN Condensed" pointSize="16"/>
                     <inset key="contentEdgeInsets" minX="12" minY="12" maxX="12" maxY="12"/>
                     <state key="normal" image="radioOff">
@@ -258,13 +258,13 @@
                     <state key="highlighted" image="radioOn"/>
                 </button>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Amateur" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Agn-FX-fcP">
-                    <rect key="frame" x="62" y="1689" width="113" height="50"/>
+                    <rect key="frame" x="61" y="3663" width="113" height="50"/>
                     <fontDescription key="fontDescription" name="DINCondensed-Bold" family="DIN Condensed" pointSize="16"/>
                     <color key="textColor" white="0.90000000000000002" alpha="1" colorSpace="calibratedWhite"/>
                     <nil key="highlightedColor"/>
                 </label>
                 <button opaque="NO" tag="14" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xds-ff-7HA">
-                    <rect key="frame" x="22" y="1749" width="44" height="44"/>
+                    <rect key="frame" x="11" y="3723" width="44" height="44"/>
                     <fontDescription key="fontDescription" name="DINCondensed-Bold" family="DIN Condensed" pointSize="16"/>
                     <inset key="contentEdgeInsets" minX="12" minY="12" maxX="12" maxY="12"/>
                     <state key="normal" image="radioOff">
@@ -274,13 +274,13 @@
                     <state key="highlighted" image="radioOn"/>
                 </button>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Intramural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GpX-Zz-MLi">
-                    <rect key="frame" x="62" y="1747" width="101" height="50"/>
+                    <rect key="frame" x="61" y="3721" width="101" height="50"/>
                     <fontDescription key="fontDescription" name="DINCondensed-Bold" family="DIN Condensed" pointSize="16"/>
                     <color key="textColor" white="0.90000000000000002" alpha="1" colorSpace="calibratedWhite"/>
                     <nil key="highlightedColor"/>
                 </label>
                 <button opaque="NO" tag="15" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qQS-fV-ct3">
-                    <rect key="frame" x="22" y="1807" width="44" height="44"/>
+                    <rect key="frame" x="11" y="3781" width="44" height="44"/>
                     <fontDescription key="fontDescription" name="DINCondensed-Bold" family="DIN Condensed" pointSize="16"/>
                     <inset key="contentEdgeInsets" minX="12" minY="12" maxX="12" maxY="12"/>
                     <state key="normal" image="radioOff">
@@ -290,13 +290,13 @@
                     <state key="highlighted" image="radioOn"/>
                 </button>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Casual" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oPV-K2-Fa7">
-                    <rect key="frame" x="62" y="1805" width="112" height="50"/>
+                    <rect key="frame" x="61" y="3779" width="112" height="50"/>
                     <fontDescription key="fontDescription" name="DINCondensed-Bold" family="DIN Condensed" pointSize="16"/>
                     <color key="textColor" white="0.90000000000000002" alpha="1" colorSpace="calibratedWhite"/>
                     <nil key="highlightedColor"/>
                 </label>
                 <button opaque="NO" tag="16" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Wbx-AO-8ak">
-                    <rect key="frame" x="22" y="1865" width="44" height="44"/>
+                    <rect key="frame" x="11" y="3839" width="44" height="44"/>
                     <fontDescription key="fontDescription" name="DINCondensed-Bold" family="DIN Condensed" pointSize="16"/>
                     <inset key="contentEdgeInsets" minX="12" minY="12" maxX="12" maxY="12"/>
                     <state key="normal" image="radioOff">
@@ -306,20 +306,20 @@
                     <state key="highlighted" image="radioOn"/>
                 </button>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="None" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qPC-N0-I6N">
-                    <rect key="frame" x="62" y="1863" width="112" height="50"/>
+                    <rect key="frame" x="61" y="3837" width="112" height="50"/>
                     <fontDescription key="fontDescription" name="DINCondensed-Bold" family="DIN Condensed" pointSize="16"/>
                     <color key="textColor" white="0.90000000000000002" alpha="1" colorSpace="calibratedWhite"/>
                     <nil key="highlightedColor"/>
                 </label>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" lineBreakMode="tailTruncation" numberOfLines="7" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5Cd-m4-o3c">
-                    <rect key="frame" x="22" y="2001" width="280" height="94"/>
+                    <rect key="frame" x="21" y="3975" width="280" height="94"/>
                     <string key="text">I understand the procedures described above. My questions have been answered to my satisfaction, and I agree to participate in this study.</string>
                     <fontDescription key="fontDescription" name="DINCondensed-Bold" family="DIN Condensed" pointSize="16"/>
                     <color key="textColor" white="0.90000000000000002" alpha="1" colorSpace="calibratedWhite"/>
                     <nil key="highlightedColor"/>
                 </label>
                 <button opaque="NO" tag="50" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" reversesTitleShadowWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rCd-B6-BlU">
-                    <rect key="frame" x="87" y="2103" width="150" height="30"/>
+                    <rect key="frame" x="86" y="4077" width="150" height="30"/>
                     <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                     <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="15"/>
                     <state key="normal" title="I AGREE">
@@ -342,19 +342,19 @@
                     </userDefinedRuntimeAttributes>
                 </button>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="AGE" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="J3y-nA-i2W">
-                    <rect key="frame" x="110" y="459" width="100" height="32"/>
+                    <rect key="frame" x="109" y="2445" width="100" height="32"/>
                     <fontDescription key="fontDescription" name="DINCondensed-Bold" family="DIN Condensed" pointSize="16"/>
                     <color key="textColor" white="0.90000000000000002" alpha="1" colorSpace="calibratedWhite"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Consent of Research Subject" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uCx-TV-ctN">
-                    <rect key="frame" x="20" y="1966" width="280" height="27"/>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="CONSENT OF RESEARCH SUBJECT" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uCx-TV-ctN">
+                    <rect key="frame" x="19" y="3948" width="280" height="27"/>
                     <fontDescription key="fontDescription" name="DINCondensed-Bold" family="DIN Condensed" pointSize="16"/>
                     <color key="textColor" white="0.90000000000000002" alpha="1" colorSpace="calibratedWhite"/>
                     <nil key="highlightedColor"/>
                 </label>
                 <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rhd-kw-eIY">
-                    <rect key="frame" x="22" y="742" width="44" height="44"/>
+                    <rect key="frame" x="11" y="2716" width="44" height="44"/>
                     <fontDescription key="fontDescription" name="DINCondensed-Bold" family="DIN Condensed" pointSize="16"/>
                     <inset key="contentEdgeInsets" minX="12" minY="12" maxX="12" maxY="12"/>
                     <state key="normal" image="checkboxUnchecked">
@@ -364,7 +364,7 @@
                     <state key="highlighted" image="checkboxChecked"/>
                 </button>
                 <button opaque="NO" tag="1" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3sd-Xv-W2y">
-                    <rect key="frame" x="22" y="800" width="44" height="44"/>
+                    <rect key="frame" x="11" y="2774" width="44" height="44"/>
                     <fontDescription key="fontDescription" name="DINCondensed-Bold" family="DIN Condensed" pointSize="16"/>
                     <inset key="contentEdgeInsets" minX="12" minY="12" maxX="12" maxY="12"/>
                     <state key="normal" image="checkboxUnchecked">
@@ -374,13 +374,13 @@
                     <state key="highlighted" image="checkboxChecked"/>
                 </button>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Frequent headaches/migraines" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eBY-eQ-aG8">
-                    <rect key="frame" x="62" y="741" width="154" height="50"/>
+                    <rect key="frame" x="61" y="2715" width="154" height="50"/>
                     <fontDescription key="fontDescription" name="DINCondensed-Bold" family="DIN Condensed" pointSize="16"/>
                     <color key="textColor" white="0.90000000000000002" alpha="1" colorSpace="calibratedWhite"/>
                     <nil key="highlightedColor"/>
                 </label>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="THi-MJ-Pnk">
-                    <rect key="frame" x="62" y="799" width="100" height="50"/>
+                    <rect key="frame" x="61" y="2773" width="100" height="50"/>
                     <string key="text">Dizziness or fainting
 </string>
                     <fontDescription key="fontDescription" name="DINCondensed-Bold" family="DIN Condensed" pointSize="16"/>
@@ -388,7 +388,7 @@
                     <nil key="highlightedColor"/>
                 </label>
                 <button opaque="NO" tag="2" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5c4-Ll-5NT">
-                    <rect key="frame" x="22" y="858" width="44" height="44"/>
+                    <rect key="frame" x="11" y="2832" width="44" height="44"/>
                     <fontDescription key="fontDescription" name="DINCondensed-Bold" family="DIN Condensed" pointSize="16"/>
                     <inset key="contentEdgeInsets" minX="12" minY="12" maxX="12" maxY="12"/>
                     <state key="normal" image="checkboxUnchecked">
@@ -398,13 +398,13 @@
                     <state key="highlighted" image="checkboxChecked"/>
                 </button>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Loss of consciousness" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="n7Z-H0-2ja">
-                    <rect key="frame" x="62" y="857" width="113" height="50"/>
+                    <rect key="frame" x="61" y="2831" width="113" height="50"/>
                     <fontDescription key="fontDescription" name="DINCondensed-Bold" family="DIN Condensed" pointSize="16"/>
                     <color key="textColor" white="0.90000000000000002" alpha="1" colorSpace="calibratedWhite"/>
                     <nil key="highlightedColor"/>
                 </label>
                 <button opaque="NO" tag="3" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ewv-O2-a0h">
-                    <rect key="frame" x="22" y="916" width="44" height="44"/>
+                    <rect key="frame" x="11" y="2890" width="44" height="44"/>
                     <fontDescription key="fontDescription" name="DINCondensed-Bold" family="DIN Condensed" pointSize="16"/>
                     <inset key="contentEdgeInsets" minX="12" minY="12" maxX="12" maxY="12"/>
                     <state key="normal" image="checkboxUnchecked">
@@ -414,13 +414,13 @@
                     <state key="highlighted" image="checkboxChecked"/>
                 </button>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Seizures or epilepsy" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Hzn-OZ-sKQ">
-                    <rect key="frame" x="62" y="915" width="101" height="50"/>
+                    <rect key="frame" x="61" y="2889" width="101" height="50"/>
                     <fontDescription key="fontDescription" name="DINCondensed-Bold" family="DIN Condensed" pointSize="16"/>
                     <color key="textColor" white="0.90000000000000002" alpha="1" colorSpace="calibratedWhite"/>
                     <nil key="highlightedColor"/>
                 </label>
                 <button opaque="NO" tag="4" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="don-A0-8O5">
-                    <rect key="frame" x="22" y="974" width="44" height="44"/>
+                    <rect key="frame" x="11" y="2948" width="44" height="44"/>
                     <fontDescription key="fontDescription" name="DINCondensed-Bold" family="DIN Condensed" pointSize="16"/>
                     <inset key="contentEdgeInsets" minX="12" minY="12" maxX="12" maxY="12"/>
                     <state key="normal" image="checkboxUnchecked">
@@ -430,7 +430,160 @@
                     <state key="highlighted" image="checkboxChecked"/>
                 </button>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Mental health disorder" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QDB-Rh-PKO">
-                    <rect key="frame" x="62" y="973" width="112" height="50"/>
+                    <rect key="frame" x="61" y="2947" width="112" height="50"/>
+                    <fontDescription key="fontDescription" name="DINCondensed-Bold" family="DIN Condensed" pointSize="16"/>
+                    <color key="textColor" white="0.90000000000000002" alpha="1" colorSpace="calibratedWhite"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" lineBreakMode="tailTruncation" numberOfLines="14" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="280" translatesAutoresizingMaskIntoConstraints="NO" id="0WH-zT-vTw">
+                    <rect key="frame" x="22" y="704" width="280" height="222"/>
+                    <string key="text">The behavioral experiment you are participating in aims at a better understanding of how humans use sensory information to control decisions and actions. Humans use their senses to obtain information about their surroundings and use this information make suitable behavioral responses. Some parts of the brain are in charge of processing the sensory information and some other parts are in charge of controlling our actions. In between these two parts are brain areas that enable us to analyze sensory signals so that we can make desirable and intelligent responses. Our work aims to expose the ways in which the brain evaluates sensory signals and put them to use in the control of actions.  </string>
+                    <fontDescription key="fontDescription" name="DINCondensed-Bold" family="DIN Condensed" pointSize="16"/>
+                    <color key="textColor" white="0.90000000000000002" alpha="1" colorSpace="calibratedWhite"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" lineBreakMode="tailTruncation" numberOfLines="14" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="280" translatesAutoresizingMaskIntoConstraints="NO" id="B6C-c2-4H1">
+                    <rect key="frame" x="22" y="467" width="280" height="222"/>
+                    <string key="text">Your participation in this study is completely voluntary and you are free to choose whether to be in it or not. If you choose to be in this study, you may subsequently withdraw from it at any time without penalty or consequences of any kind. The investigator may withdraw you from this research if circumstances arise which warrant doing so. In such circumstances, you will still have access to the application.</string>
+                    <fontDescription key="fontDescription" name="DINCondensed-Bold" family="DIN Condensed" pointSize="16"/>
+                    <color key="textColor" white="0.90000000000000002" alpha="1" colorSpace="calibratedWhite"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="PURPOSE OF THE STUDY" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="280" translatesAutoresizingMaskIntoConstraints="NO" id="2yf-dL-g5V">
+                    <rect key="frame" x="22" y="683" width="280" height="32"/>
+                    <fontDescription key="fontDescription" name="DINCondensed-Bold" family="DIN Condensed" pointSize="16"/>
+                    <color key="textColor" white="0.90000000000000002" alpha="1" colorSpace="calibratedWhite"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="PARTICIPATION AND WITHDRAWAL" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="280" translatesAutoresizingMaskIntoConstraints="NO" id="TNc-zH-AO6">
+                    <rect key="frame" x="22" y="487" width="280" height="32"/>
+                    <fontDescription key="fontDescription" name="DINCondensed-Bold" family="DIN Condensed" pointSize="16"/>
+                    <color key="textColor" white="0.90000000000000002" alpha="1" colorSpace="calibratedWhite"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" lineBreakMode="tailTruncation" numberOfLines="17" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="280" translatesAutoresizingMaskIntoConstraints="NO" id="Liz-Uq-J1y">
+                    <rect key="frame" x="19" y="186" width="280" height="291"/>
+                    <mutableString key="text">By using this app, you are participating in a research study conducted in the laboratory of Prof. Mehrdad Jazayeri in the McGovern Institute for Brain Research at the Massachusetts Institute of Technology (M.I.T.). You are eligible to participate in this study if you are between the ages of 18-65, are neurologically and psychiatrically healthy and do not have any current or past history of major medical, neurological, or psychiatric illness. If you are not eligible, you may still use the app, but your data will not be collected for the study. Please read the information below, and complete the screening questionnaire at the end of this document. You should read the information below, and ask questions about anything you do not understand via email (jazlab.public@gmail.com), before deciding whether or not to participate.
+</mutableString>
+                    <fontDescription key="fontDescription" name="DINCondensed-Bold" family="DIN Condensed" pointSize="16"/>
+                    <color key="textColor" white="0.90000000000000002" alpha="1" colorSpace="calibratedWhite"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="CONSENT TO PARTICIPATE" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="280" translatesAutoresizingMaskIntoConstraints="NO" id="088-Vl-ycs">
+                    <rect key="frame" x="19" y="168" width="280" height="32"/>
+                    <fontDescription key="fontDescription" name="DINCondensed-Bold" family="DIN Condensed" pointSize="16"/>
+                    <color key="textColor" white="0.90000000000000002" alpha="1" colorSpace="calibratedWhite"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" lineBreakMode="tailTruncation" numberOfLines="14" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="280" translatesAutoresizingMaskIntoConstraints="NO" id="wwn-NV-uKP">
+                    <rect key="frame" x="22" y="982" width="280" height="222"/>
+                    <mutableString key="text">If you volunteer to participate in this study, we ask that you sit or stand comfortably with your device and play some simple video games. For example, you may be asked to make judgments about the shape of an object, the timing of a flash, the location of a spot or various other simple attributes of sensory stimuli. The tasks are organized into individual trials. You will see or hear cues (e.g., flashes of light or a brief tone) to help you identify the start of the trial, and to provide you with feedback after you complete the trial. In each trial, you need to report your judgment by a simple action such as a screen or button press. We will use various metrics such as accuracy and reaction time to quantify your responses. Ideally, you should play for at least 5 minutes at a time, but this is not required.</mutableString>
+                    <fontDescription key="fontDescription" name="DINCondensed-Bold" family="DIN Condensed" pointSize="16"/>
+                    <color key="textColor" white="0.90000000000000002" alpha="1" colorSpace="calibratedWhite"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="PROCEDURES" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="280" translatesAutoresizingMaskIntoConstraints="NO" id="itr-58-YJc">
+                    <rect key="frame" x="22" y="964" width="280" height="32"/>
+                    <fontDescription key="fontDescription" name="DINCondensed-Bold" family="DIN Condensed" pointSize="16"/>
+                    <color key="textColor" white="0.90000000000000002" alpha="1" colorSpace="calibratedWhite"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="280" translatesAutoresizingMaskIntoConstraints="NO" id="4uz-lS-PPh">
+                    <rect key="frame" x="19" y="1242" width="280" height="32"/>
+                    <string key="text">POTENTIAL RISKS AND DISCOMFORTS
+</string>
+                    <fontDescription key="fontDescription" name="DINCondensed-Bold" family="DIN Condensed" pointSize="16"/>
+                    <color key="textColor" white="0.90000000000000002" alpha="1" colorSpace="calibratedWhite"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="You should not expect any benefits as a result of participating in this research." lineBreakMode="tailTruncation" numberOfLines="14" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="280" translatesAutoresizingMaskIntoConstraints="NO" id="O8O-EB-Zh7">
+                    <rect key="frame" x="19" y="1419" width="280" height="65"/>
+                    <fontDescription key="fontDescription" name="DINCondensed-Bold" family="DIN Condensed" pointSize="16"/>
+                    <color key="textColor" white="0.90000000000000002" alpha="1" colorSpace="calibratedWhite"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="280" translatesAutoresizingMaskIntoConstraints="NO" id="wTc-XL-yA4">
+                    <rect key="frame" x="19" y="1408" width="280" height="32"/>
+                    <string key="text">ANTICIPATED BENEFITS TO SUBJECTS
+</string>
+                    <fontDescription key="fontDescription" name="DINCondensed-Bold" family="DIN Condensed" pointSize="16"/>
+                    <color key="textColor" white="0.90000000000000002" alpha="1" colorSpace="calibratedWhite"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" lineBreakMode="tailTruncation" numberOfLines="14" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="280" translatesAutoresizingMaskIntoConstraints="NO" id="bgQ-IE-dZN">
+                    <rect key="frame" x="19" y="1520" width="280" height="43"/>
+                    <string key="text">There will be no payment for participation.
+</string>
+                    <fontDescription key="fontDescription" name="DINCondensed-Bold" family="DIN Condensed" pointSize="16"/>
+                    <color key="textColor" white="0.90000000000000002" alpha="1" colorSpace="calibratedWhite"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="280" translatesAutoresizingMaskIntoConstraints="NO" id="8jr-fY-7xv">
+                    <rect key="frame" x="19" y="1506" width="280" height="32"/>
+                    <string key="text">PAYMENT FOR PARTICIPATION
+</string>
+                    <fontDescription key="fontDescription" name="DINCondensed-Bold" family="DIN Condensed" pointSize="16"/>
+                    <color key="textColor" white="0.90000000000000002" alpha="1" colorSpace="calibratedWhite"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" lineBreakMode="tailTruncation" numberOfLines="14" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="280" translatesAutoresizingMaskIntoConstraints="NO" id="UBJ-YK-P3j">
+                    <rect key="frame" x="19" y="1588" width="280" height="256"/>
+                    <mutableString key="text">Any information that is obtained in connection with this study and that can be identified with you will remain confidential and will be disclosed only with your permission or as required by law.
+ 
+This app will record your device’s identifier to associate with the data that you generate. Other personally identifiable information, such as name and date of birth, will not be gathered by the application. When the study is completed, the raw and processed data will be kept in storage for several years in the laboratory on archival media.  The data might be re-analyzed at a later date when new analysis procedures become available without further permission.</mutableString>
+                    <fontDescription key="fontDescription" name="DINCondensed-Bold" family="DIN Condensed" pointSize="16"/>
+                    <color key="textColor" white="0.90000000000000002" alpha="1" colorSpace="calibratedWhite"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="CONFIDENTIALITY" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="280" translatesAutoresizingMaskIntoConstraints="NO" id="qQ4-Ni-Yms">
+                    <rect key="frame" x="19" y="1578" width="280" height="32"/>
+                    <fontDescription key="fontDescription" name="DINCondensed-Bold" family="DIN Condensed" pointSize="16"/>
+                    <color key="textColor" white="0.90000000000000002" alpha="1" colorSpace="calibratedWhite"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" lineBreakMode="tailTruncation" numberOfLines="14" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="280" translatesAutoresizingMaskIntoConstraints="NO" id="tFY-nN-OYL">
+                    <rect key="frame" x="19" y="1880" width="280" height="94"/>
+                    <string key="text">If you have any questions or concerns about the research, please feel free to contact the Principal Investigator Dr. Mehrdad Jazayeri (jazlab.public@mit.edu).
+ </string>
+                    <fontDescription key="fontDescription" name="DINCondensed-Bold" family="DIN Condensed" pointSize="16"/>
+                    <color key="textColor" white="0.90000000000000002" alpha="1" colorSpace="calibratedWhite"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="280" translatesAutoresizingMaskIntoConstraints="NO" id="tGE-QW-Ykx">
+                    <rect key="frame" x="19" y="1869" width="280" height="32"/>
+                    <string key="text">IDENTIFICATION OF INVESTIGATORS
+</string>
+                    <fontDescription key="fontDescription" name="DINCondensed-Bold" family="DIN Condensed" pointSize="16"/>
+                    <color key="textColor" white="0.90000000000000002" alpha="1" colorSpace="calibratedWhite"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" lineBreakMode="tailTruncation" numberOfLines="14" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="280" translatesAutoresizingMaskIntoConstraints="NO" id="tzY-z2-Kbr">
+                    <rect key="frame" x="22" y="2001" width="280" height="162"/>
+                    <string key="text">You are not waiving any legal claims, rights or remedies because of your participation in this research study.  If you feel you have been treated unfairly or you have questions regarding your rights as a research subject, you may contact the Chairman of the Committee on the Use of Humans as Experimental Subjects, M.I.T., Room E25-143B, 77 Massachusetts Ave, Cambridge, MA 02139, phone 1-617-253 6787.</string>
+                    <fontDescription key="fontDescription" name="DINCondensed-Bold" family="DIN Condensed" pointSize="16"/>
+                    <color key="textColor" white="0.90000000000000002" alpha="1" colorSpace="calibratedWhite"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="280" translatesAutoresizingMaskIntoConstraints="NO" id="JPM-En-oBP">
+                    <rect key="frame" x="22" y="1998" width="280" height="32"/>
+                    <string key="text">RIGHTS OF RESEARCH SUBJECTS
+</string>
+                    <fontDescription key="fontDescription" name="DINCondensed-Bold" family="DIN Condensed" pointSize="16"/>
+                    <color key="textColor" white="0.90000000000000002" alpha="1" colorSpace="calibratedWhite"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="280" translatesAutoresizingMaskIntoConstraints="NO" id="EfD-BI-I74">
+                    <rect key="frame" x="19" y="2230" width="280" height="32"/>
+                    <string key="text">SCREENING INFORMATION
+</string>
+                    <fontDescription key="fontDescription" name="DINCondensed-Bold" family="DIN Condensed" pointSize="16"/>
+                    <color key="textColor" white="0.90000000000000002" alpha="1" colorSpace="calibratedWhite"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" lineBreakMode="tailTruncation" numberOfLines="14" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="280" translatesAutoresizingMaskIntoConstraints="NO" id="c3D-6Z-3cS">
+                    <rect key="frame" x="19" y="1251" width="280" height="144"/>
+                    <string key="text">There are no known risks or expected discomfort associated with this specific application. However, there may be risks associated with the usage of mobile device usage that would apply similarly to the usage of this application. If you feel any discomfort, you may terminate your participation at any time. The procedure may involve risks that are currently unforeseeable.
+</string>
                     <fontDescription key="fontDescription" name="DINCondensed-Bold" family="DIN Condensed" pointSize="16"/>
                     <color key="textColor" white="0.90000000000000002" alpha="1" colorSpace="calibratedWhite"/>
                     <nil key="highlightedColor"/>
@@ -438,13 +591,13 @@
             </subviews>
             <simulatedOrientationMetrics key="simulatedOrientationMetrics"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-            <point key="canvasLocation" x="339" y="928"/>
+            <point key="canvasLocation" x="339" y="1900"/>
         </view>
     </objects>
     <resources>
-        <image name="checkboxChecked" width="88" height="88"/>
-        <image name="checkboxUnchecked" width="88" height="88"/>
-        <image name="radioOff" width="88" height="88"/>
-        <image name="radioOn" width="88" height="88"/>
+        <image name="checkboxChecked" width="44" height="44"/>
+        <image name="checkboxUnchecked" width="44" height="44"/>
+        <image name="radioOff" width="44" height="44"/>
+        <image name="radioOn" width="44" height="44"/>
     </resources>
 </document>
