@@ -612,7 +612,6 @@
    float startPos=screenHeight*.5+110;
    float endPos=screenHeight-110-47.5-startPos;
    bestLabel.center=CGPointMake(screenWidth*.5, startPos+(endPos)*(1.0-d));
-//
     
     
     if(scrollView.contentOffset.y<screenHeight*.5){
@@ -651,6 +650,8 @@
         }
     }
     
+    
+    
 }
 
 - (void)scrollViewWillEndDragging:(UIScrollView *)_scrollView withVelocity: (CGPoint)velocity targetContentOffset:(inout CGPoint *)targetContentOffset
@@ -687,7 +688,7 @@
     Reachability *reach = [Reachability reachabilityForInternetConnection];
     NetworkStatus netStatus = [reach currentReachabilityStatus];
     if((netStatus != NotReachable && [[NSUserDefaults standardUserDefaults] boolForKey:@"showSurvey"]) ){
-        [self performSelector:@selector(showIntroView) withObject:self afterDelay:3.5];
+        [self performSelector:@selector(showIntroView) withObject:self afterDelay:2.5];
     }
 }
 
@@ -774,11 +775,6 @@
             [[NSUserDefaults standardUserDefaults] synchronize];
             
         }
-//        else if([[NSUserDefaults standardUserDefaults] boolForKey:@"showSurvey"]){
-//            [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"showSurvey"]; //do this on i agree button press
-//            [[NSUserDefaults standardUserDefaults] synchronize];
-            
-//        }
         return;
     }
     
@@ -804,6 +800,13 @@
 }
 
 -(void)hideStartScreen{
+    
+    if([[NSUserDefaults standardUserDefaults] boolForKey:@"showIntro1"]){
+        [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"showIntro1"];
+        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"showSurvey"];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+        
+    }
 
     [self animateLevelReset];
     [self setLevel:currentLevel];
@@ -1068,6 +1071,7 @@
 -(void)showIntroView{
     [scrollView setContentOffset:CGPointMake(0, screenHeight*1.5) animated:YES];
 
+    
 }
 
 #pragma mark DATA
