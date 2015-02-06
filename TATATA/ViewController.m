@@ -54,6 +54,9 @@
     if([defaults objectForKey:@"best"] == nil) best=0;
     else best = (int)[defaults integerForKey:@"best"];
     
+    if([defaults objectForKey:@"lastScore"] == nil) lastScore=0;
+    else lastScore = (int)[defaults integerForKey:@"lastScore"];
+    
     if([defaults objectForKey:@"showIntro1"] == nil) [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"showIntro1"];
 //    else showIntro = (int)[defaults integerForKey:@"showIntro1"];
 //
@@ -356,7 +359,7 @@
     [gameCenterButton setImageEdgeInsets:UIEdgeInsetsMake(inset,inset,inset,inset)];
     [scrollView addSubview:gameCenterButton];
 
-    [self updateHighscore];
+    //[self updateHighscore];
     
     
     infoButton = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -752,7 +755,9 @@
 
 -(void)updateHighscore{
     bestLabel.text=[NSString stringWithFormat:@"%i",best];
-    scoreLabel.text=[NSString stringWithFormat:@"%i",currentLevel];
+    scoreLabel.text=[NSString stringWithFormat:@"%i",lastScore];
+
+    
 }
 
 
@@ -1127,6 +1132,10 @@
             [defaults setInteger:best forKey:@"best"];
         }
     }
+    lastScore=currentLevel;
+    [[NSUserDefaults standardUserDefaults] setInteger:lastScore forKey:@"lastScore"];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+    
     [self updateHighscore];
     [defaults synchronize];
     
@@ -1413,6 +1422,8 @@
 # pragma mark LABELS
 -(void)showLabels:(BOOL) show{
     
+    bestLabel.text=[NSString stringWithFormat:@"%i",best];
+    scoreLabel.text=[NSString stringWithFormat:@"%i",lastScore];
     
     [UIView animateWithDuration:0.4
                           delay:0.0

@@ -110,6 +110,7 @@
     
     #pragma mark - points
     int best;
+    int lastScore;
     float accuracyScore;
     int currentLevel;
     Sparkline *scoreGraph;
