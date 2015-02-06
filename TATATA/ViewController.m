@@ -1201,7 +1201,7 @@
     [ball setColor:strokeColor];
     [ball setNeedsDisplay];
     
-    trialDelay =.8+((double)arc4random() / ARC4RANDOM_MAX)*1.4;
+    trialDelay =1.8+((double)arc4random() / ARC4RANDOM_MAX)*1.4;
     float objAlpha=.4;
 
     //ambient lights
@@ -1218,7 +1218,7 @@
         objAlpha=1.0;
     }
     
-    if(currentLevel<=1)trialDelay=1.6;
+    if(currentLevel<=1)trialDelay=2.2;
     if(currentLevel%(int)(nTrialsInStage)==0 && currentLevel!=0)trialDelay+=1.6;
     
     [UIView animateWithDuration:.8
@@ -1233,9 +1233,7 @@
                          midMarkR.alpha=objAlpha;
                          arc.alpha=objAlpha;
                          
-                         //dim ball after example level
-                         ball.alpha=0;
-                         [ball setNeedsDisplay];
+
                          
                          //hide annotation
                          ballAnnotation.alpha=0;
@@ -1269,9 +1267,7 @@
 
                                                 catchZoneDuration=.4;
                                               }
-                                              
-                                              
-                                              [UIView animateWithDuration:catchZoneDuration
+                                            [UIView animateWithDuration:catchZoneDuration
                                                                     delay:0.0
                                                                   options:UIViewAnimationOptionCurveEaseOut
                                                                animations:^{
@@ -1286,7 +1282,18 @@
                                                                                         catchZone.alpha=.5;
                                                                                     }
                                                                                     completion:^(BOOL finished){
-                                                     
+                                                                                        [UIView animateWithDuration:0.8
+                                                                                                              delay:0.0
+                                                                                                            options:UIViewAnimationOptionCurveEaseOut
+                                                                                                         animations:^{
+                                                                                                             if(currentLevel>0){
+                                                                                                                 ball.alpha=0;
+                                                                                                                 [ball setNeedsDisplay];
+                                                                                                            }
+                                                                                                         }
+                                                                                                         completion:^(BOOL finished){
+                                                                                                             
+                                                                                                         }];
                                                                                     }];
                                                                }];
                                           }];
@@ -1404,7 +1411,7 @@
     //    if (level>=3) f=.5-random*.1;
     //float f=[currentTrial[@"d1"] floatValue]/([currentTrial[@"d1"] floatValue]+[currentTrial[@"d2"] floatValue]);
     
-    float f=[currentTrial[@"d1"] floatValue]/([currentTrial[@"d1"] floatValue]+[currentTrial[@"d2"] floatValue]);
+    float f=[currentTrial[@"d1"] floatValue]/([currentTrial[@"d2"] floatValue]+[currentTrial[@"d2"] floatValue]);
     return f;
 }
 
@@ -1541,7 +1548,7 @@
                          ball.center=CGPointMake(screenWidth*.5, startY);
                          [ball setColor:strokeColor];
                          
-                         if(currentLevel>1)ball.alpha=dimAlpha;
+                         if(currentLevel>1) ball.alpha=.5;
                          [ball setNeedsDisplay];
                          currentScoreLabel.alpha=0;
                          
