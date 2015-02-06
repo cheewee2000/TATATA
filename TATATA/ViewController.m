@@ -404,7 +404,19 @@
     
     midMarkL.alpha=dimAlpha;
     midMarkR.alpha=dimAlpha;
+    
+    
+    midMarkLabel=[[UICountingLabel alloc] initWithFrame:CGRectMake(0, -25, 100, 20)];
+    midMarkLabel.text=@"50%";
+    midMarkLabel.format = @"%.0f%%";
+    midMarkLabel.font = [UIFont fontWithName:@"HelveticaNeue-Thin" size:15];
+    midMarkLabel.alpha=0;
+    midMarkLabel.textColor=strokeColor;
+    midMarkLabel.method = UILabelCountingMethodLinear;
 
+    [midMarkL addSubview:midMarkLabel];
+    
+    
     
 #pragma mark - intro
     intro=[[UIView alloc] initWithFrame:CGRectMake(0, screenHeight*1.5, screenWidth, screenHeight)];
@@ -1537,22 +1549,20 @@
 //                             catchZoneLabel.alpha=1;
 //                             catchZone.alpha=1;
 //                         }
+                         
+                         if(midMarkLine.center.y!=startY+(endY-startY)*flashT){
+                             midMarkLabel.alpha=1;
+                             midMarkLine.alpha=1;
+                             midMarkL.alpha=1;
+                             midMarkR.alpha=1;
+                             
+                         }
                      }
                      completion:^(BOOL finished){
-
-//                         float catchZoneDuration=0;
-//                         if(currentLevel%(int)nTrialsInStage==0 && currentLevel!=0)catchZoneDuration=.8;
-//                         
-//            
-//                         [UIView animateWithDuration:catchZoneDuration
-//                                        delay:0.0
-//                                      options:UIViewAnimationOptionCurveEaseOut
-//                                   animations:^{
-//                                       [self setCatchZoneDiameter];
-//                                       //ball.alpha=0;
-//                                       //[ball setNeedsDisplay];
-//                                   }
-//                                   completion:^(BOOL finished){
+                         
+                         if(midMarkLine.center.y!=startY+(endY-startY)*flashT){
+                             [midMarkLabel countFrom:0  to:(int)(flashT*100) withDuration:.4f];
+                         }
                                        [UIView animateWithDuration:0.4
                                                              delay:0.0
                                                            options:UIViewAnimationOptionCurveEaseOut
@@ -1565,11 +1575,25 @@
                                                             midMarkLine.center=CGPointMake(midMarkLine.center.x, startY+(endY-startY)*flashT);
                                                         }
                                                         completion:^(BOOL finished){
-                                                            //autostart next level
-                                                            if(currentLevel>0){
-                                                                trialSequence=0;
-                                                                [self buttonPressed];
-                                                            }
+                                                            
+                                                            [UIView animateWithDuration:0.4
+                                                                                  delay:0.4
+                                                                                options:UIViewAnimationOptionCurveEaseOut
+                                                                             animations:^{
+                                                                                 midMarkLabel.alpha=dimAlpha;
+                                                                                 midMarkLine.alpha=dimAlpha;
+//                                                                                 midMarkL.alpha=dimAlpha;
+//                                                                                 midMarkR.alpha=dimAlpha;
+                                                                             }
+                                                                             completion:^(BOOL finished){
+                                                                                 //autostart next level
+                                                                                 if(currentLevel>0){
+                                                                                     trialSequence=0;
+                                                                                     [self buttonPressed];
+                                                                                 }
+                                                                                 
+                                                                             }];
+                                                
                                                             
                                                         }];
                                    }];

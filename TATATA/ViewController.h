@@ -66,6 +66,9 @@
     UILabel * currentScoreLabel;
 
     float flashT;
+    float lastFlashT;
+    UICountingLabel * midMarkLabel;
+    
     UIColor *bgColor;
     UIColor *fgColor;
     UIColor *flashColor;
