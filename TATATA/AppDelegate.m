@@ -4,6 +4,7 @@
 //#import "TestFlight.h"
 #import <Parse/Parse.h>
 //#import <ParseCrashReporting/ParseCrashReporting.h>
+#import <Crashlytics/Crashlytics.h>
 
 @implementation AppDelegate
 
@@ -14,8 +15,7 @@
 {
     // Override point for customization after application launch.
 
-    [[UIApplication sharedApplication] setIdleTimerDisabled:YES];
-    [[UIApplication sharedApplication] setStatusBarHidden:YES];
+
     
     
     //[ParseCrashReporting enable];
@@ -23,6 +23,18 @@
     [Parse setApplicationId:@"bYOBEce4TlOAtXs7Y9BxrsEIVLYOqfMxsLLVjNAj"
                   clientKey:@"ykory1V1jt9Q3gNG0tZX27nSCEsXRU92t2bkw6CP"];
     [PFAnalytics trackAppOpenedWithLaunchOptions:launchOptions];
+
+    
+
+    
+    //[TestFlight takeOff:@"4191ad30-4dcc-4447-9ca6-9bd696285036"];
+    [PFUser enableAutomaticUser];
+    [[PFUser currentUser] incrementKey:@"RunCount"];
+    [[PFUser currentUser] saveInBackground];
+    
+    
+    
+    [Crashlytics startWithAPIKey:@"1eb6d15737d50f2df4316cb5b8b073da76a42b67"];
 
     
     // Register for Push Notitications
@@ -34,10 +46,10 @@
     [application registerUserNotificationSettings:settings];
     [application registerForRemoteNotifications];
     
-    //[TestFlight takeOff:@"4191ad30-4dcc-4447-9ca6-9bd696285036"];
-    [PFUser enableAutomaticUser];
-    [[PFUser currentUser] incrementKey:@"RunCount"];
-    [[PFUser currentUser] saveInBackground];
+    
+    [[UIApplication sharedApplication] setIdleTimerDisabled:YES];
+    [[UIApplication sharedApplication] setStatusBarHidden:YES];
+    
     
     return YES;
 }
