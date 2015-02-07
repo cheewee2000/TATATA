@@ -45,6 +45,8 @@
     aTimer = [MachTimer timer];
     viewLoaded=false;
     
+    flashT=.5;
+    
     [self authenticateLocalPlayer];
 
     self.view.backgroundColor=bgColor;
@@ -388,17 +390,17 @@
     int courtWidth=320;
     
 
-    midMarkLine=[[UIView alloc] initWithFrame:CGRectMake(screenWidth*.5-courtWidth*.5, 0, courtWidth, 1)];
+    midMarkLine=[[UIView alloc] initWithFrame:CGRectMake(screenWidth*.5-courtWidth*.5, screenHeight*.5, courtWidth, 2)];
     midMarkLine.backgroundColor=strokeColor;
     midMarkLine.alpha=dimAlpha;
     [self.view addSubview:midMarkLine];
     
     
-    midMarkL=[[UIView alloc] initWithFrame:CGRectMake(screenWidth*.5-courtWidth*.5, 0, markWidth, markHeight)];
+    midMarkL=[[UIView alloc] initWithFrame:CGRectMake(screenWidth*.5-courtWidth*.5, screenHeight*.5, markWidth, markHeight)];
     midMarkL.backgroundColor=strokeColor;
     [self.view addSubview:midMarkL];
     
-    midMarkR=[[UIView alloc] initWithFrame:CGRectMake(screenWidth*.5+courtWidth*.5-markWidth, 0, markWidth, markHeight)];
+    midMarkR=[[UIView alloc] initWithFrame:CGRectMake(screenWidth*.5+courtWidth*.5-markWidth, screenHeight*.5, markWidth, markHeight)];
     midMarkR.backgroundColor=strokeColor;
     [self.view addSubview:midMarkR];
     
