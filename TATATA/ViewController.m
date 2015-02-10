@@ -455,13 +455,13 @@
     paragraphStyles.alignment                = NSTextAlignmentLeft;
     paragraphStyles.firstLineHeadIndent      = 0.05;    // Very IMP
     
-    introParagraph=[[UILabel alloc] initWithFrame:CGRectMake(m, introTitle.frame.origin.y+introTitle.frame.size.height+10, w, 280)];
+    introParagraph=[[UILabel alloc] initWithFrame:CGRectMake(m, introTitle.frame.origin.y+introTitle.frame.size.height+10, w, 230)];
     introParagraph.center=CGPointMake(screenWidth*.5, introParagraph.center.y);
-    introParagraph.font = [UIFont fontWithName:@"Helvetica" size:15];
+    introParagraph.font = [UIFont fontWithName:@"DIN Condensed" size:18];
     introParagraph.numberOfLines=20;
     introParagraph.textColor=strokeColor;
     
-    NSString *stringTojustify                = @"Darkball boils down eye-hand coordination, reaction speed and timing into the most fundamental elements.\n\nCristiano Ronaldo can famously volley a corner kick in total darkness. At the root of this superpower is sensorimotor integration of advance cues. \n\nAthletic performance combines strength, technique, skill, and mental ability. Darkball is about challenging your mental ability. In this simple task, we isolate and focus on your ability to use advance cues and prediction to build up your eye-hand coordination.";
+    NSString *stringTojustify                = @"Cristiano Ronaldo can famously volley a corner kick in total darkness. The magic behind this remarkable feat is hidden in Cristiano’s brain which enables him to use advance cues to plan upcoming actions. Darkball is an app that challenges your mental ability on a similar task: intercept a moving ball in the dark.\n\nDarkball boils down eye-hand coordination, reaction speed and timing into the most fundamental elements. All you see is all you need.";
     NSDictionary *attributes                 = @{NSParagraphStyleAttributeName: paragraphStyles};
     NSAttributedString *attributedString     = [[NSAttributedString alloc] initWithString:stringTojustify attributes:attributes];
     

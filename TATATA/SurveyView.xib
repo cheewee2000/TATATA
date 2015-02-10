@@ -436,16 +436,16 @@
                     <nil key="highlightedColor"/>
                 </label>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" lineBreakMode="tailTruncation" numberOfLines="14" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="280" translatesAutoresizingMaskIntoConstraints="NO" id="0WH-zT-vTw">
-                    <rect key="frame" x="22" y="704" width="280" height="222"/>
+                    <rect key="frame" x="22" y="692" width="280" height="222"/>
                     <string key="text">The behavioral experiment you are participating in aims at a better understanding of how humans use sensory information to control decisions and actions. Humans use their senses to obtain information about their surroundings and use this information make suitable behavioral responses. Some parts of the brain are in charge of processing the sensory information and some other parts are in charge of controlling our actions. In between these two parts are brain areas that enable us to analyze sensory signals so that we can make desirable and intelligent responses. Our work aims to expose the ways in which the brain evaluates sensory signals and put them to use in the control of actions.  </string>
-                    <fontDescription key="fontDescription" name="DINCondensed-Bold" family="DIN Condensed" pointSize="16"/>
+                    <fontDescription key="fontDescription" name="DINCondensed-Bold" family="DIN Condensed" pointSize="14"/>
                     <color key="textColor" white="0.90000000000000002" alpha="1" colorSpace="calibratedWhite"/>
                     <nil key="highlightedColor"/>
                 </label>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" lineBreakMode="tailTruncation" numberOfLines="14" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="280" translatesAutoresizingMaskIntoConstraints="NO" id="B6C-c2-4H1">
-                    <rect key="frame" x="22" y="467" width="280" height="222"/>
+                    <rect key="frame" x="22" y="462" width="280" height="222"/>
                     <string key="text">Your participation in this study is completely voluntary and you are free to choose whether to be in it or not. If you choose to be in this study, you may subsequently withdraw from it at any time without penalty or consequences of any kind. The investigator may withdraw you from this research if circumstances arise which warrant doing so. In such circumstances, you will still have access to the application.</string>
-                    <fontDescription key="fontDescription" name="DINCondensed-Bold" family="DIN Condensed" pointSize="16"/>
+                    <fontDescription key="fontDescription" name="DINCondensed-Bold" family="DIN Condensed" pointSize="14"/>
                     <color key="textColor" white="0.90000000000000002" alpha="1" colorSpace="calibratedWhite"/>
                     <nil key="highlightedColor"/>
                 </label>
@@ -462,23 +462,23 @@
                     <nil key="highlightedColor"/>
                 </label>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" lineBreakMode="tailTruncation" numberOfLines="17" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="280" translatesAutoresizingMaskIntoConstraints="NO" id="Liz-Uq-J1y">
-                    <rect key="frame" x="19" y="186" width="280" height="291"/>
-                    <mutableString key="text">By using this app, you are participating in a research study conducted in the laboratory of Prof. Mehrdad Jazayeri in the McGovern Institute for Brain Research at the Massachusetts Institute of Technology (M.I.T.). You are eligible to participate in this study if you are between the ages of 18-65, are neurologically and psychiatrically healthy and do not have any current or past history of major medical, neurological, or psychiatric illness. If you are not eligible, you may still use the app, but your data will not be collected for the study. Please read the information below, and complete the screening questionnaire at the end of this document. You should read the information below, and ask questions about anything you do not understand via email (jazlab.public@gmail.com), before deciding whether or not to participate.
-</mutableString>
-                    <fontDescription key="fontDescription" name="DINCondensed-Bold" family="DIN Condensed" pointSize="16"/>
+                    <rect key="frame" x="19" y="181" width="280" height="291"/>
+                    <string key="text">By using this app, you are participating in a research study conducted in the laboratory of Prof. Mehrdad Jazayeri in the McGovern Institute for Brain Research at the Massachusetts Institute of Technology (M.I.T.). You are eligible to participate in this study if you are between the ages of 18-65, are neurologically and psychiatrically healthy and do not have any current or past history of major medical, neurological, or psychiatric illness. If you are not eligible, you may still use the app, but your data will not be collected for the study. Please read the information below, and complete the screening questionnaire at the end of this document. You should read the information below, and ask questions about anything you do not understand via email (jazlab.public@gmail.com), before deciding whether or not to participate.
+</string>
+                    <fontDescription key="fontDescription" name="DINCondensed-Bold" family="DIN Condensed" pointSize="14"/>
                     <color key="textColor" white="0.90000000000000002" alpha="1" colorSpace="calibratedWhite"/>
                     <nil key="highlightedColor"/>
                 </label>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="CONSENT TO PARTICIPATE" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="280" translatesAutoresizingMaskIntoConstraints="NO" id="088-Vl-ycs">
-                    <rect key="frame" x="19" y="168" width="280" height="32"/>
+                    <rect key="frame" x="19" y="178" width="280" height="32"/>
                     <fontDescription key="fontDescription" name="DINCondensed-Bold" family="DIN Condensed" pointSize="16"/>
                     <color key="textColor" white="0.90000000000000002" alpha="1" colorSpace="calibratedWhite"/>
                     <nil key="highlightedColor"/>
                 </label>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" lineBreakMode="tailTruncation" numberOfLines="14" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="280" translatesAutoresizingMaskIntoConstraints="NO" id="wwn-NV-uKP">
                     <rect key="frame" x="22" y="982" width="280" height="222"/>
-                    <mutableString key="text">If you volunteer to participate in this study, we ask that you sit or stand comfortably with your device and play some simple video games. For example, you may be asked to make judgments about the shape of an object, the timing of a flash, the location of a spot or various other simple attributes of sensory stimuli. The tasks are organized into individual trials. You will see or hear cues (e.g., flashes of light or a brief tone) to help you identify the start of the trial, and to provide you with feedback after you complete the trial. In each trial, you need to report your judgment by a simple action such as a screen or button press. We will use various metrics such as accuracy and reaction time to quantify your responses. Ideally, you should play for at least 5 minutes at a time, but this is not required.</mutableString>
-                    <fontDescription key="fontDescription" name="DINCondensed-Bold" family="DIN Condensed" pointSize="16"/>
+                    <string key="text">If you volunteer to participate in this study, we ask that you sit or stand comfortably with your device and play some simple video games. For example, you may be asked to make judgments about the shape of an object, the timing of a flash, the location of a spot or various other simple attributes of sensory stimuli. The tasks are organized into individual trials. You will see or hear cues (e.g., flashes of light or a brief tone) to help you identify the start of the trial, and to provide you with feedback after you complete the trial. In each trial, you need to report your judgment by a simple action such as a screen or button press. We will use various metrics such as accuracy and reaction time to quantify your responses. Ideally, you should play for at least 5 minutes at a time, but this is not required.</string>
+                    <fontDescription key="fontDescription" name="DINCondensed-Bold" family="DIN Condensed" pointSize="14"/>
                     <color key="textColor" white="0.90000000000000002" alpha="1" colorSpace="calibratedWhite"/>
                     <nil key="highlightedColor"/>
                 </label>
@@ -497,8 +497,8 @@
                     <nil key="highlightedColor"/>
                 </label>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="You should not expect any benefits as a result of participating in this research." lineBreakMode="tailTruncation" numberOfLines="14" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="280" translatesAutoresizingMaskIntoConstraints="NO" id="O8O-EB-Zh7">
-                    <rect key="frame" x="19" y="1419" width="280" height="65"/>
-                    <fontDescription key="fontDescription" name="DINCondensed-Bold" family="DIN Condensed" pointSize="16"/>
+                    <rect key="frame" x="19" y="1416" width="280" height="65"/>
+                    <fontDescription key="fontDescription" name="DINCondensed-Bold" family="DIN Condensed" pointSize="14"/>
                     <color key="textColor" white="0.90000000000000002" alpha="1" colorSpace="calibratedWhite"/>
                     <nil key="highlightedColor"/>
                 </label>
@@ -514,7 +514,7 @@
                     <rect key="frame" x="19" y="1520" width="280" height="43"/>
                     <string key="text">There will be no payment for participation.
 </string>
-                    <fontDescription key="fontDescription" name="DINCondensed-Bold" family="DIN Condensed" pointSize="16"/>
+                    <fontDescription key="fontDescription" name="DINCondensed-Bold" family="DIN Condensed" pointSize="14"/>
                     <color key="textColor" white="0.90000000000000002" alpha="1" colorSpace="calibratedWhite"/>
                     <nil key="highlightedColor"/>
                 </label>
@@ -527,11 +527,11 @@
                     <nil key="highlightedColor"/>
                 </label>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" lineBreakMode="tailTruncation" numberOfLines="14" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="280" translatesAutoresizingMaskIntoConstraints="NO" id="UBJ-YK-P3j">
-                    <rect key="frame" x="19" y="1588" width="280" height="256"/>
-                    <mutableString key="text">Any information that is obtained in connection with this study and that can be identified with you will remain confidential and will be disclosed only with your permission or as required by law.
+                    <rect key="frame" x="19" y="1576" width="280" height="256"/>
+                    <string key="text">Any information that is obtained in connection with this study and that can be identified with you will remain confidential and will be disclosed only with your permission or as required by law.
  
-This app will record your device’s identifier to associate with the data that you generate. Other personally identifiable information, such as name and date of birth, will not be gathered by the application. When the study is completed, the raw and processed data will be kept in storage for several years in the laboratory on archival media.  The data might be re-analyzed at a later date when new analysis procedures become available without further permission.</mutableString>
-                    <fontDescription key="fontDescription" name="DINCondensed-Bold" family="DIN Condensed" pointSize="16"/>
+This app will record your device’s identifier to associate with the data that you generate. Other personally identifiable information, such as name and date of birth, will not be gathered by the application. When the study is completed, the raw and processed data will be kept in storage for several years in the laboratory on archival media.  The data might be re-analyzed at a later date when new analysis procedures become available without further permission.</string>
+                    <fontDescription key="fontDescription" name="DINCondensed-Bold" family="DIN Condensed" pointSize="14"/>
                     <color key="textColor" white="0.90000000000000002" alpha="1" colorSpace="calibratedWhite"/>
                     <nil key="highlightedColor"/>
                 </label>
@@ -542,10 +542,10 @@ This app will record your device’s identifier to associate with the data that 
                     <nil key="highlightedColor"/>
                 </label>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" lineBreakMode="tailTruncation" numberOfLines="14" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="280" translatesAutoresizingMaskIntoConstraints="NO" id="tFY-nN-OYL">
-                    <rect key="frame" x="19" y="1880" width="280" height="94"/>
+                    <rect key="frame" x="19" y="1875" width="280" height="94"/>
                     <string key="text">If you have any questions or concerns about the research, please feel free to contact the Principal Investigator Dr. Mehrdad Jazayeri (jazlab.public@mit.edu).
  </string>
-                    <fontDescription key="fontDescription" name="DINCondensed-Bold" family="DIN Condensed" pointSize="16"/>
+                    <fontDescription key="fontDescription" name="DINCondensed-Bold" family="DIN Condensed" pointSize="14"/>
                     <color key="textColor" white="0.90000000000000002" alpha="1" colorSpace="calibratedWhite"/>
                     <nil key="highlightedColor"/>
                 </label>
@@ -558,9 +558,9 @@ This app will record your device’s identifier to associate with the data that 
                     <nil key="highlightedColor"/>
                 </label>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" lineBreakMode="tailTruncation" numberOfLines="14" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="280" translatesAutoresizingMaskIntoConstraints="NO" id="tzY-z2-Kbr">
-                    <rect key="frame" x="22" y="2001" width="280" height="162"/>
+                    <rect key="frame" x="22" y="1991" width="280" height="162"/>
                     <string key="text">You are not waiving any legal claims, rights or remedies because of your participation in this research study.  If you feel you have been treated unfairly or you have questions regarding your rights as a research subject, you may contact the Chairman of the Committee on the Use of Humans as Experimental Subjects, M.I.T., Room E25-143B, 77 Massachusetts Ave, Cambridge, MA 02139, phone 1-617-253 6787.</string>
-                    <fontDescription key="fontDescription" name="DINCondensed-Bold" family="DIN Condensed" pointSize="16"/>
+                    <fontDescription key="fontDescription" name="DINCondensed-Bold" family="DIN Condensed" pointSize="14"/>
                     <color key="textColor" white="0.90000000000000002" alpha="1" colorSpace="calibratedWhite"/>
                     <nil key="highlightedColor"/>
                 </label>
@@ -581,10 +581,10 @@ This app will record your device’s identifier to associate with the data that 
                     <nil key="highlightedColor"/>
                 </label>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" lineBreakMode="tailTruncation" numberOfLines="14" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="280" translatesAutoresizingMaskIntoConstraints="NO" id="c3D-6Z-3cS">
-                    <rect key="frame" x="19" y="1251" width="280" height="144"/>
+                    <rect key="frame" x="19" y="1252" width="280" height="144"/>
                     <string key="text">There are no known risks or expected discomfort associated with this specific application. However, there may be risks associated with the usage of mobile device usage that would apply similarly to the usage of this application. If you feel any discomfort, you may terminate your participation at any time. The procedure may involve risks that are currently unforeseeable.
 </string>
-                    <fontDescription key="fontDescription" name="DINCondensed-Bold" family="DIN Condensed" pointSize="16"/>
+                    <fontDescription key="fontDescription" name="DINCondensed-Bold" family="DIN Condensed" pointSize="14"/>
                     <color key="textColor" white="0.90000000000000002" alpha="1" colorSpace="calibratedWhite"/>
                     <nil key="highlightedColor"/>
                 </label>
