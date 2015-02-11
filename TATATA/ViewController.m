@@ -461,7 +461,7 @@
     introParagraph.numberOfLines=20;
     introParagraph.textColor=strokeColor;
     
-    NSString *stringTojustify                = @"Cristiano Ronaldo can famously volley a corner kick in total darkness. The magic behind this remarkable feat is hidden in Cristiano’s brain which enables him to use advance cues to plan upcoming actions. Darkball is an app that challenges your mental ability on a similar task: intercept a moving ball in the dark.\n\nDarkball boils down eye-hand coordination, reaction speed and timing into the most fundamental elements. All you see is all you need.";
+    NSString *stringTojustify                = @"Cristiano Ronaldo can famously volley a corner kick in total darkness. The magic behind this remarkable feat is hidden in Cristiano’s brain which enables him to use advance cues to plan upcoming actions. Darkball challenges your brain to do the same, distilling that scenario into its simplest form - intercept a ball in the dark. All you see is all you need.";
     NSDictionary *attributes                 = @{NSParagraphStyleAttributeName: paragraphStyles};
     NSAttributedString *attributedString     = [[NSAttributedString alloc] initWithString:stringTojustify attributes:attributes];
     
@@ -1203,7 +1203,7 @@
     [ball setColor:strokeColor];
     [ball setNeedsDisplay];
     
-    trialDelay =1.8+((double)arc4random() / ARC4RANDOM_MAX)*1.4;
+    trialDelay =1.6+((double)arc4random() / ARC4RANDOM_MAX)*1.0;
     float objAlpha=.4;
 
     //ambient lights
@@ -1284,7 +1284,7 @@
                                                                                         catchZone.alpha=.5;
                                                                                     }
                                                                                     completion:^(BOOL finished){
-                                                                                        [UIView animateWithDuration:0.8
+                                                                                        [UIView animateWithDuration:0.4
                                                                                                               delay:0.0
                                                                                                             options:UIViewAnimationOptionCurveEaseOut
                                                                                                          animations:^{
