@@ -881,6 +881,7 @@
                                                                                         }
                                                                                         completion:^(BOOL finished){
                                                                                             trialSequence=-1;
+                                                                                            lastScore=0;
 
                                                                                             //reset scoreboard
                                                                                             [self updateHighscore];
@@ -1203,7 +1204,7 @@
     [ball setColor:strokeColor];
     [ball setNeedsDisplay];
     
-    trialDelay =1.6+((double)arc4random() / ARC4RANDOM_MAX)*1.0;
+    trialDelay =1.6+((double)arc4random() / ARC4RANDOM_MAX)*.5;
     float objAlpha=.4;
 
     //ambient lights
