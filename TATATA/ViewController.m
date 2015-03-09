@@ -416,7 +416,7 @@
     midMarkLabel.textColor=strokeColor;
     midMarkLabel.method = UILabelCountingMethodLinear;
 
-    [midMarkL addSubview:midMarkLabel];
+    //[midMarkL addSubview:midMarkLabel];
     
     
     
@@ -1414,7 +1414,7 @@
     //    if (level>=3) f=.5-random*.1;
     //float f=[currentTrial[@"d1"] floatValue]/([currentTrial[@"d1"] floatValue]+[currentTrial[@"d2"] floatValue]);
     
-    float f=[currentTrial[@"d1"] floatValue]/([currentTrial[@"d2"] floatValue]+[currentTrial[@"d2"] floatValue]);
+    float f=[currentTrial[@"d1"] floatValue]/([currentTrial[@"d1"] floatValue]+[currentTrial[@"d2"] floatValue]);
     return f;
 }
 
