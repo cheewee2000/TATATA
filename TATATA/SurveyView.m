@@ -49,18 +49,18 @@
         ((UIView *)[_agePicker.subviews objectAtIndex:2]).backgroundColor = [UIColor grayColor];
         
 
-        [_frequentHeadaches addTarget:self action:@selector(checkboxSelected:) forControlEvents:UIControlEventTouchDown];
-        [_dizziness addTarget:self action:@selector(checkboxSelected:) forControlEvents:UIControlEventTouchDown];
-        [_lossOfConsciousness addTarget:self action:@selector(checkboxSelected:) forControlEvents:UIControlEventTouchDown];
-        [_seizures addTarget:self action:@selector(checkboxSelected:) forControlEvents:UIControlEventTouchDown];
-        [_mentalHealth addTarget:self action:@selector(checkboxSelected:) forControlEvents:UIControlEventTouchDown];
-       
-        [_narcotics addTarget:self action:@selector(checkboxSelected:) forControlEvents:UIControlEventTouchDown];
-        [_stimulants addTarget:self action:@selector(checkboxSelected:) forControlEvents:UIControlEventTouchDown];
-        [_cocain addTarget:self action:@selector(checkboxSelected:) forControlEvents:UIControlEventTouchDown];
-        [_lsd addTarget:self action:@selector(checkboxSelected:) forControlEvents:UIControlEventTouchDown];
-        [_marijuana addTarget:self action:@selector(checkboxSelected:) forControlEvents:UIControlEventTouchDown];
-        [_streetDrugs addTarget:self action:@selector(checkboxSelected:) forControlEvents:UIControlEventTouchDown];
+//        [_frequentHeadaches addTarget:self action:@selector(checkboxSelected:) forControlEvents:UIControlEventTouchDown];
+//        [_dizziness addTarget:self action:@selector(checkboxSelected:) forControlEvents:UIControlEventTouchDown];
+//        [_lossOfConsciousness addTarget:self action:@selector(checkboxSelected:) forControlEvents:UIControlEventTouchDown];
+//        [_seizures addTarget:self action:@selector(checkboxSelected:) forControlEvents:UIControlEventTouchDown];
+//        [_mentalHealth addTarget:self action:@selector(checkboxSelected:) forControlEvents:UIControlEventTouchDown];
+//       
+//        [_narcotics addTarget:self action:@selector(checkboxSelected:) forControlEvents:UIControlEventTouchDown];
+//        [_stimulants addTarget:self action:@selector(checkboxSelected:) forControlEvents:UIControlEventTouchDown];
+//        [_cocain addTarget:self action:@selector(checkboxSelected:) forControlEvents:UIControlEventTouchDown];
+//        [_lsd addTarget:self action:@selector(checkboxSelected:) forControlEvents:UIControlEventTouchDown];
+//        [_marijuana addTarget:self action:@selector(checkboxSelected:) forControlEvents:UIControlEventTouchDown];
+//        [_streetDrugs addTarget:self action:@selector(checkboxSelected:) forControlEvents:UIControlEventTouchDown];
 
         [_professional addTarget:self action:@selector(checkboxSelected:) forControlEvents:UIControlEventTouchDown];
         [_collegiate addTarget:self action:@selector(checkboxSelected:) forControlEvents:UIControlEventTouchDown];
@@ -71,6 +71,9 @@
  
         [_iAgree addTarget:self action:@selector(checkboxSelected:) forControlEvents:UIControlEventTouchDown];
         [_iDoNotAgree addTarget:self action:@selector(checkboxSelected:) forControlEvents:UIControlEventTouchDown];
+
+        [_yes addTarget:self action:@selector(checkboxSelected:) forControlEvents:UIControlEventTouchDown];
+        [_no addTarget:self action:@selector(checkboxSelected:) forControlEvents:UIControlEventTouchDown];
 
         [self loadSurveyResults];
         
@@ -98,18 +101,18 @@
             else handedIndex=-1;
             if(handedIndex>=0) [_handed setSelectedSegmentIndex:handedIndex];
             
-            [_frequentHeadaches setSelected:[currentUser[@"frequentHeadaches"] boolValue]];
-            [_dizziness setSelected:[currentUser[@"dizziness"] boolValue]];
-            [_lossOfConsciousness setSelected:[currentUser[@"lossOfConsciousness"] boolValue]];
-            [_seizures setSelected:[currentUser[@"seizures"] boolValue]];
-            [_mentalHealth setSelected:[currentUser[@"mentalHealth"] boolValue]];
-            
-            [_narcotics setSelected:[currentUser[@"narcotics"] boolValue]];
-            [_stimulants setSelected:[currentUser[@"stimulants"] boolValue]];
-            [_cocain setSelected:[currentUser[@"cocain"] boolValue]];
-            [_lsd setSelected:[currentUser[@"lsd"] boolValue]];
-            [_marijuana setSelected:[currentUser[@"marijuana"] boolValue]];
-            [_streetDrugs setSelected:[currentUser[@"streetDrugs"] boolValue]];
+//            [_frequentHeadaches setSelected:[currentUser[@"frequentHeadaches"] boolValue]];
+//            [_dizziness setSelected:[currentUser[@"dizziness"] boolValue]];
+//            [_lossOfConsciousness setSelected:[currentUser[@"lossOfConsciousness"] boolValue]];
+//            [_seizures setSelected:[currentUser[@"seizures"] boolValue]];
+//            [_mentalHealth setSelected:[currentUser[@"mentalHealth"] boolValue]];
+//            
+//            [_narcotics setSelected:[currentUser[@"narcotics"] boolValue]];
+//            [_stimulants setSelected:[currentUser[@"stimulants"] boolValue]];
+//            [_cocain setSelected:[currentUser[@"cocain"] boolValue]];
+//            [_lsd setSelected:[currentUser[@"lsd"] boolValue]];
+//            [_marijuana setSelected:[currentUser[@"marijuana"] boolValue]];
+//            [_streetDrugs setSelected:[currentUser[@"streetDrugs"] boolValue]];
             
             [_professional setSelected:[currentUser[@"professional"] boolValue]];
             [_collegiate setSelected:[currentUser[@"collegiate"] boolValue]];
@@ -124,7 +127,11 @@
                 _surveyParagraph.text=@"Thank you for submitting your answers. You may update your answers below at any time.";
             }
             
-            
+            if(currentUser[@"screened"]!=nil){
+                [_yes setSelected:[currentUser[@"screened"] boolValue]];
+                [_no setSelected:![currentUser[@"screened"] boolValue]];
+            }
+        
         }
         
         
@@ -217,6 +224,8 @@ numberOfRowsInComponent:(NSInteger)component
     if([sender isSelected]==YES) [sender setSelected:NO];
     else [sender setSelected:YES];
     
+    float screenHeight=[[UIScreen mainScreen] bounds].size.height;
+
     
     if([sender tag]==0) currentUser[@"frequentHeadaches"] = [NSNumber numberWithBool:[sender isSelected]];
     else if([sender tag]==1) currentUser[@"dizziness"] = [NSNumber numberWithBool:[sender isSelected]];
@@ -256,6 +265,33 @@ numberOfRowsInComponent:(NSInteger)component
         [[NSUserDefaults standardUserDefaults] synchronize];
     }
 
+    else if([sender tag]==60){
+        currentUser[@"screened"] = [NSNumber numberWithBool:YES];
+        [_yes setSelected:YES];
+        [_no setSelected:NO];
+        UIScrollView *superView=(UIScrollView*)self.superview;
+
+        [superView setContentOffset:CGPointMake(0, screenHeight*1.5+750) animated:YES];
+        [superView setContentSize:CGSizeMake(superView.bounds.size.width, 3500+screenHeight*2.5)];
+        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"showConsent"];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+        
+        
+        
+    }
+    else if([sender tag]==61){
+        currentUser[@"screened"] = [NSNumber numberWithBool:NO];
+        [_yes setSelected:NO];
+        [_no setSelected:YES];
+        //[(UIScrollView*)self.superview setContentOffset:CGPointMake(0, 0) animated:YES];
+        UIScrollView *superView=(UIScrollView*)self.superview;
+        [superView setContentOffset:CGPointMake(0, 0) animated:YES];
+        [superView setContentSize:CGSizeMake(superView.bounds.size.width, screenHeight*1.5+600)];
+        [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"showConsent"];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+
+    }
+    
     if([sender tag]>=11 && [sender tag]<=16){
         
         //deselect everthing

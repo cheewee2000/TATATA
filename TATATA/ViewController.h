@@ -15,6 +15,8 @@
 #import "Sparkline.h"
 #import "Crosshair.h"
 #import "SurveyView.h"
+//#import "Screener.h"
+#import "Reachability.h"
 
 #import "Dimension.h"
 #import "UICountingLabel.h"
@@ -100,8 +102,11 @@
     float trialDelay;
     
     SurveyView *surveyView;
-    
-    
+    //Screener *screener;
+    int surveyHeight;
+    int screeningHeight;
+    NetworkStatus netStatus;
+
 #pragma mark - timing
     NSTimeInterval elapsed;
     NSTimeInterval timerGoal;

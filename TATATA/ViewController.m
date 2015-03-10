@@ -1,5 +1,4 @@
 #import "ViewController.h"
-#import "Reachability.h"
 
 #define IS_IPAD (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
 #define IS_IPHONE (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
@@ -38,6 +37,9 @@
     fgColor=[UIColor colorWithRed:255/255 green:163/255.0 blue:0 alpha:1];
     flashColor=[UIColor colorWithWhite:1 alpha:1];
     strokeColor=[UIColor colorWithWhite:.8 alpha:1];
+
+    surveyHeight=3500;
+    screeningHeight=600;
 
     allowBallResize=false;
     dimAlpha=.04;
@@ -470,7 +472,14 @@
     [intro addSubview:introParagraph];
     
     
-    surveyView=[[SurveyView alloc] initWithFrame:CGRectMake(0, screenHeight*1.5, screenWidth, 4400)];
+//    screener=[[Screener alloc] initWithFrame:CGRectMake(0, screenHeight*1.5, screenWidth, 1000)];
+//    screener.backgroundColor=[UIColor clearColor];
+//    screener.alpha=0;
+//    [scrollView addSubview:screener];
+//    
+//    
+    
+    surveyView=[[SurveyView alloc] initWithFrame:CGRectMake(0, screenHeight*1.5, screenWidth, surveyHeight)];
     surveyView.backgroundColor=[UIColor clearColor];
     surveyView.alpha=0;
     [scrollView addSubview:surveyView];
@@ -634,40 +643,55 @@
     if(scrollView.contentOffset.y<screenHeight*.5){
         Reachability *reach = [Reachability reachabilityForInternetConnection];
         
-        NetworkStatus netStatus = [reach currentReachabilityStatus];
+        netStatus = [reach currentReachabilityStatus];
         if (netStatus == NotReachable) {
             NSLog(@"No internet connection!");
         } else {
             //NSLog(@"netstatus: %ld",netStatus);
         }
- 
-        if (netStatus != NotReachable && ![[NSUserDefaults standardUserDefaults] boolForKey:@"showIntro1"]) {//there is internet!
-            surveyView.alpha=1;
-            [scrollView setContentSize:CGSizeMake(scrollView.bounds.size.width, 4400 +screenHeight*2.5)];
-            intro.frame=CGRectMake(0, 4400+screenHeight*1.5, screenWidth, screenHeight);
-        }
-        else{
-            surveyView.alpha=0;
-            [scrollView setContentSize:CGSizeMake(scrollView.bounds.size.width, screenHeight*2.5)];
-            intro.frame=CGRectMake(0, screenHeight*1.5, screenWidth, screenHeight);
-
-        }
     }
     
+    [self setIntroPosition];
+
     
     //show catchzone in introview
-    if(scrollView.contentOffset.y>screenHeight*.75){
-        if(scrollView.contentSize.height>4400){
+    if(scrollView.contentOffset.y>screenHeight*.6){
+        if(scrollView.contentSize.height>surveyHeight  && [[NSUserDefaults standardUserDefaults]boolForKey:@"showConsent"]){
             catchZone.center=CGPointMake(catchZone.center.x, scrollView.contentSize.height-scrollView.contentOffset.y-screenHeight+endY);
             catchZoneButton.center=CGPointMake(screenWidth*.5, scrollView.contentSize.height-screenHeight+endY);
+            intro.alpha=1;
         }
-        else{
+        else if(netStatus==NotReachable){
             catchZone.center=CGPointMake(catchZone.center.x, -scrollView.contentOffset.y+screenHeight*1.5+endY);
             catchZoneButton.center=CGPointMake(screenWidth*.5, screenHeight*1.5+endY);
+            //NSLog(@"show");
         }
     }
+ 
+}
+
+-(void)setIntroPosition{
+
     
-    
+    if (netStatus != NotReachable && ![[NSUserDefaults standardUserDefaults] boolForKey:@"showIntro1"]) {//there is internet!
+        surveyView.alpha=1;
+        if([[NSUserDefaults standardUserDefaults]boolForKey:@"showConsent"]){
+            [scrollView setContentSize:CGSizeMake(scrollView.bounds.size.width, surveyHeight +screenHeight*2.5)];
+            intro.frame=CGRectMake(0, surveyHeight+screenHeight*1.5, screenWidth, screenHeight);
+            intro.alpha=1;
+        }else{
+            [scrollView setContentSize:CGSizeMake(scrollView.bounds.size.width, screenHeight*1.5+screeningHeight)];
+            intro.frame=CGRectMake(0, screenHeight*.5+screeningHeight, screenWidth, screenHeight);
+            intro.alpha=0;
+        }
+    }
+    else{
+        surveyView.alpha=0;
+        [scrollView setContentSize:CGSizeMake(scrollView.bounds.size.width, screenHeight*2.5)];
+        intro.frame=CGRectMake(0, screenHeight*1.5, screenWidth, screenHeight);
+        intro.alpha=1;
+        
+    }
     
 }
 
@@ -703,7 +727,7 @@
     [self performSelector:@selector(showStartScreen) withObject:self afterDelay:0.8];
     
     Reachability *reach = [Reachability reachabilityForInternetConnection];
-    NetworkStatus netStatus = [reach currentReachabilityStatus];
+    netStatus = [reach currentReachabilityStatus];
     if((netStatus != NotReachable && [[NSUserDefaults standardUserDefaults] boolForKey:@"showSurvey"]) ){
         [self performSelector:@selector(showIntroView) withObject:self afterDelay:2.5];
     }
@@ -1689,7 +1713,7 @@
     
     Reachability *reach = [Reachability reachabilityForInternetConnection];
     
-    NetworkStatus netStatus = [reach currentReachabilityStatus];
+    netStatus = [reach currentReachabilityStatus];
     if (netStatus == NotReachable) {
         NSLog(@"No internet connection!");
     } else {
