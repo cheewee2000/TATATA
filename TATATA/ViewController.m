@@ -1,4 +1,5 @@
 #import "ViewController.h"
+#import <sys/utsname.h> // import it in your header or implementation file.
 
 #define IS_IPAD (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
 #define IS_IPHONE (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
@@ -700,14 +701,14 @@
         //completed entire survey
         else{
             [scrollView setContentSize:CGSizeMake(scrollView.bounds.size.width, screenHeight*1.5+surveyHeight)];
-            intro.frame=CGRectMake(0, screenHeight*1.5, screenWidth, screenHeight);
+            //intro.frame=CGRectMake(0, screenHeight*1.5, screenWidth, introHeight);
             intro.alpha=1;
         }
     }
     else{
         surveyView.alpha=0;
         [scrollView setContentSize:CGSizeMake(scrollView.bounds.size.width, screenHeight*1.5+introHeight)];
-        intro.frame=CGRectMake(0, screenHeight*1.5, screenWidth, screenHeight);
+        //intro.frame=CGRectMake(0, screenHeight*1.5, screenWidth, introHeight);
         intro.alpha=1;
         
     }
@@ -744,7 +745,7 @@
 {
 
     int newPage = [self getCurrentPage];
-    int maxPages=9;
+    int maxPages=7;
     if (velocity.y == 0) // slow dragging not lifting finger
     {
         //newPage = floor((targetContentOffset->y - [self getPageHeight:_currentPage]/2.0 ) / [self getPageHeight:_currentPage]) + 1;
@@ -1845,46 +1846,73 @@
 }
 
 -(void)logIn{
-    [PFUser enableAutomaticUser];
     
-    _currentUser = [PFUser currentUser];
-    if (_currentUser) {
-        // do stuff with the user
-        _currentUser[@"best"]=[NSNumber numberWithFloat:best];
-        [_currentUser saveEventually];
+
+
+    
+//    _currentUser = [PFUser currentUser];
+//    if (_currentUser) {
+//        // do stuff with the user
+//        _currentUser[@"best"]=[NSNumber numberWithFloat:best];
+//        [_currentUser saveInBackground];
+//            NSLog(@"%@",_currentUser);
+//            NSLog(@"%@",_currentUser.objectId);
+//        
+//    } else {
+    
         
-    } else {
-        // show the signup or login screen
-        [PFAnonymousUtils logInWithBlock:^(PFUser *user, NSError *error) {
-            if (error) {
-                NSLog(@"Anonymous login failed.");
-            } else {
-                NSLog(@"Anonymous user logged in.");
-                _currentUser = [PFUser currentUser];
+        [PFUser enableAutomaticUser];
+        [[PFUser currentUser] saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
 
-                NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-                NSString*uuid;
-                if([defaults stringForKey:@"uuid"] == nil){
-                    uuid=CFBridgingRelease(CFUUIDCreateString(NULL, CFUUIDCreate(NULL)));
-                    [defaults setObject:uuid forKey:@"uuid"];
-                    [defaults synchronize];
+                if (error) {
+                    NSLog(@"Anonymous login failed.");
+                } else {
+                    NSLog(@"Anonymous user logged in.");
+                    _currentUser = [PFUser currentUser];
+                    
+                    
+                    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+                    NSString*uuid;
+                    if([defaults stringForKey:@"uuid"] == nil){
+                        uuid=CFBridgingRelease(CFUUIDCreateString(NULL, CFUUIDCreate(NULL)));
+                        [defaults setObject:uuid forKey:@"uuid"];
+                        [defaults synchronize];
+                    }
+                    else uuid =[defaults stringForKey:@"uuid"];
+                    _currentUser[@"uuid"]=uuid;
+                    _currentUser[@"deviceName"]=[self deviceName];
+                    _currentUser[@"best"]=[NSNumber numberWithFloat:best];
+
+                    PFInstallation *currentInstallation = [PFInstallation currentInstallation];
+                    _currentUser[@"installation"]=currentInstallation;
+                    //_currentUser[@"username"]=currentInstallation.deviceToken;
+                    NSLog(@"%@",_currentUser);
+                    
+                    [_currentUser saveInBackground];
+                    
+//                    [[PFInstallation currentInstallation] saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+//                        if (error) {
+//                        } else {
+//                            currentInstallation[@"User"]=_currentUser;
+//                            [currentInstallation saveInBackground];
+//
+//                        }
+//                    }];
+
+                    
                 }
-                else uuid =[defaults stringForKey:@"uuid"];
-                _currentUser[@"uuid"]=uuid;
-                
-                PFInstallation *currentInstallation = [PFInstallation currentInstallation];
-                _currentUser[@"installation"]=currentInstallation;
-//                currentInstallation[@"user"]=currentUser;
-//                [currentInstallation saveEventually];
-                
-                [_currentUser saveEventually];
-
-            }
+            
+            
         }];
-    }
+        
+//        // show the signup or login screen
+//        [PFAnonymousUtils logInWithBlock:^(PFUser *user, NSError *error) {
+//                   }];
+   // }
 
     
 }
+
 
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -1934,6 +1962,14 @@
     };
 }
 
+-(NSString*) deviceName
+{
+    struct utsname systemInfo;
+    uname(&systemInfo);
+    
+    return [NSString stringWithCString:systemInfo.machine
+                              encoding:NSUTF8StringEncoding];
+}
 
 
 @end
