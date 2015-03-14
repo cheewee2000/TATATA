@@ -35,10 +35,12 @@
         {
             float barX = self.frame.size.width-(nBars-i) * kBarWidth * 1.5+kBarWidth/2.0;
             float barHeight = maxBarHeight * ([yValues[i] integerValue]-1)/maxValue;
-            CGRect barRect = CGRectMake(barX, maxBarHeight, kBarWidth, -barHeight);
-            UIColor *c=[UIColor colorWithWhite:.8 alpha:1];
-            if([yValues[i] integerValue]==maxValue)c=[UIColor colorWithRed:255/255 green:163/255.0 blue:0 alpha:1];
-            [self drawBar:barRect context:ctx color:c];
+            if(barHeight>0){
+                CGRect barRect = CGRectMake(barX, maxBarHeight, kBarWidth, -barHeight);
+                UIColor *c=[UIColor colorWithWhite:.8 alpha:1];
+                if([yValues[i] integerValue]==maxValue)c=[UIColor colorWithRed:255/255 green:163/255.0 blue:0 alpha:1];
+                [self drawBar:barRect context:ctx color:c];
+            }
             if(barX<=kBarWidth)return;
         }
     }

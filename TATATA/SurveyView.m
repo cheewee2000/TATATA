@@ -252,7 +252,10 @@ numberOfRowsInComponent:(NSInteger)component
         [_iAgree setSelected:YES];
         [_iDoNotAgree setSelected:NO];
         [(UIScrollView*)self.superview setContentOffset:CGPointMake(0, 0) animated:YES];
-        [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"showSurvey"];
+        [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"showScreening"];
+        [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"showQuestionnaire"];
+        [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"showConsent"];
+
         [[NSUserDefaults standardUserDefaults] synchronize];
 
     }
@@ -261,7 +264,10 @@ numberOfRowsInComponent:(NSInteger)component
         [_iAgree setSelected:NO];
         [_iDoNotAgree setSelected:YES];
         [(UIScrollView*)self.superview setContentOffset:CGPointMake(0, 0) animated:YES];
-        [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"showSurvey"];
+        [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"showScreening"];
+        [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"showQuestionnaire"];
+        [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"showConsent"];
+
         [[NSUserDefaults standardUserDefaults] synchronize];
     }
 
@@ -271,12 +277,13 @@ numberOfRowsInComponent:(NSInteger)component
         [_no setSelected:NO];
         UIScrollView *superView=(UIScrollView*)self.superview;
 
-        [superView setContentOffset:CGPointMake(0, screenHeight*1.5+750) animated:YES];
-        [superView setContentSize:CGSizeMake(superView.bounds.size.width, 3500+screenHeight*2.5)];
-        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"showConsent"];
+        [superView setContentOffset:CGPointMake(0, screenHeight*1.5+950) animated:YES];
+        [superView setContentSize:CGSizeMake(superView.bounds.size.width, 1800+screenHeight*1.5)];
+        [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"showScreening"];
+        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"showQuestionnaire"];
+        [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"showConsent"];
+
         [[NSUserDefaults standardUserDefaults] synchronize];
-        
-        
         
     }
     else if([sender tag]==61){
@@ -286,8 +293,11 @@ numberOfRowsInComponent:(NSInteger)component
         //[(UIScrollView*)self.superview setContentOffset:CGPointMake(0, 0) animated:YES];
         UIScrollView *superView=(UIScrollView*)self.superview;
         [superView setContentOffset:CGPointMake(0, 0) animated:YES];
-        [superView setContentSize:CGSizeMake(superView.bounds.size.width, screenHeight*1.5+600)];
+        [superView setContentSize:CGSizeMake(superView.bounds.size.width, screenHeight*1.5+950)];
+        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"showScreening"];
+        [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"showQuestionnaire"];
         [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"showConsent"];
+
         [[NSUserDefaults standardUserDefaults] synchronize];
 
     }
@@ -321,6 +331,14 @@ numberOfRowsInComponent:(NSInteger)component
         else if([sender tag]==15) currentUser[@"casual"] = [NSNumber numberWithBool:[sender isSelected]];
         else if([sender tag]==16) currentUser[@"none"] = [NSNumber numberWithBool:[sender isSelected]];
         
+        
+        UIScrollView *superView=(UIScrollView*)self.superview;
+        [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"showScreening"];
+        [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"showQuestionnaire"];
+        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"showConsent"];
+        [superView setContentOffset:CGPointMake(0, screenHeight*1.5+1900) animated:YES];
+        [superView setContentSize:CGSizeMake(superView.bounds.size.width, 4000+screenHeight*1.5)];
+
     }
     
     

@@ -105,6 +105,10 @@
     //Screener *screener;
     int surveyHeight;
     int screeningHeight;
+    int questionnaireHeight;
+    int introHeight;
+    
+    NSArray *surveyHeights;
     NetworkStatus netStatus;
 
 #pragma mark - timing
@@ -144,6 +148,7 @@
     UIScrollView *scrollView;
     
 }
+@property int currentPage;
 
 @property PFUser *currentUser;
 @property (strong, nonatomic) NSMutableArray *allTrialData;

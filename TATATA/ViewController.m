@@ -38,8 +38,12 @@
     flashColor=[UIColor colorWithWhite:1 alpha:1];
     strokeColor=[UIColor colorWithWhite:.8 alpha:1];
 
-    surveyHeight=3500;
-    screeningHeight=600;
+    surveyHeight=4000;
+    questionnaireHeight=1800;
+    screeningHeight=750;
+    introHeight=850;
+
+    surveyHeights = @[@750,@1800,@4000];
 
     allowBallResize=false;
     dimAlpha=.04;
@@ -210,7 +214,7 @@
     [catchZoneButton addTarget:self
                         action:@selector(buttonPressed)
               forControlEvents:UIControlEventTouchUpInside];
-    catchZoneButton.frame=CGRectMake(0, 0, ball.frame.size.width, ball.frame.size.height);
+    catchZoneButton.frame=CGRectMake(0, 0, ball.frame.size.width*1.25, ball.frame.size.height*1.25);
     catchZoneButton.center=CGPointMake(screenWidth*.5, screenHeight*.5);
     catchZoneButton.backgroundColor=[UIColor clearColor];
     
@@ -421,56 +425,9 @@
     //[midMarkL addSubview:midMarkLabel];
     
     
-    
-#pragma mark - intro
-    intro=[[UIView alloc] initWithFrame:CGRectMake(0, screenHeight*1.5, screenWidth, screenHeight)];
-    //intro.backgroundColor=bgColor;
-    intro.userInteractionEnabled=NO;
-    intro.backgroundColor=[UIColor clearColor];
-    [scrollView addSubview:intro];
-    
-    int m=10;
-    //int w=screenWidth-m*2.0;
-    int w=280;
-    //instructions
+#pragma mark - survey
 
-    
-    introTitle=[[UILabel alloc] initWithFrame:CGRectMake(m, startY, w, 35)];
-    introTitle.center=CGPointMake(screenWidth*.5, introTitle.center.y);
-    introTitle.font = [UIFont fontWithName:@"DIN Condensed" size:31];
-    //introTitle.adjustsFontSizeToFitWidth=YES;
-    introTitle.textAlignment=NSTextAlignmentCenter;
-    introTitle.text=@"BOOST YOUR BRAIN SENSORS";
-    introTitle.textColor=strokeColor;
-    [intro addSubview:introTitle];
 
-    
-//    introSubtitle=[[UILabel alloc] initWithFrame:CGRectMake(m, 15, w, 90)];
-//    introSubtitle.font = [UIFont fontWithName:@"DIN Condensed" size:32];
-//    introSubtitle.numberOfLines=3;
-//    introSubtitle.text=@"TEST";
-//    introSubtitle.textColor=strokeColor;
-//    [intro addSubview:introSubtitle];
-    
-    
-    NSMutableParagraphStyle *paragraphStyles = [[NSMutableParagraphStyle alloc] init];
-    paragraphStyles.alignment                = NSTextAlignmentLeft;
-    paragraphStyles.firstLineHeadIndent      = 0.05;    // Very IMP
-    
-    introParagraph=[[UILabel alloc] initWithFrame:CGRectMake(m, introTitle.frame.origin.y+introTitle.frame.size.height+10, w, 230)];
-    introParagraph.center=CGPointMake(screenWidth*.5, introParagraph.center.y);
-    introParagraph.font = [UIFont fontWithName:@"DIN Condensed" size:18];
-    introParagraph.numberOfLines=20;
-    introParagraph.textColor=strokeColor;
-    
-    NSString *stringTojustify                = @"Cristiano Ronaldo can famously volley a corner kick in total darkness. The magic behind this remarkable feat is hidden in Cristiano’s brain which enables him to use advance cues to plan upcoming actions. Darkball challenges your brain to do the same, distilling that scenario into its simplest form - intercept a ball in the dark. All you see is all you need.";
-    NSDictionary *attributes                 = @{NSParagraphStyleAttributeName: paragraphStyles};
-    NSAttributedString *attributedString     = [[NSAttributedString alloc] initWithString:stringTojustify attributes:attributes];
-    
-    introParagraph.attributedText             = attributedString;
-    intro.alpha=1;
-    [intro addSubview:introParagraph];
-    
     
 //    screener=[[Screener alloc] initWithFrame:CGRectMake(0, screenHeight*1.5, screenWidth, 1000)];
 //    screener.backgroundColor=[UIColor clearColor];
@@ -484,7 +441,57 @@
     surveyView.alpha=0;
     [scrollView addSubview:surveyView];
     
+
+#pragma mark - intro
+    intro=[[UIView alloc] initWithFrame:CGRectMake(0, screenHeight*1.5, screenWidth, introHeight)];
+    intro.backgroundColor=bgColor;
+    intro.userInteractionEnabled=NO;
+    //intro.backgroundColor=[UIColor clearColor];
+    [scrollView addSubview:intro];
     
+    int m=10;
+    //int w=screenWidth-m*2.0;
+    int w=280;
+    //instructions
+    
+    
+    introTitle=[[UILabel alloc] initWithFrame:CGRectMake(m, m*3, w, 35)];
+    introTitle.center=CGPointMake(screenWidth*.5, introTitle.center.y);
+    introTitle.font = [UIFont fontWithName:@"DIN Condensed" size:31];
+    //introTitle.adjustsFontSizeToFitWidth=YES;
+    introTitle.textAlignment=NSTextAlignmentCenter;
+    introTitle.text=@"BOOST YOUR BRAIN SENSORS";
+    introTitle.textColor=strokeColor;
+    [intro addSubview:introTitle];
+    
+    
+    //    introSubtitle=[[UILabel alloc] initWithFrame:CGRectMake(m, 15, w, 90)];
+    //    introSubtitle.font = [UIFont fontWithName:@"DIN Condensed" size:32];
+    //    introSubtitle.numberOfLines=3;
+    //    introSubtitle.text=@"TEST";
+    //    introSubtitle.textColor=strokeColor;
+    //    [intro addSubview:introSubtitle];
+    
+    
+    NSMutableParagraphStyle *paragraphStyles = [[NSMutableParagraphStyle alloc] init];
+    paragraphStyles.alignment                = NSTextAlignmentLeft;
+    paragraphStyles.firstLineHeadIndent      = 0.05;    // Very IMP
+    
+    introParagraph=[[UILabel alloc] initWithFrame:CGRectMake(m, m*3, w, 700)];
+    introParagraph.center=CGPointMake(screenWidth*.5, introParagraph.center.y);
+    introParagraph.font = [UIFont fontWithName:@"DIN Condensed" size:18];
+    introParagraph.numberOfLines=35;
+    introParagraph.textColor=strokeColor;
+    
+    NSString *stringTojustify                = @"Cristiano Ronaldo can famously volley a corner kick in total darkness. The magic behind this remarkable feat is hidden in Cristiano’s brain which enables him to use advance cues to plan upcoming actions. Darkball challenges your brain to do the same, distilling that scenario into its simplest form - intercept a ball in the dark. All you see is all you need.\n\nOne of the brain’s fundamental functions is to use information from the past and present to predict the future. This function is key to how animals, from dragonflies to humans, navigate a dynamic and uncertain world. To make predictions, the brain must have an “internal model” of the system it interacts with. A basic form of this function is at play when we move our body. For example, to reach for a cup, the brain must have a model to predict how the hand will respond to various motor commands. Internal models are also thought to play a crucial role when we mentally predict future states of the environment, for example when we track a ball as it moves behind another object. Here, we have designed a simple task to understand how the nervous system makes such predictions. In this task, subjects have to intercept a ball when it reaches its final position. By changing the speed of the ball, the intervals when it is invisible, and the target position, we will test various hypotheses about the algorithms that are used to integrate information about past and present to make predictions about the future.";
+    NSDictionary *attributes                 = @{NSParagraphStyleAttributeName: paragraphStyles};
+    NSAttributedString *attributedString     = [[NSAttributedString alloc] initWithString:stringTojustify attributes:attributes];
+    
+    introParagraph.attributedText             = attributedString;
+    intro.alpha=1;
+    [intro addSubview:introParagraph];
+    
+
     
 //    credits=[[UILabel alloc] initWithFrame:CGRectMake(m, screenHeight-55, w, 40)];
 //    credits.font = [UIFont fontWithName:@"HelveticaNeue" size:9];
@@ -652,21 +659,20 @@
     }
     
     [self setIntroPosition];
-
     
     //show catchzone in introview
-    if(scrollView.contentOffset.y>screenHeight*.6){
-        if(scrollView.contentSize.height>surveyHeight  && [[NSUserDefaults standardUserDefaults]boolForKey:@"showConsent"]){
-            catchZone.center=CGPointMake(catchZone.center.x, scrollView.contentSize.height-scrollView.contentOffset.y-screenHeight+endY);
-            catchZoneButton.center=CGPointMake(screenWidth*.5, scrollView.contentSize.height-screenHeight+endY);
-            intro.alpha=1;
-        }
-        else if(netStatus==NotReachable){
-            catchZone.center=CGPointMake(catchZone.center.x, -scrollView.contentOffset.y+screenHeight*1.5+endY);
-            catchZoneButton.center=CGPointMake(screenWidth*.5, screenHeight*1.5+endY);
-            //NSLog(@"show");
-        }
-    }
+//    if(scrollView.contentOffset.y>screenHeight*.6){
+//        if(scrollView.contentSize.height>surveyHeight  && [[NSUserDefaults standardUserDefaults]boolForKey:@"showScreening"]){
+//            catchZone.center=CGPointMake(catchZone.center.x, scrollView.contentSize.height-scrollView.contentOffset.y-screenHeight+endY);
+//            catchZoneButton.center=CGPointMake(screenWidth*.5, scrollView.contentSize.height-screenHeight+endY);
+//            intro.alpha=1;
+//        }
+//        else if(netStatus==NotReachable){
+//            catchZone.center=CGPointMake(catchZone.center.x, -scrollView.contentOffset.y+screenHeight*1.5+endY);
+//            catchZoneButton.center=CGPointMake(screenWidth*.5, screenHeight*1.5+endY);
+//            //NSLog(@"show");
+//        }
+//    }
  
 }
 
@@ -675,19 +681,32 @@
     
     if (netStatus != NotReachable && ![[NSUserDefaults standardUserDefaults] boolForKey:@"showIntro1"]) {//there is internet!
         surveyView.alpha=1;
-        if([[NSUserDefaults standardUserDefaults]boolForKey:@"showConsent"]){
-            [scrollView setContentSize:CGSizeMake(scrollView.bounds.size.width, surveyHeight +screenHeight*2.5)];
-            intro.frame=CGRectMake(0, surveyHeight+screenHeight*1.5, screenWidth, screenHeight);
-            intro.alpha=1;
-        }else{
-            [scrollView setContentSize:CGSizeMake(scrollView.bounds.size.width, screenHeight*1.5+screeningHeight)];
-            intro.frame=CGRectMake(0, screenHeight*.5+screeningHeight, screenWidth, screenHeight);
+        if([[NSUserDefaults standardUserDefaults]boolForKey:@"showScreening"]){
+            [scrollView setContentSize:CGSizeMake(scrollView.bounds.size.width, screeningHeight+screenHeight*1.5)];
+            //intro.frame=CGRectMake(0, surveyHeight+screenHeight*1.5, screenWidth, screenHeight);
             intro.alpha=0;
+        }
+        else if([[NSUserDefaults standardUserDefaults]boolForKey:@"showQuestionnaire"]){
+            [scrollView setContentSize:CGSizeMake(scrollView.bounds.size.width, questionnaireHeight+screenHeight*1.5)];
+            //intro.frame=CGRectMake(0, surveyHeight+screenHeight*1.5, screenWidth, screenHeight);
+            intro.alpha=0;
+        }
+        else if([[NSUserDefaults standardUserDefaults]boolForKey:@"showConsent"]){
+            [scrollView setContentSize:CGSizeMake(scrollView.bounds.size.width, surveyHeight+screenHeight*1.5)];
+            //intro.frame=CGRectMake(0, surveyHeight+screenHeight*1.5, screenWidth, screenHeight);
+            intro.alpha=0;
+        }
+        
+        //completed entire survey
+        else{
+            [scrollView setContentSize:CGSizeMake(scrollView.bounds.size.width, screenHeight*1.5+surveyHeight)];
+            intro.frame=CGRectMake(0, screenHeight*1.5, screenWidth, screenHeight);
+            intro.alpha=1;
         }
     }
     else{
         surveyView.alpha=0;
-        [scrollView setContentSize:CGSizeMake(scrollView.bounds.size.width, screenHeight*2.5)];
+        [scrollView setContentSize:CGSizeMake(scrollView.bounds.size.width, screenHeight*1.5+introHeight)];
         intro.frame=CGRectMake(0, screenHeight*1.5, screenWidth, screenHeight);
         intro.alpha=1;
         
@@ -695,24 +714,56 @@
     
 }
 
+
+-(int) getCurrentPage{
+    float y=scrollView.contentOffset.y;
+    float offset=screenHeight*.33;
+    
+    if (y>=0 && y< screenHeight*.5-offset) _currentPage = 0;
+    else  if (y>=screenHeight*.5-offset && y < screenHeight*1.5-offset) _currentPage = 1;
+    else  if (y>=screenHeight*1.5-offset && y < screenHeight*1.5+screeningHeight+200-offset) _currentPage = 2;
+    else  if (y>=screenHeight*1.5+screeningHeight-offset && y < screenHeight*1.5+questionnaireHeight+150-offset) _currentPage = 3;
+    else _currentPage=3+(y-screenHeight*1.5+questionnaireHeight+200-offset)/screenHeight;
+    return _currentPage;
+    
+}
+
+-(CGFloat) getPageHeight:(int) _page{
+    CGFloat pageHeight;
+    if(_page==0)pageHeight= 0;
+    else if(_page==1)pageHeight= screenHeight*.5;
+    else if(_page==2)pageHeight= screenHeight*1.5;
+    else if(_page==3)pageHeight= screenHeight*1.5+screeningHeight+200;
+    else if(_page==4)pageHeight= screenHeight*1.5+questionnaireHeight+150;
+    else pageHeight=screenHeight*1.5+questionnaireHeight+150+screenHeight*(_page-4);
+    return pageHeight;
+    
+}
+
 - (void)scrollViewWillEndDragging:(UIScrollView *)_scrollView withVelocity: (CGPoint)velocity targetContentOffset:(inout CGPoint *)targetContentOffset
 {
-//    if(velocity.y==0){
-//        if (_scrollView.contentOffset.y>screenHeight*.25) targetContentOffset->y = screenHeight*.5;
-//        else targetContentOffset->y = 0;
-//    }
-    //[_aboutScroller setContentOffset:CGPointMake(0, 568) animated:YES];
-    if (velocity.y == 0.f)
+
+    int newPage = [self getCurrentPage];
+    int maxPages=9;
+    if (velocity.y == 0) // slow dragging not lifting finger
     {
-        if(scrollView.contentOffset.y<screenHeight*.25){
-            targetContentOffset->y = 0;
-        }else if(scrollView.contentOffset.y<screenHeight*1.25){
-            targetContentOffset->y = screenHeight*.5;
-        }
-        else{
-        //    targetContentOffset->y = screenHeight*1.5;
-        }
+        //newPage = floor((targetContentOffset->y - [self getPageHeight:_currentPage]/2.0 ) / [self getPageHeight:_currentPage]) + 1;
+        newPage = [self getCurrentPage];
+       if(newPage>1) return;
     }
+    else
+    {
+        
+        newPage = velocity.y > 0 ? _currentPage + 1 : _currentPage - 1;
+        
+        if (newPage < 0) newPage = 0;
+        if (newPage > maxPages) newPage = maxPages;
+    }
+    
+    
+    NSLog(@"Dragging - You will be on %i page (from page %i)", newPage, _currentPage);
+    
+    *targetContentOffset = CGPointMake( targetContentOffset->x, [self getPageHeight:newPage]);
     
 
 }
@@ -728,7 +779,7 @@
     
     Reachability *reach = [Reachability reachabilityForInternetConnection];
     netStatus = [reach currentReachabilityStatus];
-    if((netStatus != NotReachable && [[NSUserDefaults standardUserDefaults] boolForKey:@"showSurvey"]) ){
+    if((netStatus != NotReachable && [[NSUserDefaults standardUserDefaults] boolForKey:@"showScreening"]) && _currentUser[@"screened"]==nil ){
         [self performSelector:@selector(showIntroView) withObject:self afterDelay:2.5];
     }
 }
@@ -810,16 +861,19 @@
 
     
     //dismiss intro view
-    if(scrollView.contentOffset.y>=screenHeight*.5){
-        [scrollView setContentOffset:CGPointMake(0, 0) animated:YES];
-        if([[NSUserDefaults standardUserDefaults] boolForKey:@"showIntro1"]){
-            [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"showIntro1"];
-            [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"showSurvey"];
-            [[NSUserDefaults standardUserDefaults] synchronize];
-            
-        }
-        return;
-    }
+//    if(scrollView.contentOffset.y>=screenHeight*.5){
+//        [scrollView setContentOffset:CGPointMake(0, 0) animated:YES];
+//        if([[NSUserDefaults standardUserDefaults] boolForKey:@"showIntro1"]){
+//            [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"showIntro1"];
+//            [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"showScreening"];
+//            [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"showQuestionnaire"];
+//            [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"showConsent"];
+//
+//            [[NSUserDefaults standardUserDefaults] synchronize];
+//            
+//        }
+//        return;
+//    }
     
     
     //START
@@ -846,9 +900,11 @@
     
     if([[NSUserDefaults standardUserDefaults] boolForKey:@"showIntro1"]){
         [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"showIntro1"];
-        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"showSurvey"];
+        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"showScreening"];
+        [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"showQuestionnaire"];
+        [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"showConsent"];
         [[NSUserDefaults standardUserDefaults] synchronize];
-        
+//        NSLog(@"hide screen and dimsiss intro");        
     }
 
     [self animateLevelReset];
@@ -1114,8 +1170,10 @@
 
 -(void)showIntroView{
     [scrollView setContentOffset:CGPointMake(0, screenHeight*1.5) animated:YES];
+}
 
-    
+-(void)showQuestionnaire{
+ [scrollView setContentOffset:CGPointMake(0, screenHeight*1.5+950) animated:YES];
 }
 
 #pragma mark DATA
@@ -1708,11 +1766,11 @@
     currentLevel=0;
     trialSequence=-1;
     [self setLevel:currentLevel];
-    [self restart];
-
+    trialSequence=-1;
+    [self performSelector:@selector(showStartScreen) withObject:self afterDelay:0.8];
+    
     
     Reachability *reach = [Reachability reachabilityForInternetConnection];
-    
     netStatus = [reach currentReachabilityStatus];
     if (netStatus == NotReachable) {
         NSLog(@"No internet connection!");
@@ -1721,10 +1779,11 @@
     }
     
     
-    if([[NSUserDefaults standardUserDefaults] boolForKey:@"showIntro1"] || (netStatus != NotReachable && [[NSUserDefaults standardUserDefaults] boolForKey:@"showSurvey"])){
-        [self performSelector:@selector(showIntroView) withObject:self afterDelay:2.5];
-    }
+//    if((netStatus != NotReachable)){
+//    }
    
+    if([[NSUserDefaults standardUserDefaults] boolForKey:@"showIntro1"] ) [self performSelector:@selector(showIntroView) withObject:self afterDelay:2.5];
+
     [super viewDidAppear:animated];
 }
 
