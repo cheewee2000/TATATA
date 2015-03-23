@@ -11,6 +11,7 @@
 @implementation Sparkline
 
 @synthesize yValues;
+@synthesize accuracyScore;
 
 - (id)initWithFrame:(CGRect)frame
 {
@@ -65,4 +66,21 @@
     [self drawBarGraphWithContext:context];
 }
 
+-(float)getAccuracyAverage{
+
+    float score=0;
+    int count=0;
+    for (int i = 0; i <(int)accuracyScore.count; i++)
+    {
+        if(accuracyScore[i]>0) {
+            score+=[accuracyScore[i] floatValue];
+            //NSLog(@"%f",score);
+            count++;
+        }
+    }
+    score=score/(float)count;
+    //NSLog(@"%f",score);
+
+    return score;
+}
 @end

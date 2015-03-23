@@ -128,7 +128,8 @@
     Sparkline *scoreGraph;
     NSMutableArray *scoreHistory;
     NSString *scoreHistoryDataFile;
-
+    NSMutableArray *accuracyHistory;
+    NSString *accuracyHistoryDataFile;
     
     #pragma mark - intro
     UIView *intro;

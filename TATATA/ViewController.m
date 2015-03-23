@@ -121,10 +121,12 @@
     ballAnnotation=[[UILabel alloc] initWithFrame:CGRectMake(0,0,150,80)];
     ballAnnotation.backgroundColor=[UIColor clearColor];
     ballAnnotation.textAlignment=NSTextAlignmentRight;
-    ballAnnotation.font = [UIFont fontWithName:@"HelveticaNeue-Thin" size:15];
+    ballAnnotation.font = [UIFont fontWithName:@"HelveticaNeue-Thin" size:18];
     ballAnnotation.textColor=strokeColor;
     ballAnnotation.alpha=0;
     [self.view addSubview:ballAnnotation];
+    
+    
     dimension=[[Dimension alloc] initWithFrame:self.view.frame];
     dimension.backgroundColor=[UIColor clearColor];
     dimension.targetPosition=CGPointMake(screenWidth*.5, endY);
@@ -135,10 +137,10 @@
     
     
     //catchzone diameter label
-    catchZoneLabel=[[UICountingLabel alloc] initWithFrame:CGRectMake(screenWidth*.5,endY-115, 120, 115)];
+    catchZoneLabel=[[UICountingLabel alloc] initWithFrame:CGRectMake(screenWidth*.5,endY-120, 120, 115)];
     catchZoneLabel.backgroundColor=[UIColor clearColor];
     catchZoneLabel.textAlignment=NSTextAlignmentRight;
-    catchZoneLabel.font = [UIFont fontWithName:@"HelveticaNeue-Thin" size:15];
+    catchZoneLabel.font = [UIFont fontWithName:@"HelveticaNeue-Thin" size:18];
     catchZoneLabel.textColor=strokeColor;
     //catchZoneLabel.text=@"±0.000s";
     catchZoneLabel.format = @"%.1f%%";
@@ -146,7 +148,7 @@
 
     catchZoneLabel.alpha=0;
     
-    int dh=50;
+    int dh=45;
     UIBezierPath *path = [UIBezierPath bezierPath];
     [path moveToPoint:CGPointMake(0.0, catchZoneLabel.frame.size.height)];
     [path addLineToPoint:CGPointMake(dh, catchZoneLabel.frame.size.height-dh)];
@@ -579,7 +581,7 @@
     
     trialCount=[defaults integerForKey:@"trialsPlayed"];
     trialCountLabel.text=[NSString stringWithFormat:@"%li",trialCount];
-    accuracyLabel.text=[NSString stringWithFormat:@"%.3f%%",[defaults floatForKey:@"accuracyScore"]*100.0];
+    accuracyLabel.text=[NSString stringWithFormat:@"%.2f%%",[defaults floatForKey:@"accuracyScore"]*100.0];
     
 //    [[PFUser currentUser] fetchInBackgroundWithBlock:^(PFObject *object, NSError *error) {
 //        if (!error){
@@ -911,14 +913,14 @@
     [self animateLevelReset];
     [self setLevel:currentLevel];
 
-    [UIView animateWithDuration:0.4
+    [UIView animateWithDuration:0.2
                           delay:0.0
                         options:UIViewAnimationOptionCurveEaseOut
                      animations:^{
                          [self setCatchZoneDiameter];
                      }
                      completion:^(BOOL finished){
-        [UIView animateWithDuration:0.4
+        [UIView animateWithDuration:0.2
                               delay:0.2
                             options:UIViewAnimationOptionCurveEaseOut
                          animations:^{
@@ -934,7 +936,7 @@
                              trialSequence=-1;
                              
                              
-                             [UIView animateWithDuration:0.2
+                             [UIView animateWithDuration:0.1
                                                    delay:0.0
                                                  options:UIViewAnimationOptionCurveEaseOut
                                               animations:^{
@@ -942,7 +944,7 @@
                                                   catchZoneCenter.alpha=1;
                                               }
                                               completion:^(BOOL finished){
-                                                  [UIView animateWithDuration:0.2
+                                                  [UIView animateWithDuration:0.1
                                                                         delay:0.0
                                                                       options:UIViewAnimationOptionCurveEaseOut
                                                                    animations:^{
@@ -952,7 +954,7 @@
                                                                        midMarkR.alpha=.3;
                                                                    }
                                                                    completion:^(BOOL finished){
-                                                                       [UIView animateWithDuration:0.2
+                                                                       [UIView animateWithDuration:0.1
                                                                                              delay:0.0
                                                                                            options:UIViewAnimationOptionCurveEaseOut
                                                                                         animations:^{
@@ -1056,8 +1058,8 @@
     ballAnnotation.frame=CGRectMake(ball.center.x-annotationWidth-dimension.dimLineOffsetX-15, midpointToTargetY-annotationHeight*.5, annotationWidth, annotationHeight);
     
     float diff=elapsed-timerGoal;
-    if(diff<0) ballAnnotation.text=[NSString stringWithFormat:@"%5fs", diff];
-    else ballAnnotation.text=[NSString stringWithFormat:@"+%5fs", diff];
+    if(diff<0) ballAnnotation.text=[NSString stringWithFormat:@"%.3fs", diff];
+    else ballAnnotation.text=[NSString stringWithFormat:@"+%.3fs", diff];
    
     ballAnnotation.alpha=1;
     
@@ -1152,15 +1154,30 @@
     
     _currentUser[@"best"]=[NSNumber numberWithFloat:best];
     
-    float d2Duration=[currentTrial[@"duration"]floatValue]*[currentTrial[@"d2"]floatValue];
-    accuracyScore=(d2Duration-fabs(diff))/(float)d2Duration;
-    accuracyScore=([_currentUser[@"accuracyScore"] floatValue]+accuracyScore)/2.0;
+//    float d2Duration=[currentTrial[@"duration"]floatValue]*[currentTrial[@"d2"]floatValue];
+//    accuracyScore=(d2Duration-fabs(diff))/(float)d2Duration;
+//    accuracyScore=([_currentUser[@"accuracyScore"] floatValue]+accuracyScore)/2.0;
+
     
-    _currentUser[@"accuracyScore"]=[NSNumber numberWithFloat:accuracyScore];
-    accuracyLabel.text=[NSString stringWithFormat:@"%.3f%%",accuracyScore*100.0];
-    [defaults setObject:[NSNumber numberWithFloat:[_currentUser[@"accuracyScore"] floatValue] ] forKey:@"accuracyScore"];
-    [defaults synchronize];
+//    _currentUser[@"accuracyScore"]=[NSNumber numberWithFloat:accuracyScore];
+//    accuracyLabel.text=[NSString stringWithFormat:@"%.3f%%",accuracyScore*100.0];
+//    [defaults setObject:[NSNumber numberWithFloat:[_currentUser[@"accuracyScore"] floatValue] ] forKey:@"accuracyScore"];
     
+    float accuracy;
+    if(elapsed<=timerGoal) accuracy=(float)elapsed/(float)timerGoal;
+    else accuracy=fabs(elapsed-timerGoal*2.0)/(float)timerGoal;
+    
+    NSLog(@"accuracy %f",accuracy);
+    
+    if(accuracy>.5){
+        [accuracyHistory  addObject:[NSNumber numberWithFloat:accuracy]];
+        [accuracyHistory writeToFile:accuracyHistoryDataFile atomically:YES];
+        scoreGraph.accuracyScore=accuracyHistory;
+        
+        [defaults setObject:[NSNumber numberWithFloat:[scoreGraph getAccuracyAverage]] forKey:@"accuracyScore"];
+        [defaults synchronize];
+    }
+
     [_currentUser saveEventually];
     
  
@@ -1212,6 +1229,20 @@
     }
     
     scoreGraph.yValues=scoreHistory;
+    
+    
+    accuracyHistory = [[NSMutableArray alloc] init];
+    accuracyHistoryDataFile = [[libPath objectAtIndex:0] stringByAppendingPathComponent:@"accuracyHistory"];
+    accuracyHistory = [[NSMutableArray alloc] initWithContentsOfFile: accuracyHistoryDataFile];
+    if(accuracyHistory == nil){
+        accuracyHistory = [[NSMutableArray alloc] init];
+        [accuracyHistory addObject:[NSNumber numberWithFloat:0]];
+        [accuracyHistory writeToFile:accuracyHistoryDataFile atomically:YES];
+    }
+    
+    scoreGraph.accuracyScore=accuracyHistory;
+    
+    
     [scoreGraph setNeedsDisplay];
     
 
@@ -1287,7 +1318,7 @@
     [ball setColor:strokeColor];
     [ball setNeedsDisplay];
     
-    trialDelay =1.6+((double)arc4random() / ARC4RANDOM_MAX)*.5;
+    trialDelay =1.4+((double)arc4random() / ARC4RANDOM_MAX)*.5;
     float objAlpha=.4;
 
     //ambient lights
@@ -1304,10 +1335,10 @@
         objAlpha=1.0;
     }
     
-    if(currentLevel<=1)trialDelay=2.2;
-    if(currentLevel%(int)(nTrialsInStage)==0 && currentLevel!=0)trialDelay+=1.6;
+    if(currentLevel<=1)trialDelay=1.7;
+    if(currentLevel%(int)(nTrialsInStage)==0 && currentLevel!=0)trialDelay+=1.4;
     
-    [UIView animateWithDuration:.8
+    [UIView animateWithDuration:.4
                           delay:0.0
                         options:UIViewAnimationOptionCurveEaseOut
                      animations:^{
@@ -1360,15 +1391,15 @@
                                                                    [self setCatchZoneDiameter];
                                                                }
                                                                completion:^(BOOL finished){
-                                                                   [UIView animateWithDuration:0.4
-                                                                                         delay:0.4
+                                                                   [UIView animateWithDuration:0.1
+                                                                                         delay:0.2
                                                                                        options:UIViewAnimationOptionCurveEaseOut
                                                                                     animations:^{
                                                                                         catchZoneLabel.alpha=0;
                                                                                         catchZone.alpha=.5;
                                                                                     }
                                                                                     completion:^(BOOL finished){
-                                                                                        [UIView animateWithDuration:0.4
+                                                                                        [UIView animateWithDuration:0.5
                                                                                                               delay:0.0
                                                                                                             options:UIViewAnimationOptionCurveEaseOut
                                                                                                          animations:^{
@@ -1598,6 +1629,7 @@
         [scoreHistory  addObject:[NSNumber numberWithInteger:currentLevel]];
         [scoreHistory writeToFile:scoreHistoryDataFile atomically:YES];
         scoreGraph.yValues=scoreHistory;
+        
         [scoreGraph setNeedsDisplay];
 
         [self setLevel:currentLevel];
@@ -1626,7 +1658,7 @@
     elapsed=0;
     //[self positionBall:YES];
 
-    [UIView animateWithDuration:0.4
+    [UIView animateWithDuration:0.2
                           delay:0.0
                         options:UIViewAnimationOptionCurveEaseOut
                      animations:^{
@@ -1656,7 +1688,7 @@
                          if(midMarkLine.center.y!=startY+(endY-startY)*flashT){
                              [midMarkLabel countFrom:0  to:(int)(flashT*100) withDuration:.4f];
                          }
-                                       [UIView animateWithDuration:0.4
+                                       [UIView animateWithDuration:0.2
                                                              delay:0.0
                                                            options:UIViewAnimationOptionCurveEaseOut
                                                         animations:^{
@@ -1669,7 +1701,7 @@
                                                         }
                                                         completion:^(BOOL finished){
                                                             
-                                                            [UIView animateWithDuration:0.4
+                                                            [UIView animateWithDuration:0.2
                                                                                   delay:0.4
                                                                                 options:UIViewAnimationOptionCurveEaseOut
                                                                              animations:^{

@@ -11,5 +11,6 @@
 @interface Sparkline : UIView
 
 @property (strong, atomic) NSArray *yValues;
-
+@property (strong, atomic) NSArray *accuracyScore;
+-(float)getAccuracyAverage;
 @end
