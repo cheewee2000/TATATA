@@ -1444,12 +1444,59 @@
 
 
     //first flash
+//    [CATransaction begin];
+//    CABasicAnimation *startFlash = [CABasicAnimation animationWithKeyPath:@"opacity"];
+//    [startFlash setDuration:flashDuration];
+//    [startFlash setFromValue:[NSNumber numberWithFloat:(currentLevel>0)?0.0f:ballDim]];
+//    [startFlash setToValue:[NSNumber numberWithFloat:1.0f]];
+//    [startFlash setBeginTime:currentTimeInSuperLayer+trialDelay];
+//    [CATransaction setCompletionBlock:^{
+//        [aTimer start];
+//        actualD1Duration=frameTimestamp;
+//        if(currentLevel==0 && [[NSUserDefaults standardUserDefaults] boolForKey:@"hideExample"] == NO)
+//        {
+//            ball.alpha=ballDim;
+//            trialSequence=-2;
+//            [self updateBall];
+//        }
+//        else [self performSelector:@selector(updateBall) withObject:self afterDelay:timerGoal];
+//
+////        float msOff=[aTimer elapsedSeconds];
+////        NSLog(@"startFlash accuracy: %f sec",msOff);
+//        if(currentLevel>0 || [[NSUserDefaults standardUserDefaults] boolForKey:@"hideExample"] )ball.center=CGPointMake(screenWidth*.5, startY+(endY-startY)*flashT);
+//    }];
+//    [ball.layer addAnimation:startFlash forKey:@"startFlash"];
+
     [CATransaction begin];
     CABasicAnimation *startFlash = [CABasicAnimation animationWithKeyPath:@"opacity"];
-    [startFlash setDuration:flashDuration];
+    [startFlash setDuration:.0001];
     [startFlash setFromValue:[NSNumber numberWithFloat:(currentLevel>0)?0.0f:ballDim]];
     [startFlash setToValue:[NSNumber numberWithFloat:1.0f]];
     [startFlash setBeginTime:currentTimeInSuperLayer+trialDelay];
+    [CATransaction setCompletionBlock:^{
+//        [aTimer start];
+//        actualD1Duration=frameTimestamp;
+//        if(currentLevel==0 && [[NSUserDefaults standardUserDefaults] boolForKey:@"hideExample"] == NO)
+//        {
+//            ball.alpha=ballDim;
+//            trialSequence=-2;
+//            [self updateBall];
+//        }
+//        else [self performSelector:@selector(updateBall) withObject:self afterDelay:timerGoal];
+//        
+//        //        float msOff=[aTimer elapsedSeconds];
+//        //        NSLog(@"startFlash accuracy: %f sec",msOff);
+//        if(currentLevel>0 || [[NSUserDefaults standardUserDefaults] boolForKey:@"hideExample"] )ball.center=CGPointMake(screenWidth*.5, startY+(endY-startY)*flashT);
+        ball.alpha=1.0f;
+    }];
+    [ball.layer addAnimation:startFlash forKey:@"startFlash"];
+    
+    
+    CABasicAnimation *startFlashOff = [CABasicAnimation animationWithKeyPath:@"opacity"];
+    [startFlashOff setDuration:.0001];
+    [startFlashOff setFromValue:[NSNumber numberWithFloat:1.0f]];
+    [startFlashOff setToValue:[NSNumber numberWithFloat:(currentLevel>0)?0.0f:ballDim]];
+    [startFlashOff setBeginTime:currentTimeInSuperLayer+trialDelay+flashDuration];
     [CATransaction setCompletionBlock:^{
         [aTimer start];
         actualD1Duration=frameTimestamp;
@@ -1459,31 +1506,77 @@
             trialSequence=-2;
             [self updateBall];
         }
-        else [self performSelector:@selector(updateBall) withObject:self afterDelay:timerGoal];
+        else{
+            [self performSelector:@selector(updateBall) withObject:self afterDelay:timerGoal];
+            ball.alpha=0;
 
-//        float msOff=[aTimer elapsedSeconds];
-//        NSLog(@"startFlash accuracy: %f sec",msOff);
+            
+        }
+        //        float msOff=[aTimer elapsedSeconds];
+        //        NSLog(@"startFlash accuracy: %f sec",msOff);
         if(currentLevel>0 || [[NSUserDefaults standardUserDefaults] boolForKey:@"hideExample"] )ball.center=CGPointMake(screenWidth*.5, startY+(endY-startY)*flashT);
     }];
-    [ball.layer addAnimation:startFlash forKey:@"startFlash"];
+    [ball.layer addAnimation:startFlashOff forKey:@"startFlashOff"];
+    
+    
+//    //second flash
+//    CABasicAnimation *midFlash = [CABasicAnimation animationWithKeyPath:@"opacity"];
+//    [midFlash setDuration:flashDuration];
+//    [midFlash setFromValue:[NSNumber numberWithFloat:(currentLevel>0)?0.0f:ballDim]];
+//    [midFlash setToValue:[NSNumber numberWithFloat:1.0f]];
+//    [midFlash setBeginTime:currentTimeInSuperLayer+trialDelay+flashDelay];
+//    [CATransaction setCompletionBlock:^{
+//        //actualD1Duration=[aTimer elapsedSeconds];
+//        actualD1Duration=frameTimestamp-actualD1Duration;
+//        //NSLog(@"D1 Duration: %f : %f sec",actualD1Duration, flashDelay);
+//        if(currentLevel==0 && [[NSUserDefaults standardUserDefaults] boolForKey:@"hideExample"] == NO) ball.alpha=ballDim;
+//        trialSequence=1;
+//    }];
+//    [ball.layer addAnimation:midFlash forKey:@"midFlash"];
+//    [midMarkLine.layer addAnimation:midFlash forKey:@"midFlash"];
+
 
     //second flash
     CABasicAnimation *midFlash = [CABasicAnimation animationWithKeyPath:@"opacity"];
-    [midFlash setDuration:flashDuration];
+    [midFlash setDuration:.0001];
     [midFlash setFromValue:[NSNumber numberWithFloat:(currentLevel>0)?0.0f:ballDim]];
     [midFlash setToValue:[NSNumber numberWithFloat:1.0f]];
     [midFlash setBeginTime:currentTimeInSuperLayer+trialDelay+flashDelay];
     [CATransaction setCompletionBlock:^{
-        //actualD1Duration=[aTimer elapsedSeconds];
-        actualD1Duration=frameTimestamp-actualD1Duration;
-        //NSLog(@"D1 Duration: %f : %f sec",actualD1Duration, flashDelay);
-        if(currentLevel==0 && [[NSUserDefaults standardUserDefaults] boolForKey:@"hideExample"] == NO) ball.alpha=ballDim;
-        trialSequence=1;
+//        //actualD1Duration=[aTimer elapsedSeconds];
+//        actualD1Duration=frameTimestamp-actualD1Duration;
+//        //NSLog(@"D1 Duration: %f : %f sec",actualD1Duration, flashDelay);
+//        if(currentLevel==0 && [[NSUserDefaults standardUserDefaults] boolForKey:@"hideExample"] == NO) ball.alpha=ballDim;
+//        trialSequence=1;
+        ball.alpha=1.0f;
+        midMarkLine.alpha=1.0f;
     }];
     [ball.layer addAnimation:midFlash forKey:@"midFlash"];
     [midMarkLine.layer addAnimation:midFlash forKey:@"midFlash"];
-
-
+    
+    //second flashOff
+    CABasicAnimation *midFlashOff = [CABasicAnimation animationWithKeyPath:@"opacity"];
+    [midFlashOff setDuration:.0001];
+    [midFlashOff setFromValue:[NSNumber numberWithFloat:1.0f]];
+    [midFlashOff setToValue:[NSNumber numberWithFloat:(currentLevel>0)?0.0f:ballDim]];
+    [midFlashOff setBeginTime:currentTimeInSuperLayer+trialDelay+flashDelay+flashDuration];
+    [CATransaction setCompletionBlock:^{
+        //actualD1Duration=[aTimer elapsedSeconds];
+        actualD1Duration=frameTimestamp-actualD1Duration;
+        //NSLog(@"D1 Duration: %f : %f sec",actualD1Duration, flashDelay);
+        if(currentLevel==0 && [[NSUserDefaults standardUserDefaults] boolForKey:@"hideExample"] == NO){
+         ball.alpha=ballDim;
+            midMarkLine.alpha=ballDim;
+        }
+        else {
+            ball.alpha=0;
+            midMarkLine.alpha=0;
+        }
+        trialSequence=1;
+    }];
+    [ball.layer addAnimation:midFlashOff forKey:@"midFlashOff"];
+    [midMarkLine.layer addAnimation:midFlashOff forKey:@"midFlashOff"];
+    
     
     [CATransaction commit];
     
