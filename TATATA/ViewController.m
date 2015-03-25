@@ -1181,9 +1181,9 @@
     
     float accuracy;
     if(elapsed<=timerGoal) accuracy=(float)elapsed/(float)timerGoal;
-    else accuracy=fabs(elapsed-timerGoal*2.0)/(float)timerGoal;
+    else accuracy=1.0-fabs(elapsed-timerGoal)/(float)timerGoal;
     
-    //NSLog(@"accuracy %f",accuracy);
+    NSLog(@"accuracy %f",accuracy);
     
     if(accuracy>.5){
         [accuracyHistory  addObject:[NSNumber numberWithFloat:accuracy]];
@@ -1565,8 +1565,8 @@
         actualD1Duration=frameTimestamp-actualD1Duration;
         //NSLog(@"D1 Duration: %f : %f sec",actualD1Duration, flashDelay);
         if(currentLevel==0 && [[NSUserDefaults standardUserDefaults] boolForKey:@"hideExample"] == NO){
-         ball.alpha=ballDim;
-            midMarkLine.alpha=ballDim;
+            ball.alpha=ballDim;
+            midMarkLine.alpha=dimAlpha;
         }
         else {
             ball.alpha=0;
