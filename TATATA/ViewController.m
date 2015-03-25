@@ -1101,6 +1101,8 @@
     [myDictionary setObject:[NSNumber numberWithFloat: touchX ] forKey:@"touchX"];
     [myDictionary setObject:[NSNumber numberWithFloat: touchY ] forKey:@"touchY"];
     [myDictionary setObject:[NSNumber numberWithFloat: touchLength ] forKey:@"touchLength"];
+    [myDictionary setObject:[NSNumber numberWithFloat: actualD1Duration ] forKey:@"actualD1Duration"];
+
     if(configVersion!=nil)[myDictionary setObject:configVersion forKey:@"configVersion"];
 
     //}
@@ -1112,6 +1114,8 @@
     if([_currentUser[@"iAgree"] boolValue]){
         PFObject *pObject = [PFObject objectWithClassName:@"results"];
         pObject[@"offset"] = [NSNumber numberWithFloat:diff];
+        pObject[@"actualD1Duration"] = [NSNumber numberWithFloat:actualD1Duration];
+
         pObject[@"goal"] = [NSNumber numberWithFloat:timerGoal];
         pObject[@"flashT"]=[NSNumber numberWithFloat:flashT];
         pObject[@"trialDelay"]=[NSNumber numberWithFloat:trialDelay];
@@ -1167,7 +1171,7 @@
     if(elapsed<=timerGoal) accuracy=(float)elapsed/(float)timerGoal;
     else accuracy=fabs(elapsed-timerGoal*2.0)/(float)timerGoal;
     
-    NSLog(@"accuracy %f",accuracy);
+    //NSLog(@"accuracy %f",accuracy);
     
     if(accuracy>.5){
         [accuracyHistory  addObject:[NSNumber numberWithFloat:accuracy]];
@@ -1445,8 +1449,8 @@
         }
         else [self performSelector:@selector(updateBall) withObject:self afterDelay:timerGoal];
 
-        //float msOff=[aTimer elapsedSeconds];
-        //NSLog(@"startFlash accuracy: %f sec",msOff);
+//        float msOff=[aTimer elapsedSeconds];
+//        NSLog(@"startFlash accuracy: %f sec",msOff);
         if(currentLevel>0 || [[NSUserDefaults standardUserDefaults] boolForKey:@"hideExample"] )ball.center=CGPointMake(screenWidth*.5, startY+(endY-startY)*flashT);
     }];
     [ball.layer addAnimation:startFlash forKey:@"startFlash"];
@@ -1458,15 +1462,16 @@
     [midFlash setToValue:[NSNumber numberWithFloat:1.0f]];
     [midFlash setBeginTime:currentTimeInSuperLayer+trialDelay+flashDelay];
     [CATransaction setCompletionBlock:^{
+        actualD1Duration=[aTimer elapsedSeconds];
+        
+        //NSLog(@"D1 Duration: %f : %f sec",actualD1Duration, flashDelay);
         if(currentLevel==0 && [[NSUserDefaults standardUserDefaults] boolForKey:@"hideExample"] == NO) ball.alpha=ballDim;
         trialSequence=1;
-        //float msOff=[aTimer elapsedSeconds]-flashDelay;
-        //NSLog(@"midFlash   accuracy: %f sec",msOff);
     }];
     [ball.layer addAnimation:midFlash forKey:@"midFlash"];
     [midMarkLine.layer addAnimation:midFlash forKey:@"midFlash"];
 
-    
+
     
     [CATransaction commit];
     

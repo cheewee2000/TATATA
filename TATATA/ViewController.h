@@ -83,7 +83,7 @@
     float accuracyMax;
     float ballDiameter;
     float nTrialsInStage;
-    
+    float actualD1Duration;
     //float catchZoneDiameter;
     
     
