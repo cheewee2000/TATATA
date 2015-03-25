@@ -593,10 +593,21 @@
     //currentLevel=11;
     //[self restart];
     
-
+    displayLink = [CADisplayLink displayLinkWithTarget:self selector:@selector(update)];
+    [displayLink addToRunLoop:[NSRunLoop mainRunLoop] forMode:NSDefaultRunLoopMode];
     
 }
 
+- (void) update {
+    double currentTime = [displayLink timestamp];
+    //double renderTime = currentTime - frameTimestamp;
+    frameTimestamp = currentTime;
+
+    //    double speed = 10.0 * renderTime * 60.0;
+    //    [myView moveWithSpeed: speed];
+    //NSLog(@"frame %f",frameTimestamp);
+    
+}
 
 #pragma mark - touch
 
@@ -605,13 +616,14 @@
 
     if(trialSequence>0)[self buttonPressed];
     
+    touchStartTime=[aTimer elapsedSeconds];
+
     UITouch *touch = [[event allTouches] anyObject];
     CGPoint touchPoint = [touch locationInView:self.view];
     //NSLog(@"Touch x : %f y : %f", touchPoint.x, touchPoint.y);
     touchX=touchPoint.x;
     touchY=touchPoint.y;
     
-    touchStartTime=[aTimer elapsedSeconds];
     
     
     
@@ -1440,7 +1452,7 @@
     [startFlash setBeginTime:currentTimeInSuperLayer+trialDelay];
     [CATransaction setCompletionBlock:^{
         [aTimer start];
-        
+        actualD1Duration=frameTimestamp;
         if(currentLevel==0 && [[NSUserDefaults standardUserDefaults] boolForKey:@"hideExample"] == NO)
         {
             ball.alpha=ballDim;
@@ -1462,8 +1474,8 @@
     [midFlash setToValue:[NSNumber numberWithFloat:1.0f]];
     [midFlash setBeginTime:currentTimeInSuperLayer+trialDelay+flashDelay];
     [CATransaction setCompletionBlock:^{
-        actualD1Duration=[aTimer elapsedSeconds];
-        
+        //actualD1Duration=[aTimer elapsedSeconds];
+        actualD1Duration=frameTimestamp-actualD1Duration;
         //NSLog(@"D1 Duration: %f : %f sec",actualD1Duration, flashDelay);
         if(currentLevel==0 && [[NSUserDefaults standardUserDefaults] boolForKey:@"hideExample"] == NO) ball.alpha=ballDim;
         trialSequence=1;

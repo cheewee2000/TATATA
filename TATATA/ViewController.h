@@ -148,6 +148,10 @@
     
     UIScrollView *scrollView;
     
+    //timer
+    double frameTimestamp;
+    CADisplayLink *displayLink;
+    
 }
 @property int currentPage;
 
