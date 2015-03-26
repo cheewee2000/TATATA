@@ -1338,7 +1338,7 @@
     [ball setColor:strokeColor];
     [ball setNeedsDisplay];
     
-    trialDelay =1.4+((double)arc4random() / ARC4RANDOM_MAX)*.5;
+    trialDelay =1.4+((double)arc4random() / ARC4RANDOM_MAX)*.65;
     float objAlpha=.4;
 
     //ambient lights
