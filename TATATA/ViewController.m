@@ -1069,7 +1069,7 @@
     
     ballAnnotation.frame=CGRectMake(ball.center.x-annotationWidth-dimension.dimLineOffsetX-15, midpointToTargetY-annotationHeight*.5, annotationWidth, annotationHeight);
     
-    float diff=elapsed-timerGoal;
+    float diff=elapsed-trueTimerGoal;
     if(diff<0) ballAnnotation.text=[NSString stringWithFormat:@"%.3fs", diff];
     else ballAnnotation.text=[NSString stringWithFormat:@"+%.3fs", diff];
    
@@ -1095,9 +1095,11 @@
     
     //save to disk
     NSMutableDictionary *myDictionary = [[NSMutableDictionary alloc] init];
-    float diff=elapsed-timerGoal;
+    float diff=elapsed-trueTimerGoal;
     [myDictionary setObject:[NSNumber numberWithFloat:diff] forKey:@"offset"];
     [myDictionary setObject:[NSNumber numberWithFloat:timerGoal] forKey:@"goal"];
+    [myDictionary setObject:[NSNumber numberWithFloat:trueTimerGoal] forKey:@"trueGoal"];
+
     [myDictionary setObject:[NSNumber numberWithFloat:trialDelay] forKey:@"trialDelay"];
     [myDictionary setObject:[NSNumber numberWithFloat:flashT] forKey:@"flashT"];
     [myDictionary setObject:[NSNumber numberWithFloat:[currentTrial[@"d1"]floatValue]] forKey:@"d1"];
@@ -1108,7 +1110,7 @@
     [myDictionary setObject:[NSNumber numberWithBool:([self isAccurate])? YES:NO] forKey:@"win"];
     [myDictionary setObject:localDateTime forKey:@"date"];
     [myDictionary setObject:[NSTimeZone localTimeZone].abbreviation forKey:@"timezone"];
-    [myDictionary setObject:[NSNumber numberWithBool: (touched)? YES:NO ] forKey:@"didTouch"];
+    //[myDictionary setObject:[NSNumber numberWithBool: (touched)? YES:NO ] forKey:@"didTouch"];
     //if(touched){
     [myDictionary setObject:[NSNumber numberWithFloat: touchX ] forKey:@"touchX"];
     [myDictionary setObject:[NSNumber numberWithFloat: touchY ] forKey:@"touchY"];
@@ -1129,6 +1131,8 @@
         pObject[@"actualD1Duration"] = [NSNumber numberWithFloat:actualD1Duration];
 
         pObject[@"goal"] = [NSNumber numberWithFloat:timerGoal];
+        pObject[@"trueGoal"] = [NSNumber numberWithFloat:trueTimerGoal];
+
         pObject[@"flashT"]=[NSNumber numberWithFloat:flashT];
         pObject[@"trialDelay"]=[NSNumber numberWithFloat:trialDelay];
         pObject[@"trials"]=currentTrial;
@@ -1136,7 +1140,7 @@
         pObject[@"win"]=([self isAccurate])? @YES:@NO;
         pObject[@"date"]=localDateTime;
         pObject[@"timezone"]=[NSString stringWithFormat:@"%@",[NSTimeZone localTimeZone].abbreviation];
-        pObject[@"didTouch"]=(touched)? @YES:@NO;
+        //pObject[@"didTouch"]=(touched)? @YES:@NO;
         //if(touched){
         pObject[@"touchX"]=[NSNumber numberWithFloat: touchX ];
         pObject[@"touchY"]=[NSNumber numberWithFloat: touchY ];
@@ -1180,8 +1184,8 @@
 //    [defaults setObject:[NSNumber numberWithFloat:[_currentUser[@"accuracyScore"] floatValue] ] forKey:@"accuracyScore"];
     
     float accuracy;
-    if(elapsed<=timerGoal) accuracy=(float)elapsed/(float)timerGoal;
-    else accuracy=1.0-fabs(elapsed-timerGoal)/(float)timerGoal;
+    if(elapsed<=trueTimerGoal) accuracy=(float)elapsed/(float)trueTimerGoal;
+    else accuracy=1.0-fabs(elapsed-trueTimerGoal)/(float)trueTimerGoal;
     
     NSLog(@"accuracy %f",accuracy);
     
@@ -1500,6 +1504,9 @@
     [CATransaction setCompletionBlock:^{
         [aTimer start];
         actualD1Duration=frameTimestamp;
+
+        
+        
         if(currentLevel==0 && [[NSUserDefaults standardUserDefaults] boolForKey:@"hideExample"] == NO)
         {
             ball.alpha=ballDim;
@@ -1563,6 +1570,15 @@
     [CATransaction setCompletionBlock:^{
         //actualD1Duration=[aTimer elapsedSeconds];
         actualD1Duration=frameTimestamp-actualD1Duration;
+        
+        //float l=[currentTrial[@"duration"] floatValue] * [currentTrial[@"d2"] floatValue]+[currentTrial[@"duration"] floatValue] * [currentTrial[@"d1"] floatValue];
+        
+        actualD2Duration=actualD1Duration/[currentTrial[@"d1"] floatValue]*[currentTrial[@"d2"] floatValue] ;
+        trueTimerGoal=actualD1Duration+actualD2Duration;
+        
+        NSLog(@"%f,%f = %f : %f",actualD1Duration, actualD2Duration,trueTimerGoal, timerGoal);
+        
+        
         //NSLog(@"D1 Duration: %f : %f sec",actualD1Duration, flashDelay);
         if(currentLevel==0 && [[NSUserDefaults standardUserDefaults] boolForKey:@"hideExample"] == NO){
             ball.alpha=ballDim;
@@ -1586,7 +1602,7 @@
 -(void)positionBall:(BOOL)animate{
     CGPoint p;
     if(elapsed==0)p=CGPointMake(screenWidth*.5, startY);
-    else p=CGPointMake(screenWidth*.5, startY+(endY-startY)*(float)elapsed/(float)timerGoal );
+    else p=CGPointMake(screenWidth*.5, startY+(endY-startY)*(float)elapsed/(float)timerGoal     );
     if(animate){
         [UIView animateWithDuration:0.6
                               delay:0.0
@@ -1862,19 +1878,19 @@
 # pragma mark Helpers
 
 -(bool)isAccurate{
-    float diff=fabs(timerGoal-elapsed);
+    float diff=fabs(trueTimerGoal-elapsed);
     if( diff<=[self getLevelAccuracy:currentLevel] ) return YES;
     else return NO;
 }
 -(float)getAccuracyFloat{
     float f;
-    f=fabs(elapsed-timerGoal)/[self getLevelAccuracy:currentLevel];
+    f=fabs(elapsed-trueTimerGoal)/[self getLevelAccuracy:currentLevel];
     return f;
 }
 
 -(int)getAccuracyPercentage{
     float accuracyPercent;
-    accuracyPercent=100.0-fabs(elapsed-timerGoal)/(float)timerGoal*100.0;
+    accuracyPercent=100.0-fabs(elapsed-trueTimerGoal)/(float)trueTimerGoal*100.0;
     if(accuracyPercent<0)accuracyPercent=0;
     return ceilf(accuracyPercent);
 }

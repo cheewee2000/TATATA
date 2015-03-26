@@ -84,6 +84,9 @@
     float ballDiameter;
     float nTrialsInStage;
     float actualD1Duration;
+    float actualD2Duration;
+    float trueTimerGoal;
+    
     //float catchZoneDiameter;
     
     
