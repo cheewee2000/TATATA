@@ -35,7 +35,8 @@
     
     Arc * arc;
     //Dots *startZoneFlash;
-    
+    Dots *testBall;
+
     Dots *ball;
     Dots *catchZone;
     Dots *catchZoneCenter;
@@ -83,12 +84,15 @@
     float accuracyMax;
     float ballDiameter;
     float nTrialsInStage;
-    float actualD1Duration;
-    float actualD2Duration;
-    float trueTimerGoal;
-    
+    float trueD1Duration;
+    float trueD2Duration;
+    //float trueTimerGoal;
+    int d1Frames;
+    int d2Frames;
+    float d1Duration;
+    float d2Duration;
     //float catchZoneDiameter;
-    
+    int frameCount;
     
     UIButton *gameCenterButton;
     UIButton *infoButton;
