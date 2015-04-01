@@ -93,6 +93,8 @@
     float d2Duration;
     //float catchZoneDiameter;
     int frameCount;
+    BOOL dropBall;
+    
     
     UIButton *gameCenterButton;
     UIButton *infoButton;
