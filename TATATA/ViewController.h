@@ -158,8 +158,14 @@
     UIScrollView *scrollView;
     
     //timer
-    double frameTimestamp;
+    double currentFrameTimestamp;
+    double lastFrameTimestamp;
+    float CATransactionDelay;
+
     CADisplayLink *displayLink;
+    int skippedFrames;
+    BOOL secondFlash;
+    
     
 }
 @property int currentPage;
