@@ -14,6 +14,9 @@
 		44140EE41A4FE96C00A612B8 /* ParseUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 44140EDF1A4FE96C00A612B8 /* ParseUI.framework */; };
 		44140EE51A50361F00A612B8 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 44140ED81A4FE3D100A612B8 /* libsqlite3.dylib */; };
 		44140EE81A52B38600A612B8 /* Crosshair.m in Sources */ = {isa = PBXBuildFile; fileRef = 44140EE71A52B38600A612B8 /* Crosshair.m */; };
+		44389CD91ACDF45200DB84F9 /* KMCGeigerCounter.m in Sources */ = {isa = PBXBuildFile; fileRef = 44389CD71ACDF45200DB84F9 /* KMCGeigerCounter.m */; };
+		44389CDA1ACDF45200DB84F9 /* KMCGeigerCounterTick.aiff in Resources */ = {isa = PBXBuildFile; fileRef = 44389CD81ACDF45200DB84F9 /* KMCGeigerCounterTick.aiff */; };
+		44389CDC1ACDF5DA00DB84F9 /* SpriteKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 44389CDB1ACDF5DA00DB84F9 /* SpriteKit.framework */; };
 		443CA72D19C0B171003BACD8 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 443CA72C19C0B171003BACD8 /* AVFoundation.framework */; };
 		444023D21A37EAB10022D80B /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 444023D11A37EAB10022D80B /* StoreKit.framework */; };
 		444023D41A37EAD30022D80B /* libstdc++.6.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 444023D31A37EAD30022D80B /* libstdc++.6.dylib */; };
@@ -59,6 +62,10 @@
 		44140EDF1A4FE96C00A612B8 /* ParseUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = ParseUI.framework; sourceTree = "<group>"; };
 		44140EE61A52B38600A612B8 /* Crosshair.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Crosshair.h; sourceTree = "<group>"; };
 		44140EE71A52B38600A612B8 /* Crosshair.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Crosshair.m; sourceTree = "<group>"; };
+		44389CD61ACDF45200DB84F9 /* KMCGeigerCounter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KMCGeigerCounter.h; sourceTree = "<group>"; };
+		44389CD71ACDF45200DB84F9 /* KMCGeigerCounter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KMCGeigerCounter.m; sourceTree = "<group>"; };
+		44389CD81ACDF45200DB84F9 /* KMCGeigerCounterTick.aiff */ = {isa = PBXFileReference; lastKnownFileType = audio.aiff; path = KMCGeigerCounterTick.aiff; sourceTree = "<group>"; };
+		44389CDB1ACDF5DA00DB84F9 /* SpriteKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SpriteKit.framework; path = System/Library/Frameworks/SpriteKit.framework; sourceTree = SDKROOT; };
 		443CA72C19C0B171003BACD8 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		444023D11A37EAB10022D80B /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		444023D31A37EAD30022D80B /* libstdc++.6.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libstdc++.6.dylib"; path = "usr/lib/libstdc++.6.dylib"; sourceTree = SDKROOT; };
@@ -115,6 +122,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				44389CDC1ACDF5DA00DB84F9 /* SpriteKit.framework in Frameworks */,
 				44140EE51A50361F00A612B8 /* libsqlite3.dylib in Frameworks */,
 				444023D41A37EAD30022D80B /* libstdc++.6.dylib in Frameworks */,
 				444023D21A37EAB10022D80B /* StoreKit.framework in Frameworks */,
@@ -143,6 +151,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		44389CD51ACDF45200DB84F9 /* KMCGeigerCounter */ = {
+			isa = PBXGroup;
+			children = (
+				44389CD61ACDF45200DB84F9 /* KMCGeigerCounter.h */,
+				44389CD71ACDF45200DB84F9 /* KMCGeigerCounter.m */,
+				44389CD81ACDF45200DB84F9 /* KMCGeigerCounterTick.aiff */,
+			);
+			path = KMCGeigerCounter;
+			sourceTree = "<group>";
+		};
 		444F09A61A1CEFB500E5E7C3 /* TATATA */ = {
 			isa = PBXGroup;
 			children = (
@@ -178,6 +196,7 @@
 		444F09F51A1CF11000E5E7C3 /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
+				44389CD51ACDF45200DB84F9 /* KMCGeigerCounter */,
 				44E5E53B1A79BBD400CC18B0 /* UICountingLabel.h */,
 				44E5E53C1A79BBD400CC18B0 /* UICountingLabel.m */,
 				44DCD24D1A6F5F9B006518C5 /* Reachability.h */,
@@ -218,6 +237,7 @@
 		70C2EB3F1475EF4F00751AE8 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				44389CDB1ACDF5DA00DB84F9 /* SpriteKit.framework */,
 				445E7A741A8647B100426650 /* Crashlytics.framework */,
 				44140EDB1A4FE96C00A612B8 /* Bolts.framework */,
 				44140EDC1A4FE96C00A612B8 /* Parse.framework */,
@@ -316,6 +336,7 @@
 				444F09E01A1CEFB500E5E7C3 /* Default.png in Resources */,
 				444F09DF1A1CEFB500E5E7C3 /* Default-568h@2x.png in Resources */,
 				4461DC161A6839E8009FDEA3 /* SurveyView.xib in Resources */,
+				44389CDA1ACDF45200DB84F9 /* KMCGeigerCounterTick.aiff in Resources */,
 				444F09E31A1CEFB500E5E7C3 /* InfoPlist.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -348,6 +369,7 @@
 				444F09EA1A1CEFB500E5E7C3 /* main.m in Sources */,
 				444F09D91A1CEFB500E5E7C3 /* AppDelegate.m in Sources */,
 				44DCD24F1A6F5F9B006518C5 /* Reachability.m in Sources */,
+				44389CD91ACDF45200DB84F9 /* KMCGeigerCounter.m in Sources */,
 				44E5E53D1A79BBD400CC18B0 /* UICountingLabel.m in Sources */,
 				444F09E21A1CEFB500E5E7C3 /* Dots.m in Sources */,
 				44DCD2521A70A81F006518C5 /* Dimension.m in Sources */,
@@ -475,6 +497,7 @@
 				PRODUCT_NAME = Darkball;
 				PROVISIONING_PROFILE = "";
 				TARGETED_DEVICE_FAMILY = "1,2";
+				VALID_ARCHS = "armv64 armv7 armv7s";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -503,6 +526,7 @@
 				PRODUCT_NAME = Darkball;
 				PROVISIONING_PROFILE = "";
 				TARGETED_DEVICE_FAMILY = "1,2";
+				VALID_ARCHS = "armv64 armv7 armv7s";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

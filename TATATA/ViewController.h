@@ -163,10 +163,11 @@
     float CATransactionDelay;
 
     CADisplayLink *displayLink;
-    int skippedFrames;
+    float frameOffset;
+    int droppedFrames;
     BOOL secondFlash;
     
-    
+    BOOL shouldAutoStart;
 }
 @property int currentPage;
 

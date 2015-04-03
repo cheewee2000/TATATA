@@ -121,16 +121,14 @@
     [self.view bringSubviewToFront:ball];
     
     
-//    testBall=[[Dots alloc] initWithFrame:CGRectMake(0, 0, 85, 85)];
-//    testBall.center=CGPointMake(screenWidth*.5, startY);
-//    testBall.backgroundColor = [UIColor clearColor];
-//    testBall.alpha=1.00;
-//    [testBall setColor:strokeColor];
-//    [testBall setFill:YES];
-//    //ball.lineWidth=ball.frame.size.width*.5-2;
-//    
-//    [self.view  addSubview:testBall];
-//    [self.view  bringSubviewToFront:testBall];
+    testBall=[[Dots alloc] initWithFrame:CGRectMake(0, 0, 385, 385)];
+    testBall.center=CGPointMake(screenWidth*.5, startY);
+    testBall.backgroundColor = [UIColor clearColor];
+    testBall.alpha=0;
+    [testBall setColor:strokeColor];
+    [testBall setFill:YES];    
+    [self.view  addSubview:testBall];
+    [self.view  bringSubviewToFront:testBall];
     
     
     
@@ -621,15 +619,38 @@
     //NSLog(@"currentTime    %f", CACurrentMediaTime());
     
     frameCount = frameCount + round((currentFrameTimestamp-lastFrameTimestamp)/(1/60.0));
+    
+    frameOffset+=(currentFrameTimestamp-lastFrameTimestamp)-(1/60.0);
+
     lastFrameTimestamp = currentFrameTimestamp;
 
+    
+    //test flash
+//    for( int i=0; i<6 ; i++){
+//    [UIView animateWithDuration:0.005
+//                          delay:i*.01
+//                        options:UIViewAnimationOptionCurveLinear
+//                     animations:^{
+//                         testBall.alpha=testBall.alpha+.01;
+//                         if(testBall.alpha>.3)testBall.alpha=0;
+//                         testBall.center=CGPointMake(testBall.center.x, testBall.center.y+.1);
+//                         
+//                         if(testBall.center.y>screenHeight)testBall.center=CGPointMake(testBall.center.x, 0);
+//                         testBall.label.text=[NSString stringWithFormat:@"%i",frameCount];
+//                         
+//                         scoreGraph.alpha=testBall.alpha;
+//                         catchZone.alpha=testBall.alpha/2;
+//                         scoreLabel.alpha=testBall.alpha*.33;
+//                         
+//                     }
+//                     completion:^(BOOL finished){
+//
+//                     }];
+//    }
+    
     if(dropBall){
         float ballDim=.8;
 
-//        if(currentLevel==0 && [[NSUserDefaults standardUserDefaults] boolForKey:@"hideExample"] == NO)
-//        {
-//            //NSLog(@"update %f", frameTimestamp);
-//        }
         [self updateBall];
         [ball setNeedsDisplay];
         
@@ -662,23 +683,22 @@
             [CATransaction begin];
             [CATransaction setCompletionBlock:^{
                 
-                if(currentLevel==0 && [[NSUserDefaults standardUserDefaults] boolForKey:@"hideExample"] == NO)
+                if(currentLevel==0 && [[NSUserDefaults standardUserDefaults] boolForKey:@"showExample"])
                 {
                     ball.alpha=ballDim;
                     trialSequence=-2;
                     [self updateBall];
                 }
                 else{
-                    [self performSelector:@selector(updateBall) withObject:self afterDelay:timerGoal];
+                    //[self performSelector:@selector(updateBall) withObject:self afterDelay:timerGoal];
                     ball.alpha=0;
-                    
-                    
+                    ball.center=CGPointMake(screenWidth*.5, startY+(endY-startY)*flashT);
                 }
                 
 
                 //        float msOff=[aTimer elapsedSeconds];
                 //        NSLog(@"startFlash accuracy: %f sec",msOff);
-                if(currentLevel>0 || [[NSUserDefaults standardUserDefaults] boolForKey:@"hideExample"] )ball.center=CGPointMake(screenWidth*.5, startY+(endY-startY)*flashT);
+                //if(currentLevel>0)
                 
             }];
             
@@ -705,9 +725,15 @@
                 //        trueD1Duration=frameTimestamp-trueD1Duration;
                 //        NSLog(@"frameTimestamp diff %f", trueD1Duration);
 
-                skippedFrames=frameCount-d1Frames-1;
+                //skippedFrames=frameCount-d1Frames-1;
                 trueD1Duration=[aTimer elapsedSeconds];
                 
+                
+                droppedFrames=round(frameOffset/(1/60.0));
+                //NSLog(@"droppedFrames   %i", droppedFrames );
+                frameOffset=0;
+    
+                    
                 //        NSLog(@"aTimer         diff %f", trueD1Duration);
                 
                 ball.alpha=1.0f;
@@ -733,7 +759,7 @@
                 //NSLog(@"%f,%f = %f : %f",actualD1Duration, actualD2Duration,trueTimerGoal, timerGoal);
                 
                 //NSLog(@"D1 Duration: %f : %f sec",actualD1Duration, flashDelay);
-                if(currentLevel==0 && [[NSUserDefaults standardUserDefaults] boolForKey:@"hideExample"] == NO){
+                if(currentLevel==0 && [[NSUserDefaults standardUserDefaults] boolForKey:@"showExample"]){
                     ball.alpha=ballDim;
                     midMarkLine.alpha=dimAlpha;
                 }
@@ -952,7 +978,8 @@
 
 -(void)showStartScreen{
     currentLevel=0;
-	
+
+
     [UIView animateWithDuration:0.4
                           delay:0.0
                         options:UIViewAnimationOptionCurveLinear
@@ -1073,7 +1100,11 @@
 //        NSLog(@"hide screen and dimsiss intro");        
     }
 
+    currentLevel=0;
+    shouldAutoStart=false;
     [self animateLevelReset];
+
+    if([[NSUserDefaults standardUserDefaults] boolForKey:@"showExample"]==NO && currentLevel==0)currentLevel=1;
     [self setLevel:currentLevel];
 
     [UIView animateWithDuration:0.2
@@ -1152,7 +1183,6 @@
         else [ball setColor:[UIColor yellowColor]];
         [ball setNeedsDisplay];
         
-        if([[NSUserDefaults standardUserDefaults] boolForKey:@"hideExample"] && currentLevel==0)currentLevel=1;
 
         currentScoreLabel.text=[NSString stringWithFormat:@"%i",currentLevel];
         
@@ -1169,58 +1199,60 @@
 
         }
         
-    }else{
+    }
+    //fail
+    else{
         [ball setColor:[UIColor redColor]];
         [ball setNeedsDisplay];
         
-#ifdef TESTING
-        
-#else
-        //flash background
-        [UIView animateWithDuration:0.1
-                              delay:0.0
-                            options:UIViewAnimationOptionCurveLinear
-                         animations:^{
-                             self.view.backgroundColor=flashColor;
-                         }
-                         completion:^(BOOL finished){
-                             [UIView animateWithDuration:0.3
-                                                   delay:0.0
-                                                 options:UIViewAnimationOptionCurveLinear
-                                              animations:^{
-                                                  self.view.backgroundColor=bgColor;
-                                              }
-                                              completion:^(BOOL finished){
-                                                  
-                                              }];
-                         }];
-        
-#endif
+//#ifdef TESTING
+//        
+//#else
+//        //flash background
+//        [UIView animateWithDuration:0.1
+//                              delay:0.0
+//                            options:UIViewAnimationOptionCurveLinear
+//                         animations:^{
+//                             self.view.backgroundColor=flashColor;
+//                         }
+//                         completion:^(BOOL finished){
+//                             [UIView animateWithDuration:0.3
+//                                                   delay:0.0
+//                                                 options:UIViewAnimationOptionCurveLinear
+//                                              animations:^{
+//                                                  self.view.backgroundColor=bgColor;
+//                                              }
+//                                              completion:^(BOOL finished){
+//                                                  
+//                                              }];
+//                         }];
+//        
+//#endif
         
         //hide example trial
         if(currentLevel>3){
             NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-            [defaults setBool:YES forKey:@"hideExample"];
+            [defaults setBool:NO forKey:@"showExample"];
             [defaults synchronize];
         }
         
         //turn on teaching
-        else if(currentLevel==0){
+        else if(currentLevel<=1){
             NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-            [defaults setBool:NO forKey:@"hideExample"];
+            [defaults setBool:YES forKey:@"showExample"];
             [defaults synchronize];
         }
         
     }
     
     
-#ifdef TESTING
-    //always no teaching
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    [defaults setBool:YES forKey:@"hideExample"];
-    [defaults synchronize];
-
-#endif
+//#ifdef TESTING
+//    //always no teaching
+//    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+//    [defaults setBool:NO forKey:@"showExample"];
+//    [defaults synchronize];
+//
+//#endif
 
 
     
@@ -1275,7 +1307,7 @@
 
     [myDictionary setObject:[NSNumber numberWithFloat:trialDelay] forKey:@"trialDelay"];
     [myDictionary setObject:[NSNumber numberWithFloat:CATransactionDelay] forKey:@"CATransactionDelay"];
-    [myDictionary setObject:[NSNumber numberWithInt:skippedFrames] forKey:@"skippedFrames"];
+    [myDictionary setObject:[NSNumber numberWithInt:droppedFrames] forKey:@"droppedFrames"];
 
     [myDictionary setObject:[NSNumber numberWithFloat:flashT] forKey:@"flashT"];
     [myDictionary setObject:[NSNumber numberWithFloat:[currentTrial[@"d1"]floatValue]] forKey:@"d1"];
@@ -1324,7 +1356,7 @@
         pObject[@"d2Duration"] = [NSNumber numberWithFloat:d2Duration];
         pObject[@"trueD2Duration"] = [NSNumber numberWithFloat:trueD2Duration];
         pObject[@"CATransactionDelay"] = [NSNumber numberWithFloat:CATransactionDelay];
-        pObject[@"skippedFrames"] = [NSNumber numberWithInt:skippedFrames];
+        pObject[@"droppedFrames"] = [NSNumber numberWithInt:droppedFrames];
 
         
         pObject[@"flashT"]=[NSNumber numberWithFloat:flashT];
@@ -1529,7 +1561,6 @@
     touchX=0;
     touchY=0;
     touchLength=0;
-    
     //double initDelay=.4;
     //double flashDelay=timerGoal*(float)flashT;
     //int d1Frames=[currentTrial[@"duration"] floatValue] * [currentTrial[@"d1"] floatValue] *60.0;
@@ -1553,7 +1584,7 @@
 
     //ambient lights
     UIColor *bg=bgColor;
-    if( currentLevel==0  && [[NSUserDefaults standardUserDefaults] boolForKey:@"hideExample"] == NO){
+    if( currentLevel==0  && [[NSUserDefaults standardUserDefaults] boolForKey:@"showExample"] ){
         CGFloat hue, saturation, brightness, alpha ;
         BOOL ok = [ bgColor getHue:&hue saturation:&saturation brightness:&brightness alpha:&alpha ] ;
         if ( !ok ) {
@@ -1586,7 +1617,7 @@
                          ballAnnotation.alpha=0;
                          dimension.alpha=0;
                          
-                         if(currentLevel==0  && [[NSUserDefaults standardUserDefaults] boolForKey:@"hideExample"] == NO){
+                         if(currentLevel==0  && [[NSUserDefaults standardUserDefaults] boolForKey:@"showExample"]){
                              ball.alpha=1.0;
                          }
 
@@ -1647,8 +1678,12 @@
                                                                                                                               }
                                                                                                                               completion:^(BOOL finished){
                                                                                                                                   //start ball drop
-                                                                                                                                  dropBall=true;
                                                                                                                                   frameCount=0;
+                                                                                                                                  droppedFrames=0;
+                                                                                                                                  frameOffset=0;
+                                                                                                                                  shouldAutoStart=true;
+                                                                                                                                  dropBall=true;
+                                                                                                                               
                                                                                                                               }];
                                                                                                              
                                                                                                          }];
@@ -1658,147 +1693,7 @@
 
                      }];
     
-    
 
-    
-    /*
-    
-    //CFTimeInterval currentTime = CACurrentMediaTime();
-    CFTimeInterval currentTime = frameTimestamp;
-    //CFTimeInterval currentTimeInSuperLayer = [self.view.layer convertTime:currentTime fromLayer:nil];
-
-    
-    //start animation with delay
-    
-    [CATransaction begin];
-    [CATransaction setCompletionBlock:^{
-        //trialDelay+=.016666;
-        CFTimeInterval currentTime = frameTimestamp+1/60.0+.005 ;
-        //CFTimeInterval currentTimeInSuperLayer = [self.view.layer convertTime:currentTime fromLayer:nil];
-        //NSLog(@"currentTime    %f", currentTime);
-        //NSLog(@"currentTimeS    %f", currentTimeInSuperLayer);
-
-        
-                //first flash on
-        
-                [CATransaction begin];
-                [CATransaction setCompletionBlock:^{
-
-                    trueD1Duration=frameTimestamp;
-                    [aTimer start];
-                    
-                    NSLog(@"frameTimestamp %f", frameTimestamp);
-                    NSLog(@"currentTime    %f", CACurrentMediaTime());
-                    
-                    
-                    ball.alpha=1.0f;
-                }];
-                CABasicAnimation *startFlash = [CABasicAnimation animationWithKeyPath:@"opacity"];
-                
-                [startFlash setDuration:.00001];
-                [startFlash setFromValue:[NSNumber numberWithFloat:(currentLevel>0)?0.0f:ballDim]];
-                [startFlash setToValue:[NSNumber numberWithFloat:1.0f]];
-                [startFlash setBeginTime:currentTime];
-
-                [ball.layer addAnimation:startFlash forKey:@"startFlash"];
-                [CATransaction commit];
-
-                //first flash off
-                [CATransaction begin];
-                [CATransaction setCompletionBlock:^{
-                    
-                    if(currentLevel==0 && [[NSUserDefaults standardUserDefaults] boolForKey:@"hideExample"] == NO)
-                    {
-                        ball.alpha=ballDim;
-                        trialSequence=-2;
-                        [self updateBall];
-                    }
-                    else{
-                        [self performSelector:@selector(updateBall) withObject:self afterDelay:timerGoal];
-                        ball.alpha=0;
-                        
-                        
-                    }
-                    //        float msOff=[aTimer elapsedSeconds];
-                    //        NSLog(@"startFlash accuracy: %f sec",msOff);
-                    if(currentLevel>0 || [[NSUserDefaults standardUserDefaults] boolForKey:@"hideExample"] )ball.center=CGPointMake(screenWidth*.5, startY+(endY-startY)*flashT);
-                }];
-
-                CABasicAnimation *startFlashOff = [CABasicAnimation animationWithKeyPath:@"opacity"];
-                [startFlashOff setDuration:.00001];
-                [startFlashOff setFromValue:[NSNumber numberWithFloat:1.0f]];
-                [startFlashOff setToValue:[NSNumber numberWithFloat:(currentLevel>0)?0.0f:ballDim]];
-                [startFlashOff setBeginTime:currentTime+flashDuration];
-
-                [ball.layer addAnimation:startFlashOff forKey:@"startFlashOff"];
-                [CATransaction commit];
-
-
-                //second flash
-                [CATransaction begin];
-                [CATransaction setCompletionBlock:^{
-            //        trueD1Duration=frameTimestamp-trueD1Duration;
-            //        NSLog(@"frameTimestamp diff %f", trueD1Duration);
-            //        
-                    trueD1Duration=[aTimer elapsedSeconds];
-                    
-            //        NSLog(@"aTimer         diff %f", trueD1Duration);
-
-                    ball.alpha=1.0f;
-                    midMarkLine.alpha=1.0f;
-                }];
-                CABasicAnimation *midFlash = [CABasicAnimation animationWithKeyPath:@"opacity"];
-                [midFlash setDuration:.00001];
-                [midFlash setFromValue:[NSNumber numberWithFloat:(currentLevel>0)?0.0f:ballDim]];
-                [midFlash setToValue:[NSNumber numberWithFloat:1.0f]];
-                [midFlash setBeginTime:currentTime+flashDelay];
-
-                [ball.layer addAnimation:midFlash forKey:@"midFlash"];
-                [midMarkLine.layer addAnimation:midFlash forKey:@"midFlash"];
-                [CATransaction commit];
-
-                //second flashOff
-                [CATransaction begin];
-                [CATransaction setCompletionBlock:^{
-                    
-                    //actualD2Duration=actualD1Duration/[currentTrial[@"d1"] floatValue]*[currentTrial[@"d2"] floatValue] ;
-                    //trueTimerGoal=actualD1Duration+actualD2Duration;
-                    
-                    //NSLog(@"%f,%f = %f : %f",actualD1Duration, actualD2Duration,trueTimerGoal, timerGoal);
-                    
-                    //NSLog(@"D1 Duration: %f : %f sec",actualD1Duration, flashDelay);
-                    if(currentLevel==0 && [[NSUserDefaults standardUserDefaults] boolForKey:@"hideExample"] == NO){
-                        ball.alpha=ballDim;
-                        midMarkLine.alpha=dimAlpha;
-                    }
-                    else {
-                        ball.alpha=0;
-                        midMarkLine.alpha=0;
-                    }
-                    trialSequence=1;
-                }];
-                CABasicAnimation *midFlashOff = [CABasicAnimation animationWithKeyPath:@"opacity"];
-                [midFlashOff setDuration:.00001];
-                [midFlashOff setFromValue:[NSNumber numberWithFloat:1.0f]];
-                [midFlashOff setToValue:[NSNumber numberWithFloat:(currentLevel>0)?0.0f:ballDim]];
-                [midFlashOff setBeginTime:currentTime+flashDelay+flashDuration];
-
-                [ball.layer addAnimation:midFlashOff forKey:@"midFlashOff"];
-                [midMarkLine.layer addAnimation:midFlashOff forKey:@"midFlashOff"];
-                
-                [CATransaction commit];
-    
-    }];
-    CABasicAnimation *trialDelayAnimation = [CABasicAnimation animationWithKeyPath:nil];
-    [trialDelayAnimation setDuration:trialDelay];
-    //[trialDelayAnimation setFromValue:[NSNumber numberWithFloat:ball.alpha]];
-    //[trialDelayAnimation setToValue:[NSNumber numberWithFloat:0]];
-    [trialDelayAnimation setBeginTime:currentTime];
-    
-    [ball.layer addAnimation:trialDelayAnimation forKey:@"trialDelay"];
-    [CATransaction commit];
-    
-    */
 }
 
 -(void)positionBall:(BOOL)animate{
@@ -1872,7 +1767,7 @@
     //return .2;
     
     //return timerGoal*.1;
-    if(level==0 && [[NSUserDefaults standardUserDefaults] boolForKey:@"hideExample"]==NO)return timerGoal*accuracyStart;
+    if(level==0 && [[NSUserDefaults standardUserDefaults] boolForKey:@"showExample"])return timerGoal*accuracyStart;
     
     //int stage=(5+level)/10.0;
     //float accuracy=accuracyStart-accuracyIncrement*level/25.0;
@@ -1930,7 +1825,9 @@
 -(void)updateBall{
     
     if(trialSequence==1 || trialSequence==-2){
-        //[self performSelector:@selector(updateBall) withObject:self afterDelay:0.001];
+//        [self performSelector:@selector(updateBall) withObject:self afterDelay:0.001];
+
+        
         elapsed=[aTimer elapsedSeconds];
         [self positionBall:NO];
         
@@ -2049,7 +1946,7 @@
                                                                              }
                                                                              completion:^(BOOL finished){
                                                                                  //autostart next level
-                                                                                 if(currentLevel>0){
+                                                                                 if(currentLevel>0 && shouldAutoStart){
                                                                                      trialSequence=0;
                                                                                      [self buttonPressed];
                                                                                  }

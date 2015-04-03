@@ -6,6 +6,7 @@
 //#import <ParseCrashReporting/ParseCrashReporting.h>
 #import <Crashlytics/Crashlytics.h>
 
+//#import "KMCGeigerCounter.h"
 @implementation AppDelegate
 
 //@synthesize window = _window;
@@ -50,6 +51,10 @@
     [[UIApplication sharedApplication] setIdleTimerDisabled:YES];
     [[UIApplication sharedApplication] setStatusBarHidden:YES];
     
+    
+    //[self.window makeKeyAndVisible];
+    
+    //[KMCGeigerCounter sharedGeigerCounter].enabled = YES;
     
     return YES;
 }
