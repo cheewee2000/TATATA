@@ -1,0 +1,440 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		444AA2461AC58D3800ADD9A7 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 444AA2451AC58D3800ADD9A7 /* main.m */; };
+		444AA2491AC58D3800ADD9A7 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 444AA2481AC58D3800ADD9A7 /* AppDelegate.m */; };
+		444AA24C1AC58D3800ADD9A7 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 444AA24B1AC58D3800ADD9A7 /* ViewController.m */; };
+		444AA24F1AC58D3800ADD9A7 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 444AA24D1AC58D3800ADD9A7 /* Main.storyboard */; };
+		444AA2511AC58D3800ADD9A7 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 444AA2501AC58D3800ADD9A7 /* Images.xcassets */; };
+		444AA2541AC58D3800ADD9A7 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 444AA2521AC58D3800ADD9A7 /* LaunchScreen.xib */; };
+		444AA2601AC58D3800ADD9A7 /* CADisplayLink_TestTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 444AA25F1AC58D3800ADD9A7 /* CADisplayLink_TestTests.m */; };
+		444AA26A1AC58D6300ADD9A7 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 444AA2691AC58D6300ADD9A7 /* QuartzCore.framework */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		444AA25A1AC58D3800ADD9A7 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 444AA2381AC58D3800ADD9A7 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 444AA23F1AC58D3800ADD9A7;
+			remoteInfo = "CADisplayLink Test";
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		444AA2401AC58D3800ADD9A7 /* CADisplayLink Test.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "CADisplayLink Test.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		444AA2441AC58D3800ADD9A7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		444AA2451AC58D3800ADD9A7 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		444AA2471AC58D3800ADD9A7 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		444AA2481AC58D3800ADD9A7 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		444AA24A1AC58D3800ADD9A7 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
+		444AA24B1AC58D3800ADD9A7 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
+		444AA24E1AC58D3800ADD9A7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		444AA2501AC58D3800ADD9A7 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		444AA2531AC58D3800ADD9A7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
+		444AA2591AC58D3800ADD9A7 /* CADisplayLink TestTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "CADisplayLink TestTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		444AA25E1AC58D3800ADD9A7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		444AA25F1AC58D3800ADD9A7 /* CADisplayLink_TestTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CADisplayLink_TestTests.m; sourceTree = "<group>"; };
+		444AA2691AC58D6300ADD9A7 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		444AA23D1AC58D3800ADD9A7 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				444AA26A1AC58D6300ADD9A7 /* QuartzCore.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		444AA2561AC58D3800ADD9A7 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		444AA2371AC58D3800ADD9A7 = {
+			isa = PBXGroup;
+			children = (
+				444AA2691AC58D6300ADD9A7 /* QuartzCore.framework */,
+				444AA2421AC58D3800ADD9A7 /* CADisplayLink Test */,
+				444AA25C1AC58D3800ADD9A7 /* CADisplayLink TestTests */,
+				444AA2411AC58D3800ADD9A7 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		444AA2411AC58D3800ADD9A7 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				444AA2401AC58D3800ADD9A7 /* CADisplayLink Test.app */,
+				444AA2591AC58D3800ADD9A7 /* CADisplayLink TestTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		444AA2421AC58D3800ADD9A7 /* CADisplayLink Test */ = {
+			isa = PBXGroup;
+			children = (
+				444AA2471AC58D3800ADD9A7 /* AppDelegate.h */,
+				444AA2481AC58D3800ADD9A7 /* AppDelegate.m */,
+				444AA24A1AC58D3800ADD9A7 /* ViewController.h */,
+				444AA24B1AC58D3800ADD9A7 /* ViewController.m */,
+				444AA24D1AC58D3800ADD9A7 /* Main.storyboard */,
+				444AA2501AC58D3800ADD9A7 /* Images.xcassets */,
+				444AA2521AC58D3800ADD9A7 /* LaunchScreen.xib */,
+				444AA2431AC58D3800ADD9A7 /* Supporting Files */,
+			);
+			path = "CADisplayLink Test";
+			sourceTree = "<group>";
+		};
+		444AA2431AC58D3800ADD9A7 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				444AA2441AC58D3800ADD9A7 /* Info.plist */,
+				444AA2451AC58D3800ADD9A7 /* main.m */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		444AA25C1AC58D3800ADD9A7 /* CADisplayLink TestTests */ = {
+			isa = PBXGroup;
+			children = (
+				444AA25F1AC58D3800ADD9A7 /* CADisplayLink_TestTests.m */,
+				444AA25D1AC58D3800ADD9A7 /* Supporting Files */,
+			);
+			path = "CADisplayLink TestTests";
+			sourceTree = "<group>";
+		};
+		444AA25D1AC58D3800ADD9A7 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				444AA25E1AC58D3800ADD9A7 /* Info.plist */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		444AA23F1AC58D3800ADD9A7 /* CADisplayLink Test */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 444AA2631AC58D3800ADD9A7 /* Build configuration list for PBXNativeTarget "CADisplayLink Test" */;
+			buildPhases = (
+				444AA23C1AC58D3800ADD9A7 /* Sources */,
+				444AA23D1AC58D3800ADD9A7 /* Frameworks */,
+				444AA23E1AC58D3800ADD9A7 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "CADisplayLink Test";
+			productName = "CADisplayLink Test";
+			productReference = 444AA2401AC58D3800ADD9A7 /* CADisplayLink Test.app */;
+			productType = "com.apple.product-type.application";
+		};
+		444AA2581AC58D3800ADD9A7 /* CADisplayLink TestTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 444AA2661AC58D3800ADD9A7 /* Build configuration list for PBXNativeTarget "CADisplayLink TestTests" */;
+			buildPhases = (
+				444AA2551AC58D3800ADD9A7 /* Sources */,
+				444AA2561AC58D3800ADD9A7 /* Frameworks */,
+				444AA2571AC58D3800ADD9A7 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				444AA25B1AC58D3800ADD9A7 /* PBXTargetDependency */,
+			);
+			name = "CADisplayLink TestTests";
+			productName = "CADisplayLink TestTests";
+			productReference = 444AA2591AC58D3800ADD9A7 /* CADisplayLink TestTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		444AA2381AC58D3800ADD9A7 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0620;
+				ORGANIZATIONNAME = "CW&T";
+				TargetAttributes = {
+					444AA23F1AC58D3800ADD9A7 = {
+						CreatedOnToolsVersion = 6.2;
+						DevelopmentTeam = L6DVQR8JB9;
+					};
+					444AA2581AC58D3800ADD9A7 = {
+						CreatedOnToolsVersion = 6.2;
+						TestTargetID = 444AA23F1AC58D3800ADD9A7;
+					};
+				};
+			};
+			buildConfigurationList = 444AA23B1AC58D3800ADD9A7 /* Build configuration list for PBXProject "CADisplayLink Test" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 444AA2371AC58D3800ADD9A7;
+			productRefGroup = 444AA2411AC58D3800ADD9A7 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				444AA23F1AC58D3800ADD9A7 /* CADisplayLink Test */,
+				444AA2581AC58D3800ADD9A7 /* CADisplayLink TestTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		444AA23E1AC58D3800ADD9A7 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				444AA24F1AC58D3800ADD9A7 /* Main.storyboard in Resources */,
+				444AA2541AC58D3800ADD9A7 /* LaunchScreen.xib in Resources */,
+				444AA2511AC58D3800ADD9A7 /* Images.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		444AA2571AC58D3800ADD9A7 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		444AA23C1AC58D3800ADD9A7 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				444AA24C1AC58D3800ADD9A7 /* ViewController.m in Sources */,
+				444AA2491AC58D3800ADD9A7 /* AppDelegate.m in Sources */,
+				444AA2461AC58D3800ADD9A7 /* main.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		444AA2551AC58D3800ADD9A7 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				444AA2601AC58D3800ADD9A7 /* CADisplayLink_TestTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		444AA25B1AC58D3800ADD9A7 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 444AA23F1AC58D3800ADD9A7 /* CADisplayLink Test */;
+			targetProxy = 444AA25A1AC58D3800ADD9A7 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		444AA24D1AC58D3800ADD9A7 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				444AA24E1AC58D3800ADD9A7 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		444AA2521AC58D3800ADD9A7 /* LaunchScreen.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				444AA2531AC58D3800ADD9A7 /* Base */,
+			);
+			name = LaunchScreen.xib;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		444AA2611AC58D3800ADD9A7 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		444AA2621AC58D3800ADD9A7 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		444AA2641AC58D3800ADD9A7 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				INFOPLIST_FILE = "CADisplayLink Test/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
+			};
+			name = Debug;
+		};
+		444AA2651AC58D3800ADD9A7 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				INFOPLIST_FILE = "CADisplayLink Test/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
+			};
+			name = Release;
+		};
+		444AA2671AC58D3800ADD9A7 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+				);
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = "CADisplayLink TestTests/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/CADisplayLink Test.app/CADisplayLink Test";
+			};
+			name = Debug;
+		};
+		444AA2681AC58D3800ADD9A7 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = "CADisplayLink TestTests/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/CADisplayLink Test.app/CADisplayLink Test";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		444AA23B1AC58D3800ADD9A7 /* Build configuration list for PBXProject "CADisplayLink Test" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				444AA2611AC58D3800ADD9A7 /* Debug */,
+				444AA2621AC58D3800ADD9A7 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		444AA2631AC58D3800ADD9A7 /* Build configuration list for PBXNativeTarget "CADisplayLink Test" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				444AA2641AC58D3800ADD9A7 /* Debug */,
+				444AA2651AC58D3800ADD9A7 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		444AA2661AC58D3800ADD9A7 /* Build configuration list for PBXNativeTarget "CADisplayLink TestTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				444AA2671AC58D3800ADD9A7 /* Debug */,
+				444AA2681AC58D3800ADD9A7 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 444AA2381AC58D3800ADD9A7 /* Project object */;
+}
