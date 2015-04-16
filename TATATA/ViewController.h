@@ -38,6 +38,7 @@
     Dots *testBall;
 
     Dots *ball;
+    Crosshair *dotInDot;
     Dots *catchZone;
     Dots *catchZoneCenter;
     //Dots *catchZoneFlash;

@@ -48,28 +48,28 @@
     CGContextFillEllipseInRect(context, dot);
     CGContextFillPath(context);
  
-     //thin lines
-     CGContextSetLineWidth(context, _lineWidth*.05);
-     CGContextMoveToPoint(context, 0, self.frame.size.height*.5);    // This sets up the start point
-     CGContextAddLineToPoint(context, self.frame.size.width, self.frame.size.height*.5); // This moves to the end point.
-     CGContextMoveToPoint(context, self.frame.size.width*.5,0);    // This sets up the start point
-     CGContextAddLineToPoint(context, self.frame.size.width*.5, self.frame.size.height); // This moves to the end point.
-     CGContextStrokePath(context);
-
-     //thick lines
-     CGContextSetLineWidth(context, _lineWidth*.08);
-     CGContextMoveToPoint(context, 0, self.frame.size.height*.5);    // This sets up the start point
-     CGContextAddLineToPoint(context, self.frame.size.width*.25, self.frame.size.height*.5); // This moves to the end point.
-   
-     CGContextMoveToPoint(context, self.frame.size.width*.75, self.frame.size.height*.5);    // This sets up the start point
-     CGContextAddLineToPoint(context, self.frame.size.width, self.frame.size.height*.5); // This moves to the end point.
-     
-     CGContextMoveToPoint(context, self.frame.size.width*.5, 0);    // This sets up the start point
-     CGContextAddLineToPoint(context, self.frame.size.width*.5, self.frame.size.height*.25); // This moves to the end point.
-    
-     CGContextMoveToPoint(context, self.frame.size.width*.5, self.frame.size.height);    // This sets up the start point
-     CGContextAddLineToPoint(context, self.frame.size.width*.5, self.frame.size.height*.75); // This moves to the end point.
-     CGContextStrokePath(context);
+//     //thin lines
+//     CGContextSetLineWidth(context, _lineWidth*.05);
+//     CGContextMoveToPoint(context, 0, self.frame.size.height*.5);    // This sets up the start point
+//     CGContextAddLineToPoint(context, self.frame.size.width, self.frame.size.height*.5); // This moves to the end point.
+//     CGContextMoveToPoint(context, self.frame.size.width*.5,0);    // This sets up the start point
+//     CGContextAddLineToPoint(context, self.frame.size.width*.5, self.frame.size.height); // This moves to the end point.
+//     CGContextStrokePath(context);
+//
+//     //thick lines
+//     CGContextSetLineWidth(context, _lineWidth*.08);
+//     CGContextMoveToPoint(context, 0, self.frame.size.height*.5);    // This sets up the start point
+//     CGContextAddLineToPoint(context, self.frame.size.width*.25, self.frame.size.height*.5); // This moves to the end point.
+//   
+//     CGContextMoveToPoint(context, self.frame.size.width*.75, self.frame.size.height*.5);    // This sets up the start point
+//     CGContextAddLineToPoint(context, self.frame.size.width, self.frame.size.height*.5); // This moves to the end point.
+//     
+//     CGContextMoveToPoint(context, self.frame.size.width*.5, 0);    // This sets up the start point
+//     CGContextAddLineToPoint(context, self.frame.size.width*.5, self.frame.size.height*.25); // This moves to the end point.
+//    
+//     CGContextMoveToPoint(context, self.frame.size.width*.5, self.frame.size.height);    // This sets up the start point
+//     CGContextAddLineToPoint(context, self.frame.size.width*.5, self.frame.size.height*.75); // This moves to the end point.
+//     CGContextStrokePath(context);
     
  }
 

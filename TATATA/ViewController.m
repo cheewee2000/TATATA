@@ -96,8 +96,8 @@
     crosshair=[[Crosshair alloc] initWithFrame:CGRectMake(0,0, 80, 80)];
     crosshair.center=CGPointMake(catchZone.frame.size.width*.5, catchZone.frame.size.height*.5);
     crosshair.backgroundColor = [UIColor clearColor];
-    crosshair.alpha=1;
-    [crosshair setColor:fgColor];
+    crosshair.alpha=0;
+    [crosshair setColor:[UIColor blackColor]];
     [catchZone addSubview:crosshair];
     
     
@@ -116,11 +116,17 @@
     ball.backgroundColor = [UIColor clearColor];
     ball.alpha=0;
     [ball setColor:strokeColor];
-    [ball setFill:NO];
+    [ball setFill:YES];
     //ball.lineWidth=ball.frame.size.width*.5-2;
-    
     [self.view addSubview:ball];
     [self.view bringSubviewToFront:ball];
+    
+    dotInDot=[[Crosshair alloc] initWithFrame:CGRectMake(0,0, 80, 80)];
+    dotInDot.center=CGPointMake(ball.frame.size.width*.5, ball.frame.size.height*.5);
+    dotInDot.backgroundColor = [UIColor clearColor];
+    dotInDot.alpha=.3;
+    [dotInDot setColor:[UIColor blackColor]];
+    [ball addSubview:dotInDot];
     
     
     testBall=[[Dots alloc] initWithFrame:CGRectMake(0, 0, 385, 385)];
@@ -537,7 +543,7 @@
     else flashDuration = (float)[defaults floatForKey:@"flashDuration"];
 
     if([defaults objectForKey:@"accuracyStart"] == nil) {
-        accuracyStart=0.125;
+        accuracyStart=0.25;
         [defaults setObject:[NSNumber numberWithFloat:accuracyStart] forKey:@"accuracyStart"];
 
     }
@@ -691,7 +697,8 @@
                     trialSequence=-2;
                     [self updateBall];
                 }
-                else{
+                else
+                {
                     //[self performSelector:@selector(updateBall) withObject:self afterDelay:timerGoal];
                     ball.alpha=0;
                     ball.center=CGPointMake(screenWidth*.5, startY+(endY-startY)*flashT);
@@ -1128,7 +1135,7 @@
                          }
                          completion:^(BOOL finished){
                              //[catchZone setFill:NO];
-                             //[catchZone setColor:strokeColor];
+                             [catchZone setColor:fgColor];
                              trialSequence=-1;
                              
                              
@@ -1145,7 +1152,7 @@
                                                                       options:UIViewAnimationOptionCurveEaseOut
                                                                    animations:^{
                                                                        [catchZone bringSubviewToFront:crosshair];
-                                                                       crosshair.alpha=1;
+                                                                       crosshair.alpha=.3;
                                                                        midMarkL.alpha=.3;
                                                                        midMarkR.alpha=.3;
                                                                    }
@@ -1177,7 +1184,7 @@
     elapsed=[aTimer elapsedSeconds];
     trialSequence=-1;
     
-    trueD2Duration=elapsed-trueD1Duration-.06;//-60ms for touch latency;
+    trueD2Duration=elapsed-trueD1Duration;//-.06;
     
     
     if([self isAccurate]){
@@ -1210,25 +1217,25 @@
 //#ifdef TESTING
 //        
 //#else
-//        //flash background
-//        [UIView animateWithDuration:0.1
-//                              delay:0.0
-//                            options:UIViewAnimationOptionCurveLinear
-//                         animations:^{
-//                             self.view.backgroundColor=flashColor;
-//                         }
-//                         completion:^(BOOL finished){
-//                             [UIView animateWithDuration:0.3
-//                                                   delay:0.0
-//                                                 options:UIViewAnimationOptionCurveLinear
-//                                              animations:^{
-//                                                  self.view.backgroundColor=bgColor;
-//                                              }
-//                                              completion:^(BOOL finished){
-//                                                  
-//                                              }];
-//                         }];
-//        
+        //flash background
+        [UIView animateWithDuration:0.1
+                              delay:0.0
+                            options:UIViewAnimationOptionCurveLinear
+                         animations:^{
+                             self.view.backgroundColor=flashColor;
+                         }
+                         completion:^(BOOL finished){
+                             [UIView animateWithDuration:0.3
+                                                   delay:0.0
+                                                 options:UIViewAnimationOptionCurveLinear
+                                              animations:^{
+                                                  self.view.backgroundColor=bgColor;
+                                              }
+                                              completion:^(BOOL finished){
+                                                  
+                                              }];
+                         }];
+        
 //#endif
         
         //hide example trial
@@ -1320,7 +1327,7 @@
     [myDictionary setObject:[NSNumber numberWithFloat:d1Duration] forKey:@"d1Duration"];
     [myDictionary setObject:[NSNumber numberWithFloat:d2Duration] forKey:@"d2Duration"];
     [myDictionary setObject:[NSNumber numberWithFloat:trueD1Duration] forKey:@"trueD1Duration"];
-    [myDictionary setObject:[NSNumber numberWithFloat:trueD2Duration] forKey:@"trueD2Duration"];
+    [myDictionary setObject:[NSNumber numberWithFloat:trueD2Duration-.06] forKey:@"trueD2Duration"];
     [myDictionary setObject:[NSNumber numberWithInteger:currentLevel] forKey:@"level"];
     [myDictionary setObject:[NSNumber numberWithBool:([self isAccurate])? YES:NO] forKey:@"win"];
     [myDictionary setObject:localDateTime forKey:@"date"];
@@ -1356,7 +1363,7 @@
         pObject[@"d2Frames"] = [NSNumber numberWithInt:d2Frames];
         pObject[@"d1Duration"] = [NSNumber numberWithFloat:d1Duration];
         pObject[@"d2Duration"] = [NSNumber numberWithFloat:d2Duration];
-        pObject[@"trueD2Duration"] = [NSNumber numberWithFloat:trueD2Duration];
+        pObject[@"trueD2Duration"] = [NSNumber numberWithFloat:trueD2Duration-.06];
         pObject[@"CATransactionDelay"] = [NSNumber numberWithFloat:CATransactionDelay];
         pObject[@"droppedFrames"] = [NSNumber numberWithInt:droppedFrames];
 
@@ -1633,21 +1640,21 @@
                                           animations:^{
                                               if(currentLevel%(int)(nTrialsInStage)==0 && currentLevel!=0)
                                               {
-                                                  catchZoneLabel.alpha=1;
-                                                  catchZone.alpha=1;
+                                                  //catchZoneLabel.alpha=1;
+                                                  //catchZone.alpha=1;
                                               }
                                           }
                                           completion:^(BOOL finished){
                                               
 
-                                              float catchZoneDuration=0.2;
+                                              float catchZoneDuration=0.0;
                                               
                                               //set for level 0 even though it's not visible
-                                              if(currentLevel%(int)(nTrialsInStage)==0)
+                                              if(currentLevel%(int)(nTrialsInStage)==0 || currentLevel<=1)
                                               {
                                                 //[catchZoneLabel countFrom:[self getLevelAccuracy:currentLevel-nTrialsInStage]/timerGoal*200.0  to:[self getLevelAccuracy:currentLevel]/timerGoal*200.0 withDuration:.2f];
-                                                    [catchZoneLabel countFrom:[self getLevelAccuracy:currentLevel-nTrialsInStage]/[currentTrial[@"d2"] floatValue]*100.0  to:[self getLevelAccuracy:currentLevel]/[currentTrial[@"d2"] floatValue]*100.0 withDuration:.2f];
-                                                  catchZoneDuration=.4;
+                                                    //[catchZoneLabel countFrom:[self getLevelAccuracy:currentLevel-1]/d2Duration*100.0  to:[self getLevelAccuracy:currentLevel]/d2Duration*100.0 withDuration:.2f];
+                                                  //catchZoneDuration=.4;
 
                                               }
 
@@ -1656,6 +1663,15 @@
                                                                   options:UIViewAnimationOptionCurveEaseOut
                                                                animations:^{
                                                                    [self setCatchZoneDiameter];
+                                                                   
+//                                                                   UIColor *color =  catchZone.dotColor;
+//                                                                   CGFloat red = 0.0, green = 0.0, blue = 0.0, alpha = 0.0;
+//                                                                   if ([color respondsToSelector:@selector(getRed:green:blue:alpha:)]) {
+//                                                                       [color getRed:&red green:&green blue:&blue alpha:&alpha];
+//                                                                   
+//                                                                       catchZone.dotColor=[UIColor colorWithRed:red+currentLevel/2.0 green:green blue:blue alpha:alpha];
+//                                                                   }
+
                                                                }
                                                                completion:^(BOOL finished){
                                                                    [UIView animateWithDuration:0.1
@@ -1717,6 +1733,7 @@
                          }];
     }
     else{
+        //ball.alpha=1;
         ball.center=p;
     }
     
@@ -1841,7 +1858,7 @@
         elapsed=[aTimer elapsedSeconds];
         [self positionBall:NO];
         
-        if(ball.center.y>=screenHeight){
+        if(ball.center.y>=endY+screenHeight*.5){
             [self stop];
             [self trialStopped];
         }
@@ -1926,22 +1943,48 @@
                              midMarkR.alpha=1;
                              
                          }
+                         
+                         //[self resetCatchZoneDiameter];
+
                      }
                      completion:^(BOOL finished){
-                         
+                         /*
                          if(midMarkLine.center.y!=startY+(endY-startY)*flashT){
                              [midMarkLabel countFrom:0  to:(int)(flashT*100) withDuration:.4f];
                          }
-                                       [UIView animateWithDuration:0.2
+                         */
+                                       [UIView animateWithDuration:0.3
                                                              delay:0.0
                                                            options:UIViewAnimationOptionCurveEaseOut
                                                         animations:^{
+
                                                             catchZoneLabel.alpha=0;
                                                             catchZone.alpha=.5;
+                                                            
+                                                            //hide annotation
+                                                            ballAnnotation.alpha=0;
+                                                            dimension.alpha=0;
+                                                            
                                                             //set mid markers
                                                             midMarkL.center=CGPointMake(midMarkL.center.x, startY+(endY-startY)*flashT);
                                                             midMarkR.center=CGPointMake(midMarkR.center.x, startY+(endY-startY)*flashT);
                                                             midMarkLine.center=CGPointMake(midMarkLine.center.x, startY+(endY-startY)*flashT);
+                                                            
+                                                            //adjust catchzone to d2 duration
+                                                            //catchZoneLabel.alpha=1;
+                                                            //catchZone.alpha=1;
+
+                                                            //if next level isn't a stage up
+                                                            //if((currentLevel)%(int)(nTrialsInStage)==0 || (currentLevel)<=1)
+                                                            {
+                                                                
+                                                            }
+                                                            //else
+                                                            {
+                                                                [self setCatchZoneDiameter];
+
+                                                            }
+
                                                         }
                                                         completion:^(BOOL finished){
                                                             
@@ -1953,6 +1996,10 @@
                                                                                  midMarkLine.alpha=dimAlpha;
 //                                                                                 midMarkL.alpha=dimAlpha;
 //                                                                                 midMarkR.alpha=dimAlpha;
+                                                                                 //catchZoneLabel.alpha=0;
+                                                                                 //catchZone.alpha=0;
+
+
                                                                              }
                                                                              completion:^(BOOL finished){
                                                                                  //autostart next level
@@ -1973,19 +2020,26 @@
 
 -(void)setCatchZoneDiameter{
     //float catchZoneDiameter=[self getLevelAccuracy:currentLevel]*(endY-startY)/timerGoal*2.0;
-    //float flashY= startY+(endY-startY)*flashT;
-    //float d2Pixels=(float)((endY-startY)*(float)(1.0-flashT));
-    float d2Pixels=endY-startY-((endY-startY)*flashT);
 
+    float d2Pixels=endY-startY-((endY-startY)*flashT);
     
     float catchZoneDiameter=(float)[self getLevelAccuracy:currentLevel]/d2Duration*d2Pixels*2.0f;
 
     catchZone.frame=CGRectMake(0, 0, catchZoneDiameter, catchZoneDiameter);
-    //catchZoneLabel.frame=CGRectMake(catchZone.frame.size.width*.5, catchZone.frame.size.height*.5-catchZoneLabel.frame.size.height,catchZoneLabel.frame.size.width,catchZoneLabel.frame.size.height);
-    ball.frame=CGRectMake(0,0, catchZoneDiameter*.9, catchZoneDiameter*.9);
-    ball.center=CGPointMake(screenWidth*.5, startY);
-    ball.lineWidth=ball.frame.size.width*.33-.75;
-    
+
+ //   if(currentLevel<=1)
+    {
+        float startZoneDiameter=catchZoneDiameter;
+        ball.frame=CGRectMake(0,0, catchZoneDiameter*.75, catchZoneDiameter*.75);
+        ball.center=CGPointMake(screenWidth*.5, startY);
+        //ball.lineWidth=ball.frame.size.width*.325;
+        dotInDot.center=CGPointMake(ball.frame.size.width*.5, ball.frame.size.height*.5);
+
+        arc.frame=CGRectMake(0,0, startZoneDiameter,startZoneDiameter);
+        arc.center=ball.center;
+        [arc setNeedsDisplay];
+
+    }
 
     catchZone.center=CGPointMake(screenWidth*.5, endY);
     catchZoneCenter.center=catchZone.center;
@@ -1994,17 +2048,15 @@
 
     [catchZone setNeedsDisplay];
     
-    arc.frame=CGRectMake(0,0, catchZoneDiameter,catchZoneDiameter);
-    arc.center=ball.center;
-    [arc setNeedsDisplay];
 }
+
 
 # pragma mark Helpers
 
 -(bool)isAccurate{
     float diff=fabs(trueD2Duration-d2Duration);
     
-    NSLog(@"diff %f:%f ",diff,[self getLevelAccuracy:currentLevel]);
+    //NSLog(@"diff %f:%f ",diff,[self getLevelAccuracy:currentLevel]);
     
     if( diff<=[self getLevelAccuracy:currentLevel] ) return YES;
     else return NO;
