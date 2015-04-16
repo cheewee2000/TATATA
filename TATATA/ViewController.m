@@ -86,6 +86,8 @@
     catchZone.center=CGPointMake(screenWidth*.5, screenHeight*.5);
     catchZone.backgroundColor = [UIColor clearColor];
     catchZone.alpha=0;
+    catchZone.lineWidth=0;
+
     [catchZone setColor:strokeColor];
     [catchZone setFill:NO];
     [self.view addSubview:catchZone];
@@ -1179,7 +1181,7 @@
     
     
     if([self isAccurate]){
-        if([self getAccuracyFloat]<.9) [ball setColor:[UIColor colorWithRed:0 green:.78 blue:0 alpha:1]];//green
+        if([self getAccuracyFloat]<.8) [ball setColor:[UIColor colorWithRed:0 green:.78 blue:0 alpha:1]];//green
         else [ball setColor:[UIColor yellowColor]];
         [ball setNeedsDisplay];
         
@@ -1629,7 +1631,8 @@
                                                delay:0.0
                                              options:UIViewAnimationOptionCurveEaseOut
                                           animations:^{
-                                              if(currentLevel%(int)(nTrialsInStage)==0 && currentLevel!=0){
+                                              if(currentLevel%(int)(nTrialsInStage)==0 && currentLevel!=0)
+                                              {
                                                   catchZoneLabel.alpha=1;
                                                   catchZone.alpha=1;
                                               }
@@ -1637,14 +1640,17 @@
                                           completion:^(BOOL finished){
                                               
 
-                                              float catchZoneDuration=0;
+                                              float catchZoneDuration=0.2;
                                               
                                               //set for level 0 even though it's not visible
-                                              if(currentLevel%(int)(nTrialsInStage)==0){
-                                                [catchZoneLabel countFrom:[self getLevelAccuracy:currentLevel-nTrialsInStage]/timerGoal*200.0  to:[self getLevelAccuracy:currentLevel]/timerGoal*200.0 withDuration:.2f];
+                                              if(currentLevel%(int)(nTrialsInStage)==0)
+                                              {
+                                                //[catchZoneLabel countFrom:[self getLevelAccuracy:currentLevel-nTrialsInStage]/timerGoal*200.0  to:[self getLevelAccuracy:currentLevel]/timerGoal*200.0 withDuration:.2f];
+                                                    [catchZoneLabel countFrom:[self getLevelAccuracy:currentLevel-nTrialsInStage]/[currentTrial[@"d2"] floatValue]*100.0  to:[self getLevelAccuracy:currentLevel]/[currentTrial[@"d2"] floatValue]*100.0 withDuration:.2f];
+                                                  catchZoneDuration=.4;
 
-                                                catchZoneDuration=.4;
                                               }
+
                                             [UIView animateWithDuration:catchZoneDuration
                                                                     delay:0.0
                                                                   options:UIViewAnimationOptionCurveEaseOut
@@ -1699,7 +1705,7 @@
 -(void)positionBall:(BOOL)animate{
     CGPoint p;
     if(elapsed==0)p=CGPointMake(screenWidth*.5, startY);
-    else p=CGPointMake(screenWidth*.5, startY+(endY-startY)*(float)elapsed/(float)timerGoal);
+    else p=CGPointMake(screenWidth*.5, startY+(float)(endY-startY)*(float)elapsed/(float)timerGoal);
     if(animate){
         [UIView animateWithDuration:0.6
                               delay:0.0
@@ -1727,6 +1733,8 @@
     
     d2Frames=[currentTrial[@"duration"] floatValue] * [currentTrial[@"d2"] floatValue] *60.0;
     d2Duration=d2Frames/60.0;
+    
+
     
     float l=d1Duration+d2Duration;
     return l;
@@ -1758,7 +1766,9 @@
     //    if (level>=3) f=.5-random*.1;
     //float f=[currentTrial[@"d1"] floatValue]/([currentTrial[@"d1"] floatValue]+[currentTrial[@"d2"] floatValue]);
     
-    float f=[currentTrial[@"d1"] floatValue]/([currentTrial[@"d1"] floatValue]+[currentTrial[@"d2"] floatValue]);
+    //float f=[currentTrial[@"d1"] floatValue]/([currentTrial[@"d1"] floatValue]+[currentTrial[@"d2"] floatValue]);
+    float f=d1Duration/(d1Duration+d2Duration);
+
     return f;
 }
 
@@ -1767,14 +1777,14 @@
     //return .2;
     
     //return timerGoal*.1;
-    if(level==0 && [[NSUserDefaults standardUserDefaults] boolForKey:@"showExample"])return timerGoal*accuracyStart;
+    if(level==0 && [[NSUserDefaults standardUserDefaults] boolForKey:@"showExample"])return d2Duration*accuracyStart;
     
     //int stage=(5+level)/10.0;
     //float accuracy=accuracyStart-accuracyIncrement*level/25.0;
     float accuracy=accuracyStart-accuracyIncrement*floor(level/nTrialsInStage)*nTrialsInStage;
 
     if(accuracy<accuracyMax)accuracy=accuracyMax;
-    float levelAccuracy=timerGoal*accuracy;
+    float levelAccuracy=d2Duration*accuracy;
     return levelAccuracy;
     
     
@@ -1962,8 +1972,14 @@
 }
 
 -(void)setCatchZoneDiameter{
-    float catchZoneDiameter=[self getLevelAccuracy:currentLevel]*(endY-startY)/timerGoal*2.0;
+    //float catchZoneDiameter=[self getLevelAccuracy:currentLevel]*(endY-startY)/timerGoal*2.0;
+    //float flashY= startY+(endY-startY)*flashT;
+    //float d2Pixels=(float)((endY-startY)*(float)(1.0-flashT));
+    float d2Pixels=endY-startY-((endY-startY)*flashT);
+
     
+    float catchZoneDiameter=(float)[self getLevelAccuracy:currentLevel]/d2Duration*d2Pixels*2.0f;
+
     catchZone.frame=CGRectMake(0, 0, catchZoneDiameter, catchZoneDiameter);
     //catchZoneLabel.frame=CGRectMake(catchZone.frame.size.width*.5, catchZone.frame.size.height*.5-catchZoneLabel.frame.size.height,catchZoneLabel.frame.size.width,catchZoneLabel.frame.size.height);
     ball.frame=CGRectMake(0,0, catchZoneDiameter*.9, catchZoneDiameter*.9);
@@ -1986,13 +2002,16 @@
 # pragma mark Helpers
 
 -(bool)isAccurate{
-    float diff=fabs(timerGoal-elapsed);
+    float diff=fabs(trueD2Duration-d2Duration);
+    
+    NSLog(@"diff %f:%f ",diff,[self getLevelAccuracy:currentLevel]);
+    
     if( diff<=[self getLevelAccuracy:currentLevel] ) return YES;
     else return NO;
 }
 -(float)getAccuracyFloat{
     float f;
-    f=fabs(elapsed-timerGoal)/[self getLevelAccuracy:currentLevel];
+    f=fabs((trueD2Duration-d2Duration))/[self getLevelAccuracy:currentLevel];
     return f;
 }
 
