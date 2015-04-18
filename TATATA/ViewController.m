@@ -52,7 +52,6 @@
     dimAlpha=.04;
     
     aTimer = [MachTimer timer];
-    viewLoaded=false;
     
     flashT=.5;
     frameCount=0;
@@ -880,8 +879,10 @@
 -(void)setIntroPosition{
 
     
-    if (netStatus != NotReachable && ![[NSUserDefaults standardUserDefaults] boolForKey:@"showIntro1"]) {//there is internet!
+    if (netStatus != NotReachable && ![[NSUserDefaults standardUserDefaults] boolForKey:@"showIntro1"] && loggedIn) {//there is internet!
         surveyView.alpha=1;
+        
+        
         if([[NSUserDefaults standardUserDefaults]boolForKey:@"showScreening"]){
             [scrollView setContentSize:CGSizeMake(scrollView.bounds.size.width, screeningHeight+screenHeight*1.5)];
             //intro.frame=CGRectMake(0, surveyHeight+screenHeight*1.5, screenWidth, screenHeight);
@@ -962,7 +963,7 @@
     }
     
     
-    NSLog(@"Dragging - You will be on %i page (from page %i)", newPage, _currentPage);
+    //NSLog(@"Dragging - You will be on %i page (from page %i)", newPage, _currentPage);
     
     *targetContentOffset = CGPointMake( targetContentOffset->x, [self getPageHeight:newPage]);
     
@@ -1319,11 +1320,17 @@
     [myDictionary setObject:[NSNumber numberWithInt:droppedFrames] forKey:@"droppedFrames"];
 
     [myDictionary setObject:[NSNumber numberWithFloat:flashT] forKey:@"flashT"];
+    [myDictionary setObject:[NSNumber numberWithInt:[currentTrial[@"index"]intValue]] forKey:@"trialIndex"];
+
     [myDictionary setObject:[NSNumber numberWithFloat:[currentTrial[@"d1"]floatValue]] forKey:@"d1"];
     [myDictionary setObject:[NSNumber numberWithFloat:[currentTrial[@"d2"]floatValue]] forKey:@"d2"];
     [myDictionary setObject:[NSNumber numberWithFloat:[currentTrial[@"duration"]floatValue]] forKey:@"duration"];
+    [myDictionary setObject:[NSNumber numberWithFloat:levelAccuracy] forKey:@"errorWindow"];
+
+    
     [myDictionary setObject:[NSNumber numberWithInt:d1Frames] forKey:@"d1Frames"];
     [myDictionary setObject:[NSNumber numberWithInt:d2Frames] forKey:@"d2Frames"];
+
     [myDictionary setObject:[NSNumber numberWithFloat:d1Duration] forKey:@"d1Duration"];
     [myDictionary setObject:[NSNumber numberWithFloat:d2Duration] forKey:@"d2Duration"];
     [myDictionary setObject:[NSNumber numberWithFloat:trueD1Duration] forKey:@"trueD1Duration"];
@@ -1370,7 +1377,14 @@
         
         pObject[@"flashT"]=[NSNumber numberWithFloat:flashT];
         pObject[@"trialDelay"]=[NSNumber numberWithFloat:trialDelay];
-        pObject[@"trials"]=currentTrial;
+        //pObject[@"trials"]=currentTrial;
+        pObject[@"trialIndex"] = [NSNumber numberWithInt:[currentTrial[@"index"] intValue]];
+        pObject[@"d1"] = [NSNumber numberWithFloat:[currentTrial[@"d1"]floatValue]];
+        pObject[@"d2"] = [NSNumber numberWithFloat:[currentTrial[@"d2"]floatValue]];
+        pObject[@"duration"] = [NSNumber numberWithFloat:[currentTrial[@"duration"]floatValue]];
+        pObject[@"errorWindow"] = [NSNumber numberWithFloat:levelAccuracy];
+
+        
         pObject[@"level"]=[NSNumber numberWithInteger:currentLevel];
         pObject[@"win"]=([self isAccurate])? @YES:@NO;
         pObject[@"date"]=localDateTime;
@@ -1798,11 +1812,11 @@
     
     //int stage=(5+level)/10.0;
     //float accuracy=accuracyStart-accuracyIncrement*level/25.0;
-    float accuracy=accuracyStart-accuracyIncrement*floor(level/nTrialsInStage)*nTrialsInStage;
+    levelAccuracy=accuracyStart-accuracyIncrement*floor(level/nTrialsInStage)*nTrialsInStage;
 
-    if(accuracy<accuracyMax)accuracy=accuracyMax;
-    float levelAccuracy=d2Duration*accuracy;
-    return levelAccuracy;
+    if(levelAccuracy<accuracyMax)levelAccuracy=accuracyMax;
+    float levelAccuracyInSeconds=d2Duration*levelAccuracy;
+    return levelAccuracyInSeconds;
     
     
 }
@@ -2078,23 +2092,33 @@
 
 - (void)viewDidUnload
 {
-    viewLoaded=false;
 
    [super viewDidUnload];
    // Release any retained subviews of the main view.
    // e.g. self.myOutlet = nil;
 }
 
+- (void)applicationWillResignActive:(UIApplication *)application
+{
+    NSLog(@"view resigned");
+}
+
+
 - (void)viewWillAppear:(BOOL)animated
 {
     
     NSLog(@"view will appear");
-
+    loggedIn=false;
+    
     [self logIn];
+    
     [self getTrialSequence];
+
 
     [super viewWillAppear:animated];
 }
+
+
 
 - (void)viewDidAppear:(BOOL)animated
 {
@@ -2115,6 +2139,7 @@
         //NSLog(@"netstatus: %ld",netStatus);
     }
     
+
     
 //    if((netStatus != NotReachable)){
 //    }
@@ -2145,7 +2170,7 @@
             for( int i=0; i<trialArray.count; i++){
                 PFObject *t=[trialArray objectAtIndex:i];
 
-                NSDictionary *trial=[[NSDictionary alloc] initWithObjectsAndKeys:t[@"d1"],@"d1", t[@"d2"],@"d2", t[@"duration"],@"duration",nil];
+                NSDictionary *trial=[[NSDictionary alloc] initWithObjectsAndKeys:t[@"d1"],@"d1", t[@"d2"],@"d2", t[@"duration"],@"duration", t[@"index"],@"index",nil];
                 [trialArray replaceObjectAtIndex:i withObject:trial];
                 
             }
@@ -2169,9 +2194,9 @@
     if(trialArray == nil){
         trialArray = [[NSMutableArray alloc] init];
         
-        [trialArray addObject:[[NSDictionary alloc] initWithObjectsAndKeys:[NSNumber numberWithFloat:1],@"d1", [NSNumber numberWithFloat:1],@"d2",[NSNumber numberWithFloat:0.6],@"duration",  nil]];
+        [trialArray addObject:[[NSDictionary alloc] initWithObjectsAndKeys:[NSNumber numberWithFloat:1],@"d1", [NSNumber numberWithFloat:1],@"d2",[NSNumber numberWithFloat:0.6],@"duration",[NSNumber numberWithInt:-1],@"index",  nil]];
         
-        [trialArray addObject:[[NSDictionary alloc] initWithObjectsAndKeys:[NSNumber numberWithFloat:1],@"d1", [NSNumber numberWithFloat:1.5],@"d2",[NSNumber numberWithFloat:0.6],@"duration",  nil]];
+        [trialArray addObject:[[NSDictionary alloc] initWithObjectsAndKeys:[NSNumber numberWithFloat:1],@"d1", [NSNumber numberWithFloat:1.5],@"d2",[NSNumber numberWithFloat:0.6],@"duration",[NSNumber numberWithInt:-1],@"index",  nil]];
 
         [trialArray writeToFile:trialArrayDataFile atomically:YES];
     
@@ -2202,6 +2227,7 @@
 
                 if (error) {
                     NSLog(@"Anonymous login failed.");
+                    loggedIn=false;
                 } else {
                     NSLog(@"Anonymous user logged in.");
                     _currentUser = [PFUser currentUser];
@@ -2234,13 +2260,14 @@
 //
 //                        }
 //                    }];
-
+                    loggedIn=true;
                     
                 }
             
             
         }];
-        
+    
+    
 //        // show the signup or login screen
 //        [PFAnonymousUtils logInWithBlock:^(PFUser *user, NSError *error) {
 //                   }];

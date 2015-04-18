@@ -87,6 +87,8 @@
     float nTrialsInStage;
     float trueD1Duration;
     float trueD2Duration;
+    float levelAccuracy;
+    
     //float trueTimerGoal;
     int d1Frames;
     int d2Frames;
@@ -120,7 +122,8 @@
     
     NSArray *surveyHeights;
     NetworkStatus netStatus;
-
+    BOOL loggedIn;
+    
 #pragma mark - timing
     NSTimeInterval elapsed;
     NSTimeInterval timerGoal;
@@ -152,7 +155,6 @@
 //    BOOL showIntro;
 //    BOOL showSurvey;
 
-    BOOL viewLoaded;
     
     int nExampleFails;
     
